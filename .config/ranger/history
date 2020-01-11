@@ -13,5 +13,6 @@ open_with vim
 flatten 1
 flat 1
 set show_hidden true
-delete
 cd 
+delete
+search 
