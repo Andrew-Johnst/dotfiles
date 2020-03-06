@@ -3,9 +3,10 @@
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-# Load aliases and shortcuts if existent.
-[ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
-[ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
+# If existent, oads (shortcuts, aliases, and functions) rc files located within ~/.config/zsh directory.
+[ -f "$HOME/.config/zsh/shortcutrc" ] && source "$HOME/.config/zsh/shortcutrc"
+[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
+[ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
 
 autoload -U compinit
 zstyle ':completion:*' menu select
@@ -22,6 +23,9 @@ _comp_options+=(globdots)
 #   bindkey -M menuselect 'l' vi-forward-char
 #   bindkey -M menuselect 'j' vi-down-line-or-history
 #   bindkey -v '^?' backward-delete-char
+
+# Keybinds, using vikeys option, manually binding <C-v> to <Esc> for congruency with my vim config.
+bindkey -r "^[/" 
 bindkey -v
 
 export KEYTIMEOUT=1
@@ -41,14 +45,22 @@ function zle-keymap-select {
 }
 zle -N zle-keymap-select
 
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
+
+
+
+# Presumably, this is what was causing <C-v> binding to fail.
+#
+# zle-line-init() {
+#    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+#    echo -ne "\e[5 q"
+#}
+#zle -N zle-line-init
+
+
 
 # Use beam shape cursor on startup.
 echo -ne '\e[5 q'
+
 # Use beam shape cursor for each new prompt.
 preexec() { echo -ne '\e[5 q' ;}
 
@@ -67,31 +79,19 @@ lfcd () {
     fi
 }
 
-bindkey -s '^o' 'lfcd\n'  # zsh
-
-# Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+# Keybinds.
+# bindkey -s '^o' 'lfcd\n'		# ZSH (lfcd is a function provided for common shells used to change the pwd on quit).
+bindkey 	'^[f'	vi-cmd-mode		# Binds <M-F> to return to vi normal mode (<Esc>) becuase I'm lazy.
+bindkey -s 	'^[l'	'^L'			# Binds <M-L> to clear screen (added for easier screen-clearing in tmux.
+# Not sure if this will have much effect since tmux prolly captures special keycombos like this and would take precedence
+# since they already do with <C-L> and clear command.
+bindkey 	'^['	delete-char
 
 # Manual environment variables.
 export EDITOR=nvim
 
-# Manual alias additions.
-    alias l='ls -lh'
-    alias la='ls -lah'
-    alias r='ranger'
-    alias pub='cd /mnt/Data/Public'
-    alias priv='cd /mnt/Data/Drew'
-    alias v='$EDITOR'
-    alias sudo='sudo '
-    alias zrc='v ~/.zshrc'
-    alias nrc='v ~/.config/nvim/init.vim'
-    alias zrcr='source ~/.zshrc'
-    alias p='cd /home/drew/Documents/programming'
-    alias m='neomutt'
-    alias d='cd ~/Documents'
-    alias cfg='cd ~/.config'
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Function to make a directory, then cd into it.
-function md {
-    mkdir -p "$1" && cd "$1"
-}
+# Load zsh-syntax-highlighting; should be last.
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+

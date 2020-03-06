@@ -1,11 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/home/drew/.nvim'
-let g:netrw_dirhist_2='/home/drew'
-let g:netrw_dirhist_3='/home'
-let g:netrw_dirhist_4='/'
-let g:netrw_dirhist_5='/home/drew/.nvim'
-let g:netrw_dirhist_6='/home/drew/Documents/Programming/bash/colortest'
-let g:netrw_dirhist_7='/tmp/test'
-let g:netrw_dirhist_8='/etc/ufw/applications.d'
-let g:netrw_dirhist_9='/home/drew/Documents/programming/bash/colortest'
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/tmp'
+let g:netrw_dirhist_3='/home/drew/.config/nvim/ftdetect'
+let g:netrw_dirhist_2='/tmp/tmux-1000'
+let g:netrw_dirhist_1='/etc/apt/preferences.d'
