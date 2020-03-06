@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+#~/.config/zsh/functionrc
+#
+#	Functionrc is an rc file used for housing all shell functions, used in conjunction with aliasrc file, and
+#	sourced within zshrc file.
+
+# Creates directory, then cd into it.
+function mkcd {
+	mkdir -p "$1" && cd "$1"
+}

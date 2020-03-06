@@ -1,0 +1,50 @@
+#!/bin/sh
+#~/.config/zsh/aliasrc
+#
+# Aliasrc is a file created to house all of the shell alias definitions, written in this file for portability. (Used in
+# conjunction with functionrc, then called in the zshrc file).
+
+# Shortened browser/editor aliases.
+alias \
+	r='ranger' \
+	v='$EDITOR' \
+	mail='neomutt'
+
+# Shortcuts to edit dotfiles.
+alias \
+	zrc='v ~/.zshrc' \
+	zrcr='source ~/.zshrc' \
+	nrc='v ~/.config/nvim/init.vim' \
+	tmc='v ~/.tmux.conf' \
+	arc='v ~/.config/aliasrc'
+	frc='v ~/.config/zsh/functionrc'
+
+# Automatically specifying options always used to a shortened alias.
+alias \
+	lt='ls -lth' \
+	mv='mv -v' \
+	l='ls -lh' \
+	la='ls -lah'
+
+# Directory aliases.
+alias \
+	conf='cd ~/.config' \
+	mn='cd /mnt' \
+	tmp='cd /tmp' \
+	d='cd ~/Documents' \
+	p='cd /home/drew/Documents/programming' \
+	pub='cd /mnt/Data/Public' \
+	priv='cd /mnt/Data/Drew' \
+	netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/'
+	b='cd ..'
+
+# Shortcuts for connecting to sessions.
+	# Shortcut to ssh into seedbox as pi user.
+	alias pi='ssh -l pi -p 9999 192.168.1.28' pi2='ssh -l rtorrent -p 9999 192.168.1.28'
+	# Reconnect to first instance of tmux in ps for current user.
+	alias tmr='tmux attach-session'
+
+# Functions
+function mkcd {
+    mkdir -p "$1" && cd "$1"
+}
