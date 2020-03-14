@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#/home/drew/Documents/programming/awk/truecolors
+#
+# Awk script to print out true colors.
+#
+# Terminals typically can only display a 8-bit color palette (256 colors).
+# Truecolor escape codes do not use a color palette, but instead just specify the exact color
+# itself.
+#
+# Potentially To-Do: add a function that prints an 8-bit color spectrum to compare to the 24-bit one.
+# The ANSI function is broken and it's not worth the time to fix it, since it's very apparent which
+# color mode is being used.
+
+embolden='\033[31;1m'
+
+print_help(){
+	echo "This is a script that prints the full 24-bit color spectrum, rather than the default 8-bit"
+	echo "spectrum still widely common in modern terminals despite being heavily depreciated."
+}
+
+truecolorbar(){
+	awk 'BEGIN{
+	    s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
+	    for (colnum = 0; colnum<77; colnum++) {
+	        r = 255-(colnum*255/76);
+	        g = (colnum*510/76);
+	        b = (colnum*255/76);
+	        if (g>255) g = 510-g;
+	        printf "\033[48;2;%d;%d;%dm", r,g,b;
+	        printf "\033[38;2;%d;%d;%dm", 255-r,255-g,255-b;
+	        printf "%s\033[0m", substr(s,colnum+1,1);
+	    }
+		printf "\n";
+	}'
+}
+ANSIcolorbar(){
+	for i in `seq 255`
+	do
+		color='\033[1;48;5;'${i}'m'
+		if (( $i % 8 == 0 ))
+		then
+			echo -n -e "${color} "
+		fi
+	done
+	echo
+}
+
+
+case "$1" in
+	-i | --info | -h | --help)
+		echo
+		print_help
+		echo
+		exit
+		;;
+	*)
+		truecolorbar
+		echo "This should be a true-color gradient."
+		echo -e "Your current \$TERM variable is set to:${embolden} $TERM"
+		exit
+		;;
+esac

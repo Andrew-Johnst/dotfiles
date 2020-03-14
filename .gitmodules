@@ -4,3 +4,30 @@
 [submodule ".config/st/st_3-13-20"]
 	path = .config/st/st_3-13-20
 	url = https://git.suckless.org/st/
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = https://github.com/hlissner/doom-emacs.git
+[submodule ".config/nvim/plugged/nord-vim"]
+	path = .config/nvim/plugged/nord-vim
+	url = https://github.com/arcticicestudio/nord-vim.git
+[submodule ".config/nvim/plugged/palenight.vim"]
+	path = .config/nvim/plugged/palenight.vim
+	url = https://github.com/drewtempelmeyer/palenight.vim.git
+[submodule ".config/nvim/plugged/vim"]
+	path = .config/nvim/plugged/vim
+	url = https://github.com/dracula/dracula-theme.git
+[submodule ".config/nvim/plugged/vim-airline"]
+	path = .config/nvim/plugged/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule ".config/nvim/plugged/vim-airline-themes"]
+	path = .config/nvim/plugged/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule ".config/nvim/plugged/vim-easy-align"]
+	path = .config/nvim/plugged/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align.git
+[submodule ".config/nvim/plugged/vim-github-dashboard"]
+	path = .config/nvim/plugged/vim-github-dashboard
+	url = https://github.com/junegunn/vim-github-dashboard.git
+[submodule ".config/nvim/plugged/vim-hybrid-material"]
+	path = .config/nvim/plugged/vim-hybrid-material
+	url = https://github.com/kristijanhusak/vim-hybrid-material.git
