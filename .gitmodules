@@ -1,0 +1,6 @@
+[submodule ".config/nvim/plugged/oceanic-next"]
+	path = .config/nvim/plugged/oceanic-next
+	url = https://github.com/mhartington/oceanic-next.git
+[submodule ".config/st/st_3-13-20"]
+	path = .config/st/st_3-13-20
+	url = https://git.suckless.org/st/

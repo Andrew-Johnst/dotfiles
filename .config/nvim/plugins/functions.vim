@@ -39,3 +39,6 @@
 
 	"	cnoreabbrev <silent>	:exe 'call delete(expand('%'))'
 	"	exe 'call delete(expand('%')) | bdelete!'
+
+" Function to surround word in cursor with either single or double quotes.
+

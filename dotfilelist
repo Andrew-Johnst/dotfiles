@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
+#
+fileList=(".config/" ".fzf" ".emacs.d" ".local" ".nvim" ".oh-my-zsh" ".terminfo" ".vim" ".Xresources.d" \
+".bashrc"  ".fzf.bash"".fzf.zsh" ".profile" ".tmux.conf" ".Xauthority" ".xinitrc" ".Xresources" \
+".zshenv" ".zshrc") 
+
+for i in "${fileList[@]}"
+do
+	cp --verbose -r "/home/drew/$i" .
+done
+
+
+#[[ ! -d bin ]] && mkdir bin
+#cp "/usr/local/bin/tc" bin/tc

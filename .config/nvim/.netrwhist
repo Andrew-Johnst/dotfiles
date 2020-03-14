@@ -1,5 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =4
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/home/drew/.nvim'
+let g:netrw_dirhist_8='/home/drew/.ssh'
+let g:netrw_dirhist_7='/home/drew/.terminfo/x'
+let g:netrw_dirhist_6='/home/drew/.config/nvim/autoload/lightline/colorscheme'
+let g:netrw_dirhist_5='/mnt/crypt/accounts'
 let g:netrw_dirhist_4='/tmp'
 let g:netrw_dirhist_3='/home/drew/.config/nvim/ftdetect'
 let g:netrw_dirhist_2='/tmp/tmux-1000'

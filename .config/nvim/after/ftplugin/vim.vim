@@ -6,12 +6,13 @@ setlocal tabstop=2
 setlocal shiftwidth=2
 setlocal textwidth=110
 setlocal comments+=b:>
-setlocal formatoptions=
-setlocal formatoptions+=cor
+setlocal formatoptions-=r
+setlocal formatoptions+=ct
 
 " if exists("b:did_ftplugin")
 " 	finish
-" endif
+" endif aopsidfjaospidjf
+"
 
 
 

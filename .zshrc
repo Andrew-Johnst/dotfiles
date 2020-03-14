@@ -87,11 +87,35 @@ bindkey -s 	'^[l'	'^L'			# Binds <M-L> to clear screen (added for easier screen-
 # since they already do with <C-L> and clear command.
 bindkey 	'^['	delete-char
 
+
+
 # Manual environment variables.
 export EDITOR=nvim
 
+# Apparently, despite countless warnings online against exporting TERM variable in shell profile,
+# this is what fixed it lol. (Have yet to start new SSH instance, or X11 session however).
+export TERM=xterm-24bit
+
+
+# Setting DISPLAY varriable for X11 forwarding
+# Too braindead to understand if im supposed to define DISPLAY on host or client, commenting out for now.
+#export DISPLAY=:0.0
+
+# Fuzzy Finder settings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
+# Manually added options.
+
+
+# Add this to the zshrc file if required to login to ACC system, so that programs can be installed
+# to my local user bin directory.
+#
+#			(ZSH)
+#	path+=('/home/drew/bin')
+#	export PATH
+#
+#			(BASH)
+#	export PATH="$HOME/bin:$PATH"

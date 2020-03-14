@@ -1,0 +1,5 @@
+! Xresources file for suckless terminal
+! The majority of customizations to st are intended to be made to the config.h source code,
+! however it still takes options from Xresources.
+
+st.font:							-*-fixed-*-*-*-*-12-*-*-*-*-*-*-1
