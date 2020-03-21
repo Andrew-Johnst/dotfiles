@@ -2,6 +2,7 @@
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
 #
 fileList=(	".config/" \
+			"bin/" \
 			".fzf" \
 			".emacs.d" \
 			".local" \
@@ -26,10 +27,10 @@ DATE=$(date "+%m-%d-%Y")
 TIME=$(date "+%H-%M")
 
 # Create a temporary directory as a safety net.
-[[ ! -d "~/Documents/dotfile-backups-$DATE" ]] && mkdir "~/Documents/dotfile-backups-$DATE"
+[ ! -d "~/Documents/git/dotfile_backup-$DATE" ] && mkdir "~/Documents/git/dotfile_backup-$DATE"
 
 # Assign directory path to a variable.
-bakdir="~/Documents/dotfile-backups-$DATE"
+bakdir="~/Documents/git/dotfile_backup-$DATE"
 
 # Change current git dir
 git init

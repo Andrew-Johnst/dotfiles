@@ -1,0 +1,28 @@
+set tabstop=4
+set nrformats=alpha
+
+set relativenumber number
+syntax on
+set encoding=utf-8
+
+" Shortutting split navigation, so only <C-(Direction)> needs to be pressed saving a <C-w>.
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+
+
+" Function to insert encapsulating text around selected text.
+"function! s:surround()
+"		let word = expand("<cword>")
+"		let command = "%s/".word."\env[\'".word."\']/g"
+"		execute command
+"endfunction
+"map cx :call <SID>surround()<CR>
+
+
+function! s:test()
+		echom "Test echo"
+endfunction
+map cx :call <SID>test()<CR>

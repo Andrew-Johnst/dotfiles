@@ -1,0 +1,36 @@
+#	set mbox_type = Maildir
+#	set imap_user = projohnston@gmail.com
+#	source "gpg -d ~/.config/neomutt/passwords.gpg |"
+#	set editor = nvim
+#	set header_cache = "~/.cache/neomutt/headers"
+#	set message_cachedir = "~/.cache/neomutt/bodies"
+#	set certificate_file = "~/.config/neomutt/certificates"
+#	set smtp_url = 'smtps://projohnston@gmail.com@smtp.gmail.com:465/"
+#	set move = no
+#	set imap_keepalive = 900
+#	set mail_check=90
+
+# General settings.
+set header_cache = "~/.neomutt/cache/headers"
+set message_cachedir = "~/.neomutt/cache/bodies"
+set certificate_file = "~/.neomutt/certificates"
+
+# SSL settings.
+set ssl_starttls = yes
+set ssl_force_tls = yes
+
+# Sets password using gpg and pass.
+set my_pass = "`pass neomutt/projohnston`"
+set from = "projohnston@gmail.com"
+
+# IMAP
+set folder = "imaps://projohnston@imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+set imap_user = "projohnston@gmail.com"
+set imap_pass = $my_pass
+
+# SMTP
+set smtp_url="smtp://projohnston@gmail.com:587"
+set smtp_pass=$my_pass
+#set smtp_authenticators = 'oauthbearer'
