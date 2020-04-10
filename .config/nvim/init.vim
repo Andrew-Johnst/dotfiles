@@ -95,7 +95,7 @@
 	  			" Specific settings for dracula (must be specified in this order or
 	  			" results in visual glitches (or at least in PuTTY-xterm sessions.)
 
-	  			" let g:dracula_colorterm = 0
+"	  			 let g:dracula_colorterm = 0
 	  			" colorscheme dracula
 	  			" let g:dracula_italic = 0
 	  			" colorscheme hybrid_material

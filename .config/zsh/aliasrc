@@ -43,7 +43,7 @@ alias \
 	netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 	b='cd ..' \
 	nvc='cd ~/.config/nvim' \
-	gitdotdir='cd /home/drew/Documents/git/dotfiles'
+	g='cd /home/drew/Documents/git/dotfiles'
 
 # Shortcuts for connecting to sessions.
 	# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
