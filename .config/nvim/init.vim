@@ -62,7 +62,8 @@
 		  " Install themes for vim-airline:
 			 	Plug 'vim-airline/vim-airline-themes'
 			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
-				Plug 'edkolev/tmuxline.vim'
+			" Commenting out for now since missing fonts/characters appear in tmux via mintty/wsltty.
+			"	Plug 'edkolev/tmuxline.vim'
 
 		call plug#end()
 
