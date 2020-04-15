@@ -11,7 +11,7 @@
 # The ANSI function is broken and it's not worth the time to fix it, since it's very apparent which
 # color mode is being used.
 
-embolden='\033[31;1m'
+emphesis='\033[31;1m'
 
 print_help(){
 	echo "This is a script that prints the full 24-bit color spectrum, rather than the default 8-bit"
@@ -56,7 +56,7 @@ case "$1" in
 	*)
 		truecolorbar
 		echo "This should be a true-color gradient."
-		echo -e "Your current \$TERM variable is set to:${embolden} $TERM"
+		echo -e "Your current \$TERM variable is set to:${emphesis} $TERM"
 		exit
 		;;
 esac

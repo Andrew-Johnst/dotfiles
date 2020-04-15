@@ -1,8 +1,37 @@
 #!/usr/bin/env bash
 # bin/ezgit
+
+# This script may perhaps be just a tad bit overengineered, but it automates not only making backups
+# of the remote git repo to both the local machine running the script, but as well as to the remote
+# git repo.
+# Although overengineered a bit, it provides functionality for everything I may want and has proven
+# to be very useful in both bootstrapping new machines, and merging changes between the two.
+# (Also the more overengineered parts of the script were implemented as a learning experience for learning
+# shell scripting and general programming experience, hence the sometimes unnecessary usage of functions.
+#	TO-DO:
+#		1.) Implement an automated GUI environment (preferably a nvim based program that
+#		highlights discrepancies between versions of files.)
+#		2.)
+
+
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+# Temporarily adding this to prevent potential  damage if accidentally running this script in it's currently #
+# 											UNFINISHED state.												 #
+##############################################################################################################
+echo "This script is currently WIP and just adding this exit at the top of this script just in case I forget and run \
+	it because idk how far it would go down the script and how much damage it could do if run."
+exit 1
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
+
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-#
-fileList=(	".config/" \
+FILELIST=(	"BACKUPS/LOCAL/" \
+			".config/" \
 			"bin/" \
 			".fzf" \
 			".emacs.d" \
@@ -21,57 +50,60 @@ fileList=(	".config/" \
 			".xinitrc" \
 			".Xresources" \
 			".zshenv" \
-			".zshrc" )
+			".zshrc" \
+		)
+
+# Define ANSI escape sequence color code variables.
+CRESET='\033[0m'
+RED='\033[1;38;5;1m'
 
 # Get current date and time for timestamp on logged archives.
 DATE=$(date "+%m-%d-%Y")
 TIME=$(date "+%H-%M")
 
-# Create a temporary directory as a safety net.
-[ ! -d "~/Documents/git/dotfile_backup-$DATE" ] && mkdir -p "~/Documents/git/dotfile_backup-$DATE"
+# Assign directory for both remote repo and local dotfiles for bzip2 tarballs to be stored within the local
+# dotfile directory.
+LOCALBACKUPS="`pwd`/BACKUPS/LOCAL/$DATE"
+REMOTEBACKUPS="`pwd`/BACKUPS/REMOTE/$DATE"
 
-# Assign directory path to a variable.
-bakdir="~/Documents/git/dotfile_backup-$DATE"
+# Creates the directories for both remote git repository and local dotfiles to be held in bzip2 tarballs.
+[ ! -d "$LOCALBACKUPS" ] && mkdir -p "$LOCALBACKUPS"
+[ ! -d "$REMOTEBACKUPS" ] && mkdir -p "$REMOTEBACKUPS"
+
+# Defines a function to sleep X seconds, not necessary but useful for shortening and cleaning script a bit.
+SLEEPFORX(){
+	for i in `seq $1 -1 1`
+	do
+	    echo "$i..."
+	    sleep 1
+	    i=$((i-1))
+	done
+	sleep 1
+}
 
 # Change current git dir
 git init
 
  case "$1" in
  	-i | --install)
- 		echo "Creating bzip2 tarbal archive of local git repo directory in 5..."
- 		sleep 1
- 		echo "4..."
- 		sleep 1
- 		echo "3..."
- 		sleep 1
- 		echo "2..."
- 		sleep 1
- 		echo "1..."
-		sleep 1
+		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
+		SLEEPFORX 5
  		echo
- 		tar -cfvj "$bakdir/Local-Git_$TIME.tar.bz2" *
+		tar -jcvf "$LOCALBACKUPS/dotfiledir-$TIME.tar.bz2" --exclude='BACKUPS' --exclude='*.swp' .
  		echo
- 		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in 5..."
- 		sleep 1
- 		echo "4..."
- 		sleep 1
- 		echo "3..."
- 		sleep 1
- 		echo "2..."
- 		sleep 1
- 		echo "1..."
-		sleep 1
+ 		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
+		SLEEPFORX 5
  		echo
- 		tar -cfvj "$bakdir/Local-Configs_$TIME.tar.bz2" "${filelist[@]}"
+ 		tar -cfvj "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
 		echo
  		echo "Tarballs of both the local repo before updating, as well as the config files that"
-		echo "were currently in-use on this system created and located in: \"$bakdir\" directory."
+		echo "were currently in-use on this system created and located in: \"$BAKDIR\" directory."
 		echo
 		sleep 5
 		echo "Syncing with remote git repo, then installing..."
 		git pull origin master
 		echo
- 		for i in "${fileList[@]}"
+ 		for i in "${FILELIST[@]}"
  		do
  			cp --verbose -r "$i" "$HOME/$i"
  		done
@@ -79,16 +111,18 @@ git init
 		exit 0
  		;;
  	-u | --upload)
+		clear
  		echo "Before uploading, the remote repo will be downloaded, compressed, and will be located at:"
-		echo "'$bakdir/Remote-Repo-$TIME.tar.bz2'..."
+		echo "'$BAKDIR/Remote-Repo-$TIME.tar.bz2'..."
 		sleep 10
 
 		# Use git command's builtin archival feature to create a backup of the remote repository.
  		git archive -v --format=tar --remote=https://github.com/Projohnston/dotfiles.git \
-					-o "$bakdir/Remote-Repo-$TIME.tar"
- 		bzip2 -z "$bakdir/Remote-Repo-$TIME.tar" "$bakdir/Remote-Repo-$TIME.tar.bz2" 
+					-o "$BAKDIR/Remote-Repo-$TIME.tar"
 
- 		for i in "${fileList[@]}"
+ 		bzip2 -z "$BAKDIR/Remote-Repo-$TIME.tar" "$BAKDIR/Remote-Repo-$TIME.tar.bz2"
+
+ 		for i in "${FILELIST[@]}"
  		do
  			cp --verbose -r "$HOME/$i" .
  		done
@@ -117,7 +151,7 @@ git init
 		echo "ACTIONS:"
 		echo "			-i | --install		Pulls from remote git repo and installs/updates local files."
 		echo "			-u | --upload		Pulls remote repo to create a backup bz2 tarball, then uploads"
-		echo "								files listed in the \"fileList\" library to github repo."
+		echo "								files listed in the \"FILELIST\" array list to github repo."
 		echo "			-d | --diff			Runs a 'git diff' command between local and remote repo."
 		echo
 		echo "TODO: Implement a function to compare remote and local files, for intelligent error protection"

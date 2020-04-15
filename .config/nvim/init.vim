@@ -112,14 +112,12 @@
 		"		set termguicolors
 		"	endif
 			set termguicolors
-			let g:oceanic_next_terminal_bold = 1
-			let g:oceanic_next_terminal_italic = 1
+			"let g:oceanic_next_terminal_bold = 1
+			"let g:oceanic_next_terminal_italic = 1
 			"colorscheme OceanicNext
 	" Disables highlighting of current line in numberline.
-		
 
-
-		"							This 'fix' might not even work, since the problem appears to have been PuTTY's fault.
+		"	This 'fix' might not even work, since the problem appears to have been PuTTY's fault.
 		"	if has("terminfo")
 		"		let &t_Co=16
 		"		let &t_AB="\<Esc>[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm"
@@ -133,7 +131,8 @@
 
 
 	"---------------------[2.3] Lightline config settings.
-		let g:airline_theme='oceanicnext'
+		"let g:airline_theme='oceanicnext'
+		let g:airline_theme='dracula'
 
 "							Commenting out vim-airline settings, testing lightline.
 "								"---------------------[2.3] Vim-airline configurations:
@@ -150,9 +149,10 @@
 		filetype plugin on
 		set tabstop=4
 		set shiftwidth=4
-		set textwidth=100
+		set textwidth=110
 		set foldmethod=manual
-		set formatoptions=qc
+		set formatoptions=
+		set formatoptions+=qc
 		set encoding=utf-8
 
 	"----------------------[3.2] Syntax/search highlighting.
