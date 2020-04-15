@@ -1,9 +1,15 @@
 ! Xresources file, work in progress.
 
-#include ".Xresources.d/st"
+!#include ".Xresources.d/st"
 !#include ".Xresources.d/rxvt-unicode"
-#include ".Xresources.d/xterm"
-#include ".Xresources.d/xterm-256color"
-#include ".Xresources.d/fonts"
-#include ".Xresources.d/xscreensaver"
-#include ".Xresources.d/Solarized-dark"
+!#include ".Xresources.d/xterm"
+!#include ".Xresources.d/xterm-256color"
+!#include ".Xresources.d/fonts"
+!#include ".Xresources.d/xscreensaver"
+!#include ".Xresources.d/Solarized-dark"
+
+! Manually adding this single xterm settings to the main Xresources file to test sixel-xterm ffmpeg.
+XTerm*decTerminalID: vt340
+XTerm*sixelScrolling: true
+XTerm*regisScreenSize: 1920x1080
+XTerm*numColorRegisters: 256

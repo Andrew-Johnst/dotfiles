@@ -28,7 +28,7 @@ DATE=$(date "+%m-%d-%Y")
 TIME=$(date "+%H-%M")
 
 # Create a temporary directory as a safety net.
-[ ! -d "~/Documents/git/dotfile_backup-$DATE" ] && mkdir "~/Documents/git/dotfile_backup-$DATE"
+[ ! -d "~/Documents/git/dotfile_backup-$DATE" ] && mkdir -p "~/Documents/git/dotfile_backup-$DATE"
 
 # Assign directory path to a variable.
 bakdir="~/Documents/git/dotfile_backup-$DATE"

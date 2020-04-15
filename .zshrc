@@ -96,6 +96,7 @@ export EDITOR=nvim
 # this is what fixed it lol. (Have yet to start new SSH instance, or X11 session however).
 # Removing this for now.
 #export TERM=xterm-24bit
+#export TERM=mintty
 
 
 # Setting DISPLAY varriable for X11 forwarding
@@ -129,3 +130,6 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# Adding this to test PulseAudio forwarding over X11.
+#export PULSE_SERVER="tcp:localhost:24713"

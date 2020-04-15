@@ -96,7 +96,7 @@
 	  			" results in visual glitches (or at least in PuTTY-xterm sessions.)
 
 "	  			 let g:dracula_colorterm = 0
-	  			" colorscheme dracula
+	  			 colorscheme dracula
 	  			" let g:dracula_italic = 0
 	  			" colorscheme hybrid_material
 	  			" hi CursorLineNr gui=bold guifg=DarkRed guibg=#c0d0e0
@@ -114,7 +114,7 @@
 			set termguicolors
 			let g:oceanic_next_terminal_bold = 1
 			let g:oceanic_next_terminal_italic = 1
-			colorscheme OceanicNext
+			"colorscheme OceanicNext
 	" Disables highlighting of current line in numberline.
 		
 
