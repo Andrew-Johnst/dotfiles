@@ -59,8 +59,10 @@
 				Plug 'mhartington/oceanic-next'
 			" Install vim-airline:
 			 	Plug 'vim-airline/vim-airline'
-		 " Install themes for vim-airline:
+		  " Install themes for vim-airline:
 			 	Plug 'vim-airline/vim-airline-themes'
+			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
+				Plug 'edkolev/tmuxline.vim'
 
 		call plug#end()
 
@@ -133,6 +135,15 @@
 	"---------------------[2.3] Lightline config settings.
 		"let g:airline_theme='oceanicnext'
 		let g:airline_theme='dracula'
+		" Allows vim-airline to use fonts (without this, rectangles appear instead of the expected arrow shapes).
+		"let g:airline_powerline_fonts = 1
+		" Auto command for entering any vim buffer to disable vim-airline whitespace info.
+		autocmd VimEnter * silent! AirlineToggleWhitespace
+		" Sets the path formatter for tabs so the filepath appears on tabs and current buffer indicator.
+		"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+		let g:airline#extensions#tabline#formatter = 'unique_tail'
+		let g:airline#extensions#tabline#left_sep = ' '
+		let g:airline#extensions#tabline#left_alt_sep = '|'
 
 "							Commenting out vim-airline settings, testing lightline.
 "								"---------------------[2.3] Vim-airline configurations:

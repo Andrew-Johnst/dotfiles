@@ -47,7 +47,12 @@ alias \
 
 # General quality of life improvements and aliasing lengthy commands.
 	# Alias to upgrade all python3 pip packages.
-		alias pipupgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
+		alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
+	# Alias/linking batcat to bat
+		alias bat='batcat '
+	# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
+	# pygmentized cat standard output in the terminal).
+		alias pcat='pygmentize -f terminal256 -O style=monokai -g'
 
 # Shortcuts for connecting to sessions.
 	# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
