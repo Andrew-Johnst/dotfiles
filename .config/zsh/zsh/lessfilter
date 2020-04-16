@@ -1,0 +1,59 @@
+#!/bin/sh
+# Filter for `less` command to colorize it using pygmentize.
+
+# Commenting this out to apply this filter to every less command usage (prolly should just figure out how to
+# add stdout to this filter but am lazy).
+
+#	case "$1" in
+#	    *.awk|\
+#		*.groff|\
+#		*.java|\
+#		*.js|\
+#		*.m4|\
+#		*.php|\
+#		*.pl|\
+#		*.pm|\
+#		*.pod|\
+#		*.sh|\
+#	    *.ad[asb]|\
+#		*.asm|\
+#		*.inc|\
+#		*.[ch]|\
+#		*.[ch]pp|\
+#		*.[ch]xx|\
+#		*.cc|\
+#		*.hh|\
+#	    *.lsp|\
+#		*.l|\
+#		*.pas|\
+#		*.p|\
+#		*.xml|\
+#		*.xps|\
+#		*.xsl|\
+#		*.axp|\
+#		*.ppd|\
+#		*.pov|\
+#	    *.diff|\
+#		*.patch|\
+#		*.py|\
+#		*.rb|\
+#		*.sql|\
+#		*.ebuild|\
+#		*.eclass|\
+#		*.vim)
+#			pygmentize -f 256 "$1";;
+#	
+#	    .zshrc|aliasrc|.zshenv)
+#	        pygmentize -f 256 -l sh "$1";;
+#	
+#	    *)
+#	        if grep -q "#\!/bin/bash" "$1" 2> /dev/null; then
+#	            pygmentize -f 256 -l sh "$1"
+#	        else
+#	            exit 1
+#	        fi
+#	esac
+
+pygmentize -f terminal256 -O style=monokai -g "$1"
+
+exit 0

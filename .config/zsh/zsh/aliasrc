@@ -1,0 +1,71 @@
+#!/bin/sh
+#~/.config/zsh/aliasrc
+#
+# Aliasrc is a file created to house all of the shell alias definitions, written in this file for portability. (Used in conjunction with functionrc, then called in the zshrc file).
+
+# Stupid fix to being able to use aliases with sudo.
+alias sudo='sudo '
+
+# Shortened browser/editor aliases.
+alias \
+	r='ranger' \
+	h='hunter ' \
+	v='$EDITOR' \
+	m='neomutt'
+
+# Edit config file shortcuts.
+alias \
+	zrc='v ~/.zshrc' \
+	zrcr='source ~/.zshrc' \
+	nrc='v ~/.config/nvim/init.vim' \
+	tmc='v ~/.tmux.conf' \
+	arc='v ~/.config/zsh/aliasrc'
+	frc='v ~/.config/zsh/functionrc'
+
+# Automatically specifying options always used to a shortened alias.
+alias \
+	ls='ls --color=auto' \
+	lt='ls -lth' \
+	mv='mv -v' \
+	l='ls -lh' \
+	la='ls -lah' \
+	lt='ls -lath' \
+
+# Directory shortcuts.
+alias \
+	conf='cd ~/.config' \
+	mn='cd /mnt' \
+	tmp='cd /tmp' \
+	d='cd ~/Documents' \
+	p='cd /home/drew/Documents/programming' \
+	pub='cd /mnt/Data/Public' \
+	priv='cd /mnt/Data/Drew' \
+	netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
+	b='cd ..' \
+	nvc='cd ~/.config/nvim' \
+	g='cd /home/drew/Documents/git/dotfiles'
+
+# General quality of life improvements and aliasing lengthy commands.
+	# Alias to upgrade all python3 pip packages.
+		alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
+	# Alias/linking batcat to bat
+		alias bat='batcat '
+	# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
+	# pygmentized cat standard output in the terminal).
+		alias pcat='pygmentize -f terminal256 -O style=monokai -g'
+
+# Shortcuts for connecting to sessions.
+	# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
+		alias ssh='TERM=xterm-direct ssh'
+	# Shortcut to ssh into seedbox as pi user.
+		alias sshpi='ssh -l pi -p 9999 192.168.1.28'
+		alias sshpi2='ssh -l rtorrent -p 9999 192.168.1.28'
+		alias sshseedbox='ssh -l rtorrent -p 9999 192.168.1.28'
+		alias sshnas='ssh -Y -l drew -p 9999 192.168.1.31'
+	# Reconnect to first instance of tmux in ps for current user.
+		alias tmr='tmux attach-session'
+
+# Functions.
+	function mkcd {
+	    mkdir -p "$1" && cd "$1"
+	}
