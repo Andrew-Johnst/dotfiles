@@ -14,57 +14,88 @@
 #		2.)
 
 
+# Exits the script when an error is encountered to prevent potential damage from continuing to run.
+### Commenting this out for the time being until I figure out/take the time to omit certain directories such 
+# as neovim plugins since they're causing permission denied errors and causing the script to exit prematurely.
+#set -e
 
-##############################################################################################################
-##############################################################################################################
-##############################################################################################################
-# Temporarily adding this to prevent potential  damage if accidentally running this script in it's currently #
-# 											UNFINISHED state.												 #
-##############################################################################################################
-echo "This script is currently WIP and just adding this exit at the top of this script just in case I forget and run \
-	it because idk how far it would go down the script and how much damage it could do if run."
-exit 1
-##############################################################################################################
-##############################################################################################################
-##############################################################################################################
-
-
-# Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-FILELIST=(	"BACKUPS/LOCAL/" \
-			".config/" \
-			"bin/" \
-			".fzf" \
-			".emacs.d" \
-			".local" \
-			".nvim" \
-			".oh-my-zsh" \
-			".terminfo" \
-			".vim" \
-			".Xresources.d" \
-			".bashrc" \
-			".fzf.bash" \
-			".fzf.zsh" \
-			".profile" \
-			".tmux.conf" \
-			".Xauthority" \
-			".xinitrc" \
-			".Xresources" \
-			".zshenv" \
-			".zshrc" \
+# Library containing all of the package dependencies for both the script as well as the dotfile/config files
+# for my setup.
+DEPENDs=(	"git" \
+			"fzf" \
+			"tmux" \
+			"neovim" \
+			"openssh" \
+			"neomutt" \
+			"zsh" \
 		)
+
+# Defines a list of files/folders to be deleted from the local directory before adding the contents of the pwd
+# to git staged changes.
+EXCLUSIONS=( ".swp" )
+			
+# Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
+FILELIST=(	"$HOME/.config" \
+			"$HOME/bin/" \
+			"$HOME/.fzf" \
+			"$HOME/.emacs.d" \
+			#"$HOME/.local" \
+			"$HOME/.nvim" \
+			"$HOME/.oh-my-zsh" \
+			"$HOME/.terminfo" \
+			"$HOME/.vim" \
+			"$HOME/.Xresources.d" \
+			"$HOME/.bashrc" \
+			"$HOME/.fzf.bash" \
+			"$HOME/.fzf.zsh" \
+			"$HOME/.profile" \
+			"$HOME/.tmux.conf" \
+			"$HOME/.Xauthority" \
+			"$HOME/.xinitrc" \
+			"$HOME/.Xresources" \
+			"$HOME/.zshenv" \
+			"$HOME/.zshrc" \
+		)
+
+# Function/command to print out the FILELIST library, sort it into alpahbetical order, then encapsulate in quotes
+# and adds a space and backslassh at the end of each line for better formatting.
+sortFILELIST(){
+	test1=$(echo ${FILELIST[@]} | tr ' ' '\n' | sed -e 's/\(.*\)/"\1"/' -e 's/$/\ \\/')
+	test2=($(echo ${FILELIST[@]} | sort -d -i -b | tr ' ' '\n' | sed -e 's/\(.*\)/"\1"/' -e 's/$/\ \\/'))
+	test3=$(echo ${FILELIST[@]} | sort -d -i -b | tr ' ' '\n' \
+		| sed  -e 's/\(.*\)/"\1"/' -e 's/^/\t\t\t/' -e 's/$/\ \\/')
+	test4="$test3"
+	#test2=(
+	#echo -n > /tmp/testingformatting
+	echo "$test3" > /tmp/testingformatting
+	#echo
+	#echo ${test2[@]} > /tmp/testingformatting
+	#echo $test3
+	#echo $test3 > /tmp/testingformatting
+	#echo
+	#echo ${FILELIST[@]}
+	#diff <(echo "$test1") <(echo "$test2")
+}
+#sortFILELIST
+#cat /tmp/testingformatting
+#echo "$test3"
+#exit 1
 
 # Define ANSI escape sequence color code variables.
 CRESET='\033[0m'
-RED='\033[1;38;5;1m'
+CRED='\033[1;38;5;1m'
+CGREEN='\033[1;38;5;10m'
+CBLUE='\033[1;38;5;81m'
+CULINE='\033[4m'
 
 # Get current date and time for timestamp on logged archives.
-DATE=$(date "+%m-%d-%Y")
-TIME=$(date "+%H-%M")
+DATE="$(date "+%m-%d-%Y")"
+TIME="$(date "+%H-%M")"
 
 # Assign directory for both remote repo and local dotfiles for bzip2 tarballs to be stored within the local
 # dotfile directory.
-LOCALBACKUPS="`pwd`/BACKUPS/LOCAL/$DATE"
-REMOTEBACKUPS="`pwd`/BACKUPS/REMOTE/$DATE"
+LOCALBACKUPS="/tmp/BACKUPS/Local/$DATE"
+REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
 
 # Creates the directories for both remote git repository and local dotfiles to be held in bzip2 tarballs.
 [ ! -d "$LOCALBACKUPS" ] && mkdir -p "$LOCALBACKUPS"
@@ -74,30 +105,33 @@ REMOTEBACKUPS="`pwd`/BACKUPS/REMOTE/$DATE"
 SLEEPFORX(){
 	for i in `seq $1 -1 1`
 	do
-	    echo "$i..."
+	    echo -e "$CBLUE$i..."
 	    sleep 1
 	    i=$((i-1))
 	done
+	echo -n -e $CRESET
 	sleep 1
 }
 
-# Change current git dir
-git init
 
  case "$1" in
  	-i | --install)
+		# Change current git dir
+		git init
 		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
 		SLEEPFORX 5
  		echo
-		tar -jcvf "$LOCALBACKUPS/dotfiledir-$TIME.tar.bz2" --exclude='BACKUPS' --exclude='*.swp' .
+		# Updated this to include a slider progress bar via pv command and awk.
+		tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | awk '{print $1}') | \
+			bzip2 > "$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
  		echo
  		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
 		SLEEPFORX 5
  		echo
- 		tar -cfvj "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
+ 		tar -cfj "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
 		echo
  		echo "Tarballs of both the local repo before updating, as well as the config files that"
-		echo "were currently in-use on this system created and located in: \"$BAKDIR\" directory."
+		echo "were currently in-use on this system created and located in: \"$REMOTEBACKUPS\" directory."
 		echo
 		sleep 5
 		echo "Syncing with remote git repo, then installing..."
@@ -111,33 +145,58 @@ git init
 		exit 0
  		;;
  	-u | --upload)
-		clear
+		# Change current git dir
+		git init
  		echo "Before uploading, the remote repo will be downloaded, compressed, and will be located at:"
-		echo "'$BAKDIR/Remote-Repo-$TIME.tar.bz2'..."
-		sleep 10
+		echo -e "$CRED$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
+		SLEEPFORX 10
 
-		# Use git command's builtin archival feature to create a backup of the remote repository.
- 		git archive -v --format=tar --remote=https://github.com/Projohnston/dotfiles.git \
-					-o "$BAKDIR/Remote-Repo-$TIME.tar"
+		# Clone the remote git repository into the Remote backups directory, then create a bzip2 archive of it
+		# and delete the cloned folder.
+		git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
+ 		tar -cjf "$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME"
+		yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
 
- 		bzip2 -z "$BAKDIR/Remote-Repo-$TIME.tar" "$BAKDIR/Remote-Repo-$TIME.tar.bz2"
+		### Commenting this below part out since a remote repo backup made locally will always be made.
+		# Using a while loop to force a y/n input from the user.
+		# while [[ "$yn" != "y" && "$yn" != "n" ]]
+		# do
+		# In order to utilize escape codes as color within a read command, process substitution must be used.
+		# read -p -n 1 "$(echo -e Would you like to copy the backup made from remote git repo into \
+		# 	\"~/Documents/git/dotfiles/BACKUPS/Remote\"? [${CRED}y${CRESET}/${CRED}n${CRESET}]: ) " choice
 
+		# Copies all of the files recursivley that are listed in the FILELIST array variable.
  		for i in "${FILELIST[@]}"
  		do
- 			cp --verbose -r "$HOME/$i" .
+ 			cp -r "$i" .
  		done
+
+		# Finds and deletes files that are listed in the exclusions variable (ex: useful for vim swap files)
+		# before they are staged in the git repo.
+		# for i in "${EXCLUSIONS[@]}"
+		# do
+		# 	find . -print | grep "$i" | xargs rm -r
+		# done
 		git init
 		git add -A .
+		git rm -rf .local/share
+		git rm -rf BACKUPS
+		git rm *.swp
 		git status
-		read -n 1 -p "Are the git status changes ok? [y/n] (Default=yes, if no the script will exit.)" yn;
-		# Disable case-sensitive matching cuz I'm too lazy/braindead rn to figure out the regex.
-		shopt -s nocasematch
-		[[ "$yn" == "n" ]] && echo "Files added to be staged, but no commit or push. Exiting..." && exit 1
+		# Using a while loop again to force y/n.
+		while [[ "$yn" != "y" && "$yn" != "n" ]]
+		do
+			read -n 1 -p "$(echo -e Are the git status changes ok? ["$CRED"y"$CRESET"/"$CRED"n"$CRESET"]: ) " yn;
+			yn="$(echo $yn | tr '[:upper:]' '[:lower:]')"
+			echo
+			[[ "$yn" == "n" ]] && echo -e "${CRED}Files added to be staged changes, but no commit or push.\
+				Exiting..." && exit 1
+		done
 		read -p 'Name the commit: ' commitdesc
 		git commit -m "$commitdesc"
 		git push origin master
 		echo
-		echo "Successfully uploaded to git repo."
+		echo -e "${CGREEN}Successfully uploaded to git repo."
 		echo
 		exit 0
  		;;
@@ -146,16 +205,18 @@ git init
 		git diff --stat --patch origin master
 		;;
 	*)
-		echo "Usage: ./dotfilelist [ACTION]"
+		echo -e "${CGREEN}Usage: ${CRED}./ezgit [ACTION]"
 		echo
-		echo "ACTIONS:"
-		echo "			-i | --install		Pulls from remote git repo and installs/updates local files."
-		echo "			-u | --upload		Pulls remote repo to create a backup bz2 tarball, then uploads"
-		echo "								files listed in the \"FILELIST\" array list to github repo."
-		echo "			-d | --diff			Runs a 'git diff' command between local and remote repo."
+		echo -e "${CGREEN}ACTIONS:"
+		echo -e "	${CRED}-i | --install${CBLUE}	Pulls from remote git repo and installs/updates local files."
+		echo 
+		echo -e "	${CRED}-u | --upload${CBLUE}	Pulls remote repo to create a backup bz2 tarball, then uploads"
+		echo -e "			files listed in the ${CGREEN}FILELIST${CBLUE} array list to github repo."
+		echo 
+		echo -e "	${CRED}-d | --diff${CBLUE}	Runs a '${CRED}git diff${CBLUE}' command between local and remote repo."
 		echo
-		echo "TODO: Implement a function to compare remote and local files, for intelligent error protection"
-		echo "		rather than just creating archives of the whole repo."
+		echo -e "${CGREEN}TODO: ${CBLUE}Implement a function to compare remote and local files, for intelligent error protection"
+		echo -e "		rather than just creating archives of the whole repo."
 		echo
 		exit 0
 		;;

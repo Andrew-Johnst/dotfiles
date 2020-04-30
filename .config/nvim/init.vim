@@ -27,7 +27,7 @@
 		" Not entirely sure if this is needed, since I haven't tried the /nvim/after/ directory yet.
 			au!
 
-	"---------------------[1.2] Check if Vim-plug is installed for current user and install if not.
+	"---------------------[1.2] Check if Vim-plug and pathogen are installed for current user and install if not.
 		if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 		  echo "Downloading Vim-Plug plugin manager for nvim..."
 		  silent !mkdir -p ~/.config/nvim/autoload/
@@ -35,8 +35,16 @@
 			\	> ~/.config/nvim/autoload/plug.vim
 		  autocmd VimEnter * PlugInstall
 		endif
+		" Activates Vim-Pathogen plugin, installs it if not found.
+		if ! filereadable(expand('~/.config/nvim/autoload/pathogen.vim'))
+		  echo "Downloading Vim-Pathogen plugin manager for neovim..."
+		  silent !mkdir -p ~/.config/nvim/autoload/ ~/.config/nvim/bundle
+			silent !curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+		endif
 
 	"---------------------[1.3] Load plugins:
+		execute pathogen#infect('~/.config/nvim/bundle/{}')
+
 		call plug#begin('~/.config/nvim/plugged')
 		  " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
 		  	Plug 'junegunn/vim-easy-align'
@@ -45,7 +53,7 @@
 		  " Install Dracula theme:
 		  	Plug 'dracula/vim',{'name': 'dracula' }
 		  " Install Nord theme:
-		  "	Plug 'arcticicestudio/nord-vim'
+		  	Plug 'arcticicestudio/nord-vim'
 		  " Install Hybrid material theme:
 		  	Plug 'kristijanhusak/vim-hybrid-material'
 		  " Install palenight plugin:
@@ -67,16 +75,6 @@
 
 		call plug#end()
 
-	"---------------------[1.3] Custom/non-Plugged plugins.
-		" Testing this for now.
-		" Adds any .vim file within plugins directory (non-Plugged plugins).
-			for f in split(glob('~/.config/nvim/plugins/*.vim'), '\n')
-				exe 'source' f
-			endfor
-		" Adds any .vim file within snippets directory.
-			for f in split(glob('~/.config/nvim/snippets/*.vim'), '\n')
-				exe 'source' f
-			endfor
 
 "-----------------------------------[2.0] - Theming and appearance settings.
 	"---------------------[2.1] Colorscheme options.
@@ -91,18 +89,18 @@
 			let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
-					" Commenting all this out for now while testing out custom colorschemes/themes.
-					" colorscheme palenight
-  				" set background=dark
+			" Commenting all this out for now while testing out custom colorschemes/themes.
+			" colorscheme palenight
+			" set background=dark
 
-	  			" Specific settings for dracula (must be specified in this order or
-	  			" results in visual glitches (or at least in PuTTY-xterm sessions.)
+			" Specific settings for dracula (must be specified in this order or
+			" results in visual glitches (or at least in PuTTY-xterm sessions.)
 
-"	  			 let g:dracula_colorterm = 0
-	  			 colorscheme dracula
-	  			" let g:dracula_italic = 0
-	  			" colorscheme hybrid_material
-	  			" hi CursorLineNr gui=bold guifg=DarkRed guibg=#c0d0e0
+		 	" let g:dracula_colorterm = 0
+			 colorscheme dracula
+			" let g:dracula_italic = 0
+			" colorscheme hybrid_material
+			" hi CursorLineNr gui=bold guifg=DarkRed guibg=#c0d0e0
 
 	"---------------------[2.2] Set Terminal colors to xterm-256color for PuTTY SSH connections.
 	" Potential fix, attempt 1 of 2.
@@ -133,7 +131,7 @@
 
 
 
-	"---------------------[2.3] Lightline config settings.
+	"---------------------[2.3] Vim-Airline config settings.
 		"let g:airline_theme='oceanicnext'
 		let g:airline_theme='dracula'
 		" Allows vim-airline to use fonts (without this, rectangles appear instead of the expected arrow shapes).
@@ -163,8 +161,8 @@
 		set shiftwidth=4
 		set textwidth=110
 		set foldmethod=manual
-		set formatoptions=
-		set formatoptions+=qc
+		" set formatoptions=
+		set formatoptions=qc
 		set encoding=utf-8
 
 	"----------------------[3.2] Syntax/search highlighting.
@@ -185,23 +183,26 @@
 		autocmd BufWinEnter *.* silent! loadview
 
 	"--------------------[3.6] Surrounding word in quotes.
-		command -nargs=1 -complete=command	Dquotes	call SurroundQuotes(t)
+	"	command -nargs=1 -complete=command	Dquotes	call SurroundQuotes(t)
 
 	"----------------------[3.7] Filetype templates and headers.
 		"--------------------[3.7.1] Defining the functions, commands, and abreviations.
 		" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		"	!!! Argument/parameter passing from command to function is broken, use <q-args> or <f-args>. !!!
 		" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			command! -nargs=*	-complete=command		Template	call TemplateFunction()
-			command! -nargs=*	-complete=command		Header		call TemplateFunction()
-
+					command! -nargs=*	-complete=command		Template	call TemplateFunction()
+					command! -nargs=*	-complete=command		Header		call TemplateFunction()
 			" Abbreviating user-defined commands such that they can be called in lower-case.
-			cnoreabbrev				temp		:Template
-			cnoreabbrev				head		:Header
+					cnoreabbrev	temp	:Template
+					cnoreabbrev	head	:Header
+		" Adding this here for now since not sure where any other definition/function is written if I even made
+		" one.
+					command -nargs=0 -complete=command InsertFullFilePath call InsertFullFilePath()
+					cnoreabbrev	ifp		:InsertFullFilePath
 
 "-----------------------------------[4.0] - Quality-of-life improvements
-"																		(General-use functions are defined in "~/.config/nvim/plugins/functions" file).
-"																		(The vim command 'scriptnames', prints out the order in which vim files are loaded).
+" General-use functions are defined in "~/.config/nvim/bundle/MyFunctions/plugin/MyFunctions.vim" file.
+"(The vim command 'scriptnames', prints out the order in which vim files are loaded).
 	"--------------------[4.1.0] Shortcutting split navigation.
 
 	" Mapping window movement keys, setting default spawn location of new windows.
@@ -226,6 +227,8 @@
 		" Command to open init.vim file in new vim tab.
 				command			NRC	:call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
 				cnoreabbrev	nrc	:NRC
+		" Command to write the currently opened file as sudo.
+				command			SudoWrite	:w !sudo tee %
 
 	"--------------------[4.4.0] Leader-key keybinds/settings.
 		"-------------------[4.4.1] Unmap default spacebar keybind, then map it to leader key.
@@ -244,12 +247,16 @@
 			imap			<M-f>				<Esc>
 
 		"-------------------[4.4.2] Quick saving/leaving files.
-			nnoremap 		<Leader>w			:w		<CR>
-			nnoremap 		<Leader>ww		:w!		<CR>
-			nnoremap 		<Leader>wq 		:wq		<CR>
-			nnoremap 		<Leader>q 		:q		<CR>
-			nnoremap 		<Leader>qq 		:q!		<CR>
-			nnoremap 		<Leader>qa 		:qa!	<CR>
+		" Makes use of suda.vim plugin.
+			nnoremap 		<Leader>ws		:w suda://%	<CR>
+			nnoremap 		<Leader>w			:w					<CR>
+			nnoremap 		<Leader>ww		:w!					<CR>
+			nnoremap 		<Leader>wq 		:wq					<CR>
+			nnoremap 		<Leader>q 		:q					<CR>
+			nnoremap 		<Leader>qq 		:q!					<CR>
+			nnoremap 		<Leader>qa 		:qa!				<CR>
+		" Write the currently opened file as sudo.
+
 
 		"-------------------[4.4.3] Create command to remove any lines containing nothing other than whitespace
 		" (Comments are omitted), and creates abbreviation for easier calling.
@@ -266,14 +273,15 @@
 			command			FixTypo				:normal ]s1z=
 			cnoreabbrev	typo									:FixTypo
 
-		"-------------------[4.4.6] Temporary and general keybinds and shortcuts.
+		"-------------------[4.4.6] General keybinds and shortcuts.
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
 			map					<Leader>p					nciw
-			map					<Leader>f					V}zf<Esc>
 			map					<Leader>c					zc
 			inoremap		<M-Space>					<Esc>/<++><CR>ca<
 			noremap			<M-Space>					/<++><CR>ca<
 			noremap			<M-s>							}
+			nnoremap		<Leader>fl				:call Flash()<CR>
+		"	map					<Leader>f					V}zf<Esc>
 
 			"524096

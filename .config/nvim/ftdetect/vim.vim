@@ -2,5 +2,5 @@
 augroup vimformatting
 	autocmd!
 	au BufEnter,BufRead,BufNewFile *.vim	setfiletype vim
-	au BufEnter,BufRead,BufNewFile *.vim	setlocal formatoptions=crt
+	au BufEnter,BufRead,BufNewFile *.vim	setlocal formatoptions=qc
 augroup END

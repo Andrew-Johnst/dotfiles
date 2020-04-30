@@ -141,3 +141,7 @@ alias l='ls -lh'
 alias la='ls -lah'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/drew/.sdkman"
+[[ -s "/home/drew/.sdkman/bin/sdkman-init.sh" ]] && source "/home/drew/.sdkman/bin/sdkman-init.sh"

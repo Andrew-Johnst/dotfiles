@@ -3,20 +3,29 @@
 #
 # Aliasrc is a file created to house all of the shell alias definitions, written in this file for portability. (Used in conjunction with functionrc, then called in the zshrc file).
 
-# Stupid fix to being able to use aliases with sudo.
+# Stupid fix for being able to use aliases with sudo.
 alias sudo='sudo '
+
+# Alias for preserving the user's environment in sudoedit
+alias \
+	sudoe='sudo -E nvim ' \
+	se='sudo -E nvim '
+	#sudoedit='sudo -E nvim ' \
 
 # Shortened browser/editor aliases.
 alias \
 	r='ranger' \
 	h='hunter ' \
 	v='$EDITOR' \
-	m='neomutt'
+	m='neomutt' \
+	n='ncmpcpp' \
+	t='tmux'
 
 # Edit config file shortcuts.
 alias \
 	zrc='v ~/.zshrc' \
 	zrcr='source ~/.zshrc' \
+	zr='source ~/.zshrc' \
 	nrc='v ~/.config/nvim/init.vim' \
 	tmc='v ~/.tmux.conf' \
 	arc='v ~/.config/zsh/aliasrc'
@@ -40,19 +49,28 @@ alias \
 	p='cd /home/drew/Documents/programming' \
 	pub='cd /mnt/Data/Public' \
 	priv='cd /mnt/Data/Drew' \
-	netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 	b='cd ..' \
 	nvc='cd ~/.config/nvim' \
-	g='cd /home/drew/Documents/git/dotfiles'
+	dot='cd ~/Documents/git/dotfiles' \
+	ba='cd ~/Documents/programming/bash' \
+	crypt='cd /mnt/Data/Drew/crypt'
+	# Commented out for now since theres no use or reason to have it aliased.
+	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 
 # General quality of life improvements and aliasing lengthy commands.
 	# Alias to upgrade all python3 pip packages.
-		alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
+		alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | \
+			xargs -n1 pip3 install -U'
+		alias pip-update='pip-upgrade'
+		alias pipupdate='pip-upgrade'
+		alias pipupgrade='pip-upgrade'
 	# Alias/linking batcat to bat
-		alias bat='batcat '
-	# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
-	# pygmentized cat standard output in the terminal).
-		alias pcat='pygmentize -f terminal256 -O style=monokai -g'
+		#alias bat='batcat '
+	# Alias to colorize STDIN (Standard Input) using pygmentize.
+		alias colorstdin='pygmentize -f terminal256 -O style=monokai'
+		alias cgrep='grep --color=always'
+	# Alias to truncate git clone.
+		alias gc='git clone '
 
 # Shortcuts for connecting to sessions.
 	# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
@@ -66,6 +84,18 @@ alias \
 		alias tmr='tmux attach-session'
 
 # Functions.
-	function mkcd {
-	    mkdir -p "$1" && cd "$1"
-	}
+	# Function to mkdir $1 and cd into it.
+		function mkcd {
+		    mkdir -p "$1" && cd "$1"
+		}
+
+	# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
+	# pygmentized cat standard output in the terminal).
+		function pcat {
+			cat "$1" | pygmentize -f terminal256 -O style=monokai
+		}
+	# Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
+	#	function sudoedit {
+	#		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
+	#	}
+	# Function for using `sudo -e` just linking to sudoedit

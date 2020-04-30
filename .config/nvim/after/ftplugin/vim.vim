@@ -6,8 +6,9 @@ setlocal tabstop=2
 setlocal shiftwidth=2
 setlocal textwidth=110
 setlocal comments+=b:>
-set formatoptions-=r
-set formatoptions+=ct
+" Commenting this out for now since vimscript files formatoptions are always different than default/desired.
+"set formatoptions=
+"set formatoptions+=ct
 
 " if exists("b:did_ftplugin")
 " 	finish

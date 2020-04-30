@@ -4,9 +4,8 @@ autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # If existent, oads (shortcuts, aliases, and functions) rc files located within ~/.config/zsh directory.
-[ -f "$HOME/.config/zsh/shortcutrc" ] && source "$HOME/.config/zsh/shortcutrc"
 [ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
-[ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
+[ -f "$HOME/.config/zsh/shortcutrc" ] && source "$HOME/.config/zsh/shortcutrc"
 
 autoload -U compinit
 zstyle ':completion:*' menu select
@@ -131,5 +130,16 @@ export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 
+# Setting grep to always use color
+#export GREP_OPTIONS="--color=always"
+
+# Adding this for colorized `less` command output via pygmentize.
+#export LESS='-R'
+#export LESSOPEN='|~/.config/zsh/lessfilter %s'
+
 # Adding this to test PulseAudio forwarding over X11.
 #export PULSE_SERVER="tcp:localhost:24713"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/drew/.sdkman"
+[[ -s "/home/drew/.sdkman/bin/sdkman-init.sh" ]] && source "/home/drew/.sdkman/bin/sdkman-init.sh"

@@ -13,8 +13,6 @@ flat 1
 set show_hidden true
 cd 
 search 
-
-delete
 rename Its.Always.Sunny.in.Philadelphia.S13E02.720p.HDTV.x264-KILLERS[ettv].mkv
 rename S13E04.mkv
 open_with nvim
@@ -22,3 +20,5 @@ open_with
 rename python3
 shell 
 rename Johnston Pic.jpg
+
+delete

@@ -1,1 +1,1 @@
-/home/drew/.config/nvim
+/home/drew/.config/nvim/

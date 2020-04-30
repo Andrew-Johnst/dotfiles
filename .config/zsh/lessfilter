@@ -56,4 +56,4 @@
 
 pygmentize -f terminal256 -O style=monokai -g "$1"
 
-exit 0
+#exit 0
