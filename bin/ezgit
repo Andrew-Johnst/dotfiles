@@ -139,7 +139,7 @@ SLEEPFORX(){
 		echo
  		for i in "${FILELIST[@]}"
  		do
- 			cp --verbose -r "$i" "$HOME/$i"
+ 			cp --verbose -r "$i" "$i"
  		done
 		echo "Dotfiles installed, exiting..."
 		exit 0
