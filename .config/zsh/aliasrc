@@ -24,8 +24,8 @@ alias \
 # Edit config file shortcuts.
 alias \
 	zrc='v ~/.zshrc' \
-	zrcr='source ~/.zshrc' \
-	zr='source ~/.zshrc' \
+	zrcr='. ~/.zshrc' \
+	zr='. ~/.zshrc' \
 	nrc='v ~/.config/nvim/init.vim' \
 	tmc='v ~/.tmux.conf' \
 	arc='v ~/.config/zsh/aliasrc'
@@ -58,12 +58,14 @@ alias \
 	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 
 # General quality of life improvements and aliasing lengthy commands.
-	# Alias to upgrade all python3 pip packages.
+	# Alias to upgrade all python3 pip packages and package manager shortcuts.
 		alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | \
 			xargs -n1 pip3 install -U'
 		alias pip-update='pip-upgrade'
 		alias pipupdate='pip-upgrade'
 		alias pipupgrade='pip-upgrade'
+		alias ins='sudo apt-get install '
+		alias ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'
 	# Alias/linking batcat to bat
 		#alias bat='batcat '
 	# Alias to colorize STDIN (Standard Input) using pygmentize.
@@ -99,3 +101,13 @@ alias \
 	#		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
 	#	}
 	# Function for using `sudo -e` just linking to sudoedit
+	
+	# Function to git clone a directory, then cd into it.
+		gcd(){
+			git clone "$1" && cd "$(basename "$1" .git)"
+		}
+#	# Function to easily kill screen PIDs without having to manually type them out.
+#		sk(){
+#			SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
+#			echo $SCREENPIDS
+#		}

@@ -1,8 +1,6 @@
 " functions.vim file is used to define general-use functions rather than in the master vimrc file, in order to
 " save on space, and compartmentalization.
 
-
-
 " Function to determine whether or not there are any open files in current vim buffer (@%), if so then open file in
 " current tab, if not then open in a new tab.
 
@@ -17,7 +15,6 @@
 " Enables spellcheck if disabled, moves cursor to next typo, asks if it should be changed to the first
 " spellcheck recommendation, then moves to the next one until an <Esc> key is pressed.
 	function SuperSpellCheck()
-
 	" Redirects output into x variable (only way to do this afaik).
 		redir => x
 		silent execute "setlocal spell?"
@@ -31,7 +28,6 @@
 	" (Temporary) Jumps to beginning of file, then jumps to next typo, opens list of suggestions and waits for
 	" yes or no,
 	endfunction
-
 	cnoreabbrev	ssc	call SuperSpellCheck()
 
 " Function for bash script file preamble info.
@@ -51,7 +47,7 @@
 " Function to surround word in cursor with either single or double quotes.
 
 " Function to insert the full filepath at the cursor prepended with a # just so it's easier
-	function InsertFullFilePath()
+	function InsertFullPath()
 		:put =expand('%:p')
 		norm I#
 		norm o#
@@ -65,3 +61,21 @@
 		sleep 100m
 		set nocursorline nocursorcolumn
 	endfunction
+
+" Function to run pandoc command to compile the file open in current buffer in either HTML5 or PDF.
+		function! Pan(type)
+			if !exists(a:type)
+				if(a:type == "html")
+					silent execute "!pandoc " . @% . " -t html5 -o " . expand('%:r') . ".html"
+				elseif(a:type == "pdf")
+					silent execute "!pandoc " . @% . " -t beamer -o " . expand('%:r') . ".pdf"
+				endif
+			else
+				echom "An argument to specify the output type is required (html/pdf)."
+			endif
+		endfunction
+" Aliasing commands to this function to either HTML/PDF formats, then binding them to Leader keybinds.
+	cnoreabbrev pdf call Pan("pdf")
+	cnoreabbrev html call Pan("html")
+	nnoremap	<Leader>p		:call Pan("pdf") <CR>
+	nnoremap	<Leader>h		:call Pan("html") <CR>

@@ -1,0 +1,6 @@
+visualizer_fifo_path = "/tmp/mpd-ncmpcpp.fifo"
+visualizer_output_name = "fifo_ncmpcpp"
+visualizer_sync_interval = "30" 
+visualizer_in_stereo = "yes"
+visualizer_type = "spectrum"
+visualizer_look = "+|"

@@ -35,26 +35,26 @@ DEPENDs=(	"git" \
 EXCLUSIONS=( ".swp" )
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-FILELIST=(	"$HOME/.config" \
-			"$HOME/bin/" \
-			"$HOME/.fzf" \
-			"$HOME/.emacs.d" \
+FILELIST=(	".config" \
+			"bin/" \
+			".fzf" \
+			".emacs.d" \
 			#"$HOME/.local" \
-			"$HOME/.nvim" \
-			"$HOME/.oh-my-zsh" \
-			"$HOME/.terminfo" \
-			"$HOME/.vim" \
-			"$HOME/.Xresources.d" \
-			"$HOME/.bashrc" \
-			"$HOME/.fzf.bash" \
-			"$HOME/.fzf.zsh" \
-			"$HOME/.profile" \
-			"$HOME/.tmux.conf" \
-			"$HOME/.Xauthority" \
-			"$HOME/.xinitrc" \
-			"$HOME/.Xresources" \
-			"$HOME/.zshenv" \
-			"$HOME/.zshrc" \
+			".nvim" \
+			".oh-my-zsh" \
+			".terminfo" \
+			".vim" \
+			".Xresources.d" \
+			".bashrc" \
+			".fzf.bash" \
+			".fzf.zsh" \
+			".profile" \
+			".tmux.conf" \
+			".Xauthority" \
+			".xinitrc" \
+			".Xresources" \
+			".zshenv" \
+			".zshrc" \
 		)
 
 # Function/command to print out the FILELIST library, sort it into alpahbetical order, then encapsulate in quotes
@@ -137,9 +137,9 @@ SLEEPFORX(){
 		echo "Syncing with remote git repo, then installing..."
 		git pull origin master
 		echo
- 		for i in "${FILELIST[@]}"
+ 		for i in "${!FILELIST[@]}"
  		do
- 			cp --verbose -r "$i" "$i"
+ 			cp --verbose -r "$i" "$HOME/$i"
  		done
 		echo "Dotfiles installed, exiting..."
 		exit 0
@@ -168,7 +168,7 @@ SLEEPFORX(){
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
  		for i in "${FILELIST[@]}"
  		do
- 			cp -r "$i" .
+ 			cp -r "$HOME/$i" .
  		done
 
 		# Finds and deletes files that are listed in the exclusions variable (ex: useful for vim swap files)
@@ -181,6 +181,8 @@ SLEEPFORX(){
 		git add -A .
 		git rm -rf .local/share
 		git rm -rf BACKUPS
+		git rm -rf .config/BraveSoftware
+		git rm -rf .config/transmission
 		git rm *.swp
 		git status
 		# Using a while loop again to force y/n.

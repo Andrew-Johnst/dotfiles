@@ -4,7 +4,7 @@
 setlocal syntax=vim
 setlocal tabstop=2
 setlocal shiftwidth=2
-setlocal textwidth=110
+"setlocal textwidth=110
 setlocal comments+=b:>
 " Commenting this out for now since vimscript files formatoptions are always different than default/desired.
 "set formatoptions=

@@ -56,8 +56,14 @@
 # For alsa 'source' will be the capture device.
 # For fifo 'source' will be the path to fifo-file.
 # For shmem 'source' will be /squeezelite-AA:BB:CC:DD:EE:FF where 'AA:BB:CC:DD:EE:FF' will be squeezelite's MAC address
- method = alsa
+; method = alsa
 ; source = auto
+
+# Adding this line in to utilize the MPD FIFO already configured for ncmpcpp's visualizer.
+# Changing the source from the default MPD fifo to a cava specific MPD fifo file to see if that
+# fixes the latency issue when running ncmpcpp and cava at the same time.
+method = fifo
+source = "/tmp/mpd-cava.fifo"
 
 ; method = alsa
 ; source = hw:Loopback,1
@@ -120,10 +126,14 @@
 # Gradient mode, only hex defined colors are supported, background must also be defined in hex
 # or remain commented out. 1 = on, 0 = off. Warning: for certain terminal emulators cava will
 # not able to restore color definitions on exit, simply restart your terminal to restore colors.
-; gradient = 1
-; gradient_count = 2
-; gradient_color_1 = '#0099ff'
-; gradient_color_2 = '#ff3399'
+# Adding this in 5-5-20 10:34PM.
+# Attempting to sorta match the cotton-candy theme I normally pick with ANSI Escape Codes.
+# Color1 is pink (Thisthle1, ANSI: 225, Hex: #ffd7ff);
+# Color2 is blue (PaleTurquoise1, ANSI: 159, Hex: #afffff).
+gradient = 1
+gradient_count = 2
+gradient_color_1 = '#ffb3ff'	# #ff66ff 85% darker.
+gradient_color_2 = '#3385ff'	# #0066ff 60% darker.
 
 
 

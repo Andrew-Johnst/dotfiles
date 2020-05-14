@@ -28,3 +28,7 @@ then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# Adding this in to test out Qt themes.
+# https://www.linuxuprising.com/2018/05/use-custom-themes-for-qt-applications.html
+#export QT_STYLE_OVERRIDE=kvantum

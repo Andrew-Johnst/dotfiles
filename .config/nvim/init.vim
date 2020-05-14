@@ -159,11 +159,15 @@
 		filetype plugin on
 		set tabstop=4
 		set shiftwidth=4
-		set textwidth=110
+		set textwidth=100
 		set foldmethod=manual
 		" set formatoptions=
 		set formatoptions=qc
 		set encoding=utf-8
+		" Sets mouse functionality and system clipboard.
+		" Commenting this out for now because <C-v> and <C-c> and general clipboard issues. 5-5-20 10:12PM
+		"set mouse=a
+		"set clipboard=unnamedplus
 
 	"----------------------[3.2] Syntax/search highlighting.
 		syntax on
@@ -197,8 +201,8 @@
 					cnoreabbrev	head	:Header
 		" Adding this here for now since not sure where any other definition/function is written if I even made
 		" one.
-					command -nargs=0 -complete=command InsertFullFilePath call InsertFullFilePath()
-					cnoreabbrev	ifp		:InsertFullFilePath
+					command -nargs=0 -complete=command FilePathHeader call InsertFilePath()
+					cnoreabbrev	ifp		:FilePathHeader
 
 "-----------------------------------[4.0] - Quality-of-life improvements
 " General-use functions are defined in "~/.config/nvim/bundle/MyFunctions/plugin/MyFunctions.vim" file.
@@ -241,8 +245,10 @@
 			map 			<C-v> 			<Nop>
 			map				<M-f>				<Nop>
 			nnoremap 	<Leader>v 	<C-v>
-			map 			<C-v> 			<Esc>
-			imap			<C-v>				<Esc>
+			map				<C-c>				<Esc>y
+			imap			<C-c>				<Esc>y
+			map 			<C-v> 			<Esc>Pa
+			imap			<C-v>				<Esc>Pa
 			map 			<M-f> 			<Esc>
 			imap			<M-f>				<Esc>
 
@@ -276,7 +282,7 @@
 		"-------------------[4.4.6] General keybinds and shortcuts.
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
-			map					<Leader>p					nciw
+			"map					<Leader>p					nciw
 			map					<Leader>c					zc
 			inoremap		<M-Space>					<Esc>/<++><CR>ca<
 			noremap			<M-Space>					/<++><CR>ca<
