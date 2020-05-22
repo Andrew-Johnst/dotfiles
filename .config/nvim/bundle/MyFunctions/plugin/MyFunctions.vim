@@ -6,9 +6,9 @@
 
 		function! OpenFileInNextAvailableBuffer(filename)
 			if @% == ""
-				execute "e " . a:filename
+				execute "e " . l:filename
 			else
-				execute "tabnew " . a:filename
+				execute "tabnew " . l:filename
 			endif
 		endfunction
 
@@ -31,12 +31,32 @@
 	cnoreabbrev	ssc	call SuperSpellCheck()
 
 " Function for bash script file preamble info.
-	function BashHeaders()
-		:norm I#!/usr/bin/env bash
+	function BashHeaders(...)
+		while !exists(@%)
+			let l:filename = input("No/Invalid filename detected.\nPlease enter a filename: ")
+			if !matchstr(l:filename,'^[0-9a-zA-Z/\s]+')
+				echom "The filename entered does not match the regex pattern."
+			else
+				let l:filename = substitute(l:filename, " ", "\ ", "g")
+				execute "w " . l:filename
+			endif
+		endwhile
+
+		:execute "norm I#!/usr/bin/env bash"
 		:r! echo %:p
 		:norm I#
+		:w | e
+		if exists(l:comment)
+			:execute "normal! o# " | startinsert!
+		else
+			:execute "norm o# " | startinsert!
+		endif
+
 	endfunction
+	cnoreabbrev bashheadcomment call BashHeaders("comment")
 	cnoreabbrev bashhead call BashHeaders()
+	cnoreabbrev bhc call BashHeaders("comment")
+	cnoreabbrev bh call BashHeaders()
 
 " Command + abbreviation to delete the file open in current tab, as well as a 'purge all' option.
 "	(Too braindead to figure out right now, come back to this later).
@@ -64,10 +84,10 @@
 
 " Function to run pandoc command to compile the file open in current buffer in either HTML5 or PDF.
 		function! Pan(type)
-			if !exists(a:type)
-				if(a:type == "html")
+			if !exists(l:type)
+				if(l:type == "html")
 					silent execute "!pandoc " . @% . " -t html5 -o " . expand('%:r') . ".html"
-				elseif(a:type == "pdf")
+				elseif(l:type == "pdf")
 					silent execute "!pandoc " . @% . " -t beamer -o " . expand('%:r') . ".pdf"
 				endif
 			else

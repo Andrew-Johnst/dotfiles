@@ -69,6 +69,8 @@
 			 	Plug 'vim-airline/vim-airline'
 		  " Install themes for vim-airline:
 			 	Plug 'vim-airline/vim-airline-themes'
+			" Install Gotham theme.
+				Plug 'whatyouhide/vim-gotham'
 			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
 			" Commenting out for now since missing fonts/characters appear in tmux via mintty/wsltty.
 			"	Plug 'edkolev/tmuxline.vim'
@@ -86,9 +88,21 @@
 			" eighties, oceanic-next
 
 			" Enables true colors in neovim.
-			let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+			" 								let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+			" Adding this in conjunction with a .tmux.conf tweak from this site:
+			" https://github.com/tmux/tmux/issues/1246
+			" Enable true color 启用终端24位色
+				if exists('+termguicolors')
+				  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+				  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+				  set termguicolors
+				endif
 
 
+			colorscheme palenight
+			let g:airline_theme = "palenight"
+			"let g:palenight_terminal_italics=1
 			" Commenting all this out for now while testing out custom colorschemes/themes.
 			" colorscheme palenight
 			" set background=dark
@@ -97,7 +111,7 @@
 			" results in visual glitches (or at least in PuTTY-xterm sessions.)
 
 		 	" let g:dracula_colorterm = 0
-			 colorscheme dracula
+			" colorscheme dracula
 			" let g:dracula_italic = 0
 			" colorscheme hybrid_material
 			" hi CursorLineNr gui=bold guifg=DarkRed guibg=#c0d0e0
@@ -112,7 +126,7 @@
 		"	if (has("termguicolors"))
 		"		set termguicolors
 		"	endif
-			set termguicolors
+			"set termguicolors
 			"let g:oceanic_next_terminal_bold = 1
 			"let g:oceanic_next_terminal_italic = 1
 			"colorscheme OceanicNext
@@ -128,14 +142,16 @@
 		"		let &t_Sf="\<Esc>[3%dm"
 		"		let &t_Sb="\<Esc>[4%dm"
 		"	endif
-
+		" colorscheme gotham256
+		" let g:airline_theme='gotham256'
+		" let g:gotham_airline_emphasised_insert = 0
 
 
 	"---------------------[2.3] Vim-Airline config settings.
 		"let g:airline_theme='oceanicnext'
-		let g:airline_theme='dracula'
+		"let g:airline_theme='dracula'
 		" Allows vim-airline to use fonts (without this, rectangles appear instead of the expected arrow shapes).
-		"let g:airline_powerline_fonts = 1
+		let g:airline_powerline_fonts = 1
 		" Auto command for entering any vim buffer to disable vim-airline whitespace info.
 		autocmd VimEnter * silent! AirlineToggleWhitespace
 		" Sets the path formatter for tabs so the filepath appears on tabs and current buffer indicator.
@@ -161,7 +177,6 @@
 		set shiftwidth=4
 		set textwidth=100
 		set foldmethod=manual
-		" set formatoptions=
 		set formatoptions=qc
 		set encoding=utf-8
 		" Sets mouse functionality and system clipboard.

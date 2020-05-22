@@ -1,10 +1,51 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 #~/.config/zsh/functionrc
 #
 #	Functionrc is an rc file used for housing all shell functions, used in conjunction with aliasrc file, and
 #	sourced within zshrc file.
 
-# Creates directory, then cd into it.
-function mkcd {
-	mkdir -p "$1" && cd "$1"
-}
+# Function to mkdir $1 and cd into it.
+	mkcd(){
+	    mkdir -p "$1" && cd "$1"
+	}
+
+# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
+# pygmentized cat standard output in the terminal).
+	pcat(){
+		cat "$1" | pygmentize -f terminal256 -O style=monokai
+	}
+# Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
+#	function sudoedit {
+#		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
+#	}
+# Function for using `sudo -e` just linking to sudoedit
+
+# Function to git clone a directory, then cd into it.
+	gcd(){
+		git clone "$1" && cd "$(basename "$1" .git)"
+	}
+# Function to easily kill screen PIDs without having to manually type them out.
+	sk(){
+		SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
+		echo $SCREENPIDS
+	}
+# Function to display the active network interface.
+	nic(){
+		echo $(ip -o -4 route get 8.8.8.8 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
+	}
+
+# Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
+# history file so it can function independently of the shell limitations/syntaxing).
+	s(){
+		# This works independently of the shell being used; appears to not work if testing in shell
+		# scripts since shell scripts are run in their own sub-shells and therefore have their own
+		# history lists.
+		history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d'
+		sudo $(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')
+		
+		# This does not work due to the way different shell history files store their contents with
+		# different syntaxes.
+		#SHF="$HOME/.$(echo $SHELL | awk -F "/" 'NF>1 {print $NF}')_history"
+		#[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
+		#sudo `cat "$SHF" | tail -n1`
+	}

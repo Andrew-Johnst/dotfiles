@@ -28,7 +28,7 @@ alias \
 	zr='. ~/.zshrc' \
 	nrc='v ~/.config/nvim/init.vim' \
 	tmc='v ~/.tmux.conf' \
-	arc='v ~/.config/zsh/aliasrc'
+	arc='v ~/.config/zsh/aliasrc' \
 	frc='v ~/.config/zsh/functionrc'
 
 # Automatically specifying options always used to a shortened alias.
@@ -46,6 +46,7 @@ alias \
 	mn='cd /mnt' \
 	tmp='cd /tmp' \
 	d='cd ~/Documents' \
+	D='cd ~/Downloads' \
 	p='cd /home/drew/Documents/programming' \
 	pub='cd /mnt/Data/Public' \
 	priv='cd /mnt/Data/Drew' \
@@ -73,6 +74,10 @@ alias \
 		alias cgrep='grep --color=always'
 	# Alias to truncate git clone.
 		alias gc='git clone '
+	# Maps 'grep --color=auto' to 'cg' as in: 'colored-grep' alias.
+		alias cg='grep --color=auto'
+	# Maps thefuck/fuck to 'f'
+		alias f='fuck'
 
 # Shortcuts for connecting to sessions.
 	# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
@@ -84,30 +89,3 @@ alias \
 		alias sshnas='ssh -Y -l drew -p 9999 192.168.1.31'
 	# Reconnect to first instance of tmux in ps for current user.
 		alias tmr='tmux attach-session'
-
-# Functions.
-	# Function to mkdir $1 and cd into it.
-		function mkcd {
-		    mkdir -p "$1" && cd "$1"
-		}
-
-	# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
-	# pygmentized cat standard output in the terminal).
-		function pcat {
-			cat "$1" | pygmentize -f terminal256 -O style=monokai
-		}
-	# Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
-	#	function sudoedit {
-	#		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
-	#	}
-	# Function for using `sudo -e` just linking to sudoedit
-	
-	# Function to git clone a directory, then cd into it.
-		gcd(){
-			git clone "$1" && cd "$(basename "$1" .git)"
-		}
-#	# Function to easily kill screen PIDs without having to manually type them out.
-#		sk(){
-#			SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
-#			echo $SCREENPIDS
-#		}

@@ -4,8 +4,8 @@ audio_device_state:1:fifo_ncmpcpp
 audio_device_state:1:fifo_cava
 audio_device_state:1:HTTP Stream
 state: pause
-current: 19
-time: 157.127000
+current: 90
+time: 16.819000
 random: 0
 repeat: 0
 single: 0
@@ -244,4 +244,13 @@ song_end
 218:Skrillex/2014 - Head Splitter/CD2/Cue.cue/track0021
 219:MORTEN - Beautiful Heartbeat (Deorro Remix).mp3
 220:Husman - V.I.P. (Radio Edit).mp3
+221:Skrillex/2013 - Greatest Hits & Remixes/CD2/(07) [Lady Gaga] Bad Romance (Skrillex Remix).flac
+222:Night Lovell - Concept Vague/3 - Night Lovell - Beneath.flac
+223:(2018) - FIVE FIVE/07 - Pouya - Don't Bang My Line (feat. Night Lovell).flac
+224:Rejjie_Hype_-_Animewave-204838802.flac
+225:DJ S3RL/Bass Slut X-FIR3 (remix).mp3
+226:Skrillex/2013 - Greatest Hits & Remixes/CD2/(10) [Lady Gaga] Alejandro (Skrillex Mix).flac
+227:2019 - Goodnight Lovell/1-11 Please Don’t Go.flac
+228:2019 - Goodnight Lovell/1-10 Joan of Arc.flac
+229:2019 - Goodnight Lovell/1-15 Can't Lose You.flac
 playlist_end
