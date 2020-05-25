@@ -35,10 +35,10 @@ DEPENDs=(	"git" \
 EXCLUSIONS=( ".swp" )
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-FILELIST=(	".config" \
+FILELIST=(	".config/" \
 			"bin/" \
 			".fzf" \
-			".emacs.d" \
+			".emacs.d/" \
 			#"$HOME/.local" \
 			".nvim" \
 			".oh-my-zsh" \
@@ -140,7 +140,7 @@ SLEEPFORX(){
 		echo
  		for i in "${FILELIST[@]}"
  		do
- 			cp -r "$i" "$HOME/$i"
+ 			cp -r "$i" "$HOME/"
  		done
 		echo "Dotfiles installed, exiting..."
 		exit 0
@@ -169,7 +169,7 @@ SLEEPFORX(){
 		#	choice
 
 		# Changes ownership of all files in local directory so no "Permission Denied" errors occur.
-		chown -R $USER .
+		# chown -R $USER .
 
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
  		for i in "${FILELIST[@]}"
