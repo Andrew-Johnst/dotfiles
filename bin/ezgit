@@ -128,16 +128,17 @@ SLEEPFORX(){
  		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
 		SLEEPFORX 5
  		echo
- 		tar -cfj "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
+ 		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
 		echo
  		echo "Tarballs of both the local repo before updating, as well as the config files that"
-		echo "were currently in-use on this system created and located in: \"$REMOTEBACKUPS\" directory."
+		echo -e "were currently in-use on this system created and located in: \
+			${CRED}$REMOTEBACKUPS${CRESET} directory."
 		echo
 		sleep 5
 		echo "Syncing with remote git repo, then installing..."
 		git pull origin master
 		echo
- 		for i in "${!FILELIST[@]}"
+ 		for i in "${FILELIST[@]}"
  		do
  			cp -r "$i" "$HOME/$i"
  		done
@@ -161,9 +162,14 @@ SLEEPFORX(){
 		# Using a while loop to force a y/n input from the user.
 		# while [[ "$yn" != "y" && "$yn" != "n" ]]
 		# do
-		# In order to utilize escape codes as color within a read command, process substitution must be used.
+		# In order to utilize escape codes as color within a read command, process substitution must
+		# be used.
 		# read -p -n 1 "$(echo -e Would you like to copy the backup made from remote git repo into \
-		# 	\"~/Documents/git/dotfiles/BACKUPS/Remote\"? [${CRED}y${CRESET}/${CRED}n${CRESET}]: ) " choice
+		#	\"~/Documents/git/dotfiles/BACKUPS/Remote\"? [${CRED}y${CRESET}/${CRED}n${CRESET}]: ) "\
+		#	choice
+
+		# Changes ownership of all files in local directory so no "Permission Denied" errors occur.
+		chown -R $USER .
 
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
  		for i in "${FILELIST[@]}"
@@ -183,6 +189,9 @@ SLEEPFORX(){
 		git rm -rf BACKUPS
 		git rm -rf .config/BraveSoftware
 		git rm -rf .config/transmission
+		git rm -rf .config/Bitcoin/Bitcoin-Qt.conf
+        git rm -rf .config/ranger/bookmarks
+        git rm -rf .config/ranger/history
 		git rm *.swp
 		git status
 		# Using a while loop again to force y/n.
