@@ -6,9 +6,9 @@
 
 		function! OpenFileInNextAvailableBuffer(filename)
 			if @% == ""
-				execute "e " . l:filename
+				execute "e " . a:filename
 			else
-				execute "tabnew " . l:filename
+				execute "tabnew " . a:filename
 			endif
 		endfunction
 

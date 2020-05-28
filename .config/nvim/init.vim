@@ -22,6 +22,10 @@
 " learning and becoming more comfortable using Vim/neovim, trying to put down
 " the GNU Nano 'crack-pipe' to learn a better and far-more functional editor.
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""" Please for the love of god redo the formatting of this dumpsterfire """"""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 "-----------------------------------[1.0] - Plug-ins and Preliminary settings.
 	"---------------------[1.1] Autocommand clearing/insurance. (Clearing autocmd/augroup in case they get double loaded).
 		" Not entirely sure if this is needed, since I haven't tried the /nvim/after/ directory yet.
@@ -71,6 +75,12 @@
 			 	Plug 'vim-airline/vim-airline-themes'
 			" Install Gotham theme.
 				Plug 'whatyouhide/vim-gotham'
+			" Install vim-surround.
+				Plug 'tpope/vim-surround'
+			" Install vim-repeat.
+				Plug 'tpope/vim-repeat'
+			" Install vim-commentary.
+				Plug 'tpope/vim-commentary'
 			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
 			" Commenting out for now since missing fonts/characters appear in tmux via mintty/wsltty.
 			"	Plug 'edkolev/tmuxline.vim'
@@ -179,6 +189,10 @@
 		set foldmethod=manual
 		set formatoptions=qc
 		set encoding=utf-8
+
+		" Adding this manually since the reloading of vimrc in the buffer overrides format options
+		" to the global init.vim settings.
+		"autocmd FileType .vim set tabstop=2
 		" Sets mouse functionality and system clipboard.
 		" Commenting this out for now because <C-v> and <C-c> and general clipboard issues. 5-5-20 10:12PM
 		"set mouse=a
@@ -216,7 +230,7 @@
 					cnoreabbrev	head	:Header
 		" Adding this here for now since not sure where any other definition/function is written if I even made
 		" one.
-					command -nargs=0 -complete=command FilePathHeader call InsertFilePath()
+					command! -nargs=0 -complete=command FilePathHeader call InsertFilePath()
 					cnoreabbrev	ifp		:FilePathHeader
 
 "-----------------------------------[4.0] - Quality-of-life improvements
@@ -241,13 +255,13 @@
 
 	"--------------------[4.3.0] Various command declarations.
 		" Command to open zshrc file in new vim tab.
-				command			ZRC	:call OpenFileInNextAvailableBuffer("~/.zshrc")
+				command!			ZRC	:call OpenFileInNextAvailableBuffer("~/.zshrc")
 				cnoreabbrev	zrc	:ZRC
 		" Command to open init.vim file in new vim tab.
-				command			NRC	:call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
+				command!			NRC	:call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
 				cnoreabbrev	nrc	:NRC
 		" Command to write the currently opened file as sudo.
-				command			SudoWrite	:w !sudo tee %
+				command!			SudoWrite	:w !sudo tee %
 
 	"--------------------[4.4.0] Leader-key keybinds/settings.
 		"-------------------[4.4.1] Unmap default spacebar keybind, then map it to leader key.
@@ -266,6 +280,7 @@
 			imap			<C-v>				<Esc>Pa
 			map 			<M-f> 			<Esc>
 			imap			<M-f>				<Esc>
+			
 
 		"-------------------[4.4.2] Quick saving/leaving files.
 		" Makes use of suda.vim plugin.
@@ -281,28 +296,35 @@
 
 		"-------------------[4.4.3] Create command to remove any lines containing nothing other than whitespace
 		" (Comments are omitted), and creates abbreviation for easier calling.
-			command 		Delwhitespace	%s/\s\+$//e | %s/\n{3,}/\r\r/e
+			command! 		Delwhitespace	%s/\s\+$//e | %s/\n{3,}/\r\r/e
 			cnoreabbrev	blm						:Delwhitespace <CR>
 
 		"-------------------[4.4.4] Bind escape to clear search highlighting.
-			nnoremap		<Esc> 				:noh	<CR><Esc>
+			nnoremap		<Esc> 				:silent noh	<CR><Esc>
 
 		"-------------------[4.4.5] Vim-Spellcheck configuration.
 		" Automatically correct spelling error to the first result in spellcheck.
 			nnoremap 		<Leader>sc 						:set spell! <CR>
 			noremap			<Leader>ss						]s1z=
-			command			FixTypo				:normal ]s1z=
+			command!			FixTypo				:normal ]s1z=
 			cnoreabbrev	typo									:FixTypo
 
 		"-------------------[4.4.6] General keybinds and shortcuts.
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
-			"map					<Leader>p					nciw
+		" map					<Leader>p					nciw
 			map					<Leader>c					zc
-			inoremap		<M-Space>					<Esc>/<++><CR>ca<
-			noremap			<M-Space>					/<++><CR>ca<
-			noremap			<M-s>							}
-			nnoremap		<Leader>fl				:call Flash()<CR>
-		"	map					<Leader>f					V}zf<Esc>
+			inoremap			<M-Space>					<Esc>/<++><CR>ca<
+			noremap				<M-Space>					/<CR>ca<
+			noremap				<M-s>						}
+			nnoremap			<Leader><F1>				:call Flash()<CR>
 
+		" Surround-plugin leader keybinds.
+			map					<Leader>e					vg_
+		"	map					<Leader>s					vg_S
+
+			"map				<Leader>f					V}zf<Esc>
+
+		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
+			nnoremap <Leader>r								:silent source $MYVIMRC<CR>
 			"524096

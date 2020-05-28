@@ -1,4 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/drew/.config/nvim/after/ftplugin'
+let g:netrw_dirhist_5='/home/drew/.config/nvim/after'
+let g:netrw_dirhist_4='/home/drew/.config/nvim'
+let g:netrw_dirhist_3='/home/drew/Documents/Linux Class/week1'
 let g:netrw_dirhist_2='/home/drew/.config/fontconfig/conf.d'
 let g:netrw_dirhist_1='/etc/network/if-pre-up.d'

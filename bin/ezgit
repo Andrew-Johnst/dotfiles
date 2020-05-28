@@ -50,7 +50,7 @@ FILELIST=(	".config/" \
 			".fzf.zsh" \
 			".profile" \
 			".tmux.conf" \
-			".Xauthority" \
+			#".Xauthority" \		# Commenting this out because of discrepancies between machines.
 			".xinitrc" \
 			".Xresources" \
 			".zshenv" \
@@ -150,7 +150,7 @@ SLEEPFORX(){
 		git init
  		echo "Before uploading, the remote repo will be downloaded, compressed, and will be located at:"
 		echo -e "$CRED$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
-		SLEEPFORX 10
+		SLEEPFORX 5
 
 		# Clone the remote git repository into the Remote backups directory, then create a bzip2 archive of it
 		# and delete the cloned folder.
@@ -192,6 +192,7 @@ SLEEPFORX(){
 		git rm -rf .config/Bitcoin/Bitcoin-Qt.conf
         git rm -rf .config/ranger/bookmarks
         git rm -rf .config/ranger/history
+        git rm -rf .config/chromium
 		git rm *.swp
 		git status
 		# Using a while loop again to force y/n.

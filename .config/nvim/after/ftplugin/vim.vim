@@ -2,7 +2,12 @@
 " Settings to be applied to all vim filetype files. words words words words
 
 setlocal syntax=vim
-setlocal tabstop=2
+"setlocal tabstop=2
+
+" Adding this manually since the reloading of vimrc in the buffer overrides format options
+" to the global init.vim settings.
+autocmd FileType .vim set tabstop=2
+
 setlocal shiftwidth=2
 "setlocal textwidth=110
 setlocal comments+=b:>

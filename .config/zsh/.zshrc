@@ -24,7 +24,7 @@ _comp_options+=(globdots)
 #   bindkey -v '^?' backward-delete-char
 
 # Keybinds, using vikeys option, manually binding <C-v> to <Esc> for congruency with my vim config.
-bindkey -r "^[/" 
+bindkey -r "^[/"
 bindkey -v
 
 export KEYTIMEOUT=1
@@ -98,13 +98,20 @@ export TERM=xterm-256color
 #export TERM=mintty
 
 
-# Setting DISPLAY varriable for X11 forwarding
-# Too braindead to understand if im supposed to define DISPLAY on host or client, commenting out for now.
-export DISPLAY=192.168.1.30:0.0
+# Checks whether current session is a SSH or TTY to set the DISPLAY variable appropriately for X11
+# forwarding to Desktop VcXsrv server. Default is set to the default display of :0
+export DISPLAY=:0
+[[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && DISPLAY=192.168.1.30:0.0
 
 # Sets OpenGL rendering to indirect, meant for rendering over network.
 # https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
 export LIBGL_ALWAYS_INDIRECT=1
+
+# Prolly a better way to do this but doing this as a temporary fix for WSL starting directory when a
+# new session is started. Doing a check for if root or not since that might not be preferable to cd
+# into the root dir when switching to root user.
+[[ "$HOST" == "Drew-PC" && "$EUID" -ne 0 ]] && cd
+
 
 # Fuzzy Finder settings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
