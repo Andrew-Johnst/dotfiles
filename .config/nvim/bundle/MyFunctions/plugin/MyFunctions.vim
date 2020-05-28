@@ -43,6 +43,7 @@
 		"	endif
 		"endwhile
 
+		silent! execute "!chmod +x ".expand('%:p')
 		execute "norm I#!/usr/bin/env bash"
 		"if exists(%@)
 		"	exe "normal! o#".expand('%:p')
