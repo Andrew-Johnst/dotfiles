@@ -83,7 +83,7 @@ sortFILELIST(){
 
 # Define ANSI escape sequence color code variables.
 CRESET='\033[0m'
-CRED='\033[1;38;5;1m'
+CRED='\033[1;38;5;9m'
 CGREEN='\033[1;38;5;10m'
 CBLUE='\033[1;38;5;81m'
 CULINE='\033[4m'
@@ -101,15 +101,17 @@ REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
 [ ! -d "$LOCALBACKUPS" ] && mkdir -p "$LOCALBACKUPS"
 [ ! -d "$REMOTEBACKUPS" ] && mkdir -p "$REMOTEBACKUPS"
 
-# Defines a function to sleep X seconds, not necessary but useful for shortening and cleaning script a bit.
+# Defines a function to sleep for X seconds as first argument passed to it, and as a second argument
+# print whatever text before the counter.
 SLEEPFORX(){
 	for i in `seq $1 -1 1`
 	do
-	    echo -e "$CBLUE$i..."
+	    #echo -ne "\r$CRED$i"
+	    echo -ne "\r$2 $CRED$i"
 	    sleep 1
 	    i=$((i-1))
 	done
-	echo -n -e $CRESET
+	echo -e $CRESET
 	sleep 1
 }
 
@@ -119,6 +121,7 @@ SLEEPFORX(){
 		# Change current git dir
 		git init
 		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
+		echo -e "${CRED}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
 		SLEEPFORX 5
  		echo
 		# Updated this to include a slider progress bar via pv command and awk.
@@ -126,6 +129,7 @@ SLEEPFORX(){
 			bzip2 > "$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
  		echo
  		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
+		echo -e "${CRED}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
 		SLEEPFORX 5
  		echo
  		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
@@ -147,29 +151,16 @@ SLEEPFORX(){
  		;;
  	-u | --upload)
 		# Change current git dir
-		git init
- 		echo "Before uploading, the remote repo will be downloaded, compressed, and will be located at:"
-		echo -e "$CRED$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
-		SLEEPFORX 5
+		echo -ne $CRED && git init && echo -en $CRESET
+ 		echo "Before uploading, the remote repo will be downloaded, compressed, and located at:"
+		#echo -e "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" && SLEEPFORX 5
+		SLEEPFORX 5 "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
 
-		# Clone the remote git repository into the Remote backups directory, then create a bzip2 archive of it
-		# and delete the cloned folder.
+		# Clone the remote git repository into the Remote backups directory, then create a bzip2
+		# archive of it and delete the cloned folder.
 		git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
  		tar -cjf "$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME"
 		yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
-
-		### Commenting this below part out since a remote repo backup made locally will always be made.
-		# Using a while loop to force a y/n input from the user.
-		# while [[ "$yn" != "y" && "$yn" != "n" ]]
-		# do
-		# In order to utilize escape codes as color within a read command, process substitution must
-		# be used.
-		# read -p -n 1 "$(echo -e Would you like to copy the backup made from remote git repo into \
-		#	\"~/Documents/git/dotfiles/BACKUPS/Remote\"? [${CRED}y${CRESET}/${CRED}n${CRESET}]: ) "\
-		#	choice
-
-		# Changes ownership of all files in local directory so no "Permission Denied" errors occur.
-		# chown -R $USER .
 
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
  		for i in "${FILELIST[@]}"
@@ -177,12 +168,6 @@ SLEEPFORX(){
  			cp -rf "$HOME/$i" .
  		done
 
-		# Finds and deletes files that are listed in the exclusions variable (ex: useful for vim swap files)
-		# before they are staged in the git repo.
-		# for i in "${EXCLUSIONS[@]}"
-		# do
-		# 	find . -print | grep "$i" | xargs rm -r
-		# done
 		git init
 		git add -A .
 		#git rm -rf .local/share
