@@ -36,7 +36,7 @@ EXCLUSIONS=( ".swp" )
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
 FILELIST=(	".config/" \
-			"bin/" \
+			# "bin/" \				# Commenting this out so it doesn't copy to $HOME dir.
 			".fzf" \
 			".emacs.d/" \
 			#"$HOME/.local" \
@@ -174,7 +174,7 @@ SLEEPFORX(){
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
  		for i in "${FILELIST[@]}"
  		do
- 			cp -r "$HOME/$i" .
+ 			cp -rf "$HOME/$i" .
  		done
 
 		# Finds and deletes files that are listed in the exclusions variable (ex: useful for vim swap files)
@@ -185,8 +185,8 @@ SLEEPFORX(){
 		# done
 		git init
 		git add -A .
-		git rm -rf .local/share
-		git rm -rf BACKUPS
+		#git rm -rf .local/share
+		#git rm -rf BACKUPS
 		git rm -rf .config/BraveSoftware
 		git rm -rf .config/transmission
 		git rm -rf .config/Bitcoin/Bitcoin-Qt.conf

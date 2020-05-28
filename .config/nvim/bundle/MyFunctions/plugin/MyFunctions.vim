@@ -32,30 +32,38 @@
 
 " Function for bash script file preamble info.
 	function BashHeaders(...)
-		while !exists(@%)
-			let l:filename = input("No/Invalid filename detected.\nPlease enter a filename: ")
-			if !matchstr(l:filename,'^[0-9a-zA-Z/\s]+')
-				echom "The filename entered does not match the regex pattern."
-			else
-				let l:filename = substitute(l:filename, " ", "\ ", "g")
-				execute "w " . l:filename
-			endif
-		endwhile
+		"let l:filename=@%
+		"while !exists(l:filename)
+		"	let l:filename = input("No/Invalid filename detected.\nPlease enter a filename: ")
+		"	if !matchstr(l:filename,'^[0-9a-zA-Z/\s]+')
+		"		echom "The filename entered does not match the regex pattern."
+		"	else
+		"		let l:filename = substitute(l:filename, " ", "\ ", "g")
+		"		execute "w " . l:filename
+		"	endif
+		"endwhile
 
-		:execute "norm I#!/usr/bin/env bash"
-		:r! echo %:p
-		:norm I#
-		:w | e
-		if exists(l:comment)
-			:execute "normal! o# " | startinsert!
-		else
-			:execute "norm o# " | startinsert!
-		endif
+		execute "norm I#!/usr/bin/env bash"
+		"if exists(%@)
+		"	exe "normal! o#".expand('%:p')
+		"else
+		"	exe "normal o"
+		"endif
+		exe "normal! o#".expand('%:p')
+		exe "normal o"
+		exe "normal! o# "
+		w | e
+		startinsert!
+		"if exists(l:comment)
+		"	execute "normal! o# " | startinsert!
+		"else
+		"	execute "norm o " | startinsert!
+		"endif
 
 	endfunction
-	cnoreabbrev bashheadcomment call BashHeaders("comment")
+	"cnoreabbrev bashheadcomment call BashHeaders("comment")
+	"cnoreabbrev bhc call BashHeaders("comment")
 	cnoreabbrev bashhead call BashHeaders()
-	cnoreabbrev bhc call BashHeaders("comment")
 	cnoreabbrev bh call BashHeaders()
 
 " Command + abbreviation to delete the file open in current tab, as well as a 'purge all' option.
@@ -67,12 +75,13 @@
 " Function to surround word in cursor with either single or double quotes.
 
 " Function to insert the full filepath at the cursor prepended with a # just so it's easier
-	function InsertFullPath()
-		:put =expand('%:p')
-		norm I#
-		norm o#
-		startinsert!
+	function InsertFilePath()
+		if (getline('.') != "")
+			normal o
+		endif
+		exe "normal! I#".expand('%:p')
 	endfunction
+
 
 " Function to flash a pair of cross-hairs on the cursor for 100ms.
 	function Flash()

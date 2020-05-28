@@ -317,7 +317,7 @@
 			inoremap			<M-Space>					<Esc>/<++><CR>ca<
 			noremap				<M-Space>					/<CR>ca<
 			noremap				<M-s>						}
-			nnoremap			<Leader><F1>				:call Flash()<CR>
+			nnoremap			<Leader>f					:call Flash()<CR>
 
 		" Surround-plugin leader keybinds.
 			map					<Leader>e					vg_
