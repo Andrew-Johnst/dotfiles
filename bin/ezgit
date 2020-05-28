@@ -13,15 +13,14 @@
 #		highlights discrepancies between versions of files.)
 #		2.)
 
-
 # Exits the script when an error is encountered to prevent potential damage from continuing to run.
 ### Commenting this out for the time being until I figure out/take the time to omit certain directories such 
 # as neovim plugins since they're causing permission denied errors and causing the script to exit prematurely.
 #set -e
 
-# Library containing all of the package dependencies for both the script as well as the dotfile/config files
-# for my setup.
-DEPENDs=(	"git" \
+# Library containing all of the package dependencies for both the script as well as the
+# dotfile/config files for my setup.
+DEPENDS=(	"git" \
 			"fzf" \
 			"tmux" \
 			"neovim" \
@@ -30,9 +29,18 @@ DEPENDs=(	"git" \
 			"zsh" \
 		)
 
-# Defines a list of files/folders to be deleted from the local directory before adding the contents of the pwd
-# to git staged changes.
-EXCLUSIONS=( ".swp" )
+# Defines a list of files/folders to be deleted from the local directory before adding the contents
+# of the pwd to git staged changes.
+EXCLUSIONS=(	"*.swp" \
+				".config/BraveSoftware" \
+				".config/transmission" \
+				".config/Bitcoin/Bitcoin-Qt.conf" \
+				".config/ranger/bookmarks" \
+				".config/ranger/history" \
+				".config/chromium" \
+				".config/mpd/pid" \
+				".config/mpd/state" \
+			)
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
 FILELIST=(	".config/" \
@@ -122,7 +130,7 @@ SLEEPFORX(){
 		echo -ne $CRED && git init && echo -en $CRESET
 
 		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
-		SLEEPFORX 5 "${CRED}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+		SLEEPFORX 5 "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
 
 		# Updated this to include a slider progress bar via pv command and awk.
 		tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | awk '{print $1}') | \
@@ -130,7 +138,7 @@ SLEEPFORX(){
  		echo
 
  		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
-		SLEEPFORX 5 "${CRED}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
+		SLEEPFORX 5 "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
  		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
 
  		echo "Tarballs of both the local repo before updating, as well as the config files that"
@@ -148,6 +156,7 @@ SLEEPFORX(){
 		echo "Dotfiles installed, exiting..."
 		exit 0
  		;;
+
  	-u | --upload)
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
@@ -158,7 +167,8 @@ SLEEPFORX(){
 		# Clone the remote git repository into the Remote backups directory, then create a bzip2
 		# archive of it and delete the cloned folder.
 		git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
- 		tar -cjf "$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME"
+ 		tar -cjf "$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME" \
+			&>/dev/null
 		yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
 
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
@@ -167,26 +177,40 @@ SLEEPFORX(){
  			cp -rf "$HOME/$i" .
  		done
 
-		git init
+		# Reinitialize git directory silently.
+		git init &> /dev/null
+		# Adds everything currently in directory to be staged in commit.
 		git add -A .
-		#git rm -rf .local/share
-		#git rm -rf BACKUPS
-		git rm -rf .config/BraveSoftware
-		git rm -rf .config/transmission
-		git rm -rf .config/Bitcoin/Bitcoin-Qt.conf
-        git rm -rf .config/ranger/bookmarks
-        git rm -rf .config/ranger/history
-        git rm -rf .config/chromium
-		git rm *.swp
+
+		# Removes everything in the EXCLUSIONS list defined at the top of this script.
+		for i in "${!EXCLUSIONS[@]}"
+		do
+			git rm -rf "${EXCLUSIONS[$i]}"
+		done
+
+		#git rm -rf .config/BraveSoftware
+		#git rm -rf .config/transmission
+		#git rm -rf .config/Bitcoin/Bitcoin-Qt.conf
+        #git rm -rf .config/ranger/bookmarks
+        #git rm -rf .config/ranger/history
+        #git rm -rf .config/chromium
+		#git rm *.swp
+
 		git status
 		# Using a while loop again to force y/n.
 		while [[ "$yn" != "y" && "$yn" != "n" ]]
 		do
-			read -n 1 -p "$(echo -e Are the git status changes ok? ["$CRED"y"$CRESET"/"$CRED"n"$CRESET"]: ) " yn;
+			read -n 1 -p "$(echo -e Are the git status changes ok? \
+				["$CRED"y"$CRESET"/"$CRED"n"$CRESET"]: ) " yn;
+
+			# Sanitizing the read command input.
 			yn="$(echo $yn | tr '[:upper:]' '[:lower:]')"
 			echo
-			[[ "$yn" == "n" ]] && echo -e "${CRED}Files added to be staged changes, but no commit or push.\
-				Exiting..." && exit 1
+			
+			# Exit if user selects "[n]o" to committing the changes.
+			[[ "$yn" == "n" ]] && echo -e \
+				"${CRED}Changes staged for commit have been made, but not committing.\nExiting..." \
+				&& exit 1
 		done
 		read -p 'Name the commit: ' commitdesc
 		git commit -m "$commitdesc"
@@ -196,10 +220,12 @@ SLEEPFORX(){
 		echo
 		exit 0
  		;;
+
 	-d | --diff)
 		echo "Prints difference between local and remote repos."
 		git diff --stat --patch origin master
 		;;
+
 	*)
 		echo -e "${CGREEN}Usage: ${CRED}./ezgit [ACTION]"
 		echo
