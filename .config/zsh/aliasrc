@@ -54,7 +54,8 @@ alias \
 	nvc='cd ~/.config/nvim' \
 	dot='cd ~/Documents/git/dotfiles' \
 	ba='cd ~/Documents/programming/bash' \
-	crypt='cd /mnt/Data/Drew/crypt'
+	crypt='cd /mnt/Data/Drew/crypt'	\
+	M='cd ~/Music'
 	# Commented out for now since theres no use or reason to have it aliased.
 	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 

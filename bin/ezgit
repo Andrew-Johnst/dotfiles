@@ -39,6 +39,7 @@ EXCLUSIONS=(	"*.swp" \
 				".config/ranger/history" \
 				".config/chromium" \
 				".config/mpd/pid" \
+				".config/mpd/database" \
 				".config/mpd/state" \
 			)
 			

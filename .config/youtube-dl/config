@@ -1,0 +1,8 @@
+--add-metadata
+--write-thumbnail
+--embed-thumbnail
+--audio-quality 0
+#--write-all-thumbnails
+#--write-info-json
+#--embed-subs
+#--all-subs

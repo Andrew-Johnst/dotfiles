@@ -102,6 +102,8 @@ export TERM=xterm-256color
 # forwarding to Desktop VcXsrv server. Default is set to the default display of :0
 export DISPLAY=:0
 [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && DISPLAY=192.168.1.30:0.0
+#[[ "$HOST" == "Drew-PC" ]] && DISPLAY=localhost:0
+#[[ -z "$SSH_CLIENT" || -z "$SSH_TTY" ]] && DISPLAY=:0
 
 # Sets OpenGL rendering to indirect, meant for rendering over network.
 # https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
