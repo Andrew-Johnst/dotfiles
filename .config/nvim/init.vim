@@ -254,12 +254,22 @@
 		map <M-h>	:tabprev	<CR>
 
 	"--------------------[4.3.0] Various command declarations.
-		" Command to open zshrc file in new vim tab.
-				command!			ZRC	:call OpenFileInNextAvailableBuffer("~/.zshrc")
-				cnoreabbrev	zrc	:ZRC
-		" Command to open init.vim file in new vim tab.
-				command!			NRC	:call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
-				cnoreabbrev	nrc	:NRC
+    " Command to open zshrc file in new vim tab.
+        command!      ZRC :call OpenFileInNextAvailableBuffer("~/.zshrc")
+        cnoreabbrev zrc :ZRC
+
+    " Command to open init.vim file in new vim tab.
+        command!      NRC :call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
+        cnoreabbrev nrc :NRC
+
+    " Command to open aliasrc file in new vim tab.
+        command!      ARC :call OpenFileInNextAvailableBuffer("~/.config/zsh/aliasrc")
+        cnoreabbrev arc :ARC
+
+    " Command to open functionrc file in new vim tab.
+        command!      FRC :call OpenFileInNextAvailableBuffer("~/.config/zsh/functionrc")
+        cnoreabbrev frc :FRC
+
 		" Command to write the currently opened file as sudo.
 				command!			SudoWrite	:w !sudo tee %
 

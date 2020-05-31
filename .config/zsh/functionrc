@@ -49,3 +49,9 @@
 		#[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
 		#sudo `cat "$SHF" | tail -n1`
 	}
+
+# Function to chmod the file previously edited to have executable permissions.
+#	( Might have to change to 770 if write permissions are denied).
+
+	#cx(){
+

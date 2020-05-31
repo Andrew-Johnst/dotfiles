@@ -1,5 +1,3 @@
-# Luke's config for the Zoomer Shell
-
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
@@ -118,9 +116,6 @@ export LIBGL_ALWAYS_INDIRECT=1
 # Fuzzy Finder settings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-
 # Manually added options.
 
 
@@ -164,4 +159,8 @@ PERL_MB_OPT="--install_base \"/home/drew/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/drew/perl5"; export PERL_MM_OPT;
 
 # Adding this in for fuck command (extremely useful correcting previously entered incorrect command.)
-eval $(thefuck --alias fuck)
+eval $(thefuck --alias f)
+
+# Load zsh-syntax-highlighting; should be last.
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+

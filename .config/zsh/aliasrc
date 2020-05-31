@@ -8,9 +8,7 @@ alias sudo='sudo '
 
 # Alias for preserving the user's environment in sudoedit
 alias \
-	sudoe='sudo -E nvim ' \
 	se='sudo -E nvim '
-	#sudoedit='sudo -E nvim ' \
 
 # Shortened browser/editor aliases.
 alias \
@@ -59,34 +57,30 @@ alias \
 	# Commented out for now since theres no use or reason to have it aliased.
 	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 
-# General quality of life improvements and aliasing lengthy commands.
-	# Alias to upgrade all python3 pip packages and package manager shortcuts.
-		alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | \
-			xargs -n1 pip3 install -U'
-		alias pip-update='pip-upgrade'
-		alias pipupdate='pip-upgrade'
-		alias pipupgrade='pip-upgrade'
-		alias ins='sudo apt-get install '
-		alias ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'
-	# Alias/linking batcat to bat
-		#alias bat='batcat '
-	# Alias to colorize STDIN (Standard Input) using pygmentize.
-		alias colorstdin='pygmentize -f terminal256 -O style=monokai'
-		alias cgrep='grep --color=always'
-	# Alias to truncate git clone.
-		alias gc='git clone '
-	# Maps 'grep --color=auto' to 'cg' as in: 'colored-grep' alias.
-		alias cg='grep --color=auto'
-	# Maps thefuck/fuck to 'f'
-		alias f='fuck'
 
-# Shortcuts for connecting to sessions.
-	# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
-		alias ssh='TERM=xterm-direct ssh'
-	# Shortcut to ssh into seedbox as pi user.
-		alias sshpi='ssh -l pi -p 9999 192.168.1.28'
-		alias sshpi2='ssh -l rtorrent -p 9999 192.168.1.28'
-		alias sshseedbox='ssh -l rtorrent -p 9999 192.168.1.28'
-		alias sshnas='ssh -Y -l drew -p 9999 192.168.1.31'
-	# Reconnect to first instance of tmux in ps for current user.
-		alias tmr='tmux attach-session'
+
+# General quality of life improvements and aliasing lengthy commands.
+
+# Alias to upgrade all python3 pip packages and package manager shortcuts.
+	alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
+	alias pip-update='pip-upgrade'
+	alias pipupdate='pip-upgrade'
+	alias pipupgrade='pip-upgrade'
+	alias ins='sudo apt-get install '
+	alias ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'
+	alias cgrep='grep --color=always'
+	alias cg='grep --color=auto'
+	alias gc='git clone '
+
+# Sortcuts for connecting to sessions.
+# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
+# [Unsure of this since the environment variables are applied in each host's session.]
+	#alias ssh='TERM=xterm-direct ssh'			# Commenting this out for now.
+	alias seedbox='ssh -l pi -p 9999 192.168.1.28'
+	alias pi2='ssh -l pi 192.168.1.28'
+	#alias seedbox='ssh -l rtorrent -p 9999 192.168.1.28'		# Commenting this out until the default port is changed.
+	alias nas='ssh -l drew -p 9999 192.168.1.31'
+	#alias sshpi2='ssh -l rtorrent -p 9999 192.168.1.28'		# Commenting this out until the default port is changed.
+# Reconnect to first instance of tmux in ps for current user.
+	alias tmr='tmux attach-session'
+	alias nas='ssh -l drew 192.168.1.31'						# Change incoming port on Windows 10 [later].
