@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 #~/.config/zsh/functionrc
-#
-#	Functionrc is an rc file used for housing all shell functions, used in conjunction with aliasrc file, and
-#	sourced within zshrc file.
+
+# Functionrc is an rc file used for housing all shell functions, used in conjunction with aliasrc
+# file, and sourced within zshrc file.
+
+# Sets color variables for more [[[ A E S T H E T I C ]]]
+CR='\033[1;38;5;9m'
+CB='\033[1;38;5;117m'
+CG='\033[1;38;5;10m'
+CBL='\033[5m'
+CRE='\033[0m'
+CBBL=$(echo -e ${CB}${CBL})
+
+# Unsets all functions in this file before redefining them.
+# [WIP]
 
 # Function to mkdir $1 and cd into it.
 	mkcd(){
@@ -40,18 +51,56 @@
 		# This works independently of the shell being used; appears to not work if testing in shell
 		# scripts since shell scripts are run in their own sub-shells and therefore have their own
 		# history lists.
-		history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d'
+		[[ "$@" ]] && sudo "$@" && exit 0
+		#if [[ "$@"
+		lastcmd="$(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')"
+		
 		sudo $(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')
 		
 		# This does not work due to the way different shell history files store their contents with
 		# different syntaxes.
-		#SHF="$HOME/.$(echo $SHELL | awk -F "/" 'NF>1 {print $NF}')_history"
-		#[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
-		#sudo `cat "$SHF" | tail -n1`
+		SHF="$HOME/.$(echo $SHELL | awk -F "/" 'NF>1 {print $NF}')_history"
+		[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
+		sudo `cat "$SHF" | tail -n1`
 	}
 
-# Function to chmod the file previously edited to have executable permissions.
-#	( Might have to change to 770 if write permissions are denied).
+	# Colorization aliases.
+	pycolor(){
+		[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
+		pygmentize -f terminal256 -O style=monokai -g -
+	}
 
-	#cx(){
 
+# Function to move into luks directory if already mounted and decrypted.
+#cdintoluks(){
+#	#[[ /dev/mapper/crypt/28683ecb-87c8-4622-9304-be9114ac6d7b &&
+#	[[ ! "$1" ]] && exit 0
+#	[[ sudo grep -q crypt /dev/disk/by-uuid/28683ecb-87c8-4622-9304-be9114ac6d7b ]] && cd /mnt/crypt
+#}
+
+# Function to check for redundant and/or unused aliases and functions; then remove them
+	afr(){
+		alias
+	}
+
+# Reconnects to running tmux session; if multiple sessions found, list them and prompt for input on
+# which to connect to.
+#	Broken for right now. Will fix later.
+#tmr(){
+#	#tmux attach-session
+#	tsessions="$(tmux list-session | wc -l )"
+#	if [ "$tsessions" -gt 1 ]
+#	then
+#		tnum=0
+#		while [[ ! $tnum =~ ^[0-9]{1,} || $tnum -lt $tsessions ]]
+#		do
+#			echo -e "${CR}There are multiple tmux sessions.${CRE}"
+#			tmux list-sessions
+#			echo -ne "${CR}Select which to attach to: ${CG}"
+#			read tnum
+#			echo
+#			echo -e "${CR}Invalid Option: ${CBBL}$tnum${CRE}"
+#		done
+#		tmux attatch-session -t $tnum
+#	fi
+#}

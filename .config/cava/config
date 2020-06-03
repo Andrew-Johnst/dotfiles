@@ -59,6 +59,11 @@
 ; method = alsa
 ; source = auto
 
+# Adding this line for pulseaudio for compatibility with general pulseaudio since before cava was
+# only working with MPD due to the FIFO audio output in the mpd.conf
+method = pulse
+;source = "Pulseaudio Wave Out Device"
+
 # Adding this line in to utilize the MPD FIFO already configured for ncmpcpp's visualizer.
 # Changing the source from the default MPD fifo to a cava specific MPD fifo file to see if that
 # fixes the latency issue when running ncmpcpp and cava at the same time.
@@ -78,7 +83,6 @@ source = "/tmp/mpd-cava.fifo"
 
 ; method = portaudio
 ; source = auto
-
 
 [output]
 

@@ -1,3 +1,6 @@
+# Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
+export ZDOTDIR="$HOME/.config/zsh"
+
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
@@ -105,7 +108,7 @@ export DISPLAY=:0
 
 # Sets OpenGL rendering to indirect, meant for rendering over network.
 # https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
-export LIBGL_ALWAYS_INDIRECT=1
+#export LIBGL_ALWAYS_INDIRECT=1
 
 # Prolly a better way to do this but doing this as a temporary fix for WSL starting directory when a
 # new session is started. Doing a check for if root or not since that might not be preferable to cd
@@ -163,4 +166,3 @@ eval $(thefuck --alias f)
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-

@@ -3,8 +3,12 @@
 #
 # Aliasrc is a file created to house all of the shell alias definitions, written in this file for portability. (Used in conjunction with functionrc, then called in the zshrc file).
 
+# This removes all user-defined aliases just to avoid any potential issues when changing names of
+# aliases.
+unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
+
 # Stupid fix for being able to use aliases with sudo.
-alias sudo='sudo '
+alias sudo="sudo "
 
 # Alias for preserving the user's environment in sudoedit
 alias \
@@ -21,39 +25,41 @@ alias \
 
 # Edit config file shortcuts.
 alias \
-	zrc='v ~/.zshrc' \
-	zrcr='. ~/.zshrc' \
-	zr='. ~/.zshrc' \
-	nrc='v ~/.config/nvim/init.vim' \
-	tmc='v ~/.tmux.conf' \
-	arc='v ~/.config/zsh/aliasrc' \
-	frc='v ~/.config/zsh/functionrc'
+	zrc='v ~/.config/zsh/.zshrc'		\
+	zr='. ~/.config/zsh/.zshrc'			\
+	nrc='v ~/.config/nvim/init.vim'		\
+	tmc='v ~/.tmux.conf'				\
+	arc='v ~/.config/zsh/aliasrc'		\
+	frc='v ~/.config/zsh/functionrc'	\
+
 
 # Automatically specifying options always used to a shortened alias.
 alias \
-	ls='ls --color=auto' \
+	ls='ls --color=always' \
 	lt='ls -lth' \
-	mv='mv -v' \
 	l='ls -lh' \
 	la='ls -lah' \
 	lt='ls -lath' \
+	mv='mv -v' \
+	cp='cp -v'
 
 # Directory shortcuts.
 alias \
-	conf='cd ~/.config' \
-	mn='cd /mnt' \
-	tmp='cd /tmp' \
-	d='cd ~/Documents' \
-	D='cd ~/Downloads' \
-	p='cd /home/drew/Documents/programming' \
-	pub='cd /mnt/Data/Public' \
-	priv='cd /mnt/Data/Drew' \
-	b='cd ..' \
-	nvc='cd ~/.config/nvim' \
-	dot='cd ~/Documents/git/dotfiles' \
-	ba='cd ~/Documents/programming/bash' \
-	crypt='cd /mnt/Data/Drew/crypt'	\
-	M='cd ~/Music'
+	b='cd ..'								\
+	conf='cd ~/.config'						\
+	mn='cd /mnt'							\
+	tmp='cd /tmp'							\
+	d='cd ~/Documents'						\
+	D='cd ~/Downloads'						\
+	p='cd /home/drew/Documents/programming'	\
+	pub='cd /mnt/Data/Public'				\
+	priv='cd /mnt/Data/Drew'				\
+	nvc='cd ~/.config/nvim'					\
+	dot='cd ~/Documents/git/dotfiles'		\
+	ba='cd ~/Documents/programming/bash'	\
+	crypt='cd /mnt/Data/Drew/crypt'			\
+	M='cd ~/Music'							\
+	aptc='cd /etc/apt/'
 	# Commented out for now since theres no use or reason to have it aliased.
 	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 
@@ -61,16 +67,30 @@ alias \
 
 # General quality of life improvements and aliasing lengthy commands.
 
-# Alias to upgrade all python3 pip packages and package manager shortcuts.
-	alias pip-upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
-	alias pip-update='pip-upgrade'
-	alias pipupdate='pip-upgrade'
-	alias pipupgrade='pip-upgrade'
-	alias ins='sudo apt-get install '
+	# Alias to upgrade all python3 pip packages and package manager shortcuts.
+	alias pipup='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
 	alias ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'
 	alias cgrep='grep --color=always'
 	alias cg='grep --color=auto'
 	alias gc='git clone '
+	alias c='/usr/local/bin/colors'
+	alias less='less -R'
+	alias diff='diff --color=auto'
+	alias ip='ip -color=auto'
+
+	# Aliases for apt.
+	alias ins='sudo apt-get install '
+	alias ac='apt-cache '
+	alias aci='apt-cache --installed '
+	alias acs='apt-cache search '
+	alias ag='apt-get '
+	alias adeps='apt-rdepends '
+	alias aure='apt-get autoremove '
+	alias aurep='apt-get autoremove --purge '
+
+# File manipulation.
+	alias cx='chmod +x '
+	alias mine='chown $USER:$GROUP '
 
 # Sortcuts for connecting to sessions.
 # Supposedly SSH might break if the remote machine does not have the same $TERM variable.
@@ -78,9 +98,5 @@ alias \
 	#alias ssh='TERM=xterm-direct ssh'			# Commenting this out for now.
 	alias seedbox='ssh -l pi -p 9999 192.168.1.28'
 	alias pi2='ssh -l pi 192.168.1.28'
-	#alias seedbox='ssh -l rtorrent -p 9999 192.168.1.28'		# Commenting this out until the default port is changed.
-	alias nas='ssh -l drew -p 9999 192.168.1.31'
-	#alias sshpi2='ssh -l rtorrent -p 9999 192.168.1.28'		# Commenting this out until the default port is changed.
-# Reconnect to first instance of tmux in ps for current user.
-	alias tmr='tmux attach-session'
-	alias nas='ssh -l drew 192.168.1.31'						# Change incoming port on Windows 10 [later].
+	#alias seedbox='ssh -l drew -p 9999 192.168.1.28'
+	alias nas='ssh -l drew -p 9999 -Y 192.168.1.31'

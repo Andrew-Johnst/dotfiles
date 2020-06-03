@@ -22,7 +22,7 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 # Set $TERM environment variable to xterm-256color, since default for putty is xterm-8color.
-if [ "$TERM" = xterm];
+if [ "$TERM" = xterm ];
 then
 		TERM=xterm-256color;
 fi
@@ -32,3 +32,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Adding this in to test out Qt themes.
 # https://www.linuxuprising.com/2018/05/use-custom-themes-for-qt-applications.html
 #export QT_STYLE_OVERRIDE=kvantum
+
+# Adding this to export the ZDOTDIR to the ~/.config/zsh
+export ZDOTDIR="$HOME/.config/zsh"

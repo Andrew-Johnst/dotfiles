@@ -1,4 +1,3 @@
-"
 "				 __  __          __         _           _   _         __
 "				|  \/  |_   _   / /__ _   _| |__       | |_(_) ___ _ _\ \
 "				| |\/| | | | | | / __| | | | '_ \ _____| __| |/ _ \ '__| |
@@ -11,81 +10,79 @@
 "				 \ V /| | | | | | | | | (__  |  _| | |  __/ |  _| (_) | |
 "				  \_/ |_|_| |_| |_|_|  \___| |_| |_|_|\___| |_|  \___/|_|
 "
-"									 _   _         __     _____ __  __
-"									| \ | | ___  __\ \   / /_ _|  \/  |
-"									|  \| |/ _ \/ _ \ \ / / | || |\/| |
-"									| |\  |  __/ (_) \ V /  | || |  | |
-"									|_| \_|\___|\___/ \_/  |___|_|  |_|
+"							 _   _         __     _____ __  __
+"							| \ | | ___  __\ \   / /_ _|  \/  |
+"							|  \| |/ _ \/ _ \ \ / / | || |\/| |
+"							| |\  |  __/ (_) \ V /  | || |  | |
+"							|_| \_|\___|\___/ \_/  |___|_|  |_|
 "
 "
-" My (usually) most up-to-date config file for Vim/neovim, mostly experimental as a learning experience for
-" learning and becoming more comfortable using Vim/neovim, trying to put down
-" the GNU Nano 'crack-pipe' to learn a better and far-more functional editor.
+" My (usually) most up-to-date config file for Vim/neovim, mostly experimental as a learning
+" experience for learning and becoming more comfortable using Vim/neovim, trying to put down the GNU
+" Nano 'crack-pipe' to learn a better and far-more functional editor.
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" Please for the love of god redo the formatting of this dumpsterfire """"""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"-----------------------------------[1.0] - Plug-ins and Preliminary settings.
-	"---------------------[1.1] Autocommand clearing/insurance. (Clearing autocmd/augroup in case they get double loaded).
-		" Not entirely sure if this is needed, since I haven't tried the /nvim/after/ directory yet.
-			au!
+" [1.0] Plug-ins and Preliminary settings.
+" [1.1] Autocommand clearing/insurance. (Clearing autocmd/augroup in case they get double loaded).
+	au!
 
-	"---------------------[1.2] Check if Vim-plug and pathogen are installed for current user and install if not.
-		if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
-		  echo "Downloading Vim-Plug plugin manager for nvim..."
-		  silent !mkdir -p ~/.config/nvim/autoload/
-		  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
-			\	> ~/.config/nvim/autoload/plug.vim
-		  autocmd VimEnter * PlugInstall
-		endif
-		" Activates Vim-Pathogen plugin, installs it if not found.
-		if ! filereadable(expand('~/.config/nvim/autoload/pathogen.vim'))
-		  echo "Downloading Vim-Pathogen plugin manager for neovim..."
-		  silent !mkdir -p ~/.config/nvim/autoload/ ~/.config/nvim/bundle
-			silent !curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-		endif
+" [1.2] Check if Vim-plug and pathogen are installed for current user and install if not.
+	if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
+	  echo "Downloading Vim-Plug plugin manager for nvim..."
+	  silent !mkdir -p ~/.config/nvim/autoload/
+	  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
+		\	> ~/.config/nvim/autoload/plug.vim
+	  autocmd VimEnter * PlugInstall
+	endif
+" Activates Vim-Pathogen plugin, installs it if not found.
+	if ! filereadable(expand('~/.config/nvim/autoload/pathogen.vim'))
+	  echo "Downloading Vim-Pathogen plugin manager for neovim..."
+	  silent !mkdir -p ~/.config/nvim/autoload/ ~/.config/nvim/bundle
+		silent !curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+	endif
+" [1.3] Load plugins:
 
-	"---------------------[1.3] Load plugins:
-		execute pathogen#infect('~/.config/nvim/bundle/{}')
+	" This installs my locally installed 
+	execute pathogen#infect('~/.config/nvim/bundle/{}')
+	call plug#begin('~/.config/nvim/plugged')
+  " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
+  		Plug 'junegunn/vim-easy-align'
+  " Any valid git URL is allowed:
+  		Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+  " Install Dracula theme:
+  		Plug 'dracula/vim',{'name': 'dracula' }
+  " Install Nord theme:
+  		Plug 'arcticicestudio/nord-vim'
+  " Install Hybrid material theme:
+  		Plug 'kristijanhusak/vim-hybrid-material'
+  " Install palenight plugin:
+  		Plug 'drewtempelmeyer/palenight.vim'
+	" Install vim-orgmode:
+			Plug 'jceb/vim-orgmode'
+	" FZF installation seems very bizare, it was already installed, but apt installed it again.
+	" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
+			Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+	" Install oceanic-next theme:
+			Plug 'mhartington/oceanic-next'
+	" Install vim-airline:
+	 		Plug 'vim-airline/vim-airline'
+  " Install themes for vim-airline:
+	 		Plug 'vim-airline/vim-airline-themes'
+	" Install Gotham theme.
+			Plug 'whatyouhide/vim-gotham'
+	" Install vim-surround.
+			Plug 'tpope/vim-surround'
+	" Install vim-repeat.
+			Plug 'tpope/vim-repeat'
+	" Install vim-commentary.
+			Plug 'tpope/vim-commentary'
+	" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
+			Plug 'edkolev/tmuxline.vim'
 
-		call plug#begin('~/.config/nvim/plugged')
-		  " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
-		  	Plug 'junegunn/vim-easy-align'
-		  " Any valid git URL is allowed:
-		  	Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-		  " Install Dracula theme:
-		  	Plug 'dracula/vim',{'name': 'dracula' }
-		  " Install Nord theme:
-		  	Plug 'arcticicestudio/nord-vim'
-		  " Install Hybrid material theme:
-		  	Plug 'kristijanhusak/vim-hybrid-material'
-		  " Install palenight plugin:
-		  	Plug 'drewtempelmeyer/palenight.vim'
-			" Install vim-orgmode:
-				Plug 'jceb/vim-orgmode'
-			" FZF installation seems very bizare, it was already installed, but apt installed it again.
-			" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
-				Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-			" Install oceanic-next theme:
-				Plug 'mhartington/oceanic-next'
-			" Install vim-airline:
-			 	Plug 'vim-airline/vim-airline'
-		  " Install themes for vim-airline:
-			 	Plug 'vim-airline/vim-airline-themes'
-			" Install Gotham theme.
-				Plug 'whatyouhide/vim-gotham'
-			" Install vim-surround.
-				Plug 'tpope/vim-surround'
-			" Install vim-repeat.
-				Plug 'tpope/vim-repeat'
-			" Install vim-commentary.
-				Plug 'tpope/vim-commentary'
-			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
-			" Commenting out for now since missing fonts/characters appear in tmux via mintty/wsltty.
-			"	Plug 'edkolev/tmuxline.vim'
-
-		call plug#end()
+	call plug#end()
 
 
 "-----------------------------------[2.0] - Theming and appearance settings.
@@ -140,23 +137,6 @@
 			"let g:oceanic_next_terminal_bold = 1
 			"let g:oceanic_next_terminal_italic = 1
 			"colorscheme OceanicNext
-	" Disables highlighting of current line in numberline.
-
-		"	This 'fix' might not even work, since the problem appears to have been PuTTY's fault.
-		"	if has("terminfo")
-		"		let &t_Co=16
-		"		let &t_AB="\<Esc>[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm"
-		"		let &t_AF="\<Esc>[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm"
-		"	else
-		"		let &t_Co=16
-		"		let &t_Sf="\<Esc>[3%dm"
-		"		let &t_Sb="\<Esc>[4%dm"
-		"	endif
-		" colorscheme gotham256
-		" let g:airline_theme='gotham256'
-		" let g:gotham_airline_emphasised_insert = 0
-
-
 	"---------------------[2.3] Vim-Airline config settings.
 		"let g:airline_theme='oceanicnext'
 		"let g:airline_theme='dracula'
@@ -282,14 +262,14 @@
 		" The last mapping in insert mode for <C-v> is critical since default map
 		" doesn't apply to insert mode, and both <C-v> and <M-f> are bount to <Esc>.
 			map 			<C-v> 			<Nop>
-			map				<M-f>				<Nop>
-			nnoremap 	<Leader>v 	<C-v>
-			map				<C-c>				<Esc>y
-			imap			<C-c>				<Esc>y
+			map				<M-f>			<Nop>
+			nnoremap 		<Leader>v 		<C-v>
+			map				<C-c>			<Esc>y
+			imap			<C-c>			<Esc>y
 			map 			<C-v> 			<Esc>Pa
-			imap			<C-v>				<Esc>Pa
+			imap			<C-v>			<Esc>Pa
 			map 			<M-f> 			<Esc>
-			imap			<M-f>				<Esc>
+			imap			<M-f>			<Esc>
 			
 
 		"-------------------[4.4.2] Quick saving/leaving files.

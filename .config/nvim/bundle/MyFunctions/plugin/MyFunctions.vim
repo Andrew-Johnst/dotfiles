@@ -31,7 +31,7 @@
 	cnoreabbrev	ssc	call SuperSpellCheck()
 
 " Function for bash script file preamble info.
-	function BashHeaders(...)
+	function! BashHeaders(...)
 		"let l:filename=@%
 		"while !exists(l:filename)
 		"	let l:filename = input("No/Invalid filename detected.\nPlease enter a filename: ")
@@ -43,17 +43,19 @@
 		"	endif
 		"endwhile
 
-		silent! execute "!chmod +x ".expand('%:p')
 		execute "norm I#!/usr/bin/env bash"
 		"if exists(%@)
 		"	exe "normal! o#".expand('%:p')
 		"else
 		"	exe "normal o"
 		"endif
-		exe "normal! o#".expand('%:p')
+		exe "normal o#".expand('%:p')
 		exe "normal o"
-		exe "normal! o# "
+		exe "normal o# "
+	" Writes the file, then reloads the buffer applying filetype settings.
 		w | e
+	" Adds executable permissions to the file.
+		silent! execute "!chmod +x ".expand('%:p')
 		startinsert!
 		"if exists(l:comment)
 		"	execute "normal! o# " | startinsert!
@@ -65,7 +67,7 @@
 	"cnoreabbrev bashheadcomment call BashHeaders("comment")
 	"cnoreabbrev bhc call BashHeaders("comment")
 	cnoreabbrev bashhead call BashHeaders()
-	cnoreabbrev bh call BashHeaders()
+	cnoreabbrev bh silent! call BashHeaders()
 
 " Command + abbreviation to delete the file open in current tab, as well as a 'purge all' option.
 "	(Too braindead to figure out right now, come back to this later).
@@ -105,7 +107,11 @@
 			endif
 		endfunction
 " Aliasing commands to this function to either HTML/PDF formats, then binding them to Leader keybinds.
-	cnoreabbrev pdf call Pan("pdf")
-	cnoreabbrev html call Pan("html")
-	nnoremap	<Leader>p		:call Pan("pdf") <CR>
-	nnoremap	<Leader>h		:call Pan("html") <CR>
+	cnoreabbrev	pdf 			call Pan("pdf")
+	cnoreabbrev	html 			call Pan("html")
+	nnoremap	<Leader>p		call Pan("pdf") <CR>
+	nnoremap	<Leader>h		call Pan("html")<CR>
+
+" Alias to add executable permissions to file open in current vim buffer.
+	command! -nargs=0 -complete=command CX silent! execute "!chmod +x ".expand('%:p')
+	cnoreabbrev cx :CX

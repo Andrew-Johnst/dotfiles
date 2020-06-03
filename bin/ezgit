@@ -20,50 +20,51 @@
 
 # Library containing all of the package dependencies for both the script as well as the
 # dotfile/config files for my setup.
-DEPENDS=(	"git" \
-			"fzf" \
-			"tmux" \
-			"neovim" \
-			"openssh" \
-			"neomutt" \
-			"zsh" \
+DEPENDS=(	"git"		\
+			"fzf"		\
+			"tmux"		\
+			"neovim"	\
+			"openssh"	\
+			"neomutt"	\
+			"zsh"		\
 		)
 
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
 # of the pwd to git staged changes.
-EXCLUSIONS=(	"*.swp" \
-				".config/BraveSoftware" \
-				".config/transmission" \
-				".config/Bitcoin/Bitcoin-Qt.conf" \
-				".config/ranger/bookmarks" \
-				".config/ranger/history" \
-				".config/chromium" \
-				".config/mpd/pid" \
-				".config/mpd/database" \
-				".config/mpd/state" \
+EXCLUSIONS=(	"*.swp"								\
+				".config/BraveSoftware"				\
+				".config/transmission"				\
+				".config/Bitcoin/Bitcoin-Qt.conf"	\
+				".config/ranger/bookmarks"			\
+				".config/ranger/history"			\
+				".config/chromium"					\
+				".config/mpd/pid"					\
+				".config/mpd/database"				\
+				".config/mpd/state"					\
+				".config/spotify"					\
+				"*.log"								\
 			)
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-FILELIST=(	".config/" \
-			# "bin/" \				# Commenting this out so it doesn't copy to $HOME dir.
-			".fzf" \
-			".emacs.d/" \
-			#"$HOME/.local" \
-			".nvim" \
-			".oh-my-zsh" \
-			".terminfo" \
-			".vim" \
+FILELIST=(	".config/"		\
+			".fzf"			\
+			".emacs.d/"		\
+			".nvim"			\
+			".oh-my-zsh"	\
+			".terminfo"		\
+			".vim"			\
 			".Xresources.d" \
-			".bashrc" \
-			".fzf.bash" \
-			".fzf.zsh" \
-			".profile" \
-			".tmux.conf" \
-			#".Xauthority" \		# Commenting this out because of discrepancies between machines.
-			".xinitrc" \
-			".Xresources" \
-			".zshenv" \
-			".zshrc" \
+			".bashrc"		\
+			".fzf.bash"		\
+			".fzf.zsh"		\
+			".profile"		\
+			".zprofile"		\
+			".tmux.conf"	\
+			".xinitrc"		\
+			".Xresources"	\
+			#".Xauthority"	\		# Commenting this out because of discrepancies between machines.
+			#"$HOME/.local" \
+			# "bin/"		\		# Commenting this out so it doesn't copy to $HOME dir.
 		)
 
 # Function/command to print out the FILELIST library, sort it into alpahbetical order, then encapsulate in quotes
@@ -154,6 +155,7 @@ SLEEPFORX(){
  		do
  			cp -r "$i" "$HOME/"
  		done
+		cp bin/tc
 		echo "Dotfiles installed, exiting..."
 		exit 0
  		;;
