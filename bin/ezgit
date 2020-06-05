@@ -62,6 +62,7 @@ FILELIST=(	".config/"		\
 			".tmux.conf"	\
 			".xinitrc"		\
 			".Xresources"	\
+			"/etc/zsh"		\
 			#".Xauthority"	\		# Commenting this out because of discrepancies between machines.
 			#"$HOME/.local" \
 			# "bin/"		\		# Commenting this out so it doesn't copy to $HOME dir.

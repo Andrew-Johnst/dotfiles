@@ -81,9 +81,10 @@
 			Plug 'tpope/vim-commentary'
 	" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
 			Plug 'edkolev/tmuxline.vim'
+	" Install Conquer of Completion.
+	"		Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 	call plug#end()
-
 
 "-----------------------------------[2.0] - Theming and appearance settings.
 	"---------------------[2.1] Colorscheme options.

@@ -47,22 +47,23 @@ CBBL=$(echo -e ${CB}${CBL})
 
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
 # history file so it can function independently of the shell limitations/syntaxing).
-	s(){
-		# This works independently of the shell being used; appears to not work if testing in shell
-		# scripts since shell scripts are run in their own sub-shells and therefore have their own
-		# history lists.
-		[[ "$@" ]] && sudo "$@" && exit 0
-		#if [[ "$@"
-		lastcmd="$(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')"
-		
-		sudo $(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')
-		
-		# This does not work due to the way different shell history files store their contents with
-		# different syntaxes.
-		SHF="$HOME/.$(echo $SHELL | awk -F "/" 'NF>1 {print $NF}')_history"
-		[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
-		sudo `cat "$SHF" | tail -n1`
-	}
+#	[ Apparently this entire function can be replaced by a !! lmao ]
+#	s(){
+#		# This works independently of the shell being used; appears to not work if testing in shell
+#		# scripts since shell scripts are run in their own sub-shells and therefore have their own
+#		# history lists.
+#		[[ "$@" ]] && sudo "$@" && exit 0
+#		#if [[ "$@"
+#		lastcmd="$(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')"
+#		
+#		sudo $(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')
+#		
+#		# This does not work due to the way different shell history files store their contents with
+#		# different syntaxes.
+#		#SHF="$HOME/.$(echo $SHELL | awk -F "/" 'NF>1 {print $NF}')_history"
+#		#[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
+#		#sudo `cat "$SHF" | tail -n1`
+#	}
 
 	# Colorization aliases.
 	pycolor(){

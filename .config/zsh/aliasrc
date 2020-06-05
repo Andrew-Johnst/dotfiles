@@ -8,7 +8,8 @@
 unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
 
 # Stupid fix for being able to use aliases with sudo.
-alias sudo="sudo "
+alias sudo='sudo '
+#alias s='sudo !!'
 
 # Alias for preserving the user's environment in sudoedit
 alias \
