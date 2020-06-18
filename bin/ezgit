@@ -32,6 +32,8 @@ DEPENDS=(	"git"		\
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
 # of the pwd to git staged changes.
 EXCLUSIONS=(	"*.swp"								\
+				"*.log"								\
+				".config/nvim/plugged/vim-orgmode"	\
 				".config/BraveSoftware"				\
 				".config/transmission"				\
 				".config/Bitcoin"					\
@@ -44,7 +46,6 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/spotify"					\
 				".config/projectM"					\
 				".config/duc"						\
-				"*.log"								\
 			)
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
