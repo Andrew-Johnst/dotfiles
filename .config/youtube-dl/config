@@ -2,7 +2,8 @@
 --write-thumbnail
 --embed-thumbnail
 --audio-quality 0
+--audio-format mp3
+--embed-subs
 #--write-all-thumbnails
 #--write-info-json
-#--embed-subs
 #--all-subs

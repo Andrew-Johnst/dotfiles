@@ -34,7 +34,7 @@ DEPENDS=(	"git"		\
 EXCLUSIONS=(	"*.swp"								\
 				".config/BraveSoftware"				\
 				".config/transmission"				\
-				".config/Bitcoin/Bitcoin-Qt.conf"	\
+				".config/Bitcoin"					\
 				".config/ranger/bookmarks"			\
 				".config/ranger/history"			\
 				".config/chromium"					\
@@ -42,6 +42,8 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/mpd/database"				\
 				".config/mpd/state"					\
 				".config/spotify"					\
+				".config/projectM"					\
+				".config/duc"						\
 				"*.log"								\
 			)
 			
@@ -189,7 +191,7 @@ SLEEPFORX(){
 		# Removes everything in the EXCLUSIONS list defined at the top of this script.
 		for i in "${!EXCLUSIONS[@]}"
 		do
-			git rm -rf "${EXCLUSIONS[$i]}"
+			git rm -rf "${EXCLUSIONS[$i]}" &> /dev/null
 		done
 
 		#git rm -rf .config/BraveSoftware

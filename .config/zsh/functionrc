@@ -20,10 +20,11 @@ CBBL=$(echo -e ${CB}${CBL})
 	    mkdir -p "$1" && cd "$1"
 	}
 
-# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is just
-# pygmentized cat standard output in the terminal).
+# Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is
+# just pygmentized cat standard output in the terminal).
 	pcat(){
-		cat "$1" | pygmentize -f terminal256 -O style=monokai
+		[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && exit 0
+		pygmentize -f terminal256 -O style=monokai
 	}
 # Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
 #	function sudoedit {
@@ -42,7 +43,42 @@ CBBL=$(echo -e ${CB}${CBL})
 	}
 # Function to display the active network interface.
 	nic(){
-		echo $(ip -o -4 route get 8.8.8.8 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
+		echo $(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
+	}
+
+# Colorization aliases.
+pycolor(){
+	[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
+	pygmentize -f terminal256 -O style=monokai -g -
+}
+
+# Colorized Listing of the physical hard drive device, physical volume, volume group, and logical
+# volume groups.
+	disks(){
+		sudo parted -l | head -9 | pcat
+		echo -e "\n\033[1;38;5;25m\t""Physical Volumes:"
+		sudo pvs
+		echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
+		sudo vgs
+		echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
+		sudo lvs
+	}
+
+# Function to display only the hidden files/folders. $1 argument can dictate whether or not to only
+# show <-f|--files> or <-F|--folders>
+	lh(){
+		[[ -z "$@" ]] && ls -a | grep '^\.'
+		if [[ "$#" -gt 1 ]]
+		then
+			[[ -d "$@" ]] && ls -a "$@" | grep '^\.'
+		fi
+	}
+
+# Function to more easily add gpg keys (this is mainly so I don't have to remember the entire
+# command and can just feed keys into this function.
+	getaptkeys(){
+		[[ -z "$@" ]] && echo "Must specify keys to be added." && return 1
+		sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@"
 	}
 
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
@@ -65,12 +101,10 @@ CBBL=$(echo -e ${CB}${CBL})
 #		#sudo `cat "$SHF" | tail -n1`
 #	}
 
-	# Colorization aliases.
-	pycolor(){
-		[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
-		pygmentize -f terminal256 -O style=monokai -g -
-	}
-
+# Function to check for redundant and/or unused aliases and functions; then remove them
+#	afr(){
+#		alias
+#	}
 
 # Function to move into luks directory if already mounted and decrypted.
 #cdintoluks(){
@@ -79,10 +113,6 @@ CBBL=$(echo -e ${CB}${CBL})
 #	[[ sudo grep -q crypt /dev/disk/by-uuid/28683ecb-87c8-4622-9304-be9114ac6d7b ]] && cd /mnt/crypt
 #}
 
-# Function to check for redundant and/or unused aliases and functions; then remove them
-	afr(){
-		alias
-	}
 
 # Reconnects to running tmux session; if multiple sessions found, list them and prompt for input on
 # which to connect to.

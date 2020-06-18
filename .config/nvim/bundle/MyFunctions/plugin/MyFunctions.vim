@@ -115,3 +115,8 @@
 " Alias to add executable permissions to file open in current vim buffer.
 	command! -nargs=0 -complete=command CX silent! execute "!chmod +x ".expand('%:p')
 	cnoreabbrev cx :CX
+
+" Command to disable numberlines by calling the :nonum command
+	command -nargs=0 -complete=command NL silent! execute "setlocal number! | setlocal norelativenumber!"
+	cnoreabbrev nl :NL
+	map <Leader>l :nl<CR>
