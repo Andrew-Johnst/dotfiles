@@ -159,7 +159,7 @@ SLEEPFORX(){
  		do
  			cp -r "$i" "$HOME/"
  		done
-		cp bin/tc
+		cp bin/colortest /usr/local/bin/colortest
 		echo "Dotfiles installed, exiting..."
 		exit 0
  		;;
