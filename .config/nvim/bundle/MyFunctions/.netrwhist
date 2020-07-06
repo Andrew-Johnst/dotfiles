@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/etc/lvm/profile'
 let g:netrw_dirhist_5='/etc/apt/sources.list.d'
 let g:netrw_dirhist_4='/etc/apt'
 let g:netrw_dirhist_3='/proc/sys/net/ipv4/conf/bond0'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_0='/home/drew/Documents/programming/bash/Tests'
 let g:netrw_dirhist_9='/home/drew/Documents/programming/bash'
 let g:netrw_dirhist_8='/home/drew/Documents/programming'
 let g:netrw_dirhist_7='/home/drew/Documents'
-let g:netrw_dirhist_6='/home/drew/Documents/programming/bash/Tests'

@@ -60,8 +60,9 @@
   		Plug 'kristijanhusak/vim-hybrid-material'
   " Install palenight plugin:
   		Plug 'drewtempelmeyer/palenight.vim'
-	" Install vim-orgmode:
-			Plug 'jceb/vim-orgmode'
+	" Install vim-orgmode:	(Disabled because it constantly gives issues either with new installs or
+	" committing changes to github.)
+	 " Plug 'jceb/vim-orgmode'
 	" FZF installation seems very bizare, it was already installed, but apt installed it again.
 	" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
 			Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }

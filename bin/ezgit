@@ -33,6 +33,7 @@ DEPENDS=(	"git"		\
 # of the pwd to git staged changes.
 EXCLUSIONS=(	"*.swp"								\
 				"*.log"								\
+				"*.tdb"								\
 				".config/nvim/plugged/vim-orgmode"	\
 				".config/BraveSoftware"				\
 				".config/transmission"				\
@@ -46,6 +47,7 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/spotify"					\
 				".config/projectM"					\
 				".config/duc"						\
+				".config/libvirt"					\
 			)
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
@@ -65,7 +67,7 @@ FILELIST=(	".config/"		\
 			".tmux.conf"	\
 			".xinitrc"		\
 			".Xresources"	\
-			"/etc/zsh"		\
+			#"/etc/zsh"		\
 			#".Xauthority"	\		# Commenting this out because of discrepancies between machines.
 			#"$HOME/.local" \
 			# "bin/"		\		# Commenting this out so it doesn't copy to $HOME dir.
