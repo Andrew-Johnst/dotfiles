@@ -52,21 +52,25 @@ alias \
 
 # Directory shortcuts.
 alias \
-	b='cd ..'								\
-	conf='cd ~/.config'						\
-	mn='cd /mnt'							\
-	tmp='cd /tmp'							\
-	d='cd ~/Documents'						\
-	D='cd ~/Downloads'						\
-	p='cd /home/drew/Documents/programming'	\
-	pub='cd /mnt/Data/Public'				\
-	priv='cd /mnt/Data/Drew'				\
-	nvc='cd ~/.config/nvim'					\
-	dot='cd ~/Documents/git/dotfiles'		\
-	ba='cd ~/Documents/programming/bash'	\
-	crypt='cd /mnt/Data/Drew/crypt'			\
-	M='cd ~/Music'							\
-	aptc='cd /etc/apt/'
+	b='cd ..'											\
+	conf='cd ~/.config'									\
+	mn='cd /mnt'										\
+	tmp='cd /tmp'										\
+	d='cd ~/Documents'									\
+	D='cd ~/Downloads'									\
+	p='cd /home/drew/Documents/programming'				\
+	pub='cd /mnt/Data/Public'							\
+	priv='cd /mnt/Data/Drew'							\
+	nvc='cd ~/.config/nvim'								\
+	dot='cd ~/Documents/git/dotfiles'					\
+	ba='cd ~/Documents/programming/bash'				\
+	crypt='cd /mnt/Data/Drew/crypt'						\
+	M='cd ~/Music'										\
+	aptc='cd /etc/apt/'									\
+	work='cd ~/Documents/Work/'							\
+	r2s='cd ~/Documents/Work/Ready2Show'				\
+	r2sd='cd ~/Documents/Work/Ready2Show/Development/'
+
 	# Commented out for now since theres no use or reason to have it aliased.
 	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
 
@@ -78,7 +82,7 @@ alias \
 	alias c='/usr/local/bin/colors'
 	alias less='less -R'
 	alias diff='diff --color=auto'
-	alias ip='ip -color=always'
+	alias ip='ip --color=always'
 
 # Package manager aliases.
 	# Aliases for apt.

@@ -174,11 +174,18 @@
 
 		" Adding this manually since the reloading of vimrc in the buffer overrides format options
 		" to the global init.vim settings.
-		"autocmd FileType .vim set tabstop=2
+		" autocmd FileType .vim set tabstop=2
 		" Sets mouse functionality and system clipboard.
-		" Commenting this out for now because <C-v> and <C-c> and general clipboard issues. 5-5-20 10:12PM
-		"set mouse=a
-		"set clipboard=unnamedplus
+		" Commenting this out for now because <C-v> and <C-c> and general clipboard issues. 5-5-20
+		" 10:12PM
+		" set mouse=a
+		" set clipboard=unnamedplus
+
+    " This changes the cursor shape and shape behaviour since on AWS it was set to use line
+    " shape in all modes. The variable is what changed the behaviour of the cursor while
+    " guicursor setting defined what specs to give the cursor.
+    set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
 	"----------------------[3.2] Syntax/search highlighting.
 		syntax on
