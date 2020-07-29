@@ -30,7 +30,7 @@
 	au!
 
 " [1.2] Check if Vim-plug and pathogen are installed for current user and install if not.
-	if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
+	if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 	  echo "Downloading Vim-Plug plugin manager for nvim..."
 	  silent !mkdir -p ~/.config/nvim/autoload/
 	  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
@@ -45,7 +45,7 @@
 	endif
 " [1.3] Load plugins:
 
-	" This installs my locally installed 
+	" This installs my locally installed
 	execute pathogen#infect('~/.config/nvim/bundle/{}')
 	call plug#begin('~/.config/nvim/plugged')
   " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
@@ -84,20 +84,29 @@
 			Plug 'edkolev/tmuxline.vim'
 	" Install Conquer of Completion.
 	"		Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+	" Install the vimwiki plugin. (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax on')
+			Plug 'vimwiki/vimwiki'
 	call plug#end()
+"-----------------------------------[1.4] - Plugin Configuration.
+	"---------------------[1.4.1] VimWiki Configuration.
+		" Sets the VimWiki directory to be located inside the vim runtimepath config directory.
+		" Checks for the right directory (if in ~/.config/nvim or ~/.vim).
+		"	if isdirectory('~/.config/nvim')
+		"		let g:vimwiki_list = [{'path':'$HOME/.config/nvim/vimwiki'}]
+		"	endif
+
 
 "-----------------------------------[2.0] - Theming and appearance settings.
 	"---------------------[2.1] Colorscheme options.
 		" Calling the custom theme in colors/lena.vim
 			"colorscheme lena
 
-			" Can't think of better to jot down a list of themes I'd like to try out.
-			" Wryan, zenburn, One Half Dark, Ollie, spacegray, subliminal, teerb, tomorrow night, tomorrow night
-			" eighties, oceanic-next
+			" Can't think of better to jot down a list of themes I'd like to try out.  Wryan, zenburn, One
+			" Half Dark, Ollie, spacegray, subliminal, teerb, tomorrow night, tomorrow night eighties,
+			" oceanic-next
 
 			" Enables true colors in neovim.
-			" 								let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+			"		let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 			" Adding this in conjunction with a .tmux.conf tweak from this site:
 			" https://github.com/tmux/tmux/issues/1246
@@ -107,7 +116,6 @@
 				  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 				  set termguicolors
 				endif
-
 
 			colorscheme palenight
 			let g:airline_theme = "palenight"
@@ -139,6 +147,7 @@
 			"let g:oceanic_next_terminal_bold = 1
 			"let g:oceanic_next_terminal_italic = 1
 			"colorscheme OceanicNext
+
 	"---------------------[2.3] Vim-Airline config settings.
 		"let g:airline_theme='oceanicnext'
 		"let g:airline_theme='dracula'
@@ -163,7 +172,7 @@
 	"----------------------[3.1] Default and general format settings (Assign tabcount value, shiftwidth, encoding, etc.)
 	"		(Filetype format settings for ftplugin have to be in the $VIMRUNTIME/after/ftplugin directory, or they'll be
 	" 															overwritten with the global settings specified here).
-	" 	(Potential fix by delaying the setting of the syntax until the filetype is finished in ftplugin.)
+	" (Potential fix by delaying the setting of the syntax until the filetype is finished in ftplugin.)
 		filetype plugin on
 		set tabstop=4
 		set shiftwidth=4
@@ -171,6 +180,8 @@
 		set foldmethod=manual
 		set formatoptions=qc
 		set encoding=utf-8
+		set nocompatible
+		set autowriteall
 
 		" Adding this manually since the reloading of vimrc in the buffer overrides format options
 		" to the global init.vim settings.
@@ -228,19 +239,37 @@
 	"--------------------[4.1.0] Shortcutting split navigation.
 
 	" Mapping window movement keys, setting default spawn location of new windows.
+	" (Movement between window panes is using vim keys with the <Leader>(Space) key, and is defined at
+	" the bottom with the rest of the leader definitions.
 		set splitbelow
 		set splitright
-		map <C-h> <C-w>h
-		map <C-j> <C-w>j
-		map <C-k> <C-w>k
-		map <C-l> <C-w>l
+		map 			<C-h> 						<C-w>h
+		map 			<C-j> 						<C-w>j
+		map 			<C-k> 						<C-w>k
+		map 			<C-l> 						<C-w>l
+		map 			<M-y> 						<C-w>l
+		map 			<M-i> 						<C-w>l
+		map 			<M-o> 						<C-w>l
+		map 			<M-p> 						<C-w>l
 
-	"--------------------[4.2.0] Mapping Tab management keys.
-		map <C-q>						<Nop>
-		map <C-q>	:tabclose <CR>
-		map <C-t>	:tabnew 	<CR>
-		map <M-l>	:tabnext 	<CR>
-		map <M-h>	:tabprev	<CR>
+	"--------------------[4.2.0] Mappings for Tabs.
+		map 			<C-q>							<Nop>
+		map 			<C-q>		:tabclose <CR>
+		map 			<C-t>		:tabnew 	<CR>
+		map 			<M-l>		:tabnext 	<CR>
+		map 			<M-h>		:tabprev	<CR>
+
+	"--------------------[4.2.1] Windows/Window-Splits mappings for movement and resizing.
+		" Movements
+		map	<Space>h					<C-w>h
+		map	<Space>j					<C-w>j
+		map	<Space>k					<C-w>k
+		map	<Space>l					<C-w>l
+		" Resizing
+		map	<Space>u					<C-w><
+		map	<Space>i					<C-w>-
+		map	<Space>o					<C-w>+
+		map	<Space>p					<C-w>>
 
 	"--------------------[4.3.0] Various command declarations.
     " Command to open zshrc file in new vim tab.
@@ -270,28 +299,27 @@
 		"-------------------[4.4.1] Unbind default Visual Block keys, bind to Leader+v, rebind C-v to Escape.
 		" The last mapping in insert mode for <C-v> is critical since default map
 		" doesn't apply to insert mode, and both <C-v> and <M-f> are bount to <Esc>.
-			map 			<C-v> 			<Nop>
-			map				<M-f>			<Nop>
-			nnoremap 		<Leader>v 		<C-v>
-			map				<C-c>			<Esc>y
-			imap			<C-c>			<Esc>y
-			map 			<C-v> 			<Esc>Pa
-			imap			<C-v>			<Esc>Pa
-			map 			<M-f> 			<Esc>
-			imap			<M-f>			<Esc>
-			
+			map 				<C-v> 			<Nop>
+			map					<M-f>				<Nop>
+			nnoremap 		<Leader>v 	<C-v>
+			map					<C-c>				<Esc>y
+			imap				<C-c>				<Esc>y
+			map 				<C-v> 			<Esc>Pa
+			imap				<C-v>				<Esc>Pa
+			map 				<M-f> 			<Esc>
+			imap				<M-f>				<Esc>
 
 		"-------------------[4.4.2] Quick saving/leaving files.
 		" Makes use of suda.vim plugin.
+		" Write the currently opened file as sudo.
 			nnoremap 		<Leader>ws		:w suda://%	<CR>
 			nnoremap 		<Leader>w			:w					<CR>
-			nnoremap 		<Leader>ww		:w!					<CR>
+			nnoremap 		<Leader>wr		:w					<CR>
+			nnoremap 		<Leader>wf		:w!					<CR>
 			nnoremap 		<Leader>wq 		:wq					<CR>
 			nnoremap 		<Leader>q 		:q					<CR>
 			nnoremap 		<Leader>qq 		:q!					<CR>
 			nnoremap 		<Leader>qa 		:qa!				<CR>
-		" Write the currently opened file as sudo.
-
 
 		"-------------------[4.4.3] Create command to remove any lines containing nothing other than whitespace
 		" (Comments are omitted), and creates abbreviation for easier calling.
@@ -305,25 +333,25 @@
 		" Automatically correct spelling error to the first result in spellcheck.
 			nnoremap 		<Leader>sc 						:set spell! <CR>
 			noremap			<Leader>ss						]s1z=
-			command!			FixTypo				:normal ]s1z=
+			command!		FixTypo				:normal ]s1z=
 			cnoreabbrev	typo									:FixTypo
 
 		"-------------------[4.4.6] General keybinds and shortcuts.
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
-		" map					<Leader>p					nciw
 			map					<Leader>c					zc
-			inoremap			<M-Space>					<Esc>/<++><CR>ca<
-			noremap				<M-Space>					/<CR>ca<
-			noremap				<M-s>						}
-			nnoremap			<Leader>f					:call Flash()<CR>
+			inoremap		<M-Space>					<Esc>/<++><CR>ca<
+			noremap			<M-Space>					/<CR>ca<
+			noremap			<M-s>							}
+			nnoremap		<Leader>f					:call Flash()<CR>
+			map					<Leader>-					<C-w>_
+			map					<Leader>=					<C-w>=
+		" map					<Leader>p					nciw
 
 		" Surround-plugin leader keybinds.
 			map					<Leader>e					vg_
 		"	map					<Leader>s					vg_S
-
-			"map				<Leader>f					V}zf<Esc>
+		" map 				<Leader>f					V}zf<Esc>
 
 		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
 			nnoremap <Leader>r								:silent source $MYVIMRC<CR>
-			"524096

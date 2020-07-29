@@ -6,9 +6,10 @@ setlocal syntax=vim
 
 " Adding this manually since the reloading of vimrc in the buffer overrides format options
 " to the global init.vim settings.
-autocmd FileType .vim set tabstop=2
+autocmd FileType .vim setlocal tabstop=2
+autocmd FileType .vim setlocal shiftwidth=2
 
-setlocal shiftwidth=2
+"setlocal shiftwidth=2
 "setlocal textwidth=110
 setlocal comments+=b:>
 " Commenting this out for now since vimscript files formatoptions are always different than default/desired.

@@ -64,6 +64,9 @@ alias \
 	nvc='cd ~/.config/nvim'								\
 	dot='cd ~/Documents/git/dotfiles'					\
 	ba='cd ~/Documents/programming/bash'				\
+	py='cd ~/Documents/programming/python'				\
+	py2='cd ~/Documents/programming/python/2'			\
+	py3='cd ~/Documents/programming/python/3'			\
 	crypt='cd /mnt/Data/Drew/crypt'						\
 	M='cd ~/Music'										\
 	aptc='cd /etc/apt/'									\
