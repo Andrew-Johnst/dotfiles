@@ -4,6 +4,11 @@
 # Functionrc is an rc file used for housing all shell functions, used in conjunction with aliasrc
 # file, and sourced within zshrc file.
 
+# Command listed below shows all the currently assigned functions. (First one displays current
+# functions with parenthesis, second command/line displays just the function names.
+#	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d'
+#	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d' -e 's/[\(\)]//g'
+
 # Sets color variables for more [[[ A E S T H E T I C ]]]
 CR='\033[1;38;5;9m'
 CB='\033[1;38;5;117m'
@@ -76,30 +81,43 @@ pycolor(){
 
 # Function to more easily add gpg keys (this is mainly so I don't have to remember the entire
 # command and can just feed keys into this function.
-	getaptkeys(){
-		[[ -z "$@" ]] && echo "Must specify keys to be added." && return 1
+	getaptkeyf(){
+		# Checks if at least one argument is given, exits if not.
+		[[ -z "$@" ]] && echo "Must specify keys to be added." && exit 1
+
+		# Checks if the script version of this function is present. If found, forward the arguments
+		# given to this function to the script; if not then continue running this function and
+		# assume all argument parameters are all PUBKEY's requiring validation and importing.
+		[[ -f "/usr/local/bin/getaptkey" ]] && \
+			echo "The script file for this function has been found. Forwarding the arguments" \
+			"from this function to the script." && echo && sudo /usr/local/bin/getaptkey "$@" \
+			&& exit 0
 		sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@"
 	}
-
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
 # history file so it can function independently of the shell limitations/syntaxing).
-#	[ Apparently this entire function can be replaced by a !! lmao ]
-#	s(){
-#		# This works independently of the shell being used; appears to not work if testing in shell
-#		# scripts since shell scripts are run in their own sub-shells and therefore have their own
-#		# history lists.
-#		[[ "$@" ]] && sudo "$@" && exit 0
-#		#if [[ "$@"
-#		lastcmd="$(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')"
-#		
-#		sudo $(history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d')
-#		
-#		# This does not work due to the way different shell history files store their contents with
-#		# different syntaxes.
-#		#SHF="$HOME/.$(echo $SHELL | awk -F "/" 'NF>1 {print $NF}')_history"
-#		#[[ ! -f "$SHF" ]] && echo "No $SHF file found." && exit 1
-#		#sudo `cat "$SHF" | tail -n1`
-#	}
+	s(){
+		# This works independently of the shell being used; appears to not work if testing in shell
+		# scripts since shell scripts are run in their own sub-shells and therefore have their own
+		# history lists.
+		[[ "$@" ]] && sudo "$@" && exit 0
+		
+		# Backticks must be used rather than a shell substitution with "$(<COMMAND>)" in conjunctio
+		# with an eval command on the variable.
+		lastcmd="`history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d'`"
+		# A "-s" option must be specified to sudo to keep the current shell variables/environment.
+		sudo -s eval "$lastcmd"
+	}
+
+# Function to make running programs that would normally take over a shell session go to background
+# and disown them so the shell the program was opened with can close without closing the program.
+	q(){
+		# Verify there are arguments (a command) to be run and disowned. Exit if not.
+		[[ -z "$@" ]] && echo -e "No command specified to be hidden and disowned.\nExiting..." \
+			&& exit 1
+		[[ "$@" ]] && eval "$@" & disown
+	}
+
 
 # Function to check for redundant and/or unused aliases and functions; then remove them
 #	afr(){

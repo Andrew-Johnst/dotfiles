@@ -61,7 +61,9 @@
 
 # Adding this line for pulseaudio for compatibility with general pulseaudio since before cava was
 # only working with MPD due to the FIFO audio output in the mpd.conf
-method = pulse
+;method = pulse
+;source = output
+;source = source
 ;source = "Pulseaudio Wave Out Device"
 
 # Adding this line in to utilize the MPD FIFO already configured for ncmpcpp's visualizer.

@@ -9,16 +9,14 @@ unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
 
 # Sudo aliases.
 alias sudo='sudo '	 		# Stupid fix for being able to use aliases with sudo.					
-alias s='sudo'				# Aliases 's' to 'sudo'; all proceeding sudo aliases will use "s" instead.
-alias sE='s -E '			# Alias to run sudo command but keep current environment variables.	
-alias se='s -E $EDITOR '	# Alias to preserve current user's environment vars, and open $EDITOR.
-alias sv='s -E nvim '		# Alias to open a file in nvim as sudo.
-
-# Backup of Sudo aliases.
-#	sudo='sudo '	 	# Stupid fix for being able to use aliases with sudo.					\
-#	s='sudo'			# Shortens 'sudo' to 's'												\
-#	sE='sudo -E '		# Alias to run sudo command but keep current environment variables.		\
-#	se='s -E $EDITOR '	# Alias to preserve current user's environment vars, and open editor.	\
+alias sE='sudo -E '			# Alias to run sudo command but keep current environment variables.	
+alias se='sudo -E $EDITOR '	# Alias to preserve current user's environment vars, and open $EDITOR.
+alias sv='sudo -E nvim '	# Alias to open a file in nvim as sudo.
+#alias s='sudo'				# Depreciated. This is now in the functionrc file, and can repeat the
+							# previous command as sudo, and functions as an alias the same way it
+							# used to when defined here. (The other sudo aliases needed a full
+							# "sudo" in the definitions as a result of this however, but is better
+							# practice to do this anyways rather than having recursive aliases).
 
 # Shortened browser/editor aliases.
 alias \
@@ -54,6 +52,8 @@ alias \
 alias \
 	b='cd ..'											\
 	conf='cd ~/.config'									\
+	confn='cd ~/.config/nvim'							\
+	nconf='cd ~/.config/nvim'							\
 	mn='cd /mnt'										\
 	tmp='cd /tmp'										\
 	d='cd ~/Documents'									\
@@ -68,6 +68,7 @@ alias \
 	py2='cd ~/Documents/programming/python/2'			\
 	py3='cd ~/Documents/programming/python/3'			\
 	crypt='cd /mnt/Data/Drew/crypt'						\
+	luks='cd /mnt/Data/Drew/crypt/luks'					\
 	M='cd ~/Music'										\
 	aptc='cd /etc/apt/'									\
 	work='cd ~/Documents/Work/'							\

@@ -34,6 +34,7 @@ DEPENDS=(	"git"		\
 EXCLUSIONS=(	"*.swp"								\
 				"*.log"								\
 				"*.tdb"								\
+				"*.netrwhist"						\
 				".config/nvim/plugged/vim-orgmode"	\
 				".config/BraveSoftware"				\
 				".config/transmission"				\

@@ -43,52 +43,63 @@
 	  silent !mkdir -p ~/.config/nvim/autoload/ ~/.config/nvim/bundle
 		silent !curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 	endif
-" [1.3] Load plugins:
 
-	" This installs my locally installed
-	execute pathogen#infect('~/.config/nvim/bundle/{}')
-	call plug#begin('~/.config/nvim/plugged')
-  " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
-  		Plug 'junegunn/vim-easy-align'
-  " Any valid git URL is allowed:
-  		Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-  " Install Dracula theme:
-  		Plug 'dracula/vim',{'name': 'dracula' }
-  " Install Nord theme:
-  		Plug 'arcticicestudio/nord-vim'
-  " Install Hybrid material theme:
-  		Plug 'kristijanhusak/vim-hybrid-material'
-  " Install palenight plugin:
-  		Plug 'drewtempelmeyer/palenight.vim'
-	" Install vim-orgmode:	(Disabled because it constantly gives issues either with new installs or
-	" committing changes to github.)
-	 " Plug 'jceb/vim-orgmode'
-	" FZF installation seems very bizare, it was already installed, but apt installed it again.
-	" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
-			Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-	" Install oceanic-next theme:
-			Plug 'mhartington/oceanic-next'
-	" Install vim-airline:
-	 		Plug 'vim-airline/vim-airline'
-  " Install themes for vim-airline:
-	 		Plug 'vim-airline/vim-airline-themes'
-	" Install Gotham theme.
-			Plug 'whatyouhide/vim-gotham'
-	" Install vim-surround.
-			Plug 'tpope/vim-surround'
-	" Install vim-repeat.
-			Plug 'tpope/vim-repeat'
-	" Install vim-commentary.
-			Plug 'tpope/vim-commentary'
-	" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
-			Plug 'edkolev/tmuxline.vim'
-	" Install Conquer of Completion.
-	"		Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	" Install the vimwiki plugin. (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax on')
-			Plug 'vimwiki/vimwiki'
-	call plug#end()
+	"---------------------[1.3] Load Plugins.
+		"-------------------[1.3.1] Load Custom Files and Manually Installed Plugins via Bundle.vim
+			" This installs plugins installed manually in the directory specified below.
+			execute pathogen#infect('~/.config/nvim/plugins/pathogen/{}', '~/.config/nvim/plugins/config/{}')
+			execute pathogen#infect('~/.config/nvim/plugins/config/{}*')
+		"------------------[1.3.2] Loads Plugged Vim Plugin Manager and Specify Plugins to be Installed.
+			call plug#begin('~/.config/nvim/plugins/plugged')
+		  " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
+		  		Plug 'junegunn/vim-easy-align'
+		  " Any valid git URL is allowed:
+		  		Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+		  " Install Dracula theme:
+		  		Plug 'dracula/vim',{'name': 'dracula' }
+		  " Install Nord theme:
+		  		Plug 'arcticicestudio/nord-vim'
+		  " Install Hybrid material theme:
+		  		Plug 'kristijanhusak/vim-hybrid-material'
+		  " Install palenight plugin:
+		  		Plug 'drewtempelmeyer/palenight.vim'
+					" Install vim-orgmode:	(Disabled because it constantly gives issues either with new
+					" installs or committing changes to github.)
+						" Plug 'jceb/vim-orgmode'
+			" FZF installation seems very bizare, it was already installed, but apt installed it again.
+			" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
+					Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+			" Install oceanic-next theme:
+					Plug 'mhartington/oceanic-next'
+			" Install vim-airline:
+			 		Plug 'vim-airline/vim-airline'
+		  " Install themes for vim-airline:
+			 		Plug 'vim-airline/vim-airline-themes'
+			" Install Gotham theme.
+					Plug 'whatyouhide/vim-gotham'
+			" Install vim-surround.
+					Plug 'tpope/vim-surround'
+			" Install vim-repeat.
+					Plug 'tpope/vim-repeat'
+			" Install vim-commentary.
+					Plug 'tpope/vim-commentary'
+			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
+					Plug 'edkolev/tmuxline.vim'
+			" Install Conquer of Completion.
+			"		Plug 'neoclide/coc.nvim', {'branch': 'release'}
+			" Install the vimwiki plugin. (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax
+			" on').
+					Plug 'vimwiki/vimwiki'
+			call plug#end()
+
 "-----------------------------------[1.4] - Plugin Configuration.
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+	""""""Configurations to plugins are stored under the custom Bundle plugin manager directory.""""""
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+	" This sets pathogen to search for files in the config directory.
 	"---------------------[1.4.1] VimWiki Configuration.
+		"let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/'}]
+		let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 		" Sets the VimWiki directory to be located inside the vim runtimepath config directory.
 		" Checks for the right directory (if in ~/.config/nvim or ~/.vim).
 		"	if isdirectory('~/.config/nvim')
@@ -315,7 +326,7 @@
 			nnoremap 		<Leader>ws		:w suda://%	<CR>
 			nnoremap 		<Leader>w			:w					<CR>
 			nnoremap 		<Leader>wr		:w					<CR>
-			nnoremap 		<Leader>wf		:w!					<CR>
+			nnoremap 		<Leader>ww		:w!					<CR>
 			nnoremap 		<Leader>wq 		:wq					<CR>
 			nnoremap 		<Leader>q 		:q					<CR>
 			nnoremap 		<Leader>qq 		:q!					<CR>
@@ -342,16 +353,23 @@
 			map					<Leader>c					zc
 			inoremap		<M-Space>					<Esc>/<++><CR>ca<
 			noremap			<M-Space>					/<CR>ca<
+			noremap			<M-w>							{
 			noremap			<M-s>							}
 			nnoremap		<Leader>f					:call Flash()<CR>
 			map					<Leader>-					<C-w>_
 			map					<Leader>=					<C-w>=
+		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
+			nnoremap <Leader>r								:silent source $MYVIMRC<CR>
 		" map					<Leader>p					nciw
 
-		" Surround-plugin leader keybinds.
+	"--------------------[4.5.0] Plugin keybinds.
+		"-------------------[4.5.1] Surround-plugin leader keybinds.
 			map					<Leader>e					vg_
 		"	map					<Leader>s					vg_S
 		" map 				<Leader>f					V}zf<Esc>
 
-		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
-			nnoremap <Leader>r								:silent source $MYVIMRC<CR>
+		"-------------------[4.5.1] VimWiki Plugin Keybinds.
+		" Fixing default keybinds for vimwiki.
+		" Removes the annoying <Leader>ww keybind.
+		nnoremap	<Leader>wi 			<Plug>VimwikiIndex
+		map 			<Leader>wi			<Plug>VimwikiIndex

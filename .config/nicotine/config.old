@@ -1,0 +1,252 @@
+[server]
+server = ('server.slsknet.org', 2242)
+login = 
+passw = 
+firewalled = 1
+ctcpmsgs = 0
+autosearch = []
+autoreply = 
+portrange = (2234, 2239)
+upnp = True
+userlist = []
+banlist = []
+ignorelist = []
+ipignorelist = {}
+ipblocklist = {'72.172.88.*': 'MediaDefender Bots'}
+autojoin = ['nicotine']
+autoaway = 15
+private_chatrooms = 0
+
+[transfers]
+incompletedir = /home/drew/.local/share/nicotine/incompletefiles
+downloaddir = /home/drew/nicotine-downloads
+uploaddir = /home/drew/nicotine-uploads
+sharedownloaddir = 0
+shared = []
+buddyshared = []
+uploadbandwidth = 10
+uselimit = 0
+uploadlimit = 150
+downloadlimit = 0
+preferfriends = 0
+useupslots = 0
+uploadslots = 2
+afterfinish = 
+afterfolder = 
+lock = 1
+reverseorder = 0
+prioritize = 0
+fifoqueue = 0
+usecustomban = 0
+limitby = 1
+customban = Banned, don't bother retrying
+queuelimit = 10000
+filelimit = 1000
+friendsonly = 0
+friendsnolimits = 0
+enablebuddyshares = 0
+enabletransferbuttons = 1
+groupdownloads = 1
+groupuploads = 1
+geoblock = 0
+geopanic = 0
+geoblockcc = ['']
+remotedownloads = 1
+uploadallowed = 2
+autoclear_downloads = 0
+autoclear_uploads = 0
+uploadsinsubdirs = 1
+rescanonstartup = 0
+enablefilters = 1
+downloadregexp = (\\(.*\.url|albumart(_{........-....-....-....-............}_)?(_?(large|small))?\.jpg|desktop\.ini|folder\.jpg|thumbs\.db)$)
+downloadfilters = [['*.url', 1], ['albumart(_{........-....-....-....-............}_)?(_?(large|small))?\\.jpg', 0], ['desktop.ini', 1], ['folder.jpg', 1], ['thumbs.db', 1]]
+download_doubleclick = 1
+upload_doubleclick = 1
+downloadsexpanded = True
+uploadsexpanded = True
+
+[userinfo]
+descr = ''
+pic = 
+
+[words]
+censored = []
+autoreplaced = {'teh ': 'the ', 'taht ': 'that ', 'tihng': 'thing', 'youre': "you're", 'jsut': 'just', 'thier': 'their', 'tihs': 'this'}
+censorfill = *
+censorwords = False
+replacewords = False
+tab = True
+cycle = False
+dropdown = True
+characters = 2
+roomnames = True
+buddies = True
+roomusers = True
+commands = True
+aliases = True
+onematch = True
+
+[logging]
+debug = False
+debugmodes = [0, 1]
+logcollapsed = False
+logsdir = /home/drew/.local/share/nicotine/logs
+rooms_timestamp = %H:%M:%S
+private_timestamp = %Y-%m-%d %H:%M:%S
+log_timestamp = %Y-%m-%d %H:%M:%S
+timestamps = 1
+privatechat = 0
+chatrooms = 0
+transfers = 0
+roomlogsdir = /home/drew/.local/share/nicotine/logs/rooms
+privatelogsdir = /home/drew/.local/share/nicotine/logs/private
+readroomlogs = 1
+readroomlines = 15
+readprivatelines = 15
+rooms = []
+
+[privatechat]
+store = 0
+users = []
+
+[columns]
+userbrowse = [1, 1, 1, 1]
+userbrowse_widths = [600, 100, 70, 0]
+userlist = [True, True, True, True, True, True, True, True, True, True]
+userlist_widths = [29, 25, 120, 61, 49, 69, 59, 92, 160, 1244]
+chatrooms = {}
+chatrooms_widths = {}
+download_columns = [True, True, True, True, True, True, True, True, True, True]
+download_widths = [200, 250, 250, 140, 50, 70, 170, 90, 140, 548]
+upload_columns = [True, True, True, True, True, True, True, True, True, True]
+upload_widths = [200, 250, 250, 140, 50, 70, 170, 90, 140, 548]
+filesearch_columns = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+filesearch_widths = [50, 200, 25, 20, 90, 50, 400, 400, 100, 50, 0]
+hideflags = False
+
+[searches]
+expand_searches = True
+group_searches = True
+maxresults = 50
+re_filter = 0
+history = []
+enablefilters = 0
+defilter = ['', '', '', '', 0, '']
+filtercc = []
+reopen_tabs = False
+filterin = []
+filterout = []
+filtersize = []
+filterbr = []
+distrib_timer = 0
+distrib_ignore = 60
+search_results = 1
+max_displayed_results = 1000
+max_stored_results = 1500
+remove_special_chars = True
+
+[ui]
+icontheme = 
+chatme = FOREST GREEN
+chatremote = 
+chatlocal = BLUE
+chathilite = red
+urlcolor = #3D2B7F
+useronline = BLACK
+useraway = ORANGE
+useroffline = #aa0000
+usernamehotspots = 1
+usernamestyle = bold
+textbg = 
+search = 
+searchq = GREY
+inputcolor = 
+spellcheck = 1
+exitdialog = 1
+notexists = 1
+tab_default = 
+tab_hilite = red
+tab_changed = #0000ff
+tab_select_previous = 1
+tab_reorderable = 1
+tabmain = Top
+tabrooms = Top
+tabprivate = Top
+tabinfo = Top
+tabbrowse = Top
+tabsearch = Top
+tab_status_icons = 1
+chat_hidebuttons = False
+labelmain = 0
+labelrooms = 0
+labelprivate = 0
+labelinfo = 0
+labelbrowse = 0
+labelsearch = 0
+decimalsep = ,
+chatfont = 
+roomlistcollapsed = False
+tabclosers = 1
+searchfont = 
+listfont = 
+browserfont = 
+transfersfont = 
+last_tab_id = 0
+modes_visible = {'chatrooms': 1, 'private': 1, 'downloads': 1, 'uploads': 1, 'search': 1, 'userinfo': 1, 'userbrowse': 1, 'interests': 1}
+modes_order = ['chatrooms', 'private', 'downloads', 'uploads', 'search', 'userinfo', 'userbrowse', 'interests', 'userlist']
+searchoffline = #aa0000
+showaway = 0
+buddylistinchatrooms = 0
+trayicon = 1
+filemanager = xdg-open $
+speechenabled = 0
+speechprivate = %(user)s told you.. %(message)s
+speechrooms = In %(room)s, %(user)s said %(message)s
+speechcommand = flite -t $
+width = 1920
+height = 1017
+xposition = 1920
+yposition = 136
+maximized = False
+urgencyhint = True
+
+[private_rooms]
+rooms = {}
+enabled = 0
+
+[urls]
+urlcatching = 1
+protocols = {}
+humanizeurls = 1
+
+[interests]
+likes = []
+dislikes = []
+
+[ticker]
+default = 
+rooms = {}
+hide = 0
+
+[players]
+default = xdg-open $
+npothercommand = 
+npplayer = 
+npformatlist = []
+npformat = 
+
+[notifications]
+notification_window_title = 1
+notification_tab_colors = 0
+notification_tab_icons = 1
+notification_popup_sound = 1
+notification_popup_file = 1
+notification_popup_folder = 1
+notification_popup_private_message = 1
+notification_popup_chatroom = 0
+notification_popup_chatroom_mention = 1
+
+[plugins]
+enable = 1
+enabled = []
+
