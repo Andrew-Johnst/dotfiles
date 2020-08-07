@@ -91,6 +91,7 @@ bindkey 	'^['	delete-char
 
 # Manual environment variables.
 export EDITOR=nvim
+export FILEMANAGER=pcmanfm-qt
 
 # Apparently, despite countless warnings online against exporting TERM variable in shell profile,
 # this is what fixed it lol. (Have yet to start new SSH instance, or X11 session however).

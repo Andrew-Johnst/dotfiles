@@ -262,31 +262,31 @@ cnoreabbrev ntf NTF
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " The below function is commented out as it needs to be fleshed out and a more simple one is used. "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-fu! Test(...)
-	echo get(a:, 0) . "\n\n"
-	echo "Arg 1 = " . get(a:, 1) . "\n"
-	echo "Arg 2 = " . get(a:, 2) . "\n"
-	echo "Arg 3 = " . get(a:, 3) . "\n"
-	if get(a:, 0) > 0
-		echo "Arguments given."
-		let l:filename = get(a:, 1)
-	else
-		echo "No arguments given.\nDefault filename of current date will be used."
-		let l:filename = "/tmp/nvim-tempfiles/" . system("date '+%m-%d-%Y_%H-%M-%S'")
-		echo l:filename
-	endif
-	if l:filename == "abc"
-		echo "Success"
-	else
-		echo "Fail"
-	endif
-endfu
+"fu! Test(...)
+"	echo get(a:, 0) . "\n\n"
+"	echo "Arg 1 = " . get(a:, 1) . "\n"
+"	echo "Arg 2 = " . get(a:, 2) . "\n"
+"	echo "Arg 3 = " . get(a:, 3) . "\n"
+"	if get(a:, 0) > 0
+"		echo "Arguments given."
+"		let l:filename = get(a:, 1)
+"	else
+"		echo "No arguments given.\nDefault filename of current date will be used."
+"		let l:filename = "/tmp/nvim-tempfiles/" . system("date '+%m-%d-%Y_%H-%M-%S'")
+"		echo l:filename
+"	endif
+"	if l:filename == "abc"
+"		echo "Success"
+"	else
+"		echo "Fail"
+"	endif
+"endfu
 "command -nargs=1 NTF call NewTempFile(<args>)
 " Calling a function with <q-args> takes any and all arguments and assigns them into a:1, whereas
 " <f-args> splits at spaces/CRs/Tabs and assigns the value into the next a:X variable.
 "command -nargs=* Test call Test(<q-args>)
-command -nargs=* Test call Test(<q-args>)
-cnoreabbrev test Test
+"command -nargs=* Test call Test(<q-args>)
+"cnoreabbrev test Test
 
 " Copy paste of test function.
 "	fu! Test(...)

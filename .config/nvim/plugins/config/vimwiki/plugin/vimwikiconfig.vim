@@ -17,3 +17,9 @@
 "nunmap <Plug>VimwikiIndex
 "nnoremap <Leader>b <Plug>VimwikiIndex
 "map <Leader>wi
+"let g:vimwiki_list = [{'path': '~/Documents/Linux/VimWiki', 'syntax': 'markdown', 'ext': '.md'}]
+
+" Disables creation of temporary wikis
+" let g:vimwiki_global_ext = 0
+
+"let g:vimwiki_

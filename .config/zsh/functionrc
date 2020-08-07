@@ -118,10 +118,11 @@ pycolor(){
 		[[ "$@" ]] && eval "$@" & disown
 	}
 
-
-# Function to check for redundant and/or unused aliases and functions; then remove them
-#	afr(){
-#		alias
+# Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
+# connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
+# option.
+#	getip(){
+#		[[ "$1" =~ '-\{1,\}[' ]]
 #	}
 
 # Function to move into luks directory if already mounted and decrypted.

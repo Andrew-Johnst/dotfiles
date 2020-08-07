@@ -87,6 +87,7 @@ alias \
 	alias less='less -R'
 	alias diff='diff --color=auto'
 	alias ip='ip --color=always'
+	alias lx='less -X'
 
 # Package manager aliases.
 	# Aliases for apt.
@@ -120,5 +121,7 @@ alias \
 	alias tmr='tmux attach-session'
 	
 	# Alias to connect to NordVPN's auto-selected fastest server over UDP.
+	#alias vpn='sudo \
+	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
 	alias vpn='sudo \
-		openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
+		openvpn /etc/openvpn/NordVPN/ovpn_udp/us4407.nordvpn.com.udp.ovpn'

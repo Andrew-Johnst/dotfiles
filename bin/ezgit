@@ -20,12 +20,16 @@
 
 # Library containing all of the package dependencies for both the script as well as the
 # dotfile/config files for my setup.
-DEPENDS=(	"git"		\
+DEPENDS=(	"bzip2"		\
 			"fzf"		\
-			"tmux"		\
-			"neovim"	\
-			"openssh"	\
+			"git"		\
 			"neomutt"	\
+			"neovim"	\
+			"pv"		\
+			"rsync"		\
+			"ssh"		\
+			"tar"		\
+			"tmux"		\
 			"zsh"		\
 		)
 
@@ -45,6 +49,8 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/mpd/pid"					\
 				".config/mpd/database"				\
 				".config/mpd/state"					\
+				".config/mpd/playlists/"			\
+				".config/nicotine/"					\
 				".config/spotify"					\
 				".config/projectM"					\
 				".config/duc"						\
@@ -132,6 +138,43 @@ SLEEPFORX(){
 	sleep 1
 }
 
+# Function that checks for missing dependencies and asks if the user would like to install them.
+CHECKDEPS(){
+	for i in "${!DEPENDS[@]}"
+	do
+		#[[ ! $(command -v "${DEPENDS[$i]}") ]] && echo "Command \"${DEPENDS[$i]}\" is missing." && missingdepends+=("${DEPENDS[$i]}")
+		[[ ! $(command -v "${DEPENDS[$i]}") ]] && MISSINGDEPENDS+=("${DEPENDS[$i]}")
+	done
+	
+	# Checks if MISSINGDEPENDS list is empty, if not then missing dependencies were found.
+	if [[ ${#MISSINGDEPENDS[@]} -ne 0 ]]
+	then
+		echo "Missing dependencies found: "
+		for i in "${!MISSINGDEPENDS[@]}"
+		do
+			echo -e "${CRED}${MISSINGDEPENDS[$i]}${CRESET}"
+		done
+
+		# While loop to prompt a [Y/N] input from the user if they wish to install the missing
+		# programs. If there are missing dependencies but non-critical ones, the user can proceed in
+		# a "compatibility" mode.
+		while [[ "$yn" != "y" && "$yn" != "n" ]]
+		do
+			read -n 1 -p "$(echo -e Would you like to install the dependencies? \
+				["$CRED"Y"$CRESET"/"$CRED"n"$CRESET"]: ) " yn;
+
+			# Sanitizing the read command input.
+			yn="$(echo $yn | tr '[:upper:]' '[:lower:]')"
+			echo
+			
+			# Exit if user selects "[n]o" to committing the changes.
+			[[ "$yn" == "n" ]] && echo -e \
+				"${CRED}Changes staged for commit have been made, but not committing.\nExiting..." \
+				&& exit 1
+		done
+	fi
+}
+
 
  case "$1" in
  	-i | --install)
@@ -162,7 +205,7 @@ SLEEPFORX(){
  		do
  			cp -r "$i" "$HOME/"
  		done
-		cp bin/colortest /usr/local/bin/colortest
+		#cp bin/colortest /usr/local/bin/colortest
 		echo "Dotfiles installed, exiting..."
 		exit 0
  		;;
@@ -182,6 +225,14 @@ SLEEPFORX(){
 		yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
 
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
+		# [Deprecated way using "cp" command. This has the undesired effect of not deleting files in
+		# the git dotfile directory if they are deleted on the host that they are being copied from.
+		# (Ex: a folder is deleted on this machine and that change should be made to the repository,
+		# however only using a cp command without first deleting all files in the current directory
+		# will keep deleted files)]
+
+
+
  		for i in "${FILELIST[@]}"
  		do
  			cp -rf "$HOME/$i" .
@@ -197,14 +248,6 @@ SLEEPFORX(){
 		do
 			git rm -rf "${EXCLUSIONS[$i]}" &> /dev/null
 		done
-
-		#git rm -rf .config/BraveSoftware
-		#git rm -rf .config/transmission
-		#git rm -rf .config/Bitcoin/Bitcoin-Qt.conf
-        #git rm -rf .config/ranger/bookmarks
-        #git rm -rf .config/ranger/history
-        #git rm -rf .config/chromium
-		#git rm *.swp
 
 		git status
 		# Using a while loop again to force y/n.

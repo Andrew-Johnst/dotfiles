@@ -99,7 +99,10 @@
 	" This sets pathogen to search for files in the config directory.
 	"---------------------[1.4.1] VimWiki Configuration.
 		"let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/'}]
-		let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+		"let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+		let g:vimwiki_list = [{'path': '~/Documents/Linux/VimWiki', 'syntax': 'markdown', 'ext': '.md'}]
+		let g:vimwiki_global_ext = 0
+
 		" Sets the VimWiki directory to be located inside the vim runtimepath config directory.
 		" Checks for the right directory (if in ~/.config/nvim or ~/.vim).
 		"	if isdirectory('~/.config/nvim')
@@ -193,6 +196,8 @@
 		set encoding=utf-8
 		set nocompatible
 		set autowriteall
+		set nobackup
+		"set nowritebackup
 
 		" Adding this manually since the reloading of vimrc in the buffer overrides format options
 		" to the global init.vim settings.
