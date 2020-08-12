@@ -94,7 +94,7 @@
 		"	exe "normal o"
 		"endif
 		exe "normal o#".expand('%:p')
-		exe "normal o"
+		exe "normal o#"
 		exe "normal o# "
 	" Writes the file, then reloads the buffer applying filetype settings.
 		w | e

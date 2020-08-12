@@ -83,11 +83,15 @@ alias \
 	alias cgrep='grep --color=always'
 	alias cg='grep --color=auto'
 	alias gc='git clone '
-	alias c='/usr/local/bin/colors'
+	alias c='/usr/local/bin/colorchart'
+	alias cch='/usr/local/bin/colorchart'
 	alias less='less -R'
 	alias diff='diff --color=auto'
 	alias ip='ip --color=always'
 	alias lx='less -X'
+	alias plx='pcat | less -X'
+	alias fm='pcmanfm-qt '
+	alias bt='bashtop'
 
 # Package manager aliases.
 	# Aliases for apt.

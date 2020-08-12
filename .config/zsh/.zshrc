@@ -99,17 +99,38 @@ export FILEMANAGER=pcmanfm-qt
 export TERM=xterm-256color
 #export TERM=mintty
 
+# Checks whether or not the current session is from SSH, exports the DISPLAY variable to the IP
+# address of the SSH client if so, and if the current session doesn't appear to originate from an
+# SSH session, it will default to setting the DISPLAY variable to the standard (on-board/localhost)
+# display address.
+if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]]
+then
+	# Old variable export that defaulted to my desktop IP.
+	#DISPLAY=192.168.1.30:0.0
+	DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
+	export DISPLAY
 
+	# Sets OpenGL rendering to indirect, meant for rendering over network.
+	# https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
+	export LIBGL_ALWAYS_INDIRECT=1
+else
+	export DISPLAY=:0
+fi
+
+# Commenting these below lines out in-favor of using an actual if function so that the DISPLAY
+# variable will be set to whatever IP address the SSH connection is sourced from, whereas the old
+# method only checked if it was using SSH and would just default/assume IP address: 192.168.1.30
+# which is my Windows 10 Desktop (running modified pulseaudio server and VcXsrv for X11 Forwarding).
 # Checks whether current session is a SSH or TTY to set the DISPLAY variable appropriately for X11
 # forwarding to Desktop VcXsrv server. Default is set to the default display of :0
-export DISPLAY=:0
-[[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && DISPLAY=192.168.1.30:0.0
+#export DISPLAY=:0
+#[[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]] && DISPLAY=192.168.1.30:0.0
 #[[ "$HOST" == "Drew-PC" ]] && DISPLAY=localhost:0
 #[[ -z "$SSH_CLIENT" || -z "$SSH_TTY" ]] && DISPLAY=:0
 
 # Sets OpenGL rendering to indirect, meant for rendering over network.
 # https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
-#export LIBGL_ALWAYS_INDIRECT=1
+# export LIBGL_ALWAYS_INDIRECT=1
 
 # Prolly a better way to do this but doing this as a temporary fix for WSL starting directory when a
 # new session is started. Doing a check for if root or not since that might not be preferable to cd

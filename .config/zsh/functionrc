@@ -10,12 +10,12 @@
 #	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d' -e 's/[\(\)]//g'
 
 # Sets color variables for more [[[ A E S T H E T I C ]]]
-CR='\033[1;38;5;9m'
-CB='\033[1;38;5;117m'
-CG='\033[1;38;5;10m'
-CBL='\033[5m'
-CRE='\033[0m'
-CBBL=$(echo -e ${CB}${CBL})
+local CR='\033[1;38;5;9m'
+local CB='\033[1;38;5;117m'
+local CG='\033[1;38;5;10m'
+local CBL='\033[5m'
+local CRE='\033[0m'
+local CBBL=$(echo -e ${CB}${CBL})
 
 # Unsets all functions in this file before redefining them.
 # [WIP]
@@ -43,31 +43,78 @@ CBBL=$(echo -e ${CB}${CBL})
 	}
 # Function to easily kill screen PIDs without having to manually type them out.
 	sk(){
-		SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
+		local SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
 		echo $SCREENPIDS
 	}
 # Function to display the active network interface.
 	nic(){
-		echo $(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
+		# Old method, only prints active NIC interface.
+		#echo $(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
+
+        ############################################################################################
+		########## New method, stores variables then prints them instead of a one-liner. ###########
+		############### One-liner method is prefered, but using this method for now. ###############
+		##### (Once a new one-liner is made, whichever method is most efficient will be used). #####
+        ############################################################################################
+		# ANSI Color Code Variables
+		local CRED='\033[1;38;5;9m'
+		local CGREEN='\033[1;38;5;10m'
+		local CCYAN='\033[1;38;5;45m'
+		local CPURP='\033[1;38;5;93m'			# Bold, Purple (#8700ff; rgb(135,0,255) hsl(71,100%,50%)).
+		local CRESET='\033[0m'				# Resets ANSI Codes to default/none.
+		# Get currently-active/in-use NIC device name.
+		local DEVICE="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
+		# Get the LAN IP address of the currently-active/in-use NIC device.
+		local DEVIP="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*src ([^\ ]+).*/\1/p')"
+		echo -e "${CGREEN}Active Network Interface is:\t${CRED}[$DEVICE${CRED}]"
+		echo -en "${CRESET}"
+		echo -e "${CCYAN}The IPv4 Address is:\t\t${CRED}[$DEVIP${CRED}]"
+
+		#echo -e "${CGREEN}Active Network Interface is:     ${CRED}[$DEVICE${CRED}]"
+		#echo -e "${CCYAN}The IP Address on ${CRED}[$DEVICE${CRED}]${CCYAN} is: ${CRED}[$DEVIP${CRED}]"
 	}
 
 # Colorization aliases.
-pycolor(){
-	[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
-	pygmentize -f terminal256 -O style=monokai -g -
-}
+	pycolor(){
+		[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
+		[[ ! -f "$#" ]] && pygmentize -f terminal256 -O style=monokai -g -
+	}
 
 # Colorized Listing of the physical hard drive device, physical volume, volume group, and logical
 # volume groups.
 	disks(){
-		sudo parted -l | head -9 | pcat
-		echo -e "\n\033[1;38;5;25m\t""Physical Volumes:"
-		sudo pvs
-		echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
+		# (This below command is no longer used since it does not account for LVMs, and this system
+		# is installed on an LVM partition scheme, as well as multiple other LVM partitions).
+		#		sudo parted -l | head -9 | pcat
+		# Checks if root. Exit if not.
+		#[[ "$EUID" -ne 0 ]] && echo -e "Please run this script as root/sudo.\nDoing nothing..." && return 1
+
+		#sudo fdisk -l | sed -n -e '/\/dev\/sd[a-z]:/,/^$/p'
+		#echo -e "\n\033[1;38;5;25m\t""Physical Volumes:"
+		#	sudo pvs | sed -re 's/^[\t ]+PV[\ \t]+(.*)/Physical Volumes:\t\   \1/' -e 's/^[\t ]+(.*)/\t\t\1/'
+		echo "#####################################################################################"
+		echo "#### Physical Partitions and Storage/Block Devices (Only real/non-logical here): ####"
+		echo "#####################################################################################"
+		echo
+		sudo fdisk -l /dev/sd[a-z] 2>/dev/null
+		echo -e "\n\n"
+		echo "#####################################################################################"
+		echo "######## Physical Volumes (PVs), Volume Groups (VGs), Logical Volumes (LVMs): #######"
+		echo "#####################################################################################"
+		echo
+		echo "Physical Volumes:"
+		sudo pvs #| sed 's/'
+		#echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
+		#echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
+		echo "Volume Groups:"
 		sudo vgs
-		echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
+		#echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
+		#echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
+		echo "Logical Volumes:"
 		sudo lvs
 	}
+	# Alias to pipe the entire contents of disks() function through pcat alias.
+	alias disks='disks | plx'
 
 # Function to display only the hidden files/folders. $1 argument can dictate whether or not to only
 # show <-f|--files> or <-F|--folders>
@@ -121,9 +168,9 @@ pycolor(){
 # Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
 # connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
 # option.
-#	getip(){
-#		[[ "$1" =~ '-\{1,\}[' ]]
-#	}
+	getip(){
+		[[ "$1" =~ '[-file]' ]]
+	}
 
 # Function to move into luks directory if already mounted and decrypted.
 #cdintoluks(){
