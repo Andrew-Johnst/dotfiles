@@ -105,10 +105,21 @@ export TERM=xterm-256color
 # display address.
 if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]]
 then
-	# Old variable export that defaulted to my desktop IP.
-	#DISPLAY=192.168.1.30:0.0
-	DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
-	export DISPLAY
+    # Old variable export that defaulted to my desktop IP.
+    #DISPLAY=192.168.1.30:0.0
+    DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
+    SSH_CLIENT_IP="$(echo $SSH_CONNECTION | awk '{print $1}')"
+    # Below conditional checks to see if current SSH Client IP address has valid IPv4 address
+    # (general IP check).
+    #[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\} ]] &&
+    # Below conditional checks to see if network is on "192.168.1.0/24" network.
+    #[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.1\.[0-9]\{1,3\} ]]
+	# Below conditional checks to see if current network interface LAN IP is on 192.168.200.0/24
+	# subnet ("Temporary" subnet/network for KVM virtual-network until I setup subnetting/VLANs with
+	# Cisco router and switch).
+    [[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.200\.[0-9]\{1,3\} ]] && \
+        DISPLAY="192.168.1.30:0.0"
+    export DISPLAY
 
 	# Sets OpenGL rendering to indirect, meant for rendering over network.
 	# https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
