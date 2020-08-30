@@ -9,13 +9,28 @@
 #	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d'
 #	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d' -e 's/[\(\)]//g'
 
-# Sets color variables for more [[[ A E S T H E T I C ]]]
+####################################################################################################
+##################################### ANSI Escape Code Colors. #####################################
+##################### Sets color variables for more [{( A E S T H E T I C )}] ######################
+####################################################################################################
 local CR='\033[1;38;5;9m'
 local CB='\033[1;38;5;117m'
 local CG='\033[1;38;5;10m'
-local CBL='\033[5m'
-local CRE='\033[0m'
+local CBL='\033[3m'
+local CC='\033[1;38;5;14m'			# Bold, Cyan.
+local CP='\033[1;38;5;139m'			# Bold, Purple (#8700ff; rgb(135,0,255) hsl(71,100%,50%)).
+local CT='\033[1;38;5;45m'			# Bold, Turquiose.
+local CRE='\033[0m'					# Resets all ANSI color codes.
+
+####################################################################################################
+############################### Combination ANSI Escape Code Colors. ###############################
+####################################################################################################
 local CBBL=$(echo -e ${CB}${CBL})
+local CRI=$(echo -e ${CR}${CBL})
+local CGI=$(echo -e ${CG}${CBL})
+local CPI=$(echo -e ${CP}${CBL})
+
+
 
 # Unsets all functions in this file before redefining them.
 # [WIP]
@@ -46,6 +61,19 @@ local CBBL=$(echo -e ${CB}${CBL})
 		local SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
 		echo $SCREENPIDS
 	}
+
+# Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
+# connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
+# option.
+	ips(){
+		#[[ "$1" =~ '[-file]' ]]
+		#[[ "$1" =~ '?[--]
+		#local CURRENTIP=`curl -s icanhazip.com`
+		#local CURRENTIP="$(curl -s icanhazip.com)"
+		#echo "$CURRENTIP"
+		echo "$(curl -s icanhazip.com)"
+	}
+
 # Function to display the active network interface.
 	nic(){
 		# Old method, only prints active NIC interface.
@@ -56,19 +84,17 @@ local CBBL=$(echo -e ${CB}${CBL})
 		############### One-liner method is prefered, but using this method for now. ###############
 		##### (Once a new one-liner is made, whichever method is most efficient will be used). #####
         ############################################################################################
-		# ANSI Color Code Variables
-		local CRED='\033[1;38;5;9m'
-		local CGREEN='\033[1;38;5;10m'
-		local CCYAN='\033[1;38;5;45m'
-		local CPURP='\033[1;38;5;93m'			# Bold, Purple (#8700ff; rgb(135,0,255) hsl(71,100%,50%)).
-		local CRESET='\033[0m'				# Resets ANSI Codes to default/none.
+
 		# Get currently-active/in-use NIC device name.
 		local DEVICE="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
 		# Get the LAN IP address of the currently-active/in-use NIC device.
 		local DEVIP="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*src ([^\ ]+).*/\1/p')"
-		echo -e "${CGREEN}Active Network Interface is:\t${CRED}[$DEVICE${CRED}]"
-		echo -en "${CRESET}"
-		echo -e "${CCYAN}The IPv4 Address is:\t\t${CRED}[$DEVIP${CRED}]"
+		local WANIP=$(ips)
+		echo -e "${CR}The Currently Active Network Interface is:\t${CR}[$DEVICE${CR}]"
+		echo -en "${CRE}"
+		echo -e "${CC}The ${CPI}LAN${CRE}${CC} IPv4 Address on that NIC is:\t\t${CR}[$DEVIP${CR}]"
+		echo -e "${CC}The ${CGI}WAN${CRE}${CC} IPv4 Address on that NIC is currently:" \
+			"\t${CR}[${CG}${WANIP}${CR}]"
 
 		#echo -e "${CGREEN}Active Network Interface is:     ${CRED}[$DEVICE${CRED}]"
 		#echo -e "${CCYAN}The IP Address on ${CRED}[$DEVICE${CRED}]${CCYAN} is: ${CRED}[$DEVIP${CRED}]"
@@ -147,7 +173,7 @@ local CBBL=$(echo -e ${CB}${CBL})
 		# This works independently of the shell being used; appears to not work if testing in shell
 		# scripts since shell scripts are run in their own sub-shells and therefore have their own
 		# history lists.
-		[[ "$@" ]] && sudo "$@" && exit 0
+		[[ "$@" ]] && sudo "$@" && return 0
 		
 		# Backticks must be used rather than a shell substitution with "$(<COMMAND>)" in conjunctio
 		# with an eval command on the variable.
@@ -161,24 +187,27 @@ local CBBL=$(echo -e ${CB}${CBL})
 	q(){
 		# Verify there are arguments (a command) to be run and disowned. Exit if not.
 		[[ -z "$@" ]] && echo -e "No command specified to be hidden and disowned.\nExiting..." \
-			&& exit 1
+			&& return 1
 		[[ "$@" ]] && eval "$@" & disown
 	}
 
-# Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
-# connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
-# option.
-	getip(){
-		[[ "$1" =~ '[-file]' ]]
-	}
-
-# Function to move into luks directory if already mounted and decrypted.
-#cdintoluks(){
-#	#[[ /dev/mapper/crypt/28683ecb-87c8-4622-9304-be9114ac6d7b &&
-#	[[ ! "$1" ]] && exit 0
-#	[[ sudo grep -q crypt /dev/disk/by-uuid/28683ecb-87c8-4622-9304-be9114ac6d7b ]] && cd /mnt/crypt
-#}
-
+# Function to open a new file in /tmp/ directory, uses the first argument as the filename under
+# /tmp/ directory, if the argument is a file that already exists, return a warning and append a
+# number to the end.
+#	tmpba(){
+#		local TMPBASH='/tmp/bashscripts/'
+#		[[ ! -d "${TMPBASH}" ]] && read -r -n 1 "$(echo -e "${CR}No directory: " \
+#			\"${CB}${TMPBASH}${CR}\" exists.\nWould you like to create it now: [Y/n]: " )" CHOICE
+#		[[ -e "$CHOICE" && ! "$CHOICE" =~ '[y|Y|n|N]' ]] && echo "Invalid choice. Exiting..." \
+#			&& return 1
+#		#if [ -f "$1" ]
+#		#then
+#		#	echo "File exists. Would you like to overwrite it or 
+#		#	while ;:
+#		#	do
+#
+#		#"$EDITOR" -c "bh"
+#	}
 
 # Reconnects to running tmux session; if multiple sessions found, list them and prompt for input on
 # which to connect to.

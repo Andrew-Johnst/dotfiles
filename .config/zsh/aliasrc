@@ -5,7 +5,12 @@
 
 # This removes all user-defined aliases just to avoid any potential issues when changing names of
 # aliases.
-unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
+unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ') 2>/dev/null
+
+### Old methods of clearing aliases:
+	# unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
+	# unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ')
+	# unalias $(alias | sed -e 's/=.*$//' | sed ':a;N;$!ba;s/\n/ /g')
 
 # Sudo aliases.
 alias sudo='sudo '	 		# Stupid fix for being able to use aliases with sudo.					
@@ -29,11 +34,11 @@ alias \
 
 # Edit config file shortcuts.
 alias \
-	zrc='v ~/.config/zsh/.zshrc'	\
-	zr='. ~/.config/zsh/.zshrc'		\
-	nrc='v ~/.config/nvim/init.vim'	\
-	tmc='v ~/.tmux.conf'			\
-	arc='v ~/.config/zsh/aliasrc'	\
+	zrc='v ~/.config/zsh/.zshrc'		\
+	zr='. ~/.config/zsh/.zshrc'			\
+	nrc='v ~/.config/nvim/init.vim'		\
+	tmc='v ~/.tmux.conf'				\
+	arc='v ~/.config/zsh/aliasrc'		\
 	frc='v ~/.config/zsh/functionrc'
 
 
@@ -51,10 +56,15 @@ alias \
 # Directory shortcuts.
 alias \
 	b='cd ..'											\
+	..='cd ..'											\
+	.1='cd ..'											\
+	.2='cd ../..'										\
+	.3='cd ../../..'									\
 	conf='cd ~/.config'									\
 	confn='cd ~/.config/nvim'							\
 	nconf='cd ~/.config/nvim'							\
 	mn='cd /mnt'										\
+	mnt='cd /mnt'										\
 	tmp='cd /tmp'										\
 	d='cd ~/Documents'									\
 	D='cd ~/Downloads'									\
@@ -69,11 +79,14 @@ alias \
 	py3='cd ~/Documents/programming/python/3'			\
 	crypt='cd /mnt/Data/Drew/crypt'						\
 	luks='cd /mnt/Data/Drew/crypt/luks'					\
-	M='cd ~/Music'										\
+	m='cd ~/Music'										\
 	aptc='cd /etc/apt/'									\
 	work='cd ~/Documents/Work/'							\
 	r2s='cd ~/Documents/Work/Ready2Show'				\
-	r2sd='cd ~/Documents/Work/Ready2Show/Development/'
+	r2sd='cd ~/Documents/Work/Ready2Show/Development/'	\
+	P='cd ~/Pictures'									\
+	hm='cd ~/Mountpoints'								\
+	hmnt='cd ~/Mountpoints'
 
 	# Commented out for now since theres no use or reason to have it aliased.
 	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
@@ -90,6 +103,7 @@ alias \
 	alias ip='ip --color=always'
 	alias lx='less -X'
 	alias plx='pcat | less -X'
+	alias clx='pcat | less -X'
 	alias fm='pcmanfm-qt '
 	alias bt='bashtop'
 
@@ -125,7 +139,7 @@ alias \
 	alias tmr='tmux attach-session'
 	
 	# Alias to connect to NordVPN's auto-selected fastest server over UDP.
-	#alias vpn='sudo \
-	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
 	alias vpn='sudo \
-		openvpn /etc/openvpn/NordVPN/ovpn_udp/us4407.nordvpn.com.udp.ovpn'
+		openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
+	#alias vpn='sudo \
+	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us6449.nordvpn.com.udp.ovpn'
