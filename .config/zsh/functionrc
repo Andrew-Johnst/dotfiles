@@ -191,6 +191,58 @@ local CPI=$(echo -e ${CP}${CBL})
 		[[ "$@" ]] && eval "$@" & disown
 	}
 
+## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.
+#	ytdl(){
+#		# Checks for arguments passed to function. Exit if none.
+#		[[ -z "$@" ]] && echo "No arguments or links specified. Exiting..." && return 1
+#
+#		# Defines regex to variable to verify a proper URL link.
+#		local REGEXRULES='(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+#		if [[ "$1" =~ [-m|--music] ]]
+#		then
+#			local CFGDIR="~/.config/youtube-dl/mconfig"
+#		elif [[ "$1" =~ [-v|--video] ]]
+#			local CFGDIR="~/.config/youtube-dl/config"
+#		elif [[ -z "$1" ]] 
+#			echo "Defaulting to Video-download mode..."
+#			sleep 2
+#			local CFGDIR="~/.config/youtube-dl/config"
+#		elif [[ "$1" =~ $REGEXRULES ]]
+#			local SKIP=1
+#			echo "Defaulting to Video-download mode..."
+#			sleep 2
+#			local CFGDIR="~/.config/youtube-dl/config"
+#		else
+#			echo
+#			echo "Invalid function argument given."
+#			echo "Available options are: [-m|--music] or [-v|--video]"
+#			echo
+#			echo "[Optionally include URLs encapsulated in quotation marks]"
+#			echo "[If no URL(s) are specified, a while loop will run where you can input each link]"
+#			return 1
+#		fi
+#
+#		# If the SKIP variable is set, that means that straight URL's have been passed to the
+#		# function, and will exclude the first parameter/argument; otherwise the LINKLIST array
+#		# will be set to skip the first element in the argument-list ("$@").
+#		LINKLIST=("${@:1}")
+#		[[ $SKIP == 1 ]] && local LINKLIST=("${@:2}")
+#
+#		# If only one function parameter is passed without any URLs, this while loop will accept
+#		# input from the user and every space will be treated as a delimiter and each entry will be
+#		# added as a string to LINKLIST.
+#		if [[ "$#" -le 1 ]]
+#		then
+#			echo "Please enter the URL(s) of the Links you would like to download, each URL seperated by a space.\n[Press <Enter> key when finished]:\n"
+#			while :;
+#			do
+#
+#
+#
+#		# Loop that downloads every link provided in arguments after 
+#		youtube-dl --config-location "$CFGDIR"
+#	}
+
 # Function to open a new file in /tmp/ directory, uses the first argument as the filename under
 # /tmp/ directory, if the argument is a file that already exists, return a warning and append a
 # number to the end.

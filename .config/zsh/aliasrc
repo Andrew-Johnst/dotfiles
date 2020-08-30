@@ -106,6 +106,10 @@ alias \
 	alias clx='pcat | less -X'
 	alias fm='pcmanfm-qt '
 	alias bt='bashtop'
+	alias myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
+	alias mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
+	alias ytd='youtube-dl '
+	alias ytdl='youtube-dl '
 
 # Package manager aliases.
 	# Aliases for apt.
@@ -126,6 +130,7 @@ alias \
 	alias cx='chmod +x '
 	alias mine='chown $USER:$GROUP '
 
+# Network aliases.
 # Sortcuts for connecting to sessions.
 # Supposedly SSH might break if the remote machine does not have the same $TERM variable.
 # [Unsure of this since the environment variables are applied in each host's session.]
@@ -139,7 +144,19 @@ alias \
 	alias tmr='tmux attach-session'
 	
 	# Alias to connect to NordVPN's auto-selected fastest server over UDP.
-	alias vpn='sudo \
-		openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
+	#alias vpn='sudo \
+	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
 	#alias vpn='sudo \
 	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us6449.nordvpn.com.udp.ovpn'
+	# Alias below should be a function that automatically determines the fastest server (optionally
+	# specifying the region), but for now Denver OpenVPN server will be hard-coded to the alias.
+	alias fastopenvpn='sudo openvpn \
+		/etc/openvpn/ExpressVPN/Americas/USA/my_expressvpn_usa_-_denver_udp.ovpn'
+	alias evpn='expressvpn connect'
+	alias torrentvpn='expressvpn connect "Switzerland"'
+	alias torrentvpn2='expressvpn connect "Switzerland 2"'
+	alias safevpn='expressvpn connect "Switzerland 2"'
+	alias safevpn2='expressvpn connect "Switzerland 2"'
+
+	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
+	alias myip='curl icanhazip.com'

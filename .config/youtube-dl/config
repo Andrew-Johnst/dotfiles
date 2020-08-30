@@ -1,10 +1,12 @@
+# This (default) config is used for downloading videos. The second config file in this directory is
+# used when downloading music.
 --add-metadata
 --write-thumbnail
 #--embed-thumbnail
 --audio-quality 0
 --audio-format mp3
 --embed-subs
---download-archive '~/Downloads/Music/youtube-dl/Downloaded.log'
+--download-archive '~/Downloads/Videos/youtube-dl/Downloaded.log'
 --ignore-errors
 --format bestvideo[ext=mp4]+bestaudio
 #--output '~/Downloads/Music/youtube-dl/%(playlist_title_s/%(playlist_index)s_%(title)s.%(ext)s'
@@ -22,12 +24,12 @@
 --no-overwrites
 --keep-video
 --no-post-overwrites
-#--download-archive archive.txt
 --write-description
 --write-info-json
 --write-annotations
 --write-thumbnail
 --all-subs
---output "~/Downloads/Music/youtube-dl/%(uploader)s (%(uploader_id)s)/%(id)s/%(title)s - %(upload_date)s.%(ext)s"
+--output '~/Downloads/Videos/youtube-dl/%(title)s/%(title)s.%(ext)s'
+#--output "~/Downloads/Music/youtube-dl/%(uploader)s (%(uploader_id)s)/%(id)s/%(title)s - %(upload_date)s.%(ext)s"
 --format bestvideo[ext=mp4]+bestaudio[ext=m4a]
 #--format bestvideo[ext=mp4]+bestaudio[ext=m4a] -- $1 		$1 Used for script modes.

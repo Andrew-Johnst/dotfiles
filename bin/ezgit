@@ -40,12 +40,15 @@ EXCLUSIONS=(	"*.swp"								\
 				"*.tdb"								\
 				"*.netrwhist"						\
 				".config/nvim/plugged/vim-orgmode"	\
+				".config/autostart"					\
 				".config/BraveSoftware"				\
 				".config/transmission"				\
 				".config/Bitcoin"					\
 				".config/ranger/bookmarks"			\
 				".config/ranger/history"			\
 				".config/chromium"					\
+				".config/google-chrome"				\
+				".config/expressvpn"				\
 				".config/mpd/pid"					\
 				".config/mpd/database"				\
 				".config/mpd/state"					\
@@ -53,6 +56,7 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/nicotine/"					\
 				".config/spotify"					\
 				".config/projectM"					\
+				".config/QtProject.conf"			\
 				".config/duc"						\
 				".config/libvirt"					\
 			)

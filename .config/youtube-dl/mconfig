@@ -1,0 +1,44 @@
+# This config is used for downloading music.
+--format bestaudio
+--audio-format bestaudio
+--extract-audio
+--audio-format mp3
+--audio-quality 0
+--embed-thumbnail
+--write-thumbnail
+--add-metadata
+--embed-subs
+--output '~/Downloads/Music/youtube-dl/%(title)s/%(title)s.%(ext)s'
+--download-archive '~/Downloads/Music/youtube-dl/Downloaded.log'
+#--add-metadata
+#--write-thumbnail
+#--embed-thumbnail
+#--audio-quality 0
+#--audio-format mp3
+#--embed-subs
+#--download-archive '~/Downloads/Music/youtube-dl/Downloaded.log'
+#--ignore-errors
+#--format bestvideo[ext=mp4]+bestaudio
+#--output '~/Downloads/Music/youtube-dl/%(playlist_title_s/%(playlist_index)s_%(title)s.%(ext)s'
+
+#--output '~/Downloads/Music/youtube-dl/%(title)s.%(ext)s'
+# Currently just using the --output with parameters instead of executing a python script.
+#--exec '~/.config/youtube-dl/script.py'
+#--write-all-thumbnails
+#--write-info-json
+#--all-subs
+
+#--verbose
+#--ignore-errors
+#--no-continue
+#--no-overwrites
+#--keep-video
+#--no-post-overwrites
+#--write-description
+#--write-info-json
+#--write-annotations
+#--write-thumbnail
+#--all-subs
+#--output "~/Downloads/Music/youtube-dl/%(uploader)s (%(uploader_id)s)/%(id)s/%(title)s - %(upload_date)s.%(ext)s"
+#--format bestvideo[ext=mp4]+bestaudio[ext=m4a]
+#--format bestvideo[ext=mp4]+bestaudio[ext=m4a] -- $1 		$1 Used for script modes.
