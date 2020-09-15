@@ -188,7 +188,11 @@ local CPI=$(echo -e ${CP}${CBL})
 		# Verify there are arguments (a command) to be run and disowned. Exit if not.
 		[[ -z "$@" ]] && echo -e "No command specified to be hidden and disowned.\nExiting..." \
 			&& return 1
+		# Commenting this line below out for testing (9-15-2020 10:08AM).
 		[[ "$@" ]] && eval "$@" & disown
+
+		#[[ "$@" ]] && eval "$@" &>/dev/null
+		#[[ "$@" ]] && eval "$@" & disown #&>/dev/null
 	}
 
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.

@@ -129,8 +129,15 @@ REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
 [ ! -d "$REMOTEBACKUPS" ] && mkdir -p "$REMOTEBACKUPS"
 
 # Defines a function to sleep for X seconds as first argument passed to it, and as a second argument
-# print whatever text before the counter.
+# print whatever text before the counter. Also defines a SLEEPTIME variable in case a
+# -nt|--no-timer argument option is passed to the ezgit script. Default value for SLEEPTIME is 5
+# seconds, and if -nt|--notimer argument option is not passed to the script, the SLEEPFORX timer
+# will default to 5; 0 seconds or no time will 
+SLEEPTIME=5
 SLEEPFORX(){
+	# Returns/exits this function if the time specified is 0 (when the -nt|--no-timer script option
+	# is used).
+	[[ "$1" -eq 0 ]] && return 0
 	for i in `seq $1 -1 1`
 	do
 	    #echo -ne "\r$CRED$i"
@@ -179,14 +186,30 @@ CHECKDEPS(){
 	fi
 }
 
+USAGE(){
+	echo -e "${CGREEN}Usage: ${CRED}./ezgit [ACTION]"
+	echo -e "${CGREEN}ACTIONS:"
+	echo -e "	${CRED}-i | --install${CBLUE}	Pulls from remote git repo and installs/updates local files."
+	echo 
+	echo -e "	${CRED}-u | --upload${CBLUE}	Pulls remote repo to create a backup bz2 tarball, then uploads"
+	echo -e "			files listed in the ${CGREEN}FILELIST${CBLUE} array list to github repo."
+	echo 
+	echo -e "	${CRED}-d | --diff${CBLUE}	Runs a \`${CRED}git diff${CBLUE}\` command between local and remote repo."
+	echo
+	echo -e "	${CRED}-h | --help${CBLUE}	Print this help/usage page."
+	echo
+	echo -e "${CGREEN}TODO: ${CBLUE}Implement a function to compare remote and local files, for intelligent error protection"
+	echo -e "		rather than just creating archives of the whole repo."
+	echo
+}
 
- case "$1" in
- 	-i | --install)
+case "$1" in
+	-i|--install)
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
 
 		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
-		SLEEPFORX 5 "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
 
 		# Updated this to include a slider progress bar via pv command and awk.
 		tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | awk '{print $1}') | \
@@ -194,7 +217,7 @@ CHECKDEPS(){
  		echo
 
  		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
-		SLEEPFORX 5 "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
+		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
  		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
 
  		echo "Tarballs of both the local repo before updating, as well as the config files that"
@@ -214,12 +237,12 @@ CHECKDEPS(){
 		exit 0
  		;;
 
- 	-u | --upload)
+ 	-u|--upload)
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
  		echo "Before uploading, the remote repo will be downloaded, compressed, and located at:"
 		#echo -e "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" && SLEEPFORX 5
-		SLEEPFORX 5 "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
+		SLEEPFORX $SLEEPTIME "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
 
 		# Clone the remote git repository into the Remote backups directory, then create a bzip2
 		# archive of it and delete the cloned folder.
@@ -278,25 +301,20 @@ CHECKDEPS(){
 		exit 0
  		;;
 
-	-d | --diff)
+	-d|--diff)
 		echo "Prints difference between local and remote repos."
 		git diff --stat --patch origin master
 		;;
 
+	-h|--help)
+		USAGE
+		exit 0
+		;;
+
 	*)
-		echo -e "${CGREEN}Usage: ${CRED}./ezgit [ACTION]"
-		echo
-		echo -e "${CGREEN}ACTIONS:"
-		echo -e "	${CRED}-i | --install${CBLUE}	Pulls from remote git repo and installs/updates local files."
-		echo 
-		echo -e "	${CRED}-u | --upload${CBLUE}	Pulls remote repo to create a backup bz2 tarball, then uploads"
-		echo -e "			files listed in the ${CGREEN}FILELIST${CBLUE} array list to github repo."
-		echo 
-		echo -e "	${CRED}-d | --diff${CBLUE}	Runs a '${CRED}git diff${CBLUE}' command between local and remote repo."
-		echo
-		echo -e "${CGREEN}TODO: ${CBLUE}Implement a function to compare remote and local files, for intelligent error protection"
-		echo -e "		rather than just creating archives of the whole repo."
-		echo
+		[[ "$#" -ne 0 ]] && echo -e "${CBLUE}Argument: \"${CRED}$1${CBLUE}\" not understood."
+		echo -ne "${CRESET}"
+		USAGE
 		exit 0
 		;;
 esac
