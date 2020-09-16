@@ -39,8 +39,8 @@ EXCLUSIONS=(	"*.swp"								\
 				"*.log"								\
 				"*.tdb"								\
 				"*.netrwhist"						\
-				".config/nvim/plugged/vim-orgmode"	\
 				".config/autostart"					\
+				".config/Atom"						\
 				".config/BraveSoftware"				\
 				".config/transmission"				\
 				".config/Bitcoin"					\
@@ -54,6 +54,7 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/mpd/state"					\
 				".config/mpd/playlists/"			\
 				".config/nicotine/"					\
+				".config/nvim/plugged/vim-orgmode"	\
 				".config/spotify"					\
 				".config/projectM"					\
 				".config/QtProject.conf"			\
