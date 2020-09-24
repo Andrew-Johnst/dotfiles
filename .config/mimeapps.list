@@ -26,4 +26,4 @@ application/x-extension-xhtml=userapp-Nightly-IQ8MO0.desktop;
 application/x-extension-xht=userapp-Nightly-IQ8MO0.desktop;
 inode/directory=exo-file-manager.desktop;
 x-scheme-handler/trash=exo-file-manager.desktop;
-
+application/octet-stream=nvim.desktop;

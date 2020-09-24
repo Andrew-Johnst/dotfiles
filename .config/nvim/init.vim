@@ -34,7 +34,7 @@
 	  echo "Downloading Vim-Plug plugin manager for nvim..."
 	  silent !mkdir -p ~/.config/nvim/autoload/
 	  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
-		\	> ~/.config/nvim/autoload/plug.vim
+					\ > ~/.config/nvim/autoload/plug.vim
 	  autocmd VimEnter * PlugInstall
 	endif
 " Activates Vim-Pathogen plugin, installs it if not found.

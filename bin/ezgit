@@ -58,6 +58,7 @@ EXCLUSIONS=(	"*.swp"								\
 				".config/spotify"					\
 				".config/projectM"					\
 				".config/QtProject.conf"			\
+				".config/VPNetworkLLC/"				\
 				".config/duc"						\
 				".config/libvirt"					\
 			)
@@ -118,7 +119,8 @@ CULINE='\033[4m'
 
 # Get current date and time for timestamp on logged archives.
 DATE="$(date "+%m-%d-%Y")"
-TIME="$(date "+%H-%M")"
+TIME="$(date "+%l_%M_%S%p")"
+# TIME="$(date "+%H-%M")"	# Old Format for time (0-24 hours, Minutes).
 
 # Assign directory for both remote repo and local dotfiles for bzip2 tarballs to be stored within the local
 # dotfile directory.

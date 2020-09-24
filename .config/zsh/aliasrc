@@ -51,7 +51,6 @@ alias \
 	lt='ls -lath'			\
 	mv='mv -v'				\
 	cp='cp -v'
-#	lh='ls -a | grep "^\."' \
 
 # Directory shortcuts.
 alias \
@@ -68,7 +67,7 @@ alias \
 	tmp='cd /tmp'										\
 	d='cd ~/Documents'									\
 	D='cd ~/Downloads'									\
-	p='cd /home/drew/Documents/programming'				\
+	p='cd ~/Documents/programming'						\
 	pub='cd /mnt/Data/Public'							\
 	priv='cd /mnt/Data/Drew'							\
 	nvc='cd ~/.config/nvim'								\
@@ -77,8 +76,8 @@ alias \
 	py='cd ~/Documents/programming/python'				\
 	py2='cd ~/Documents/programming/python/2'			\
 	py3='cd ~/Documents/programming/python/3'			\
-	crypt='cd /mnt/Data/Drew/crypt'						\
-	luks='cd /mnt/Data/Drew/crypt/luks'					\
+	crypt='cd /mnt/crypt'								\
+	luks='cd /mnt/crypt/luks'							\
 	m='cd ~/Music'										\
 	aptc='cd /etc/apt/'									\
 	work='cd ~/Documents/Work/'							\
@@ -86,10 +85,9 @@ alias \
 	r2sd='cd ~/Documents/Work/Ready2Show/Development/'	\
 	P='cd ~/Pictures'									\
 	hm='cd ~/Mountpoints'								\
-	hmnt='cd ~/Mountpoints'
-
-	# Commented out for now since theres no use or reason to have it aliased.
-	#netlogs='cd /mnt/Data/Drew/Documents/Network\ info/Network\ Logs/' \
+	hmnt='cd ~/Mountpoints'								\
+	E='cd ~/Documents/Education'						\
+	certs='cd ~/Documents/Education/Certs'
 
 # General quality of life improvements and aliasing lengthy commands.
 	alias ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'
@@ -106,6 +104,7 @@ alias \
 	alias clx='pcat | less -X'
 	alias fm='pcmanfm-qt '
 	alias bt='bashtop'
+	alias mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
 	alias myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
 	alias mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
 	alias ytd='youtube-dl '

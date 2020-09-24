@@ -8,7 +8,7 @@
 --write-thumbnail
 --add-metadata
 --embed-subs
---output '~/Downloads/Music/youtube-dl/%(title)s/%(title)s.%(ext)s'
+--output '~/Downloads/Music/youtube-dl/Downloads/%(title)s/%(title)s.%(ext)s'
 --download-archive '~/Downloads/Music/youtube-dl/Downloaded.log'
 #--add-metadata
 #--write-thumbnail
