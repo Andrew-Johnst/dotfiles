@@ -11,27 +11,25 @@ skipList[$e]=/dev/,/proc/,/sys/
 varyLabelFontSizes=true
 
 [general]
-File1[$e]=/home
-File2[$e]=$HOME/.config/Bitcoin/.data/blocks/
-File3[$e]=$HOME/.config/Bitcoin/.data/
-File4[$e]=$HOME/.config/Bitcoin/
-File5[$e]=$HOME/.config/
-File6[$e]=/home/
-File7[$e]=$HOME/
-File8[$e]=/var
-Name1[$e]=home
+File1[$e]=$HOME/.config/Bitcoin/
+File2[$e]=$HOME/.config/
+File3[$e]=/home/
+File4[$e]=$HOME/
+File5[$e]=/var
+File6[$e]=/mnt/Backups
+File8[$e]=/mnt/Bitcoin-Blockchain-Data
+Name1[$e]=
 Name2[$e]=
 Name3[$e]=
 Name4[$e]=
-Name5[$e]=
-Name6[$e]=
-Name7[$e]=
-Name8[$e]=var
+Name5[$e]=var
+Name6[$e]=Backups
+Name8[$e]=Bitcoin-Blockchain-Data
 
 [window]
 Height 1080=1008
 Height 1200=985
-State=AAAA/wAAAAD9AAAAAAAABDgAAAOFAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAMAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAHgBsAG8AYwBhAHQAaQBvAG4AVABvAG8AbABCAGEAcgEAAAIG/////wAAAAAAAAAAAAAAFgB2AGkAZQB3AFQAbwBvAGwAQgBhAHIAAAACif////8AAAAAAAAAAA==
+State=AAAA/wAAAAD9AAAAAAAABDgAAAOFAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAMAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAHgBsAG8AYwBhAHQAaQBvAG4AVABvAG8AbABCAGEAcgEAAAIF/////wAAAAAAAAAAAAAAFgB2AGkAZQB3AFQAbwBvAGwAQgBhAHIAAAACif////8AAAAAAAAAAA==
 ToolBarsMovable=Disabled
 Width 1920=1168
 Width 3840=1080
