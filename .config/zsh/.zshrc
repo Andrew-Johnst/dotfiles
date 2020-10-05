@@ -1,5 +1,7 @@
 # Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
 export ZDOTDIR="$HOME/.config/zsh"
+# Exports the oh-my-zsh directory.
+export ZSH="/home/drew/.config/zsh/.oh-my-zsh"
 
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "

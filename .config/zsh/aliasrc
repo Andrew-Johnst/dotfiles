@@ -62,6 +62,7 @@ alias \
 	conf='cd ~/.config'									\
 	confn='cd ~/.config/nvim'							\
 	nconf='cd ~/.config/nvim'							\
+	zconf='cd ~/.config/zsh'							\
 	mn='cd /mnt'										\
 	mnt='cd /mnt'										\
 	tmp='cd /tmp'										\
