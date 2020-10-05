@@ -89,6 +89,18 @@
 	endfunction
 	cnoreabbrev	ssc	call SuperSpellCheck()
 
+" Function to add executable permissions to the file that is opened in the current vim-buffer.
+	fu! CHMODX()
+		" Silently executes chmod command to add execute permissions to file in current vim-buffer.
+		silent! execute "!chmod +x ".expand('%:p')
+	endfu
+
+" Command abbreviations for simplicity/brevity.
+	cnoreabbrev chx silent! call CHMODX()
+	cnoreabbrev chmx silent! call CHMODX()
+	cnoreabbrev chpx silent! call CHMODX()
+	cnoreabbrev chmpx silent! call CHMODX()
+
 " Function for bash script file preamble info.
 	function! BashHeaders(...)
 		"let l:filename=@%
@@ -284,6 +296,7 @@ endfu!
 
 command -nargs=? NTF call NewTempFile(<f-args>)
 cnoreabbrev ntf NTF
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " The below function is commented out as it needs to be fleshed out and a more simple one is used. "

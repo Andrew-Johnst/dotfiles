@@ -188,11 +188,30 @@ local CPI=$(echo -e ${CP}${CBL})
 		# Verify there are arguments (a command) to be run and disowned. Exit if not.
 		[[ -z "$@" ]] && echo -e "No command specified to be hidden and disowned.\nExiting..." \
 			&& return 1
-		# Commenting this line below out for testing (9-15-2020 10:08AM).
-		[[ "$@" ]] && eval "$@" & disown
 
-		#[[ "$@" ]] && eval "$@" &>/dev/null
-		#[[ "$@" ]] && eval "$@" & disown #&>/dev/null
+		# Assign the raw output (omitting STDERR if file-not-found to avoid logic-error) to a
+		# variable that contains the absolute path of the command/program/script tryign to be
+		# executed.
+		PROGRAMPATH=`which $1` 2>/dev/null
+
+		# Checks if the first argument passed to this function is a script/program/executable-file
+		# before continuing and exits if not; if so, then every variable/string/word proceeding the
+		# first argument is treated as options for that specific program.
+		# ("-f" is shorthand for check-if-file-exists, "-x" checks if file exists and is executable).
+		[[ ! -f "$PROGRAMPATH" ]] && echo -e \
+			"Program/script \"$1\" has no path, therefore cannot be located.\nExiting..." && exit 1
+
+		# This line below with the written sequence of routing to /dev/null and "& disown" is the
+		# proper order and program syntax to send all STDOUT (like shell output log from a QT
+		# application like nicotine++) to /dev/null and frees up the shell.
+		# (A method that allows for tab_auto-completion with this function is greatly desired but
+		# for the time being [10-5-2020 5AM]).
+		[[ "$PROGRAMPATH" ]] && shift 1 && "$PROGRAMPATH" "$@" &>/dev/null & disown
+
+		# Commenting these lines below out for testing (10-5-2020 5AM).
+		#	[[ "$@" ]] && eval "$@" &>/dev/null & disown
+		#	[[ "$@" ]] && eval "$@" &>/dev/null
+		#	[[ "$@" ]] && eval "$@" & disown #&>/dev/null
 	}
 
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.

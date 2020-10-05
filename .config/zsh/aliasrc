@@ -76,8 +76,8 @@ alias \
 	py='cd ~/Documents/programming/python'				\
 	py2='cd ~/Documents/programming/python/2'			\
 	py3='cd ~/Documents/programming/python/3'			\
-	crypt='cd /mnt/crypt'								\
-	luks='cd /mnt/crypt/luks'							\
+	cryptd='cd /mnt/crypt'								\
+	luksd='cd /mnt/crypt/luks'							\
 	m='cd ~/Music'										\
 	aptc='cd /etc/apt/'									\
 	work='cd ~/Documents/Work/'							\
