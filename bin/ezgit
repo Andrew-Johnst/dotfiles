@@ -276,6 +276,7 @@ case "$1" in
 		# Removes everything in the EXCLUSIONS list defined at the top of this script.
 		for i in "${!EXCLUSIONS[@]}"
 		do
+			yes | rm -rf "${EXCLUSIONS[$i]}" &> /dev/null
 			git rm -rf "${EXCLUSIONS[$i]}" &> /dev/null
 		done
 
