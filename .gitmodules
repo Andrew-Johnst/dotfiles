@@ -31,6 +31,7 @@
 [submodule ".config/nvim/plugged/vim-hybrid-material"]
 	path = .config/nvim/plugged/vim-hybrid-material
 	url = https://github.com/kristijanhusak/vim-hybrid-material.git
-[submodule ".config/nvim/plugins/pathogen/Suda"]
-	path = .config/nvim/plugins/pathogen/Suda
-	url = https://github.com/vim-scripts/sudo.vim
+#[submodule ".config/nvim/plugins/pathogen/Suda"]
+#	path = .config/nvim/plugins/pathogen/Suda
+#	url = https://github.com/lambdalisue/suda.vim.git
+	# url = https://github.com/vim-scripts/suda.vim # [Old and incorrect github url].
