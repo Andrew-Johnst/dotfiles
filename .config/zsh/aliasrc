@@ -100,37 +100,51 @@ alias \
 	alias less='less -R'
 	alias diff='diff --color=auto'
 	alias ip='ip --color=always'
-	alias lx='less -X'
-	alias plx='pcat | less -X'
-	alias clx='pcat | less -X'
-	alias fm='pcmanfm-qt '
+	alias fm='q pcmanfm-qt'
 	alias bt='bashtop'
 	alias mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
 	alias myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
 	alias mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
 	alias ytd='youtube-dl '
 	alias ytdl='youtube-dl '
+	alias nics='sudo ifconfig | plx'
 
-# Package manager aliases.
-	# Aliases for apt.
-	alias ins='sudo apt-get install '
-	alias ac='apt-cache '
-	alias aci='apt-cache --installed '
-	alias acs='apt-cache search '
-	alias ag='apt-get '
-	alias adeps='apt-rdepends '
-	alias aure='apt-get autoremove '
-	alias aurep='apt-get autoremove --purge '
+	# Less command aliases
+		alias						\
+			le='less'				\
+			lx='less -X'			\
+	 		ple='pcat | less -X'	\
+			cle='pcat "$@" | less -X'	\
+			plx='pcat | less -X'	\
+			clx='pcat | less -X'
 
-	# Alias to update and upgrade all python-pip packages.
-	alias pipup='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 \
-	pip3 install -U'
+####################################################################################################
+##################################### Package manager aliases. #####################################
+####################################################################################################
 
-# File manipulation.
-	alias cx='chmod +x '
-	alias chx='chmod +x '
-	alias chmx='chmod +x '
-	alias mine='chown $USER:$GROUP '
+#######################
+### Aliases for apt.###
+#######################
+alias									\
+	ins='sudo apt-get install '			\
+	ac='apt-cache '						\
+	aci='apt-cache --installed '		\
+	acs='apt-cache search '				\
+	ag='apt-get '						\
+	adeps='apt-rdepends '				\
+	aure='apt-get autoremove '			\
+	aurep='apt-get autoremove --purge '	
+
+# Alias to update and upgrade all python-pip packages.
+	alias pipup='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 \
+		| xargs -n1 pip3 install -U'
+
+# File ownership/permission aliases.
+	alias							\
+		cx='chmod +x '				\
+		chx='chmod +x '				\
+		chmx='chmod +x '			\
+		mine='chown $USER:$GROUP '
 
 # Network aliases.
 # Sortcuts for connecting to sessions.

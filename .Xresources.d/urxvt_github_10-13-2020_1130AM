@@ -1,0 +1,43 @@
+! ~/.Xdefaults and/or XResources configurations found on a reddit thread reply that linked to a
+! github repo containing the options set in this file.
+!
+! [Github repository sourced from]:
+!	https://github.com/Alexander-Miller/dotfiles/blob/master/.Xdefaults
+!
+! [Reddit post]:
+!	https://www.reddit.com/r/unixporn/comments/371v1a/share_your_ncmpcpp_color_schemes/crjje8a?utm_source=share&utm_medium=web2x&context=3
+
+URxvt*cursorBlink:     true
+URxvt*cursorUnderline: true
+URxvt*font:            xft:Fantasque Sans Mono:size=14
+URxvt*boldFont:        xft:Fantasque Sans Mono:size=14:bold
+URxvt*scrollBar:       false
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher:    firefox
+URxvt.matcher.button:  1
+URxvt.internalBorder:  16
+URxvt.lineSpace:       1
+URxvt.letterSpace:     -2
+
+*.foreground: #ccb18b
+*.cursorcolor:#ccb18b
+*.colorbd:    #6699cc
+*.colorul:    #ccb18b
+*.colorit:    #ccb18b
+*background:  #2d2d31
+*color0:      #1a1a1a
+*color1:      #cc6666
+*color2:      #66aa66
+*color3:      #f0c674
+*color4:      #557799
+*color5:      #a374a8
+*color6:      #339999
+*color7:      #a3a3a3
+*color8:      #4d4d4d
+*color9:      #dd7777
+*color10:     #77bb77
+*color11:     #f2d785
+*color12:     #5588bb
+*color13:     #b485b9
+*color14:     #2fa7a7
+*color15:     #cccccc
