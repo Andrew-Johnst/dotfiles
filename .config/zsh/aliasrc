@@ -34,13 +34,15 @@ alias \
 
 # Edit config file shortcuts.
 alias \
-	zrc='v ~/.config/zsh/.zshrc'		\
-	zr='. ~/.config/zsh/.zshrc'			\
-	nrc='v ~/.config/nvim/init.vim'		\
-	tmc='v ~/.tmux.conf'				\
-	arc='v ~/.config/zsh/aliasrc'		\
-	frc='v ~/.config/zsh/functionrc'
-
+	zrc= 'v ~/.config/zsh/.zshrc'						\
+	zr=  '. ~/.config/zsh/.zshrc'						\
+	nrc= 'v ~/.config/nvim/init.vim'					\
+	tmc= 'v ~/.tmux.conf'								\
+	arc= 'v ~/.config/zsh/aliasrc'						\
+	frc= 'v ~/.config/zsh/functionrc'					\
+	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'
+# Creates the directory "/tmp/tempfiles/" if it doesn't exist already.
+[[ ! -d /tmp/tempfiles ]] && mkdir /tmp/tempfiles
 
 # Automatically specifying options always used to a shortened alias for core file programs/utils.
 alias \
@@ -66,6 +68,7 @@ alias \
 	mn='cd /mnt'										\
 	mnt='cd /mnt'										\
 	tmp='cd /tmp'										\
+	tmpvcd='cd /tmp/tempfiles'							\
 	d='cd ~/Documents'									\
 	D='cd ~/Downloads'									\
 	p='cd ~/Documents/programming'						\
@@ -110,12 +113,12 @@ alias \
 	alias nics='sudo ifconfig | plx'
 
 	# Less command aliases
-		alias						\
-			le='less'				\
-			lx='less -X'			\
-	 		ple='pcat | less -X'	\
+		alias							\
+			le='less'					\
+			lx='less -X'				\
+	 		ple='pcat | less -X'		\
 			cle='pcat "$@" | less -X'	\
-			plx='pcat | less -X'	\
+			plx='pcat | less -X'		\
 			clx='pcat | less -X'
 
 ####################################################################################################
@@ -167,12 +170,12 @@ alias									\
 	# Alias below should be a function that automatically determines the fastest server (optionally
 	# specifying the region), but for now Denver OpenVPN server will be hard-coded to the alias.
 	alias fastopenvpn='sudo openvpn \
-		/etc/openvpn/ExpressVPN/Americas/USA/my_expressvpn_usa_-_denver_udp.ovpn'
-	alias evpn='expressvpn connect'
-	alias torrentvpn='expressvpn connect "Switzerland"'
-	alias torrentvpn2='expressvpn connect "Switzerland 2"'
-	alias safevpn='expressvpn connect "Switzerland 2"'
-	alias safevpn2='expressvpn connect "Switzerland 2"'
+		/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn'
+	#alias evpn='expressvpn connect'
+	#alias torrentvpn='expressvpn connect "Switzerland"'
+	#alias torrentvpn2='expressvpn connect "Switzerland 2"'
+	#alias safevpn='expressvpn connect "Switzerland 2"'
+	#alias safevpn2='expressvpn connect "Switzerland 2"'
 
 	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
 	alias myip='curl icanhazip.com'

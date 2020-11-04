@@ -9,10 +9,10 @@
 !#include ".Xresources.d/Solarized-dark"
 
 ! Manually adding this single xterm settings to the main Xresources file to test sixel-xterm ffmpeg.
-XTerm*decTerminalID: vt340
-XTerm*sixelScrolling: true
-XTerm*regisScreenSize: 1920x1080
-XTerm*numColorRegisters: 256
+#XTerm*decTerminalID: vt340
+#XTerm*sixelScrolling: true
+#XTerm*regisScreenSize: 1920x1080
+#XTerm*numColorRegisters: 256
 
 ! Adding this in 5-5-20 based off of that one Arch forum post for ncmpcpp.
 ! https://bbs.archlinux.org/viewtopic.php?pid=1663852#p1663852

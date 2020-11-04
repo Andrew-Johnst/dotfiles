@@ -65,7 +65,12 @@ local CPI=$(echo -e ${CP}${CBL})
 		local SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
 		echo $SCREENPIDS
 	}
-
+# Changed the lx aliases into functions (certain itterations/variations on it are still just
+# aliases--located in aliasrc file--but with options, so it has more flexibility and funcitonality
+# like giving an option to the less command.
+#	lx(){
+#
+#	}
 # Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
 # connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
 # option.
@@ -74,8 +79,28 @@ local CPI=$(echo -e ${CP}${CBL})
 		#[[ "$1" =~ '?[--]
 		#local CURRENTIP=`curl -s icanhazip.com`
 		#local CURRENTIP="$(curl -s icanhazip.com)"
-		#echo "$CURRENTIP"
-		echo "$(curl -s icanhazip.com)"
+		curl -s icanhazip.com
+#		local PRIMARYLANIP="$(ip -o -4 route get 1.1.1.1 | sed -nre \
+#			"s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
+#		local PRIMARYNIC="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
+#
+#		#ALLLANIPS+=("$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' \
+#		#	| grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')")
+#
+#		echo "List of all LAN IP addresses, including the primary WAN public IP address:"
+#		echo "        Public ${CR}WAN${CRE} IP: [${CR}$(curl -s icanhazip.com)${CRE}]"
+#		echo "Primary/Active ${CB}LAN${CRE} IP: [${CB}$PRIMARYLANIP${CRE}]" \
+#			 "on ${CG}NIC${CRE}: $PRIMARYNIC ${CRE}"
+		#echo "Active IP addresses on localhost are:"
+		#for i in "${#ALLLANIPS[@]}"
+		#do
+		#	#echo "                                     [${CR}${ALLLANIPS[$i]}${CRE}]"
+		#	#echo "${ALLLANIPS[$i]}"
+		#	echo a
+		#done
+
+
+		#sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v "$(ip -o -4 route get 1.1.1.1 | sed -nre  "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
 
 		# Adding these below commands here since eventually the usage of gathering IPs *SHOULD* be
 		# achieved via a function for more robust capabilities and all in a single function (with

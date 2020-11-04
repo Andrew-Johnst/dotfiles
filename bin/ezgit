@@ -41,26 +41,28 @@ EXCLUSIONS=(	"*.swp"								\
 				"*.netrwhist"						\
 				".config/autostart"					\
 				".config/Atom"						\
-				".config/BraveSoftware"				\
-				".config/transmission"				\
 				".config/Bitcoin"					\
-				".config/ranger/bookmarks"			\
-				".config/ranger/history"			\
+				".config/BraveSoftware"				\
 				".config/chromium"					\
-				".config/google-chrome"				\
+				".config/dconf/user"				\
+				".config/duc"						\
 				".config/expressvpn"				\
-				".config/mpd/pid"					\
+				".config/filelightrc"				\
+				".config/google-chrome"				\
+				".config/libvirt"					\
 				".config/mpd/database"				\
-				".config/mpd/state"					\
+				".config/mpd/pid"					\
 				".config/mpd/playlists/"			\
+				".config/mpd/state"					\
 				".config/nicotine/"					\
 				".config/nvim/plugged/vim-orgmode"	\
-				".config/spotify"					\
 				".config/projectM"					\
 				".config/QtProject.conf"			\
+				".config/ranger/bookmarks"			\
+				".config/ranger/history"			\
+				".config/spotify"					\
+				".config/transmission"				\
 				".config/VPNetworkLLC/"				\
-				".config/duc"						\
-				".config/libvirt"					\
 			)
 			
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
@@ -235,7 +237,17 @@ case "$1" in
  		do
  			cp -r "$i" "$HOME/"
  		done
+
 		#cp bin/colortest /usr/local/bin/colortest
+
+		# Commenting out the below rsync method for now until I decide to get back around to working
+		# on it to figure out how to get the exclusion option to read the list variables that
+		# already exist in this script.
+		#		Line directly below works, however a list variable substitution is very finicky.
+		#			rsync -a --exclude './bin' --exclude './ezgit' --exclude './README.md' . ~
+		#	RSYNCEXCLUDES=("/bin" "ezgit" "README.md")
+		#	rsync -av --exclude-from='${RSYNCEXCLUDES[@]}' --progress . ~
+
 		echo "Dotfiles installed, exiting..."
 		exit 0
  		;;
@@ -261,12 +273,23 @@ case "$1" in
 		# however only using a cp command without first deleting all files in the current directory
 		# will keep deleted files)]
 
-
-
+		# Below is the old/depreciated cp method, rsync is superior but it is currently only being
+		# tested out right now and is WIP (actually going back to using this method since I don't
+		# want to currently spend too much time trying to figure out how to get rsync to read get an
+		# option argument to read a variable list contained within this script--and the point of
+		# having the exclusion list was to have a centralized list while also being within the
+		# script itself for maximum convenience, and creating a whole new file just for excluded
+		# files is unnecessary).
  		for i in "${FILELIST[@]}"
  		do
- 			cp -rf "$HOME/$i" .
+ 			cp -rf "$HOME/$i" . 2>/dev/null
  		done
+
+		# Below is the new rsync method.
+		# Apparently, the issue of rsync not being able to read the exclude-from variable can be
+		# solved by just setting a variable containing all the rsync options and just call that
+		# instead.
+		#	rsync -av --exclude-from="${EXCLUSIONS}" --progress "${FILELIST[@]}" .
 
 		# Reinitialize git directory silently.
 		git init &> /dev/null

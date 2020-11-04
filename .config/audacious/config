@@ -8,9 +8,9 @@ filebrowser_win=34,57,672,480
 filesel_path=/home/drew/Private/Music/Blank Banshee 0
 
 [gtkui]
-column_widths=10,275,175,10,175,175,10,100,32,10,275,275,275,10,275
-player_x=288
-player_y=266
+column_widths=10,275,175,10,175,175,10,100,39,10,275,275,275,10,275
+player_x=350
+player_y=271
 
 [gtkui-layout]
 item_count=0

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#/home/drew/Documents/git/dotfiles/bin/vpn-test
+#
+# Script that parses through a file given at "$1" (first script argument passed), and scans for
+# both IP addresses and URL links. Once a list of IP addresses and/or URL links have been extracted,
+# they will be ranked in order of latency (and speed/bandwidth?).
+# [IPv6 is not (yet?) implemented, since I hate IPv6 and IPv4 is the main IP version I prefer to use
+# and is much easier to work with especially with scripts].
+
+# ANSI Escape Code Colors:
+CRED='\033[1;38;5;9m'
+CGREEN='\033[1;38;5;10m'
+CBLUE='\033[1;38;5;14m'
+CR='\033[0m'
+
+# Checks if "$1" exists, exits if not.
+[[ ! "$1" ]] && echo -e "${CRED}WARNING!!!\n${CGREEN}No file specified in" \
+	"${CBLUE}\"\$1\"${CGREEN} variable.\n${CRED}Exiting..." && exit 1
+
+# Checks if "$1" (first argument) passed to the script is a valid filename. Exit if not.
+[[ ! -f "$1" ]] && echo -e "${CRED}WARNING!!!\n${CGREEN}File specified is not valid:" \
+	"\n${CBLUE}\"$1\"${CRED}\nExiting..." && exit 1
+
+
+# AWK command that parses a file/STDIN for valid URL addresses and outputs to STDOUT.
+awk '$1 == "remote" {print $2}' "$1"
+
+#TESTSPEED(){
+
