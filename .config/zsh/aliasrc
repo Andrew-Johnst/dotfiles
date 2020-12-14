@@ -36,7 +36,7 @@ alias \
 alias \
 	zrc= 'v ~/.config/zsh/.zshrc'						\
 	zr=  '. ~/.config/zsh/.zshrc'						\
-	nrc= 'v ~/.config/nvim/init.vim'					\
+	nrc= '$EDITOR ~/.config/nvim/init.vim'					\
 	tmc= 'v ~/.tmux.conf'								\
 	arc= 'v ~/.config/zsh/aliasrc'						\
 	frc= 'v ~/.config/zsh/functionrc'					\
