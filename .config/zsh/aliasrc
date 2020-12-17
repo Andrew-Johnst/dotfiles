@@ -27,19 +27,19 @@ alias sv='sudo -E nvim '	# Alias to open a file in nvim as sudo.
 alias \
 	r='ranger'	\
 	h='hunter ' \
-	v='$EDITOR' \
+	v='nvim ' \
 	m='neomutt' \
 	n='ncmpcpp' \
 	t='tmux'
 
 # Edit config file shortcuts.
 alias \
-	zrc= 'v ~/.config/zsh/.zshrc'						\
-	zr=  '. ~/.config/zsh/.zshrc'						\
-	nrc= '$EDITOR ~/.config/nvim/init.vim'					\
-	tmc= 'v ~/.tmux.conf'								\
-	arc= 'v ~/.config/zsh/aliasrc'						\
-	frc= 'v ~/.config/zsh/functionrc'					\
+	zrc='v ~/.config/zsh/.zshrc'						\
+	zr='. ~/.config/zsh/.zshrc'						\
+	nrc='v ~/.config/nvim/init.vim'					\
+	tmc='v ~/.tmux.conf'								\
+	arc='v ~/.config/zsh/aliasrc'						\
+	frc='v ~/.config/zsh/functionrc'					\
 	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'
 # Creates the directory "/tmp/tempfiles/" if it doesn't exist already.
 [[ ! -d /tmp/tempfiles ]] && mkdir /tmp/tempfiles
