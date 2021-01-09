@@ -1,6 +1,9 @@
 # Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
 export ZDOTDIR="$HOME/.config/zsh"
 # Exports the oh-my-zsh directory.
+#export ZSH="/home/drew/.config/zsh/.oh-my-zsh"
+ # [Using the oh-my-zsh plugin (make sure to push current changes before doing so, just in case
+ # something breaks.]
 export ZSH="/home/drew/.config/zsh/.oh-my-zsh"
 
 autoload -U colors && colors
@@ -107,10 +110,10 @@ export TERM=xterm-256color
 # display address.
 if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]]
 then
-    # Old variable export that defaulted to my desktop IP.
-    #DISPLAY=192.168.1.30:0.0
     DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
     SSH_CLIENT_IP="$(echo $SSH_CONNECTION | awk '{print $1}')"
+    # Old variable export that defaulted to my desktop IP.
+    DISPLAY=192.168.1.30:0.0
     # Below conditional checks to see if current SSH Client IP address has valid IPv4 address
     # (general IP check).
     #[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\} ]] &&
@@ -129,6 +132,8 @@ then
 else
 	export DISPLAY=:0
 fi
+# Change later (1-8-21 8:41PM).
+DISPLAY="192.168.1.30:0.0"
 
 # Commenting these below lines out in-favor of using an actual if function so that the DISPLAY
 # variable will be set to whatever IP address the SSH connection is sourced from, whereas the old

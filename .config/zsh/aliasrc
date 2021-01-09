@@ -27,7 +27,7 @@ alias sv='sudo -E nvim '	# Alias to open a file in nvim as sudo.
 alias \
 	r='ranger'	\
 	h='hunter ' \
-	v='nvim ' \
+	v='nvim '	\
 	m='neomutt' \
 	n='ncmpcpp' \
 	t='tmux'
@@ -35,12 +35,12 @@ alias \
 # Edit config file shortcuts.
 alias \
 	zrc='v ~/.config/zsh/.zshrc'						\
-	zr='. ~/.config/zsh/.zshrc'						\
-	nrc='v ~/.config/nvim/init.vim'					\
+	zr='. ~/.config/zsh/.zshrc'							\
+	nrc='v ~/.config/nvim/init.vim'						\
 	tmc='v ~/.tmux.conf'								\
 	arc='v ~/.config/zsh/aliasrc'						\
 	frc='v ~/.config/zsh/functionrc'					\
-	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'
+	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
 # Creates the directory "/tmp/tempfiles/" if it doesn't exist already.
 [[ ! -d /tmp/tempfiles ]] && mkdir /tmp/tempfiles
 
@@ -94,32 +94,39 @@ alias \
 	certs='cd ~/Documents/Education/Certs'
 
 # General quality of life improvements and aliasing lengthy commands.
-	alias ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'
-	alias cgrep='grep --color=always'
-	alias cg='grep --color=auto'
-	alias gc='git clone '
-	alias c='/usr/local/bin/colorchart'
-	alias cch='/usr/local/bin/colorchart'
-	alias less='less -R'
-	alias diff='diff --color=auto'
-	alias ip='ip --color=always'
-	alias fm='q pcmanfm-qt'
-	alias bt='bashtop'
-	alias mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
-	alias myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
-	alias mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '
-	alias ytd='youtube-dl '
-	alias ytdl='youtube-dl '
-	alias nics='sudo ifconfig | plx'
+	alias 																		\
+		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'							\
+		cgrep='grep --color=always'												\
+		cgrep='grep --color=always'												\
+		cg='grep --color=auto'													\
+		icg='grep -i --color=auto'												\
+		cgi='grep -i --color=auto'												\
+		igp='grep -i --color=auto'												\
+		g='cd $HOME/Documents/git'												\
+		gd=g																	\
+		gc='git clone '															\
+		c='/usr/local/bin/colorchart'											\
+		less='less -R'															\
+		diff='diff --color=auto'												\
+		ip='ip --color=always'													\
+		fm='q pcmanfm-qt'														\
+		bt='bashtop'															\
+		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
+		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
+		mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
+		ytd='youtube-dl '														\
+		ytdl='youtube-dl '														\
+		nics='sudo ifconfig | plx'												\
+		paux='ps aux'
 
-	# Less command aliases
-		alias							\
-			le='less'					\
-			lx='less -X'				\
-	 		ple='pcat | less -X'		\
-			cle='pcat "$@" | less -X'	\
-			plx='pcat | less -X'		\
-			clx='pcat | less -X'
+# Less command aliases
+	alias							\
+		le='less'					\
+		lx='less -X'				\
+ 		ple='pcat | less -X'		\
+		cle='pcat "$@" | less -X'	\
+		plx='pcat | less -X'		\
+		clx='pcat | less -X'
 
 ####################################################################################################
 ##################################### Package manager aliases. #####################################
@@ -128,8 +135,10 @@ alias \
 #######################
 ### Aliases for apt.###
 #######################
+# Aliases for various apt commands; updates python-pip
 alias									\
 	ins='sudo apt-get install '			\
+	insf='sudo apt-get install '		\
 	ac='apt-cache '						\
 	aci='apt-cache --installed '		\
 	acs='apt-cache search '				\
@@ -179,3 +188,5 @@ alias									\
 
 	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
 	alias myip='curl icanhazip.com'
+
+# Alias to display the current running aliases in fuller in a less -R (aliases 

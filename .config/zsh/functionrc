@@ -58,7 +58,8 @@ local CPI=$(echo -e ${CP}${CBL})
 
 # Function to git clone a directory, then cd into it.
 	gcd(){
-		git clone "$1" && cd "$(basename "$1" .git)"
+		git clone "$1"
+		cd "$(basename "$1" .git)"
 	}
 # Function to easily kill screen PIDs without having to manually type them out.
 	sk(){

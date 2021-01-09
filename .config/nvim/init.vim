@@ -228,8 +228,16 @@
 		set relativenumber number
 
 	"----------------------[3.5] Setting to automatically save/load view folds in files.
-		autocmd BufWinLeave *.* mkview
-		autocmd BufWinEnter *.* silent! loadview
+		"	autocmd BufWinLeave *.* mkview
+		"	autocmd BufWinEnter *.* silent! loadview
+
+		" Supposedly the above commands to automatically create and load vim-views isn't working, so
+		" using this solution found on stackoverflow below.
+			augroup remember_folds
+				autocmd!
+				autocmd BufWinLeave * mkview
+				autocmd BufWinEnter * silent! loadview
+			augroup END
 
 	"--------------------[3.6] Surrounding word in quotes.
 	"	command -nargs=1 -complete=command	Dquotes	call SurroundQuotes(t)
