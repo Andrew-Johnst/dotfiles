@@ -262,7 +262,7 @@ case "$1" in
 		# Clone the remote git repository into the Remote backups directory, then create a bzip2
 		# archive of it and delete the cloned folder.
 		git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
- 		tar -cjf "$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME" \
+ 		tar -cjf "$REMOTEBACKUPS/Remote-Repo-${TIME}.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME" \
 			&>/dev/null
 		yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
 

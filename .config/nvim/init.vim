@@ -364,13 +364,14 @@
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
 			map					<Leader>c					zc
-			inoremap		<M-Space>					<Esc>/<++><CR>ca<
-			noremap			<M-Space>					/<CR>ca<
-			noremap			<M-w>							{
-			noremap			<M-s>							}
-			nnoremap		<Leader>f					:call Flash()<CR>
 			map					<Leader>-					<C-w>_
 			map					<Leader>=					<C-w>=
+			noremap			<M-Space>					/<CR>ca<
+			nnoremap		<Leader>f					:call Flash()<CR>
+			noremap			<M-w>							{
+			noremap			<M-s>							}
+			map					<M-n>		    			<Esc>/<++><CR>ca<
+			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
 		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
 			nnoremap <Leader>r								:silent source $MYVIMRC<CR>
 		" map					<Leader>p					nciw

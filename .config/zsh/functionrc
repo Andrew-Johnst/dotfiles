@@ -13,6 +13,10 @@
 #	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d'
 #	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d' -e 's/[\(\)]//g'
 
+# Creates the directory "/tmp/tempfiles/" if it doesn't exist already. Used in both aliasrc and
+# functionrc files.
+[[ ! -d /tmp/tempfiles ]] && mkdir /tmp/tempfiles
+
 ####################################################################################################
 ##################################### ANSI Escape Code Colors. #####################################
 ##################### Sets color variables for more [{( A E S T H E T I C )}] ######################
@@ -228,7 +232,7 @@ local CPI=$(echo -e ${CP}${CBL})
 	}
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
 # history file so it can function independently of the shell limitations/syntaxing).
-	s(){
+	ss(){
 		# This works independently of the shell being used; appears to not work if testing in shell
 		# scripts since shell scripts are run in their own sub-shells and therefore have their own
 		# history lists.
@@ -272,6 +276,93 @@ local CPI=$(echo -e ${CP}${CBL})
 		#	[[ "$@" ]] && eval "$@" &>/dev/null
 		#	[[ "$@" ]] && eval "$@" & disown #&>/dev/null
 	}
+
+
+# Functions for pandoc conversions used in conjunction with aliases from aliasrc file.
+	pdocconv(){
+		# Checks if function is called to convert Markdown to PDF.
+		[[ "$1" == "md2pdf" ]] && CONVTYPE="md2pdf"
+		[[ ! -f "$2" ]] && echo -e "${CR}$2${CRE} not a file." && exit 1
+		FILENAME="$3"
+		[[ -z "$3" ]] && FILENAME="$(echo "$2" | cut -f 1 -d '.').pdf"
+		pandoc "$2" --pdf-engine=pdfroff -o "$FILENAME"
+
+	}
+
+# Function to open a vim file titled as the date+time in the directory /tmp/tempfiles. Just for
+# easier access to these files (despite the whole point of this function being to quickly create a
+# file typically to test something out) an environment variable will be set to the last opened file
+# opened with this function. Also an option to display a list of files in this directory and their
+# last modification date and time.
+#	vtmp(){
+#		export LASTVTMPFILE="/tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`"
+#	}
+
+# Function to create a bzip2 tar file while utilizing pbzip2 (a bzip2 program that utilizes
+# multithreading/parallel-processing for faster times; if pbzip2 isn't installed, use bzip2; if
+# bzip2 is missing, use XZ since LZMA is rather standard for Linux archives). This function also
+# parses arguments passed to it as options to choose the compression method or (TODO) use a
+# curses/ncurses progress window.
+# USAGE: "tarp {TAR-FILENAME} {FILE(S) or DIRECTORY}"
+	tarp(){
+		# Checks that valid (this check specifically checks for ANY) input was received.
+		[[ "$#" ]] && echo -e "${CR}Either invalid or no arguments passed." \
+			"\n${CG}Read the description of this function in the functionrc file." \
+			"\n${CR}Doing nothing and Exiting..." && exit 1
+
+		# Checks that both variables are valid files/directories.
+		for i in "$@"
+		do
+			[[ ! -f "$i" && ! -d "$i" ]] && echo -e "${CR}Invalid file/directory variable:\"$i\"" \
+				"given." && return 1
+		done
+
+		# Checks if pbzip2 is installed, prefer that over bzip2 if installed. 
+		local COMPMETHOD="pbzip2 -9"
+		[[ ! "$(command -v "pbzip2")" ]] && local COMPMETHOD="bzip2 -9"
+		# Checks that pv is installed, exit if it isn't installed.
+		[[ ! "$(command -v "pv")" ]] && \
+			echo -e "${CR}WARNING!!!\n${CRE}Command \"${CG}pv${CRE}\" not found, therefore," \
+			"\n${CR}Exiting..." && return 1
+
+		# Executing the compression and using the program pv and du to show a progress line.
+		tar cf - "$2" -P | pv -s $(du -sb "$2" | awk '{print $1}') | eval $COMPMETHOD > "$1"
+	}
+
+# Function to show progress deletion of files using rsync (or perl since it's benchmarks are faster;
+# only used if perl is installed/useable). This function is useful for when deleting large
+# directories and/or directories with a very large amount of files of small/average size but the
+# sheer amount of files causes a slow execution).
+	rmf(){
+		# Check for which program to use. Use rm command if neither perl nor rsync are accessible.
+		[[ ! "$(command -v "perl")" ]] && local USERSYNC=1
+		[[ ! "$(command -v "rsync")" ]] && unset USERSYNC && local USERM=1
+		# Temporarily adding this line below to manually set function to use rm.
+		local USERM=1
+
+		# Checks that the arguments passed to this function are valid files/directories.
+		for i in "$@"
+		do
+			[[ ! -f "$i" && ! -d "$i" ]] && echo "Invalid file/directory: \"$i\"\nExiting..." \
+				&& exit 1
+		done
+
+		# Perform the command based on whichever method is available.
+		if [[ $USERM ]]
+		then
+			rm -rvf "$1" | pv -s $(du -sb "$1" | awk '${print $1}')
+		elif [[ $USERSYNC ]]
+		then
+			mkdir empty_dir
+			rsync -av --stats --human-readable --delete empty_dir/ "$1" \
+				| pv -s $(du -sb "$1" | awk '${print $1}')
+			rm -r empty_dir
+		#elif [[ -z $USERSYNC && -z $USERM ]]
+		fi
+
+	}
+
+
 
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.
 #	ytdl(){

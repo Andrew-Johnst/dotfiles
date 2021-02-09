@@ -4,4 +4,4 @@ theme=KvArcDark#
 [Applications]
 ArcDark=cantata
 KvArc=Cantata
-KvArcDark%23=Cantata, picard, bitcoin-qt, nicotine
+KvArcDark%23=Cantata, picard, bitcoin-qt, nicotine, virt-manager

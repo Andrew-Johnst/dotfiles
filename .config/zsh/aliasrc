@@ -7,6 +7,10 @@
 # aliases.
 unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ') 2>/dev/null
 
+# Creates the directory "/tmp/tempfiles/" if it doesn't exist already. Used in both aliasrc and
+# functionrc files.
+[[ ! -d /tmp/tempfiles ]] && mkdir /tmp/tempfiles
+
 ### Old methods of clearing aliases:
 	# unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
 	# unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ')
@@ -17,19 +21,19 @@ alias sudo='sudo '	 		# Stupid fix for being able to use aliases with sudo.
 alias sE='sudo -E '			# Alias to run sudo command but keep current environment variables.	
 alias se='sudo -E $EDITOR '	# Alias to preserve current user's environment vars, and open $EDITOR.
 alias sv='sudo -E nvim '	# Alias to open a file in nvim as sudo.
-#alias s='sudo'				# Depreciated. This is now in the functionrc file, and can repeat the
-							# previous command as sudo, and functions as an alias the same way it
-							# used to when defined here. (The other sudo aliases needed a full
-							# "sudo" in the definitions as a result of this however, but is better
-							# practice to do this anyways rather than having recursive aliases).
-
+alias s='sudo'				# Adding this alias back since it made more logical sense to have an
+							# alias for "sudo" instead of a function 's' do both as an alias for 
+							# sudo and (if no arguments given) repeat the previous command with a 
+							# prepended sudo added.  
 # Shortened browser/editor aliases.
 alias \
-	r='ranger'	\
-	h='hunter ' \
-	v='nvim '	\
-	m='neomutt' \
-	n='ncmpcpp' \
+	r='ranger'		\
+	h='hunter ' 	\
+	v='nvim '		\
+	vp='v -p "$@"'	\
+	vt='v -p "$@"'	\
+	M='neomutt' 	\
+	n='ncmpcpp' 	\
 	t='tmux'
 
 # Edit config file shortcuts.
@@ -40,9 +44,8 @@ alias \
 	tmc='v ~/.tmux.conf'								\
 	arc='v ~/.config/zsh/aliasrc'						\
 	frc='v ~/.config/zsh/functionrc'					\
-	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
-# Creates the directory "/tmp/tempfiles/" if it doesn't exist already.
-[[ ! -d /tmp/tempfiles ]] && mkdir /tmp/tempfiles
+	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	\
+	vtmp='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
 
 # Automatically specifying options always used to a shortened alias for core file programs/utils.
 alias \
@@ -52,52 +55,54 @@ alias \
 	la='ls -lah'			\
 	lt='ls -lath'			\
 	mv='mv -v'				\
-	cp='cp -v'
+	cp='cp -v'				\
+	rm='rm -r'				
 
 # Directory shortcuts.
 alias \
-	b='cd ..'											\
-	..='cd ..'											\
-	.1='cd ..'											\
-	.2='cd ../..'										\
-	.3='cd ../../..'									\
-	conf='cd ~/.config'									\
-	confn='cd ~/.config/nvim'							\
-	nconf='cd ~/.config/nvim'							\
-	zconf='cd ~/.config/zsh'							\
-	mn='cd /mnt'										\
-	mnt='cd /mnt'										\
-	tmp='cd /tmp'										\
-	tmpvcd='cd /tmp/tempfiles'							\
-	d='cd ~/Documents'									\
-	D='cd ~/Downloads'									\
-	p='cd ~/Documents/programming'						\
-	pub='cd /mnt/Data/Public'							\
-	priv='cd /mnt/Data/Drew'							\
-	nvc='cd ~/.config/nvim'								\
-	dot='cd ~/Documents/git/dotfiles'					\
-	ba='cd ~/Documents/programming/bash'				\
-	py='cd ~/Documents/programming/python'				\
-	py2='cd ~/Documents/programming/python/2'			\
-	py3='cd ~/Documents/programming/python/3'			\
-	cryptd='cd /mnt/crypt'								\
-	luksd='cd /mnt/crypt/luks'							\
-	m='cd ~/Music'										\
-	aptc='cd /etc/apt/'									\
-	work='cd ~/Documents/Work/'							\
-	r2s='cd ~/Documents/Work/Ready2Show'				\
-	r2sd='cd ~/Documents/Work/Ready2Show/Development/'	\
-	P='cd ~/Pictures'									\
-	hm='cd ~/Mountpoints'								\
-	hmnt='cd ~/Mountpoints'								\
-	E='cd ~/Documents/Education'						\
+	b='cd ..'														\
+	..='cd ..'														\
+	.1='cd ..'														\
+	.2='cd ../..'													\
+	.3='cd ../../..'												\
+	conf='cd ~/.config'												\
+	nconf='cd ~/.config/nvim'										\
+	nconfp='cd ~/.config/nvim/plugins'								\
+	nconff='cd ~/.config/nvim/plugins/pathogen/MyFunctions/plugin/'	\
+	zconf='cd ~/.config/zsh'										\
+	mn='cd /mnt'													\
+	mnt='cd /mnt'													\
+	tmp='cd /tmp'													\
+	tmpvcd='cd /tmp/tempfiles'										\
+	d='cd ~/Documents'												\
+	D='cd ~/Downloads'												\
+	acc='cd ~/Documents/Education/School/ACC/'						\
+	p='cd ~/Documents/programming'									\
+	pub='cd /mnt/Data/Public'										\
+	priv='cd /mnt/Data/Drew'										\
+	dot='cd ~/Documents/git/dotfiles'								\
+	ba='cd ~/Documents/programming/bash'							\
+	py='cd ~/Documents/programming/python'							\
+	py2='cd ~/Documents/programming/python/2'						\
+	py3='cd ~/Documents/programming/python/3'						\
+	cryptd='cd /mnt/crypt'											\
+	luksd='cd /mnt/crypt/luks'										\
+	m='cd ~/Music'													\
+	aptc='cd /etc/apt/'												\
+	work='cd ~/Documents/Work/'										\
+	r2s='cd ~/Documents/Work/Ready2Show'							\
+	r2sd='cd ~/Documents/Work/Ready2Show/Development/'				\
+	P='cd ~/Pictures'												\
+	hm='cd ~/Mountpoints'											\
+	hmnt='cd ~/Mountpoints'											\
+	E='cd ~/Documents/Education'									\
 	certs='cd ~/Documents/Education/Certs'
 
 # General quality of life improvements and aliasing lengthy commands.
 	alias 																		\
 		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'							\
 		cgrep='grep --color=always'												\
-		cgrep='grep --color=always'												\
+		igrep='grep --color=always'												\
 		cg='grep --color=auto'													\
 		icg='grep -i --color=auto'												\
 		cgi='grep -i --color=auto'												\
@@ -109,7 +114,7 @@ alias \
 		less='less -R'															\
 		diff='diff --color=auto'												\
 		ip='ip --color=always'													\
-		fm='q pcmanfm-qt'														\
+		fm='q pcmanfm-qt '														\
 		bt='bashtop'															\
 		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
 		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
@@ -117,7 +122,8 @@ alias \
 		ytd='youtube-dl '														\
 		ytdl='youtube-dl '														\
 		nics='sudo ifconfig | plx'												\
-		paux='ps aux'
+		paux='ps aux'															\
+		cchart='/usr/local/bin/colorchart'
 
 # Less command aliases
 	alias							\
@@ -136,16 +142,17 @@ alias \
 ### Aliases for apt.###
 #######################
 # Aliases for various apt commands; updates python-pip
-alias									\
-	ins='sudo apt-get install '			\
-	insf='sudo apt-get install '		\
-	ac='apt-cache '						\
-	aci='apt-cache --installed '		\
-	acs='apt-cache search '				\
-	ag='apt-get '						\
-	adeps='apt-rdepends '				\
-	aure='apt-get autoremove '			\
-	aurep='apt-get autoremove --purge '	
+alias											\
+	ins='sudo apt-get install '					\
+	insf='sudo apt-get install '				\
+	ac='sudo apt-cache '						\
+	aci='sudo apt-cache --installed '			\
+	acs='sudo apt-cache search '				\
+	aptsearch='sudo apt-cache search '			\
+	ag='sudo apt-get '							\
+	adeps='sudo apt-rdepends '					\
+	aure='sudo apt-get autoremove '				\
+	aurep='sudo apt-get autoremove --purge '	
 
 # Alias to update and upgrade all python-pip packages.
 	alias pipup='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 \
@@ -159,6 +166,7 @@ alias									\
 		mine='chown $USER:$GROUP '
 
 # Network aliases.
+
 # Sortcuts for connecting to sessions.
 # Supposedly SSH might break if the remote machine does not have the same $TERM variable.
 # [Unsure of this since the environment variables are applied in each host's session.]
@@ -189,4 +197,6 @@ alias									\
 	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
 	alias myip='curl icanhazip.com'
 
-# Alias to display the current running aliases in fuller in a less -R (aliases 
+
+# Pandoc aliases.
+	alias md2pdf='pdocconv md2pdf $@'

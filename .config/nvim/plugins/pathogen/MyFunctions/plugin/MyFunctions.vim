@@ -203,10 +203,10 @@
 			endif
 		endfunction
 " Aliasing commands to this function to either HTML/PDF formats, then binding them to Leader keybinds.
-	cnoreabbrev	pdf 			call Pan("pdf")
-	cnoreabbrev	html 			call Pan("html")
-	nnoremap	<Leader>p		call Pan("pdf") <CR>
-	nnoremap	<Leader>h		call Pan("html")<CR>
+	cnoreabbrev	convpdf 			call Pan("pdf") <CR>
+	cnoreabbrev	convhtml 			call Pan("html")<CR>
+	nnoremap	<Leader>p				call Pan("pdf") <CR>
+	nnoremap	<Leader>h				call Pan("html")<CR>
 
 " Alias to add executable permissions to file open in current vim buffer.
 	command! -nargs=0 -complete=command CX silent! execute "!chmod +x ".expand('%:p')
