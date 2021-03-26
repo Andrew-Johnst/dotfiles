@@ -1,0 +1,73 @@
+[window]
+w = 600
+h = 400
+toolbar = True
+statusbar = True
+thumbpane = True
+
+[prefs]
+simple-bgcolor = False
+bgcolor-red = 0
+bgcolor-green = 0
+bgcolor-blue = 0
+open_all = True
+hidden = False
+use_last_dir = True
+last_dir = /home/drew
+fixed_dir = /home/drew
+open_mode = 0
+last_mode = 0
+listwrap_mode = 0
+slideshow_delay = 1
+slideshow_random = False
+zoomquality = 2
+quality_save = 90
+disable_screensaver = False
+slideshow_in_fullscreen = False
+confirm_delete = True
+preloading_images = True
+savemode = 2
+start_in_fullscreen = False
+thumbsize = 128
+screenshot_delay = 2
+
+[actions]
+num_actions = 4
+names[0] = Open in GIMP
+commands[0] = gimp %F &
+shortcuts[0] = <Control>e
+batch[0] = False
+names[1] = Create Thumbnail
+commands[1] = convert %F -thumbnail 150x150 %Pt_%N.jpg
+shortcuts[1] = <Alt>t
+batch[1] = False
+names[2] = Create Thumbnails
+commands[2] = convert %F -thumbnail 150x150 %Pt_%N.jpg
+shortcuts[2] = <Control><Alt>t
+batch[2] = True
+names[3] = Move to Favorites
+commands[3] = mkdir -p ~/mirage-favs; mv %F ~/mirage-favs; [NEXT]
+shortcuts[3] = <Control><Alt>f
+batch[3] = False
+
+[recent]
+num_recent = 9
+num[0] = 57
+urls[0,0] = /mnt/Data/Drew/Pics/2019-12-17-123552_1920x1200_scrot.png
+num[1] = 57
+urls[1,0] = /mnt/Data/Drew/Pics/2019-12-17-130443_1920x1200_scrot.png
+num[2] = 57
+urls[2,0] = /mnt/Data/Drew/Pics/2019-12-17-160546_1920x1200_scrot.png
+num[3] = 57
+urls[3,0] = /mnt/Data/Drew/Pics/2019-12-17-233137_1920x1200_scrot.png
+num[4] = 44
+urls[4,0] = /mnt/Data/Drew/Pics/JPEG_20181219_151854.jpg
+num[5] = 60
+urls[5,0] = /mnt/Data/Drew/Pics/lauren didnt have a gambling problem.png
+num[6] = 36
+urls[6,0] = /mnt/Data/Drew/Pics/Screenshot_1.png
+num[7] = 43
+urls[7,0] = /mnt/Data/Drew/Pics/Snapchat-1047578921.jpg
+num[8] = 43
+urls[8,0] = /mnt/Data/Drew/Pics/Snapchat-1369961746.jpg
+

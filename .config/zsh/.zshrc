@@ -206,3 +206,31 @@ eval $(thefuck --alias f)
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+
+
+####################################################################################################
+############################### Genearl Environment Variable Exports ###############################
+####################################################################################################
+#
+# Exporting QT and GTK environment variables.
+#export QT_QPA_PLATFORMTHEME=qt5ct
+# Changing the QT_QPA_PLATFORMTHEME variable to gtk2 as per the arch wiki.
+# (Apparently this did the trick, along with installing LXAppearance, and the required
+# dependencies.)
+export QT_QPA_PLATFORMTHEME=gtk2
+# The below QT env variable causes issues with the qt5ct program so it is commented out.
+#export QT_STYLE_OVERRIDE=kvantum
+
+
+# Adding directories to the PATH variable.
+# (This needs to be cleaned up since there are several PATH declarations already listed above for
+# various other programs that need it).
+
+# This PATH addition is for pywal (used for GTK theming).
+export PATH="${PATH}:${HOME}/.local/bin/"
+
+# Sets the XDG environment variables
+# (The XDG_CONFIG_HOME variable is already defined in debian's /etc/profile, however it wasn't
+# exporting a variable on users since I didn't have an environment variable for XDG_CONFIG_HOME).
+# (This XDG_CONFIG_HOME variable SHOULD be set in the ~/.profile, but I'm setting it here).
+export XDG_CONFIG_HOME="${HOME}/.config"

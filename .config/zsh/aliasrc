@@ -101,12 +101,19 @@ alias \
 # General quality of life improvements and aliasing lengthy commands.
 	alias 																		\
 		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'							\
+		ig='grep -i'															\
 		cgrep='grep --color=always'												\
 		igrep='grep --color=always'												\
 		cg='grep --color=auto'													\
 		icg='grep -i --color=auto'												\
 		cgi='grep -i --color=auto'												\
-		igp='grep -i --color=auto'												\
+		ige='grep -i'															\
+		gi='grep -i'															\
+		cgrep='grep --color=always'												\
+		igrep='grep --color=always'												\
+		cg='grep --color=auto'													\
+		icg='grep -i --color=auto'												\
+		cgi='grep -i --color=auto'												\
 		g='cd $HOME/Documents/git'												\
 		gd=g																	\
 		gc='git clone '															\
@@ -123,7 +130,8 @@ alias \
 		ytdl='youtube-dl '														\
 		nics='sudo ifconfig | plx'												\
 		paux='ps aux'															\
-		cchart='/usr/local/bin/colorchart'
+		cchart='/usr/local/bin/colorchart'										\
+		k9='kill -9'
 
 # Less command aliases
 	alias							\
@@ -131,8 +139,11 @@ alias \
 		lx='less -X'				\
  		ple='pcat | less -X'		\
 		cle='pcat "$@" | less -X'	\
+		clx='pcat | less -X'		\
 		plx='pcat | less -X'		\
-		clx='pcat | less -X'
+		lxcl='less -X;clear'		\
+		clea='less -X;clear'		\
+		cls='less -X;clear'		
 
 ####################################################################################################
 ##################################### Package manager aliases. #####################################

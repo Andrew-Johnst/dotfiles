@@ -362,6 +362,20 @@ local CPI=$(echo -e ${CP}${CBL})
 
 	}
 
+# Simple function to remove ANSI Escape code colors.
+# Useful for when piping output of a command into another command like sed or grep and both of those
+# commands take the literal text output (including ANSI escape codes that display in the terminal as
+# colored or stylized text, but in the program examples listed above, the escape codes are
+# interpreted literally).
+	nocolor(){
+		# Uses /dev/stdin to read from standard input.
+		if (( $# == 0 ))
+		then
+			'sed "s/\x1b\[[0-9;]*m//g"' < /dev/stdin
+		else
+			'sed "s/\x1b\[[0-9;]*m//g"' <<< "$1"
+		fi
+	}
 
 
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.

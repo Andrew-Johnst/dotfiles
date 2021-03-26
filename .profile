@@ -35,3 +35,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # Adding this to export the ZDOTDIR to the ~/.config/zsh
 export ZDOTDIR="$HOME/.config/zsh"
+
+# The variable XDG_CONFIG_HOME should be set here so it's set globally regardless of the shell, but
+# I set it inside the zshrc file.
+# export XDG_CONFIG_HOME="${HOME}/.config
