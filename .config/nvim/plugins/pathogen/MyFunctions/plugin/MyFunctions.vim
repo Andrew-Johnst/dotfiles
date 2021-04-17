@@ -103,23 +103,7 @@
 
 " Function for bash script file preamble info.
 	function! BashHeaders(...)
-		"let l:filename=@%
-		"while !exists(l:filename)
-		"	let l:filename = input("No/Invalid filename detected.\nPlease enter a filename: ")
-		"	if !matchstr(l:filename,'^[0-9a-zA-Z/\s]+')
-		"		echom "The filename entered does not match the regex pattern."
-		"	else
-		"		let l:filename = substitute(l:filename, " ", "\ ", "g")
-		"		execute "w " . l:filename
-		"	endif
-		"endwhile
-		"#!/usr/bin/env bash
 		execute "norm I#!/usr/bin/env bash"
-		"if exists(%@)
-		"	exe "normal! o#".expand('%:p')
-		"else
-		"	exe "normal o"
-		"endif
 		exe "normal o#".expand('%:p')
 		exe "normal o#"
 		exe "normal o# "
@@ -128,17 +112,24 @@
 	" Adds executable permissions to the file.
 		silent! execute "!chmod +x ".expand('%:p')
 		startinsert!
-		"if exists(l:comment)
-		"	execute "normal! o# " | startinsert!
-		"else
-		"	execute "norm o " | startinsert!
-		"endif
-
 	endfunction
-	"cnoreabbrev bashheadcomment call BashHeaders("comment")
-	"cnoreabbrev bhc call BashHeaders("comment")
 	cnoreabbrev bashhead silent! call BashHeaders()
 	cnoreabbrev bh silent! call BashHeaders()
+
+" Function for python3 script file preamble info.
+	function! Python3Headers(...)
+		execute "norm I#!/usr/bin/env python3"
+		"exe "normal o#".expand('%:p')
+		exe "normal o# Written by: Andrew Johnston."
+		exe "normal o# "
+	" Writes the file, then reloads the buffer applying filetype settings.
+		w | e
+	" Adds executable permissions to the file.
+		silent! execute "!chmod +x ".expand('%:p')
+		startinsert!
+	endfunction
+	cnoreabbrev py3head silent! call Python3Headers()
+	cnoreabbrev p3h silent! call Python3Headers()
 
 " Command + abbreviation to delete the file open in current tab, as well as a 'purge all' option.
 "	(Too braindead to figure out right now, come back to this later).
@@ -291,11 +282,11 @@ fu! NewTempFile(...)
 		"exe "norm :e " . l:directory . l:filename
 		"echo "e " . l:directory . l:filename
 	endif
-
 endfu!
-
 command -nargs=? NTF call NewTempFile(<f-args>)
 cnoreabbrev ntf NTF
+
+"" Function to capitalice the first letter of each word highlighted (GRAMATICALLY-CORRECT).
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

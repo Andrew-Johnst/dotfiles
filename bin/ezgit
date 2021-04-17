@@ -14,7 +14,7 @@
 #		2.)
 
 # Exits the script when an error is encountered to prevent potential damage from continuing to run.
-### Commenting this out for the time being until I figure out/take the time to omit certain directories such 
+### Commenting this out for the time being until I figure out/take the time to omit certain directories such
 # as neovim plugins since they're causing permission denied errors and causing the script to exit prematurely.
 #set -e
 
@@ -35,36 +35,37 @@ DEPENDS=(	"bzip2"		\
 
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
 # of the pwd to git staged changes.
-EXCLUSIONS=(	"*.swp"								\
-				"*.log"								\
-				"*.tdb"								\
-				"*.netrwhist"						\
-				".config/autostart"					\
-				".config/Atom"						\
-				".config/Bitcoin"					\
-				".config/BraveSoftware"				\
-				".config/chromium"					\
-				".config/dconf/user"				\
-				".config/duc"						\
-				".config/expressvpn"				\
-				".config/filelightrc"				\
-				".config/google-chrome"				\
-				".config/libvirt"					\
-				".config/mpd/database"				\
-				".config/mpd/pid"					\
-				".config/mpd/playlists/"			\
-				".config/mpd/state"					\
-				".config/nicotine/"					\
-				".config/nvim/plugged/vim-orgmode"	\
-				".config/projectM"					\
-				".config/QtProject.conf"			\
-				".config/ranger/bookmarks"			\
-				".config/ranger/history"			\
-				".config/spotify"					\
-				".config/transmission"				\
-				".config/VPNetworkLLC/"				\
+EXCLUSIONS=(	"*.swp"												\
+				"*.log"												\
+				"*.tdb"												\
+				"*.netrwhist"										\
+				".config/autostart"									\
+				".config/Atom"										\
+				".config/Bitcoin"									\
+				".config/BraveSoftware"								\
+				".config/chromium"									\
+				".config/dconf/user"								\
+				".config/duc"										\
+				".config/expressvpn"								\
+				".config/filelightrc"								\
+				".config/google-chrome"								\
+				".config/libvirt"									\
+				".config/mpd/database"								\
+				".config/mpd/pid"									\
+				".config/mpd/playlists/"							\
+				".config/mpd/state"									\
+				".config/nicotine/"									\
+				".config/nvim/plugged/vim-orgmode"					\
+				".config/nvim/plugins/pathogen/MyFunctions/spell/"	\
+				".config/projectM"									\
+				".config/QtProject.conf"							\
+				".config/ranger/bookmarks"							\
+				".config/ranger/history"							\
+				".config/spotify"									\
+				".config/transmission"								\
+				".config/VPNetworkLLC/"								\
 			)
-			
+
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
 FILELIST=(	".config/"		\
 			".fzf"			\
@@ -137,7 +138,7 @@ REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
 # print whatever text before the counter. Also defines a SLEEPTIME variable in case a
 # -nt|--no-timer argument option is passed to the ezgit script. Default value for SLEEPTIME is 5
 # seconds, and if -nt|--notimer argument option is not passed to the script, the SLEEPFORX timer
-# will default to 5; 0 seconds or no time will 
+# will default to 5; 0 seconds or no time will
 SLEEPTIME=5
 SLEEPFORX(){
 	# Returns/exits this function if the time specified is 0 (when the -nt|--no-timer script option
@@ -161,7 +162,7 @@ CHECKDEPS(){
 		#[[ ! $(command -v "${DEPENDS[$i]}") ]] && echo "Command \"${DEPENDS[$i]}\" is missing." && missingdepends+=("${DEPENDS[$i]}")
 		[[ ! $(command -v "${DEPENDS[$i]}") ]] && MISSINGDEPENDS+=("${DEPENDS[$i]}")
 	done
-	
+
 	# Checks if MISSINGDEPENDS list is empty, if not then missing dependencies were found.
 	if [[ ${#MISSINGDEPENDS[@]} -ne 0 ]]
 	then
@@ -182,7 +183,7 @@ CHECKDEPS(){
 			# Sanitizing the read command input.
 			yn="$(echo $yn | tr '[:upper:]' '[:lower:]')"
 			echo
-			
+
 			# Exit if user selects "[n]o" to committing the changes.
 			[[ "$yn" == "n" ]] && echo -e \
 				"${CRED}Changes staged for commit have been made, but not committing.\nExiting..." \
@@ -195,10 +196,10 @@ USAGE(){
 	echo -e "${CGREEN}Usage: ${CRED}./ezgit [ACTION]"
 	echo -e "${CGREEN}ACTIONS:"
 	echo -e "	${CRED}-i | --install${CBLUE}	Pulls from remote git repo and installs/updates local files."
-	echo 
+	echo
 	echo -e "	${CRED}-u | --upload${CBLUE}	Pulls remote repo to create a backup bz2 tarball, then uploads"
 	echo -e "			files listed in the ${CGREEN}FILELIST${CBLUE} array list to github repo."
-	echo 
+	echo
 	echo -e "	${CRED}-d | --diff${CBLUE}	Runs a \`${CRED}git diff${CBLUE}\` command between local and remote repo."
 	echo
 	echo -e "	${CRED}-h | --help${CBLUE}	Print this help/usage page."
@@ -313,7 +314,7 @@ case "$1" in
 			# Sanitizing the read command input.
 			yn="$(echo $yn | tr '[:upper:]' '[:lower:]')"
 			echo
-			
+
 			# Exit if user selects "[n]o" to committing the changes.
 			[[ "$yn" == "n" ]] && echo -e \
 				"${CRED}Changes staged for commit have been made, but not committing.\nExiting..." \

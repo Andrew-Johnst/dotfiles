@@ -131,7 +131,9 @@ alias \
 		nics='sudo ifconfig | plx'												\
 		paux='ps aux'															\
 		cchart='/usr/local/bin/colorchart'										\
-		k9='kill -9'
+		k9='kill -9'															\
+		vp='nvim -p '															\
+		sep='sudo -E nvim -p '
 
 # Less command aliases
 	alias							\
