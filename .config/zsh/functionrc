@@ -163,6 +163,13 @@ local CPI=$(echo -e ${CP}${CBL})
 		#echo -e "${CCYAN}The IP Address on ${CRED}[$DEVICE${CRED}]${CCYAN} is: ${CRED}[$DEVIP${CRED}]"
 	}
 
+# Function (only one command but too large/cumbersome to have in a single alias) to verify that the
+# tor system service is running.
+	checktor(){
+		curl --socks5 localhost:9050 --socks5-hostname localhost:9050 -s \
+			https://check.torproject.org/ | cat | grep -m 1 Congratulations | xargs
+	}
+
 # Colorization aliases.
 	pycolor(){
 		[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
