@@ -184,22 +184,23 @@ local CPI=$(echo -e ${CP}${CBL})
 		echo "#####################################################################################"
 		echo "#### Physical Partitions and Storage/Block Devices (Only real/non-logical here): ####"
 		echo "#####################################################################################"
+		#echo
+		#[[ ! -e /dev/vd* ]] && sudo fdisk -l /dev/sd[a-z] 2>/dev/null
+		#[[ ! -e /dev/sd* ]] && sudo fdisk -l /dev/vd[a-z] 2>/dev/null
+		sudo fdisk -l /dev/?d[a-z] 2>/dev/null | cat -s
 		echo
-		sudo fdisk -l /dev/sd[a-z] 2>/dev/null
-		echo -e "\n\n"
 		echo "#####################################################################################"
 		echo "######## Physical Volumes (PVs), Volume Groups (VGs), Logical Volumes (LVMs): #######"
 		echo "#####################################################################################"
-		echo
 		echo "Physical Volumes:"
-		sudo pvs #| sed 's/'
+		sudo pvs
 		#echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
 		#echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
-		echo "Volume Groups:"
+		echo -e "\nVolume Groups:"
 		sudo vgs
 		#echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
 		#echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
-		echo "Logical Volumes:"
+		echo -e "\nLogical Volumes:"
 		sudo lvs
 	}
 	# Alias to pipe the entire contents of disks() function through pcat alias.
