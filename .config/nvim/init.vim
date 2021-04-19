@@ -297,20 +297,27 @@
 
 	"--------------------[4.3.0] Various command declarations.
     " Command to open zshrc file in new vim tab.
-        command!      ZRC :call OpenFileInNextAvailableBuffer("~/.zshrc")
-        cnoreabbrev zrc :ZRC
+        command!    ZRC :call OpenFileInNextAvailableBuffer("~/.config/zsh/.zshrc")
+        cnoreabbrev	zrc :ZRC
 
     " Command to open init.vim file in new vim tab.
-        command!      NRC :call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
-        cnoreabbrev nrc :NRC
+        command!		NRC :call OpenFileInNextAvailableBuffer("~/.config/nvim/init.vim")
+        cnoreabbrev	nrc :NRC
 
     " Command to open aliasrc file in new vim tab.
-        command!      ARC :call OpenFileInNextAvailableBuffer("~/.config/zsh/aliasrc")
-        cnoreabbrev arc :ARC
+        command!		ARC :call OpenFileInNextAvailableBuffer("~/.config/zsh/aliasrc")
+        cnoreabbrev	arc :ARC
 
     " Command to open functionrc file in new vim tab.
-        command!      FRC :call OpenFileInNextAvailableBuffer("~/.config/zsh/functionrc")
-        cnoreabbrev frc :FRC
+        command!    FRC	:call OpenFileInNextAvailableBuffer("~/.config/zsh/functionrc")
+        cnoreabbrev frc	:FRC
+
+		" Command to open the main file containing my custom neovim functions.
+				command!		NCFU :call OpenFileInNextAvailableBuffer("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
+				cnoreabbrev ncfu :NCFU
+				cnoreabbrev vcfu :NCFU
+				cnoreabbrev nfu :NCFU
+				cnoreabbrev vfu :NCFU
 
 		" Command to write the currently opened file as sudo.
 				command!			SudoWrite	:w !sudo tee %
