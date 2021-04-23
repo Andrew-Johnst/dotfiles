@@ -135,7 +135,9 @@ alias \
 		cchart='/usr/local/bin/colorchart'										\
 		k9='kill -9'															\
 		vp='nvim -p '															\
-		sep='sudo -E nvim -p '
+		sep='sudo -E nvim -p '													\
+		vep='sudo -E nvim -p '													\
+		svet='sudo -E nvim -p '
 
 # Less command aliases
 	alias							\
