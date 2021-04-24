@@ -101,43 +101,45 @@ alias \
 	certs='cd ~/Documents/Education/Certs'
 
 # General quality of life improvements and aliasing lengthy commands.
-	alias 																		\
-		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'							\
-		ig='grep -i'															\
-		cgrep='grep --color=always'												\
-		igrep='grep --color=always'												\
-		cg='grep --color=auto'													\
-		icg='grep -i --color=auto'												\
-		cgi='grep -i --color=auto'												\
-		ige='grep -i'															\
-		gi='grep -i'															\
-		cgrep='grep --color=always'												\
-		igrep='grep --color=always'												\
-		cg='grep --color=auto'													\
-		icg='grep -i --color=auto'												\
-		cgi='grep -i --color=auto'												\
-		g='cd $HOME/Documents/git'												\
-		gd=g																	\
-		gc='git clone '															\
-		c='/usr/local/bin/colorchart'											\
-		less='less -R'															\
-		diff='diff --color=auto'												\
-		ip='ip --color=always'													\
-		fm='q pcmanfm-qt '														\
-		bt='bashtop'															\
-		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
-		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
-		mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '		\
-		ytd='youtube-dl '														\
-		ytdl='youtube-dl '														\
-		nics='sudo ifconfig | plx'												\
-		paux='ps aux'															\
-		cchart='/usr/local/bin/colorchart'										\
-		k9='kill -9'															\
-		vp='nvim -p '															\
-		sep='sudo -E nvim -p '													\
-		vep='sudo -E nvim -p '													\
-		svet='sudo -E nvim -p '
+	alias 																	\
+		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'						\
+		ig='grep -i'														\
+		cgrep='grep --color=always'											\
+		igrep='grep --color=always'											\
+		cg='grep --color=auto'												\
+		icg='grep -i --color=auto'											\
+		cgi='grep -i --color=auto'											\
+		ige='grep -i'														\
+		gi='grep -i'														\
+		cgrep='grep --color=always'											\
+		igrep='grep --color=always'											\
+		cg='grep --color=auto'												\
+		icg='grep -i --color=auto'											\
+		cgi='grep -i --color=auto'											\
+		g='cd $HOME/Documents/git'											\
+		gd=g																\
+		gc='git clone '														\
+		c='/usr/local/bin/colorchart'										\
+		less='less -R'														\
+		diff='diff --color=auto'											\
+		ip='ip --color=always'												\
+		fm='q pcmanfm-qt '													\
+		bt='bashtop'														\
+		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '	\
+		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '	\
+		mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '	\
+		ytd='youtube-dl '													\
+		ytdl='youtube-dl '													\
+		nics='sudo ifconfig | plx'											\
+		paux='ps aux'														\
+		cchart='/usr/local/bin/colorchart'									\
+		k9='kill -9'														\
+		vp='nvim -p '														\
+		sep='sudo -E nvim -p '												\
+		vep='sudo -E nvim -p '												\
+		svet='sudo -E nvim -p '												\
+		ctlstat='sudo systemctl status '									\
+		ctlrestart='sudo systemctl restart ' 
 
 # Less command aliases
 	alias							\
