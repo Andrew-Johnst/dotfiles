@@ -85,11 +85,18 @@ lfcd () {
 }
 
 # Keybinds.
-# bindkey -s '^o' 'lfcd\n'		# ZSH (lfcd is a function provided for common shells used to change the pwd on quit).
-bindkey 	'^[f'	vi-cmd-mode		# Binds <M-F> to return to vi normal mode (<Esc>) becuase I'm lazy.
-bindkey -s 	'^[l'	'^L'			# Binds <M-L> to clear screen (added for easier screen-clearing in tmux.
-# Not sure if this will have much effect since tmux prolly captures special keycombos like this and would take precedence
-# since they already do with <C-L> and clear command.
+# bindkey -s '^o' 'lfcd\n'		# ZSH (lfcd is a function provided for common shells used to change
+# the pwd on quit).
+bindkey '^[f' vi-cmd-mode					# Binds <M-F> to return to vi normal mode (<Esc>) 
+											# becuase I'm lazy.
+bindkey -s '^[l' '^L'						# Binds <M-L> to clear screen (added for easier screen
+											# clearing in tmux.
+autoload -U edit-command-line				# Load the required zsh module to allow editing the
+zle -N edit-command-line					# current command in a tmp file with $EDITOR.
+bindkey -M vicmd '^[v' edit-command-line	# Binds <M-v> to edit the command-line in a vim buffer.
+
+# Not sure if this will have much effect since tmux prolly captures special keycombos like this and
+# would take precedence since they already do with <C-L> and clear command.
 bindkey 	'^['	delete-char
 
 
@@ -234,3 +241,4 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 # exporting a variable on users since I didn't have an environment variable for XDG_CONFIG_HOME).
 # (This XDG_CONFIG_HOME variable SHOULD be set in the ~/.profile, but I'm setting it here).
 export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"

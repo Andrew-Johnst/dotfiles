@@ -114,7 +114,6 @@ alias \
 		cgrep='grep --color=always'											\
 		igrep='grep --color=always'											\
 		cg='grep --color=auto'												\
-		icg='grep -i --color=auto'											\
 		cgi='grep -i --color=auto'											\
 		g='cd $HOME/Documents/git'											\
 		gd=g																\
@@ -132,14 +131,19 @@ alias \
 		ytdl='youtube-dl '													\
 		nics='sudo ifconfig | plx'											\
 		paux='ps aux'														\
+		pauxicg='paux | icg '												\
+		picg='paux | icg '													\
+		pcg='paux | icg '													\
+		pig='paux | icg '													\
 		cchart='/usr/local/bin/colorchart'									\
 		k9='kill -9'														\
 		vp='nvim -p '														\
 		sep='sudo -E nvim -p '												\
+		svt='sudo -E nvim -p '												\
 		vep='sudo -E nvim -p '												\
 		svet='sudo -E nvim -p '												\
 		ctlstat='sudo systemctl status '									\
-		ctlrestart='sudo systemctl restart ' 
+		ctlrestart='sudo systemctl restart '
 
 # Less command aliases
 	alias							\

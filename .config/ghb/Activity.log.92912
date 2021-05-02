@@ -1,0 +1,35 @@
+[03:39:28] gtkgui: HandBrake 1.3.1 (2020072600) - Linux x86_64 - https://handbrake.fr
+[03:39:28] hb_init: starting libhb thread
+[03:39:28] hb_init: starting libhb thread
+[03:39:28] hb_init: starting libhb thread
+[03:39:29] CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz
+[03:39:29]  - Intel microarchitecture Sandy Bridge
+[03:39:29]  - logical processor count: 8
+[03:39:29] hb_scan: path=/mnt/crypt/.definitelynotpr0n/.notpr0n/Camgirls/AwesomeKate/AwesomeKate - The Shower Fap Pregnant Hairy Pee Video.mkv, title_index=0
+udfread ERROR: ECMA 167 Volume Recognition failed
+disc.c:323: failed opening UDF image /mnt/crypt/.definitelynotpr0n/.notpr0n/Camgirls/AwesomeKate/AwesomeKate - The Shower Fap Pregnant Hairy Pee Video.mkv
+disc.c:424: error opening file BDMV/index.bdmv
+disc.c:424: error opening file BDMV/BACKUP/index.bdmv
+bluray.c:2602: nav_get_title_list(/mnt/crypt/.definitelynotpr0n/.notpr0n/Camgirls/AwesomeKate/AwesomeKate - The Shower Fap Pregnant Hairy Pee Video.mkv/) failed
+[03:39:29] bd: not a bd - trying as a stream/file instead
+libdvdread: DVDOpenFileUDF:UDFFindFile /VIDEO_TS/VIDEO_TS.IFO failed
+libdvdnav: vm: vm: failed to read VIDEO_TS.IFO
+[03:39:29] dvd: not a dvd - trying as a stream/file instead
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/mnt/crypt/.definitelynotpr0n/.notpr0n/Camgirls/AwesomeKate/AwesomeKate - The Shower Fap Pregnant Hairy Pee Video.mkv':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf58.20.100
+  Duration: 00:31:28.97, start: 0.000000, bitrate: 1327 kb/s
+    Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 1280x720 [SAR 1:1 DAR 16:9], 1186 kb/s, 29.97 fps, 29.97 tbr, 30k tbn, 59.94 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
+    Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 127 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+[03:39:29] scan: decoding previews for title 1
+[03:39:29] scan: audio 0x1: aac, rate=44100Hz, bitrate=127527 Unknown (AAC LC) (2.0 ch) (127 kbps)
+[03:39:29] scan: could not get a decoded picture
+[03:39:29] scan: 9 previews, 1280x720, 29.970 fps, autocrop = 0/0/0/0, aspect 16:9, PAR 1:1
+[03:39:29] libhb: scan thread found 1 valid title(s)
