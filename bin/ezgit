@@ -67,22 +67,23 @@ EXCLUSIONS=(	"*.swp"												\
 			)
 
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-FILELIST=(	".config/"		\
-			".fzf"			\
+FILELIST=(	".bashrc"		\
+			".config/"		\
 			".emacs.d/"		\
-			".nvim"			\
-			".oh-my-zsh"	\
-			".terminfo"		\
-			".vim"			\
-			".Xresources.d" \
-			".bashrc"		\
+			".fzf"			\
 			".fzf.bash"		\
 			".fzf.zsh"		\
+			".nvim"			\
+			".oh-my-zsh"	\
 			".profile"		\
-			".zprofile"		\
+			".terminfo"		\
 			".tmux.conf"	\
+			".vim"			\
 			".xinitrc"		\
+			".Xresources.d" \
 			".Xresources"	\
+			".zprofile"		\
+			#"/etc/screenrc"	\
 			#"/etc/zsh"		\
 			#".Xauthority"	\		# Commenting this out because of discrepancies between machines.
 			#"$HOME/.local" \
@@ -214,23 +215,27 @@ case "$1" in
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
 
-		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
-		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+		# Check if second script argument calls for either [-n|--no-backup] or [-f|--fast] options;
+		# skip the backup if so.
+		if [[ ! "$2" =~ ^-{1,2}[nf]{1} ]]
+		then
+			echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
+			SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
 
-		# Updated this to include a slider progress bar via pv command and awk.
-		tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | awk '{print $1}') | \
-			bzip2 > "$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
- 		echo
+			# Updated this to include a slider progress bar via pv command and awk.
+			tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | \
+				awk '{print $1}') | bzip2 > "$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+ 			echo
+ 			echo "Now creating a bzip2 tarball of the config files locally installed in directory: "
+			SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
+ 			tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
 
- 		echo "Now creating a bzip2 tarball of config files in-use on this machine for backup in: "
-		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
- 		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
-
- 		echo "Tarballs of both the local repo before updating, as well as the config files that"
-		echo -e "were currently in-use on this system created and located in: \
-			${CRED}$REMOTEBACKUPS${CRESET} directory."
-		echo
-		sleep 5
+ 			echo "Tarballs of both the local repo before updating, as well as the config files that"
+			echo -e "were currently in-use on this system created and located in: \
+				${CRED}$REMOTEBACKUPS${CRESET} directory."
+			echo
+			sleep 5
+		fi
 		echo "Syncing with remote git repo, then installing..."
 		git pull origin master
 		echo
@@ -238,6 +243,16 @@ case "$1" in
  		do
  			cp -r "$i" "$HOME/"
  		done
+		# Checks to see if screenrc file exists, if so, also copies "/etc/screenrc" manually instead
+		# of the "main install method" for loop since all that does is copies all the files from the
+		# FILELIST list to the $HOME/* directory.
+		if [[ -f /etc/screenrc ]]
+		then
+			cp "$PWD/etc/screenrc" "/etc/screenrc" && SCREENCP=1
+			[[ $SCREENCP -ne 1 ]] && echo "Copying screenrc to \"/etc/screenrc\" failed." && \
+				echo "Trying as root. (Press <Ctrl-C> to skip)" && \
+				sudo cp "$PWD/etc/screenrc" /etc/screenrc
+		fi
 
 		#cp bin/colortest /usr/local/bin/colortest
 
@@ -256,16 +271,21 @@ case "$1" in
  	-u|--upload)
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
- 		echo "Before uploading, the remote repo will be downloaded, compressed, and located at:"
-		#echo -e "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" && SLEEPFORX 5
-		SLEEPFORX $SLEEPTIME "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
+		# Check if second script argument calls for either [-n|--no-backup] or [-f|--fast] options;
+		# skip the backup if so.
+		if [[ ! "$2" =~ ^-{1,2}[nf]{1} ]]
+		then
+ 			echo "Before uploading, the remote repo will be downloaded, compressed, and located at:"
+			#echo -e "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2" && SLEEPFORX 5
+			SLEEPFORX $SLEEPTIME "$CBLUE$REMOTEBACKUPS/Remote-Repo-$TIME.tar.bz2"
 
-		# Clone the remote git repository into the Remote backups directory, then create a bzip2
-		# archive of it and delete the cloned folder.
-		git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
- 		tar -cjf "$REMOTEBACKUPS/Remote-Repo-${TIME}.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME" \
-			&>/dev/null
-		yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
+			# Clone the remote git repository into the Remote backups directory, then create a bzip2
+			# archive of it and delete the cloned folder.
+			git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
+ 			tar -cjf "$REMOTEBACKUPS/Remote-Repo-${TIME}.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME" \
+				&>/dev/null
+			yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
+		fi
 
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
 		# [Deprecated way using "cp" command. This has the undesired effect of not deleting files in
@@ -273,7 +293,6 @@ case "$1" in
 		# (Ex: a folder is deleted on this machine and that change should be made to the repository,
 		# however only using a cp command without first deleting all files in the current directory
 		# will keep deleted files)]
-
 		# Below is the old/depreciated cp method, rsync is superior but it is currently only being
 		# tested out right now and is WIP (actually going back to using this method since I don't
 		# want to currently spend too much time trying to figure out how to get rsync to read get an
@@ -285,6 +304,18 @@ case "$1" in
  		do
  			cp -rf "$HOME/$i" . 2>/dev/null
  		done
+
+		# Checks to see if screenrc file exists, if so, also copies "/etc/screenrc" manually instead
+		# of the "main install method" for loop since all that does is copies all the files from the
+		# FILELIST list to the $HOME/* directory.
+		if [[ -f "/etc/screenrc" ]]
+		then
+			cp "/etc/screenrc" "$PWD/etc/screenrc" && SCREENCP=1
+			[[ $SCREENCP -ne 1 ]] && echo -n "Copying \"/etc/screenrc\" to " && \
+				echo "\"$PWD/etc/screenrc\" failed." && \
+				echo "Trying as root. (Press <Ctrl-C> to skip)" && \
+				sudo cp "/etc/screenrc" "$PWD/etc/screenrc"
+		fi
 
 		# Below is the new rsync method.
 		# Apparently, the issue of rsync not being able to read the exclude-from variable can be
