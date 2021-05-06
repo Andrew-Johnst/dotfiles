@@ -179,11 +179,8 @@ local CPI=$(echo -e ${CP}${CBL})
 # Colorized Listing of the physical hard drive device, physical volume, volume group, and logical
 # volume groups.
 	disks(){
-		# (This below command is no longer used since it does not account for LVMs, and this system
-		# is installed on an LVM partition scheme, as well as multiple other LVM partitions).
-		#		sudo parted -l | head -9 | pcat
-		# Checks if root. Exit if not.
-		#[[ "$EUID" -ne 0 ]] && echo -e "Please run this script as root/sudo.\nDoing nothing..." && return 1
+		# TO-DO: add--or rather inject the data--from the "hddtemp" program into the pre-exisiting
+		# STDOUT data received from the "fdisk" command.
 
 		#sudo fdisk -l | sed -n -e '/\/dev\/sd[a-z]:/,/^$/p'
 		#echo -e "\n\033[1;38;5;25m\t""Physical Volumes:"
@@ -194,6 +191,7 @@ local CPI=$(echo -e ${CP}${CBL})
 		#echo
 		#[[ ! -e /dev/vd* ]] && sudo fdisk -l /dev/sd[a-z] 2>/dev/null
 		#[[ ! -e /dev/sd* ]] && sudo fdisk -l /dev/vd[a-z] 2>/dev/null
+		#sudo fdisk -l /dev/?d[a-z] 2>/dev/null | tr '\n\n' 
 		sudo fdisk -l /dev/?d[a-z] 2>/dev/null | cat -s
 		echo
 		echo "#####################################################################################"
@@ -240,11 +238,11 @@ local CPI=$(echo -e ${CP}${CBL})
 	}
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
 # history file so it can function independently of the shell limitations/syntaxing).
-	ss(){
+	SS(){
 		# This works independently of the shell being used; appears to not work if testing in shell
 		# scripts since shell scripts are run in their own sub-shells and therefore have their own
 		# history lists.
-		[[ "$@" ]] && sudo "$@" && return 0
+		[[ "$@" ]] && sudo "$@" && exit 0
 		
 		# Backticks must be used rather than a shell substitution with "$(<COMMAND>)" in conjunctio
 		# with an eval command on the variable.
@@ -383,6 +381,17 @@ local CPI=$(echo -e ${CP}${CBL})
 		else
 			'sed "s/\x1b\[[0-9;]*m//g"' <<< "$1"
 		fi
+	}
+
+# Simple function to determine if it is being called either being used as a pipe or running as a
+# function with arguments (programs/processes) to kill every instance of from the output of ps aux.
+	k9a(){
+		# Pure POSIX shell method to check if this function is being piped STDOUT from another
+		# program or not.
+		[[ -p /dev/stdin ]] && PIPEDINPUT=1
+		[[ "$PIPEDINPUT" ]] && INPUT=$(</dev/stdin) && echo "$INPUT" | awk 'NR>1{print $2}' | \
+			sudo xargs kill -9 && exit 0
+		sudo ps aux | grep -v grep | grep -i "$1" | awk '{print $2}' | xargs kill -9
 	}
 
 

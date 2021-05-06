@@ -162,6 +162,13 @@ DISPLAY="192.168.1.30:0.0"
 # into the root dir when switching to root user.
 [[ "$HOST" == "Drew-PC" && "$EUID" -ne 0 ]] && cd
 
+# Adding this in 5-6-2021 as per the link below that needs to be added into the shell rc file in
+# order to get PulseAudio to work.
+# Sets the default HOST_IP to the local IP; then checks if an SSH session is being used to
+# connect, if so then set the HOST_IP to the IP of the SSH client that is connecting to the host.
+export HOST_IP=$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*src ([^\ ]+).*/\1/p')
+[[ "$SSH_CLIENT" ]] && export HOST_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
+export PULSE_SERVER="tcp:$HOST_IP"
 
 # Fuzzy Finder settings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
