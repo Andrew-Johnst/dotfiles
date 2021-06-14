@@ -162,25 +162,20 @@ alias \
 ##################################### Package manager aliases. #####################################
 ####################################################################################################
 
-#######################
-### Aliases for apt.###
-#######################
-# Aliases for various apt commands; updates python-pip
-alias											\
-	ins='sudo apt-get install '					\
-	insf='sudo apt-get install '				\
-	ac='sudo apt-cache '						\
-	aci='sudo apt-cache --installed '			\
-	acs='sudo apt-cache search '				\
-	aptsearch='sudo apt-cache search '			\
-	ag='sudo apt-get '							\
-	adeps='sudo apt-rdepends '					\
-	aure='sudo apt-get autoremove '				\
-	aurep='sudo apt-get autoremove --purge '	
-
-# Alias to update and upgrade all python-pip packages.
-	alias pipup='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 \
-		| xargs -n1 pip3 install -U'
+# Aliases for various apt commands and python's pip package installer.
+	alias											\
+		ins='sudo apt-get install '					\
+		insf='sudo apt-get install '				\
+		ac='sudo apt-cache '						\
+		aci='sudo apt-cache --installed '			\
+		acs='sudo apt-cache search '				\
+		aptsearch='sudo apt-cache search '			\
+		ag='sudo apt-get '							\
+		adeps='sudo apt-rdepends '					\
+		aure='sudo apt-get autoremove '				\
+		aurep='sudo apt-get autoremove --purge '	\
+		pipins='pip install '						\
+		pyins='pip install '						\
 
 # File ownership/permission aliases.
 	alias							\

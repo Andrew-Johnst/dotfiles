@@ -394,6 +394,16 @@ local CPI=$(echo -e ${CP}${CBL})
 		sudo ps aux | grep -v grep | grep -i "$1" | awk '{print $2}' | xargs kill -9
 	}
 
+# Simple function to update python modules installed via the python-pip python package installer, as
+# well as upgrade the pip command itself. The only reason this is a function rather than an alias is
+# to be able to both upgrade the pip package installer itself as well as upgrade all pip packages,
+# and an alias would be too verbose.
+	pipup(){
+		# Upgrades the pip program.
+		/usr/bin/env python3 -m pip install --upgrade pip
+		# Checks for outdated pip/python packages
+		/usr/bin/env python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+	}
 
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.
 #	ytdl(){

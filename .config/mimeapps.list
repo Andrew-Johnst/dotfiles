@@ -1,9 +1,9 @@
 [Default Applications]
-x-scheme-handler/http=userapp-Nightly-IQ8MO0.desktop
-x-scheme-handler/https=userapp-Nightly-IQ8MO0.desktop
+x-scheme-handler/http=brave-browser-nightly.desktop
+x-scheme-handler/https=brave-browser-nightly.desktop
 x-scheme-handler/ftp=userapp-Nightly-IQ8MO0.desktop
 x-scheme-handler/chrome=userapp-Nightly-IQ8MO0.desktop
-text/html=userapp-Nightly-IQ8MO0.desktop
+text/html=brave-browser-nightly.desktop
 application/x-extension-htm=userapp-Nightly-IQ8MO0.desktop
 application/x-extension-html=userapp-Nightly-IQ8MO0.desktop
 application/x-extension-shtml=userapp-Nightly-IQ8MO0.desktop
@@ -11,6 +11,8 @@ application/xhtml+xml=userapp-Nightly-IQ8MO0.desktop
 application/x-extension-xhtml=userapp-Nightly-IQ8MO0.desktop
 application/x-extension-xht=userapp-Nightly-IQ8MO0.desktop
 inode/directory=pcmanfm-qt.desktop
+x-scheme-handler/about=brave-browser-nightly.desktop
+x-scheme-handler/unknown=brave-browser-nightly.desktop
 
 [Added Associations]
 x-scheme-handler/http=exo-web-browser.desktop;
