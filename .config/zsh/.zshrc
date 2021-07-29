@@ -1,17 +1,31 @@
 # Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
 export ZDOTDIR="$HOME/.config/zsh"
 # Exports the oh-my-zsh directory.
-#export ZSH="/home/drew/.config/zsh/.oh-my-zsh"
+#export ZSH="$HOME/.config/zsh/.oh-my-zsh"
  # [Using the oh-my-zsh plugin (make sure to push current changes before doing so, just in case
  # something breaks.]
-export ZSH="/home/drew/.config/zsh/.oh-my-zsh"
+export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-# If existent, loads alias and function rc files located within ~/.config/zsh directory.
-[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
-[ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
+# Checks for the presence of the "Shell-Shortcuts" directory in the zsh config directory, source all
+# the files in there if the directory exists. This contains the "aliasrc" and "functionrc" files
+# that are each a large laundry-list of custom shell aliases and functions.
+# Export global ZSH environment variable to dictate where the ZSH configuration files are located.
+ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
+[ -d "$ShellShortcutDir" ] && \
+	for f in ${ShellShortcutDir}*; do source "$f"; done && \
+	export ZSH_AFRC="$HOME/.config/zsh/Shell-Shortcuts/"
+
+# If the Shell-Shortcut directory is not present, then export ZSH environment variable to the
+# previous location for the ZSH shell helper scripts--like aliasrc and functionrc.
+[ ! -d "$ShellShortcutDir" ] && \
+	export ZSH_AFRC="$HOME/.config/zsh/"
+
+# If this directory containing helper shell scripts and user-defined shell shortcuts (primarily for
+# functions and programs that were too large to keep in the functionrc file, and instead deserved
+# their own file--also better preserves true POSIX philosophy).
 
 autoload -U compinit
 zstyle ':completion:*' menu select
@@ -120,7 +134,12 @@ then
     DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
     SSH_CLIENT_IP="$(echo $SSH_CONNECTION | awk '{print $1}')"
     # Old variable export that defaulted to my desktop IP.
-    DISPLAY=192.168.1.30:0.0
+    #DISPLAY=192.168.1.30:0.0
+	
+	# This defaults to the current $SSH_CONNECTION IP address; this is used while accessing from WAN
+	# and utilizing X11Forwarding through connection to the NAS's LAN via connecting to
+	# AsusWRT-Merlin (OpenVPN Server)'s LAN.
+    DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
     # Below conditional checks to see if current SSH Client IP address has valid IPv4 address
     # (general IP check).
     #[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\} ]] &&
@@ -140,7 +159,12 @@ else
 	export DISPLAY=:0
 fi
 # Change later (1-8-21 8:41PM).
-DISPLAY="192.168.1.30:0.0"
+#DISPLAY="192.168.1.30:0.0"
+# 	### Addendum ###
+# 		The above line manually overrides the check to determine and set the DISPLAY variable based
+# 		on SSH connection; while testing things with remote access over WAN and X11 Forwarding, it
+# 		IS possible to forward X11 over WAN (provided the client is connected to the router's
+# 		OpenVPN server).
 
 # Commenting these below lines out in-favor of using an actual if function so that the DISPLAY
 # variable will be set to whatever IP address the SSH connection is sourced from, whereas the old
@@ -180,7 +204,7 @@ export PULSE_SERVER="tcp:$HOST_IP"
 # to my local user bin directory.
 #
 #			(ZSH)
-#	path+=('/home/drew/bin')
+#	path+=('$HOME/bin')
 #	export PATH
 #
 #			(BASH)
@@ -206,14 +230,14 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 #export PULSE_SERVER="tcp:localhost:24713"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/drew/.sdkman"
-[[ -s "/home/drew/.sdkman/bin/sdkman-init.sh" ]] && source "/home/drew/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-PATH="/home/drew/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/drew/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/drew/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/drew/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/drew/perl5"; export PERL_MM_OPT;
+PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
 # Adding this in for fuck command (extremely useful correcting previously entered incorrect command.)
 eval $(thefuck --alias f)

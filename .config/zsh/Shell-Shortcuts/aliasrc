@@ -38,14 +38,14 @@ alias \
 
 # Edit config file shortcuts.
 alias \
-	zrc='v ~/.config/zsh/.zshrc'						\
-	zr='. ~/.config/zsh/.zshrc'							\
-	nrc='v ~/.config/nvim/init.vim'						\
-	tmc='v ~/.tmux.conf'								\
-	arc='v ~/.config/zsh/aliasrc'						\
-	frc='v ~/.config/zsh/functionrc'					\
-	tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	\
-	vtmp='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
+	zrc='v		"$ZDOTDIR/.zshrc"'							\
+	zr='.		"$ZDOTDIR/.zshrc"'							\
+	nrc='v 		~/.config/nvim/init.vim'					\
+	tmc='v 		~/.tmux.conf'								\
+	arc='v 		"$ZSH_AFRC/aliasrc"'						\
+	frc='v 		"$ZSH_AFRC/functionrc"'						\
+	tmpv='v 	/tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	\
+	vtmp='v 	/tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
 
 # Automatically specifying options always used to a shortened alias for core file programs/utils.
 alias \

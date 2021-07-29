@@ -49,6 +49,7 @@ EXCLUSIONS=(	"*.swp"												\
 				".config/expressvpn"								\
 				".config/filelightrc"								\
 				".config/google-chrome"								\
+				".config/ghb"										\
 				".config/libvirt"									\
 				".config/mpd/database"								\
 				".config/mpd/pid"									\
@@ -268,6 +269,10 @@ case "$1" in
 		exit 0
  		;;
 
+####################################################################################################
+####################################################################################################
+####################################################################################################
+
  	-u|--upload)
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
@@ -287,6 +292,16 @@ case "$1" in
 			yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
 		fi
 
+		# (Figured out that I need to delete all the files in the local git directory before staging
+		# anything for a commit, since I had the drastic oversight of not realizing that I was only
+		# copying files into this directory; so that when the files that are actually in use that I
+		# want to push to my git repo, there are some that have been renamed or deleted, but still
+		# remain in the git directory since it's a plain "cp" command).
+		for i in "${FILELIST[@]}"
+		do
+			yes | rm -rf "$PWD/$i" 2>/dev/null
+		done
+	
 		# Copies all of the files recursivley that are listed in the FILELIST array variable.
 		# [Deprecated way using "cp" command. This has the undesired effect of not deleting files in
 		# the git dotfile directory if they are deleted on the host that they are being copied from.
