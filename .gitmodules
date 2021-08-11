@@ -35,3 +35,6 @@
 #	path = .config/nvim/plugins/pathogen/Suda
 #	url = https://github.com/lambdalisue/suda.vim.git
 	# url = https://github.com/vim-scripts/suda.vim # [Old and incorrect github url].
+#[submodule ".config/nvim/plugins/pathogen/Suda"]
+#	path = .config/nvim/plugins/pathogen/Suda
+#	url = https://github.com/lambdalisue/suda.vim.git
