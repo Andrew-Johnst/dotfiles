@@ -202,9 +202,6 @@ export PULSE_SERVER="tcp:$HOST_IP"
 # Fuzzy Finder settings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Manually added options.
-
-
 # Add this to the zshrc file if required to login to ACC system, so that programs can be installed
 # to my local user bin directory.
 #
@@ -261,8 +258,11 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # (Apparently this did the trick, along with installing LXAppearance, and the required
 # dependencies.)
 export QT_QPA_PLATFORMTHEME=gtk2
-# The below QT env variable causes issues with the qt5ct program so it is commented out.
-#export QT_STYLE_OVERRIDE=kvantum
+# The below QT env variable causes issues with the qt5ct program so it is commented out; unless this
+# profile is loaded on the Debian-Bitcoin virtual machine since bitcoin-qt requires this environment
+# variable to use the QT style correctly.
+[[ "$HOST" == "Debian-Bitcoin" || "$HOST_IP" == "192.168.0.1" ]] && \
+	export QT_STYLE_OVERRIDE=kvantum
 
 
 # Adding directories to the PATH variable.
