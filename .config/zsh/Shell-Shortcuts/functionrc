@@ -9,9 +9,16 @@
 # egrep "frc|function|functionrc" "$(find $ZDOTDIR -type f | grep -E "^*.zshrc$")" | sed -e '/^#.*$/d'
 
 # Command listed below shows all the currently assigned functions. (First one displays current
-# functions with parenthesis, second command/line displays just the function names.
-#	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d'
-#	grep -E '[a-zA-Z0-9]+\(\)' functionrc | sed -e 's/[{ \t]//g' -e '/^#/d' -e 's/[\(\)]//g'
+# functions with parenthesis, second command/line displays just the function names).
+# The third one is POSIX compliant since it doesn't utilize extended REGEX in grep; however all work
+# and the other two are more efficient.
+#	grep -E '[a-zA-Z0-9]+\(\)' "$THISFILE" | sed -e 's/[{ \t]//g' -e '/^#/d'
+#	grep -E '[a-zA-Z0-9]+\(\)' "$THISFILE" | sed -e 's/[{ \t]//g' -e '/^#/d' -e 's/[\(\)]//g'
+#	sed -e 's/^[ \t]*//' -e '/^[#]/d' "$THISFILE" | grep "(){$" | tr -d [:punct:]
+
+# Define a variable that contains the filepath of wherever this file is located (future-proofing
+# in case this file moves in the future).
+THISFILE="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/$(basename "$0")"
 
 # Creates the directory "/tmp/tempfiles/" if it doesn't exist already. Used in both aliasrc and
 # functionrc files.
@@ -42,6 +49,29 @@ local CPI=$(echo -e ${CP}${CBL})
 
 # Unsets all functions in this file before redefining them.
 # [WIP]
+
+# Function that declares all the functions in this file to the environment variable table and
+# available to use with sudo.
+sf(){
+	################################################################################################
+	###   NOT CURRENTLY WORKING; FIX LATER. SOMETHING WRONG WITH NOT BEING ABLE TO DECLARE THE   ###
+	###                                  FUNCTIONS TO SUDO.                                      ###
+	################################################################################################
+	# Since sudo cannot utilize these user defined functions, this block of code below first unsets
+	# any previous declerations (to avoid logical errors via redundant or dead declarations); then
+	# declares every function in this file that is not commented out.
+	
+	# For loop that for each function in this file, it is appended as a string into the
+	# $ACTIVEFUNCTIONS list variable.
+	for i in `sed -e 's/^[ \t]*//' -e '/^[#]/d' "$THISFILE" | grep "(){$" | tr -d '[:punct:]'`
+	do
+		#ACTIVEFUNCTIONS+=("$i")
+		FUNCTION=$(declare -f "$i")
+		sudo bash -c "$FUNCTION; "$i""
+		#unset -f "$i"
+		#sudo bash -c "declare -f "$i""
+	done #| tee "/tmp/$USER-functions-`date '+%m-%d-%y_%H-%M-%S'`"
+}
 
 # Function to mkdir $1 and cd into it.
 	mkcd(){
@@ -261,7 +291,7 @@ local CPI=$(echo -e ${CP}${CBL})
 		# Assign the raw output (omitting STDERR if file-not-found to avoid logic-error) to a
 		# variable that contains the absolute path of the command/program/script tryign to be
 		# executed.
-		PROGRAMPATH=`which $1` 2>/dev/null
+		PROGRAMPATH=`which $1` 1>/dev/null
 
 		# Checks if the first argument passed to this function is a script/program/executable-file
 		# before continuing and exits if not; if so, then every variable/string/word proceeding the
