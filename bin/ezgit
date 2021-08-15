@@ -5,20 +5,59 @@
 # of the remote git repo to both the local machine running the script, but as well as to the remote
 # git repo.
 # Although overengineered a bit, it provides functionality for everything I may want and has proven
-# to be very useful in both bootstrapping new machines, and merging changes between the two.
-# (Also the more overengineered parts of the script were implemented as a learning experience for learning
-# shell scripting and general programming experience, hence the sometimes unnecessary usage of functions.
+# to be very useful in both bootstrapping new machines, and merging changes between the two.  (Also
+# the more overengineered parts of the script were implemented as a learning experience for learning
+# shell scripting and general programming experience, hence the sometimes unnecessary usage of
+# functions.
 #	TO-DO:
 #		1.) Implement an automated GUI environment (preferably a nvim based program that
 #		highlights discrepancies between versions of files.)
 #		2.)
-
+#
 # Exits the script when an error is encountered to prevent potential damage from continuing to run.
-### Commenting this out for the time being until I figure out/take the time to omit certain directories such
-# as neovim plugins since they're causing permission denied errors and causing the script to exit prematurely.
+####################################################################################################
+#     Commenting this out for the time being until I figure out/take the time to omit certain      #
+#   directories such as neovim plugins since they're causing permission denied errors and causing  #
+#                                 the script to exit prematurely.                                  #
+####################################################################################################
 #set -e
 
-# Library containing all of the package dependencies for both the script as well as the
+####################################################################################################
+###  Define global variables containing ANSI color codes, date and time, and the directories of  ###
+###   the backups for both the remote (github repository) and local files (the files that are    ###
+###              currently in-use on the machine this script is being executed on).              ###
+####################################################################################################
+# Define ANSI escape sequence color code variables.
+CRESET='\033[0m'
+CRED='\033[1;38;5;9m'
+CGREEN='\033[1;38;5;10m'
+CBLUE='\033[1;38;5;81m'
+CULINE='\033[4m'
+
+# Get current date and time for timestamp on logged archives.
+DATE="$(date "+%m-%d-%Y")"
+TIME="$(date "+%I-%M-%S%p")"
+# TIME="$(date "+%H-%M")"	# Old Format for time (0-24 hours, Minutes).
+
+# Assign directory for both remote repo and local dotfiles for bzip2 tarballs to be stored within
+# the local dotfile directory.
+LOCALBACKUPS="/tmp/BACKUPS/Local/$DATE"
+REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
+
+# Creates the directories for both remote git repository and local dotfiles to be held in bzip2
+# tarballs.
+[ ! -d "$LOCALBACKUPS" ] && mkdir -p "$LOCALBACKUPS"
+[ ! -d "$REMOTEBACKUPS" ] && mkdir -p "$REMOTEBACKUPS"
+
+####################################################################################################
+###   Define list variables for: program dependencies that this script installs configuration    ###
+### files to be used by; files and directories to be tracked (installed locally and or uploaded  ###
+###      to github repository) via this script; and a list of explicitly defined files and       ###
+### directories to NOT track (deletes copies in local git_dir of directories/files listed in the ###
+### EXCLUSIONS list variable, then in another for loop unstages the tracking of said files as an ###
+###                                   extra safety precaution)                                   ###
+####################################################################################################
+# List variable containing all of the package dependencies for both the script as well as the
 # dotfile/config files for my setup.
 DEPENDS=(	"bzip2"		\
 			"fzf"		\
@@ -68,41 +107,42 @@ EXCLUSIONS=(	"*.swp"												\
 			)
 
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
-FILELIST=(	".bashrc"		\
-			".config/"		\
-			".emacs.d/"		\
-			".fzf"			\
-			".fzf.bash"		\
-			".fzf.zsh"		\
-			".nvim"			\
-			".oh-my-zsh"	\
-			".profile"		\
-			".terminfo"		\
-			".tmux.conf"	\
-			".vim"			\
-			".xinitrc"		\
-			".Xresources.d" \
-			".Xresources"	\
-			".zprofile"		\
-			#"/etc/screenrc"	\
-			#"/etc/zsh"		\
-			#".Xauthority"	\		# Commenting this out because of discrepancies between machines.
-			#"$HOME/.local" \
-			# "bin/"		\		# Commenting this out so it doesn't copy to $HOME dir.
+FILELIST=(	".bashrc"            \
+			".config/"           \
+			".emacs.d/"          \
+			".fzf"               \
+			".fzf.bash"          \
+			".fzf.zsh"           \
+			".nvim"              \
+			".oh-my-zsh"         \
+			".profile"           \
+			".terminfo"          \
+			".tmux.conf"         \
+			".vim"               \
+			".xinitrc"           \
+			".Xresources.d"      \
+			".Xresources"        \
+			".zprofile"          \
+			#"/etc/screenrc"     \
+			#"/etc/zsh"          \
+			#".Xauthority"       \		# Commenting this out due to discrepancies between machines.
+			#"$HOME/.local"      \
+			# "bin/"             \		# Commenting this out so it doesn't copy to $HOME dir.
 		)
 
-# Function/command to print out the FILELIST library, sort it into alpahbetical order, then encapsulate in quotes
-# and adds a space and backslassh at the end of each line for better formatting.
-sortFILELIST(){
+# Function/command to print out the FILELIST library, sort it into alpahbetical order, then
+# encapsulate in quotes and adds a space and backslassh at the end of each line for better
+# formatting.
+function sortFILELIST(){
 	test1=$(echo ${FILELIST[@]} | tr ' ' '\n' | sed -e 's/\(.*\)/"\1"/' -e 's/$/\ \\/')
-	test2=($(echo ${FILELIST[@]} | sort -d -i -b | tr ' ' '\n' | sed -e 's/\(.*\)/"\1"/' -e 's/$/\ \\/'))
-	test3=$(echo ${FILELIST[@]} | sort -d -i -b | tr ' ' '\n' \
-		| sed  -e 's/\(.*\)/"\1"/' -e 's/^/\t\t\t/' -e 's/$/\ \\/')
+	test2=($(echo ${FILELIST[@]} | sort -d -i -b | tr ' ' '\n' | \
+		sed -e 's/\(.*\)/"\1"/' -e 's/$/\ \\/'))
+	test3=$(echo ${FILELIST[@]} | sort -d -i -b | tr ' ' '\n' | \
+		sed  -e 's/\(.*\)/"\1"/' -e 's/^/\t\t\t/' -e 's/$/\ \\/')
 	test4="$test3"
 	#test2=(
 	#echo -n > /tmp/testingformatting
 	echo "$test3" > /tmp/testingformatting
-	#echo
 	#echo ${test2[@]} > /tmp/testingformatting
 	#echo $test3
 	#echo $test3 > /tmp/testingformatting
@@ -110,39 +150,18 @@ sortFILELIST(){
 	#echo ${FILELIST[@]}
 	#diff <(echo "$test1") <(echo "$test2")
 }
-#sortFILELIST
-#cat /tmp/testingformatting
-#echo "$test3"
-#exit 1
 
-# Define ANSI escape sequence color code variables.
-CRESET='\033[0m'
-CRED='\033[1;38;5;9m'
-CGREEN='\033[1;38;5;10m'
-CBLUE='\033[1;38;5;81m'
-CULINE='\033[4m'
-
-# Get current date and time for timestamp on logged archives.
-DATE="$(date "+%m-%d-%Y")"
-TIME="$(date "+%I-%M-%S%p")"
-# TIME="$(date "+%H-%M")"	# Old Format for time (0-24 hours, Minutes).
-
-# Assign directory for both remote repo and local dotfiles for bzip2 tarballs to be stored within the local
-# dotfile directory.
-LOCALBACKUPS="/tmp/BACKUPS/Local/$DATE"
-REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
-
-# Creates the directories for both remote git repository and local dotfiles to be held in bzip2 tarballs.
-[ ! -d "$LOCALBACKUPS" ] && mkdir -p "$LOCALBACKUPS"
-[ ! -d "$REMOTEBACKUPS" ] && mkdir -p "$REMOTEBACKUPS"
-
+####################################################################################################
+############################### Define the helper and main functions ###############################
+####################################################################################################
 # Defines a function to sleep for X seconds as first argument passed to it, and as a second argument
-# print whatever text before the counter. Also defines a SLEEPTIME variable in case a
-# -nt|--no-timer argument option is passed to the ezgit script. Default value for SLEEPTIME is 5
-# seconds, and if -nt|--notimer argument option is not passed to the script, the SLEEPFORX timer
-# will default to 5; 0 seconds or no time will
+# print whatever text before the counter.
+# Also defines a SLEEPTIME variable in case a [-nt|--no-timer] argument option is passed to the
+# ezgit script.
+# Default value for SLEEPTIME is 5 seconds, and if [-nt|--notimer] argument option is not passed to
+# the script, the SLEEPFORX timer will default to 5; 0 seconds or no time will.
 SLEEPTIME=5
-SLEEPFORX(){
+function SLEEPFORX(){
 	# Returns/exits this function if the time specified is 0 (when the -nt|--no-timer script option
 	# is used).
 	[[ "$1" -eq 0 ]] && return 0
@@ -158,10 +177,11 @@ SLEEPFORX(){
 }
 
 # Function that checks for missing dependencies and asks if the user would like to install them.
-CHECKDEPS(){
+function CHECKDEPS(){
 	for i in "${!DEPENDS[@]}"
 	do
-		#[[ ! $(command -v "${DEPENDS[$i]}") ]] && echo "Command \"${DEPENDS[$i]}\" is missing." && missingdepends+=("${DEPENDS[$i]}")
+		#[[ ! $(command -v "${DEPENDS[$i]}") ]] && echo "Command \"${DEPENDS[$i]}\" is missing." \
+		#	&& missingdepends+=("${DEPENDS[$i]}")
 		[[ ! $(command -v "${DEPENDS[$i]}") ]] && MISSINGDEPENDS+=("${DEPENDS[$i]}")
 	done
 
@@ -194,21 +214,84 @@ CHECKDEPS(){
 	fi
 }
 
-USAGE(){
-	echo -e "${CGREEN}Usage: ${CRED}./ezgit [ACTION]"
+function USAGE(){
+	echo -e "${CGREEN}Usage: ${CBLUE}./ezgit ${CRED}[ACTION]"
 	echo -e "${CGREEN}ACTIONS:"
-	echo -e "	${CRED}-i | --install${CBLUE}	Pulls from remote git repo and installs/updates local files."
+	# Install description:
+	echo -e "\t ${CRED}-i | --install${CBLUE}\t\tPulls from remote git repo and" \
+		"installs/updates local files."
+	# Upload description:
+	echo -e "\t ${CRED}-u | --upload${CBLUE}\t\tPulls remote repo to create a backup bz2" \
+		"tarball, then uploads files\n\t\t\t\tlisted in the ${CGREEN}FILELIST${CBLUE} array list" \
+		"to github repo."
+	# Show differences description:
+	echo -e "\t ${CRED}-d | --diff${CBLUE}\t\tRuns a ${CGREEN}\`${CRED}git diff${CGREEN}\`${CBLUE}" \
+		"command between local and remote repo."
+	# Help description:
+	echo -e "\t ${CRED}-h | --help${CBLUE}\t\tPrint this help/usage page."
+	# Print TODO message.
+	echo -e "\n${CGREEN}TODO:\n\t${CRED}- Implement a function to compare remote and local files," \
+		"for intelligent error protection,\n\t  rather than just creating archives of the entire" \
+		"repository."
+}
+
+# Define the function that executes the commands to install files from the remote repository to the
+# local machine.
+function INSTALL(){
+	# Change current git dir
+	echo -ne $CRED && git init && echo -en $CRESET
+
+	# Check if second script argument calls for either [-n|--no-backup] or [-f|--fast] options;
+	# skip the backup if so.
+	if [[ ! "$2" =~ ^-{1,2}[nf]{1} ]]
+	then
+		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
+		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+
+		# Updated this to include a slider progress bar via pv command and awk.
+		tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | \
+			awk '{print $1}') | bzip2 > "$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+		echo
+		echo "Now creating a bzip2 tarball of the config files locally installed in directory: "
+		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
+		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
+
+		echo "Tarballs of both the local repo before updating, as well as the config files that"
+		echo -e "were currently in-use on this system created and located in: \
+			${CRED}$REMOTEBACKUPS${CRESET} directory."
+		echo
+		sleep 5
+	fi
+	echo "Syncing with remote git repo, then installing..."
+	git pull origin master
 	echo
-	echo -e "	${CRED}-u | --upload${CBLUE}	Pulls remote repo to create a backup bz2 tarball, then uploads"
-	echo -e "			files listed in the ${CGREEN}FILELIST${CBLUE} array list to github repo."
-	echo
-	echo -e "	${CRED}-d | --diff${CBLUE}	Runs a \`${CRED}git diff${CBLUE}\` command between local and remote repo."
-	echo
-	echo -e "	${CRED}-h | --help${CBLUE}	Print this help/usage page."
-	echo
-	echo -e "${CGREEN}TODO: ${CBLUE}Implement a function to compare remote and local files, for intelligent error protection"
-	echo -e "		rather than just creating archives of the whole repo."
-	echo
+	for i in "${FILELIST[@]}"
+	do
+		cp -r "$i" "$HOME/"
+	done
+	# Checks to see if screenrc file exists, if so, also copies "/etc/screenrc" manually instead
+	# of the "main install method" for loop since all that does is copies all the files from the
+	# FILELIST list to the $HOME/* directory.
+	if [[ -f /etc/screenrc ]]
+	then
+		cp "$PWD/etc/screenrc" "/etc/screenrc" && SCREENCP=1
+		[[ $SCREENCP -ne 1 ]] && echo "Copying screenrc to \"/etc/screenrc\" failed." && \
+			echo "Trying as root. (Press <Ctrl-C> to skip)" && \
+			sudo cp "$PWD/etc/screenrc" /etc/screenrc
+	fi
+
+	#cp bin/colortest /usr/local/bin/colortest
+
+	# Commenting out the below rsync method for now until I decide to get back around to working
+	# on it to figure out how to get the exclusion option to read the list variables that
+	# already exist in this script.
+	#		Line directly below works, however a list variable substitution is very finicky.
+	#			rsync -a --exclude './bin' --exclude './ezgit' --exclude './README.md' . ~
+	#	RSYNCEXCLUDES=("/bin" "ezgit" "README.md")
+	#	rsync -av --exclude-from='${RSYNCEXCLUDES[@]}' --progress . ~
+
+	echo "Dotfiles installed, exiting..."
+	exit 0
 }
 
 case "$1" in
@@ -374,6 +457,10 @@ case "$1" in
 		echo
 		exit 0
  		;;
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
 
 	-d|--diff)
 		echo "Prints difference between local and remote repos."

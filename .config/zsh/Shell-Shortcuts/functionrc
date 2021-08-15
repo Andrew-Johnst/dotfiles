@@ -264,7 +264,8 @@ sf(){
 			echo "The script file for this function has been found. Forwarding the arguments" \
 			"from this function to the script." && echo && sudo /usr/local/bin/getaptkey "$@" \
 			&& exit 0
-		sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@"
+		sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@" \
+			|| sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "$@"
 	}
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
 # history file so it can function independently of the shell limitations/syntaxing).
