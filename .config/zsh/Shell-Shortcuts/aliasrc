@@ -137,14 +137,15 @@ alias \
 		pig='paux | icg '													\
 		cchart='/usr/local/bin/colorchart'									\
 		k9='kill -9'														\
-		#k9l='pig $1 | grep -v grep | awk "{print $2}" | sudo xargs kill -9'	\
 		vp='nvim -p '														\
 		sep='sudo -E nvim -p '												\
 		svt='sudo -E nvim -p '												\
 		vep='sudo -E nvim -p '												\
 		svet='sudo -E nvim -p '												\
 		ctlstat='sudo systemctl status '									\
-		ctlrestart='sudo systemctl restart '
+		ctlrestart='sudo systemctl restart '								\
+		today='date "+%m-%d-%Y %H:%M"'
+		#k9l='pig $1 | grep -v grep | awk "{print $2}" | sudo xargs kill -9'	\
 
 # Less command aliases
 	alias							\
