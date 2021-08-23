@@ -433,8 +433,20 @@ sf(){
 		# Upgrades the pip program.
 		/usr/bin/env python3 -m pip install --upgrade pip
 		# Checks for outdated pip/python packages
-		/usr/bin/env python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+		/usr/bin/env python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | \
+			cut -d = -f 1 | xargs -n1 pip3 install -U
 	}
+
+# Function used when there exists a protected network namespace created via the "namespaced-openvpn"
+# script to create a tun0 tunnel network interface and a network namespace connected to it; and this
+# function allows for commands to be run through that network namespace (aka, through the VPN
+# tunnel) selectively and explicitly, while all other traffic (unless specified) is routed via the
+# default/main active network interface.
+# This function will execute any program specefied by "$@" options in the "protected" network
+# namespace.
+function netns-exec(){
+	sudo ip netns exec protected sudo -u "$USER" "$@"
+}
 
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.
 #	ytdl(){

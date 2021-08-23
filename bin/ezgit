@@ -450,6 +450,11 @@ case "$1" in
 				&& exit 1
 		done
 		read -p 'Name the commit: ' commitdesc
+		# Change as of July 28, 2021 made to Github.com removed the ability to commit/make-changes to
+		# repositories without some form of 2FA, so this command is changed to connect over SSH
+		# using an SSH id keyfile locatd at: "~/.ssh/id_github" (as of 8-23-2021 only main drew@NAS
+		# id keyfile has been added to github profile's ssh keyring).
+		git remote set-url origin git@github.com:Zoidburgl3r/dotfiles.git
 		git commit -m "$commitdesc"
 		git push origin master
 		echo
