@@ -454,7 +454,23 @@ case "$1" in
 		# repositories without some form of 2FA, so this command is changed to connect over SSH
 		# using an SSH id keyfile locatd at: "~/.ssh/id_github" (as of 8-23-2021 only main drew@NAS
 		# id keyfile has been added to github profile's ssh keyring).
-		git remote set-url origin git@github.com:Zoidburgl3r/dotfiles.git
+		# (IMPORTANT!!!):
+		# 	To use a specific SSH identify key file, it must be specified in the
+		# 	"~/.ssh/config" file. For example/template in "~/.ssh/config" file:
+		#
+		#		Host github.com
+		#			Hostname github.com
+		#			IdentityFile ~/.ssh/id_github
+		#			IdentitiesOnly yes
+		#			# !!! SEE BELOW - "IdentitiesOnly" !!!
+		#
+		# 	!!! The "IdentitiesOnly yes" option is required to prevent the SSH default behaviour !!!
+		# 	!!! of sending the identity file matching the default filename for each protocol.    !!!
+		# 	!!! Example: if you have a file named "~/.ssh/id_rsa" it will be tried BEFORE the    !!!
+		# 	!!! IdentityFile specified for the Host "gitserv" host ("~/.ssh/id_github") if the   !!!
+		#   !!! "IdentitiesOnly yes" option is not specified.                                    !!!
+		#git remote set-url origin git@github.com:Zoidburgl3r/dotfiles.git
+		git remote add origin git@gitserv:Zoidburgl3r/dotfiles.git
 		git commit -m "$commitdesc"
 		git push origin master
 		echo
