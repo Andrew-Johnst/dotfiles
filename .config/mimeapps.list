@@ -13,6 +13,9 @@ application/x-extension-xht=userapp-Nightly-IQ8MO0.desktop
 inode/directory=pcmanfm-qt.desktop
 x-scheme-handler/about=brave-browser-nightly.desktop
 x-scheme-handler/unknown=brave-browser-nightly.desktop
+application/json=nvim.desktop
+text/plain=nvim.desktop
+video/x-matroska=vlc.desktop
 
 [Added Associations]
 x-scheme-handler/http=exo-web-browser.desktop;
@@ -29,3 +32,9 @@ application/x-extension-xht=userapp-Nightly-IQ8MO0.desktop;
 inode/directory=exo-file-manager.desktop;
 x-scheme-handler/trash=exo-file-manager.desktop;
 application/octet-stream=nvim.desktop;
+application/json=nvim.desktop;
+text/plain=nvim.desktop;
+video/mp2t=vlc.desktop;
+text/vnd.qt.linguist=vlc.desktop;
+application/x-mswinurl=brave-browser-nightly.desktop;
+video/x-matroska=vlc.desktop;

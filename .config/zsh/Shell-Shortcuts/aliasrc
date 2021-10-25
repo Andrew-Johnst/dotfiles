@@ -26,137 +26,139 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 							# sudo and (if no arguments given) repeat the previous command with a 
 							# prepended sudo added.  
 # Shortened browser/editor aliases.
-alias \
-	r='ranger'		\
-	h='hunter ' 	\
-	v='nvim '		\
-	vp='v -p "$@"'	\
-	vt='v -p "$@"'	\
-	M='neomutt' 	\
-	n='ncmpcpp' 	\
-	t='tmux'
+	alias                                                                   \
+		r='ranger'                                                          \
+		h='hunter '                                                         \
+		v='nvim '                                                           \
+		vp='v -p "$@"'                                                      \
+		vt='v -p "$@"'                                                      \
+		M='neomutt'                                                         \
+		n='ncmpcpp'                                                         \
+		qc='q cantata'                                                      \
+		t='tmux'
 
 # Edit config file shortcuts.
-alias \
-	zrc='v		"$ZDOTDIR/.zshrc"'							\
-	zr='.		"$ZDOTDIR/.zshrc"'							\
-	nrc='v 		~/.config/nvim/init.vim'					\
-	tmc='v 		~/.tmux.conf'								\
-	arc='v 		"$ZSH_AFRC/aliasrc"'						\
-	frc='v 		"$ZSH_AFRC/functionrc"'						\
-	tmpv='v 	/tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	\
-	vtmp='v 	/tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
+	alias                                                                   \
+		zr='. "$ZDOTDIR/.zshrc"'                                            \
+		zrc='v "$ZDOTDIR/.zshrc"'                                           \
+		nrc='v ~/.config/nvim/init.vim'                                     \
+		tmc='v ~/.tmux.conf'                                                \
+		arc='v "$ZSH_AFRC/aliasrc"'                                         \
+		frc='v "$ZSH_AFRC/functionrc"'                                      \
+		tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'                 \
+		vtmp='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
 
 # Automatically specifying options always used to a shortened alias for core file programs/utils.
-alias \
-	ls='ls --color=always'	\
-	l='ls -lh'				\
-	la='ls -lah'			\
-	lt='ls -lth'			\
-	lat='ls -lath'			\
-	lth='ls -lth'			\
-	lath='ls -lath'			\
-	mv='mv -v'				\
-	cp='cp -v'				\
-	rm='rm -r'				
+	alias                                                                   \
+		ls='ls --color=always'                                              \
+		l='ls -lh'                                                          \
+		la='ls -lah'                                                        \
+		lt='ls -lth'                                                        \
+		lat='ls -lath'                                                      \
+		lth='ls -lth'                                                       \
+		lath='ls -lath'                                                     \
+		mv='mv -v'                                                          \
+		cp='cp -v'                                                          \
+		rm='rm -r'
 
 # Directory shortcuts.
-alias \
-	b='cd ..'														\
-	..='cd ..'														\
-	.1='cd ..'														\
-	.2='cd ../..'													\
-	.3='cd ../../..'												\
-	conf='cd ~/.config'												\
-	nconf='cd ~/.config/nvim'										\
-	nconfp='cd ~/.config/nvim/plugins'								\
-	nconff='cd ~/.config/nvim/plugins/pathogen/MyFunctions/plugin/'	\
-	zconf='cd ~/.config/zsh'										\
-	mn='cd /mnt'													\
-	mnt='cd /mnt'													\
-	tmp='cd /tmp'													\
-	tmpvcd='cd /tmp/tempfiles'										\
-	d='cd ~/Documents'												\
-	D='cd ~/Downloads'												\
-	acc='cd ~/Documents/Education/School/ACC/'						\
-	p='cd ~/Documents/programming'									\
-	pub='cd /mnt/Data/Public'										\
-	priv='cd /mnt/Data/Drew'										\
-	dot='cd ~/Documents/git/dotfiles'								\
-	ba='cd ~/Documents/programming/bash'							\
-	py='cd ~/Documents/programming/python'							\
-	py2='cd ~/Documents/programming/python/2'						\
-	py3='cd ~/Documents/programming/python/3'						\
-	m='cd ~/Music'													\
-	cryptd='cd /mnt/crypt'											\
-	luksd='cd /mnt/crypt/luks'										\
-	aptc='cd /etc/apt/'												\
-	work='cd ~/Documents/Work/'										\
-	r2s='cd ~/Documents/Work/Ready2Show'							\
-	r2sd='cd ~/Documents/Work/Ready2Show/Development/'				\
-	P='cd ~/Pictures'												\
-	hm='cd ~/Mountpoints'											\
-	hmnt='cd ~/Mountpoints'											\
-	E='cd ~/Documents/Education'									\
-	certs='cd ~/Documents/Education/Certs'
+	alias                                                                   \
+		b='cd ..'                                                           \
+		..='cd ..'                                                          \
+		.1='cd ..'                                                          \
+		.2='cd ../..'													    \
+		.3='cd ../../..'                                                    \
+		conf='cd ~/.config'                                                 \
+		nconf='cd ~/.config/nvim'                                           \
+		nconfp='cd ~/.config/nvim/plugins'                                  \
+		nconff='cd ~/.config/nvim/plugins/pathogen/MyFunctions/plugin/'     \
+		zconf='cd ~/.config/zsh'                                            \
+		mn='cd /mnt'                                                        \
+		mnt='cd /mnt'                                                       \
+		tmp='cd /tmp'                                                       \
+		tmpvcd='cd /tmp/tempfiles'                                          \
+		d='cd ~/Documents'                                                  \
+		D='cd ~/Downloads'                                                  \
+		acc='cd ~/Documents/Education/School/ACC/'                          \
+		p='cd ~/Documents/programming'                                      \
+		pub='cd /mnt/Data/Public'                                           \
+		priv='cd /mnt/Data/Drew'                                            \
+		dot='cd ~/Documents/git/dotfiles'                                   \
+		ba='cd ~/Documents/programming/bash'                                \
+		lu='cd ~/Documents/programming/bash/linuxutils'                     \
+		py='cd ~/Documents/programming/python'                              \
+		py2='cd ~/Documents/programming/python/2'                           \
+		py3='cd ~/Documents/programming/python/3'                           \
+		m='cd ~/Music'                                                      \
+		cryptd='cd /mnt/crypt'                                              \
+		luksd='cd /mnt/crypt/luks'                                          \
+		aptc='cd /etc/apt/'                                                 \
+		work='cd ~/Documents/Work/'                                         \
+		r2s='cd ~/Documents/Work/Ready2Show'                                \
+		r2sd='cd ~/Documents/Work/Ready2Show/Development/'                  \
+		P='cd ~/Pictures'                                                   \
+		hm='cd ~/Mountpoints'                                               \
+		hmnt='cd ~/Mountpoints'                                             \
+		E='cd ~/Documents/Education'                                        \
+		certs='cd ~/Documents/Education/Certs'
 
 # General quality of life improvements and aliasing lengthy commands.
-	alias 																	\
-		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'						\
-		ig='grep -i'														\
-		cgrep='grep --color=always'											\
-		igrep='grep --color=always'											\
-		cg='grep --color=auto'												\
-		icg='grep -i --color=auto'											\
-		cgi='grep -i --color=auto'											\
-		ige='grep -i'														\
-		gi='grep -i'														\
-		cgrep='grep --color=always'											\
-		igrep='grep --color=always'											\
-		cg='grep --color=auto'												\
-		cgi='grep -i --color=auto'											\
-		g='cd $HOME/Documents/git'											\
-		gd=g																\
-		gc='git clone '														\
-		c='/usr/local/bin/colorchart'										\
-		less='less -R'														\
-		diff='diff --color=auto'											\
-		ip='ip --color=always'												\
-		fm='q pcmanfm-qt '													\
-		bt='bashtop'														\
-		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '	\
-		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '	\
-		mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '	\
-		ytd='youtube-dl '													\
-		ytdl='youtube-dl '													\
-		nics='sudo ifconfig | plx'											\
-		paux='ps aux'														\
-		pauxicg='paux | icg '												\
-		picg='paux | icg '													\
-		pcg='paux | icg '													\
-		pig='paux | icg '													\
-		cchart='/usr/local/bin/colorchart'									\
-		k9='kill -9'														\
-		vp='nvim -p '														\
-		sep='sudo -E nvim -p '												\
-		svt='sudo -E nvim -p '												\
-		vep='sudo -E nvim -p '												\
-		svet='sudo -E nvim -p '												\
-		ctlstat='sudo systemctl status '									\
-		ctlrestart='sudo systemctl restart '								\
+	alias                                                                   \
+		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                     \
+		ig='grep -i'                                                        \
+		cgrep='grep --color=always'                                         \
+		igrep='grep --color=always'                                         \
+		cg='grep --color=auto'                                              \
+		icg='grep -i --color=auto'                                          \
+		cgi='grep -i --color=auto'                                          \
+		ige='grep -i'                                                       \
+		gi='grep -i'                                                        \
+		cgrep='grep --color=always'                                         \
+		igrep='grep --color=always'                                         \
+		cg='grep --color=auto'                                              \
+		cgi='grep -i --color=auto'                                          \
+		g='cd $HOME/Documents/git'                                          \
+		gd=g                                                                \
+		gc='git clone '                                                     \
+		c='/usr/local/bin/colorchart'                                       \
+		less='less -R'                                                      \
+		diff='diff --color=auto'                                            \
+		ip='ip --color=always'                                              \
+		fm='q pcmanfm-qt '                                                  \
+		bt='bashtop'                                                        \
+		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
+		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
+		mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '   \
+		ytd='youtube-dl '                                                   \
+		ytdl='youtube-dl '                                                  \
+		nics='sudo ifconfig | plx'                                          \
+		paux='ps aux'                                                       \
+		pauxicg='paux | icg '                                               \
+		picg='paux | icg '                                                  \
+		pcg='paux | icg '                                                   \
+		pig='paux | icg '                                                   \
+		cchart='/usr/local/bin/colorchart'                                  \
+		k9='kill -9'                                                        \
+		vp='nvim -p '                                                       \
+		sep='sudo -E nvim -p '                                              \
+		svt='sudo -E nvim -p '                                              \
+		vep='sudo -E nvim -p '                                              \
+		svet='sudo -E nvim -p '                                             \
+		ctlstat='sudo systemctl status '                                    \
+		ctlrestart='sudo systemctl restart '                                \
 		today='date "+%m-%d-%Y %H:%M"'
 		#k9l='pig $1 | grep -v grep | awk "{print $2}" | sudo xargs kill -9'	\
 
 # Less command aliases
-	alias							\
-		le='less'					\
-		lx='less -X'				\
- 		ple='pcat | less -X'		\
-		cle='pcat "$@" | less -X'	\
-		clx='pcat | less -X'		\
-		plx='pcat | less -X'		\
-		lxcl='less -X;clear'		\
-		clea='less -X;clear'		\
+	alias                                                                   \
+		le='less'                                                           \
+		lx='less -X'                                                        \
+ 		ple='pcat | less -X'                                                \
+		cle='pcat "$@" | less -X'                                           \
+		clx='pcat | less -X'                                                \
+		plx='pcat | less -X'                                                \
+		lxcl='less -X;clear'                                                \
+		clea='less -X;clear'                                                \
 		cls='less -X;clear'		
 
 ####################################################################################################
@@ -164,25 +166,25 @@ alias \
 ####################################################################################################
 
 # Aliases for various apt commands and python's pip package installer.
-	alias											\
-		ins='sudo apt-get install '					\
-		insf='sudo apt-get install '				\
-		ac='sudo apt-cache '						\
-		aci='sudo apt-cache --installed '			\
-		acs='sudo apt-cache search '				\
-		aptsearch='sudo apt-cache search '			\
-		ag='sudo apt-get '							\
-		adeps='sudo apt-rdepends '					\
-		aure='sudo apt-get autoremove '				\
-		aurep='sudo apt-get autoremove --purge '	\
-		pipins='pip install '						\
-		pyins='pip install '						\
+	alias                                                                   \
+		ins='sudo apt-get install '                                         \
+		insf='sudo apt-get install '                                        \
+		ac='sudo apt-cache '                                                \
+		aci='sudo apt-cache --installed '                                   \
+		acs='sudo apt-cache search '                                        \
+		aptsearch='sudo apt-cache search '                                  \
+		ag='sudo apt-get '                                                  \
+		adeps='sudo apt-rdepends '                                          \
+		aure='sudo apt-get autoremove '                                     \
+		aurep='sudo apt-get autoremove --purge '                            \
+		pipins='pip install '                                               \
+		pyins='pip install '
 
 # File ownership/permission aliases.
-	alias							\
-		cx='chmod +x '				\
-		chx='chmod +x '				\
-		chmx='chmod +x '			\
+	alias                                                                   \
+		cx='chmod +x '                                                      \
+		chx='chmod +x '                                                     \
+		chmx='chmod +x '                                                    \
 		mine='chown $USER:$GROUP '
 
 # Network aliases.
@@ -216,7 +218,6 @@ alias \
 
 	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
 	alias myip='curl icanhazip.com'
-
 
 # Pandoc aliases.
 	alias md2pdf='pdocconv md2pdf $@'

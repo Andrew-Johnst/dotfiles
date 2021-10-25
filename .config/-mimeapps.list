@@ -1,2 +1,6 @@
 [Default Applications]
 video/mp4=vlc.desktop
+video/webm=vlc.desktop
+application/xml=nvim.desktop
+video/mp2t=vlc.desktop
+application/x-mswinurl=brave-browser-nightly.desktop

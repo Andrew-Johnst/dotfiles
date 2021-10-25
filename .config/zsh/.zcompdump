@@ -2,7 +2,6 @@
 
 _comps=(
 '-' '_torsocks'
-'-*-' '_bootctl'
 '.' '_source'
 '5g' '_go'
 '5l' '_go'
@@ -142,6 +141,7 @@ _comps=(
 'bunzip2' '_bzip2'
 'burst' '_mh'
 'busctl' '_busctl'
+'bwrap' '_bwrap'
 'bzcat' '_bzip2'
 'bzegrep' '_grep'
 'bzfgrep' '_grep'
@@ -316,7 +316,6 @@ _comps=(
 'dnf-3' '_dnf'
 'doas' '_doas'
 'docker' '_docker'
-'docker-compose' '_docker-compose'
 'dockerd' '_docker'
 'domainname' '_yp'
 'dos2unix' '_dos2unix'
@@ -1303,7 +1302,6 @@ _comps=(
 'sha512sum' '_md5sum'
 'sha512t256' '_cksum'
 'shasum' '_shasum'
-'shell-script' '_bootctl'
 'shift' '_arrays'
 'show' '_mh'
 'showchar' '_psutils'
@@ -1871,8 +1869,8 @@ bindkey '^[,' _history-complete-newer
 bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
-autoload -Uz _img2sixel _bootctl _borg _busctl _cargo \
-            _cmus _curl _docker _docker-compose _firewalld \
+autoload -Uz _img2sixel _bootctl _borg _busctl _bwrap \
+            _cargo _cmus _curl _docker _firewalld \
             _hostnamectl _journalctl _kernel-install _localectl _loginctl \
             _machinectl _mercurial _meson _mpv _networkctl \
             _ninja _pass _playerctl _pulseaudio _r2 \

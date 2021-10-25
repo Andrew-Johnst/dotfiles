@@ -280,3 +280,8 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 #export XDG_CACHE_HOME="${HOME}/.cache"
 #export XDG_DATA_DIRS="${PATH}"
+
+# Environment variables used to configure ffmpeg-bar display settings.
+# 	https://github.com/sidneys/ffmpeg-progressbar-cli
+#BAR_FILENAME_LENGTH=7
+#BAR_BAR_SIZE_RATIO=0.5
