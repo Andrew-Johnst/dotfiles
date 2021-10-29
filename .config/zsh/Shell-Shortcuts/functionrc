@@ -430,13 +430,13 @@ sf(){
 
 # Simple function to determine if it is being called either being used as a pipe or running as a
 # function with arguments (programs/processes) to kill every instance of from the output of ps aux.
-	k9a(){
+	function k9a(){
 		# Pure POSIX shell method to check if this function is being piped STDOUT from another
 		# program or not.
 		[[ -p /dev/stdin ]] && PIPEDINPUT=1
 		[[ "$PIPEDINPUT" ]] && INPUT=$(</dev/stdin) && echo "$INPUT" | awk 'NR>1{print $2}' | \
 			sudo xargs kill -9 && exit 0
-		sudo ps aux | grep -v grep | grep -i "$1" | awk '{print $2}' | xargs kill -9
+		sudo ps aux | grep -v grep | grep -i "$1" | awk '{print $2}' | xargs sudo kill -9
 	}
 
 # Simple function to update python modules installed via the python-pip python package installer, as
@@ -462,6 +462,40 @@ function netns-exec(){
 	sudo ip netns exec protected sudo -u "$USER" "$@"
 }
 
+# Function for youtube-dl to download YouTube Videos/Music (as well as SoundCloud and other online
+# streaming service content). This function's primary reason for existence is to allow for an option
+# to set a custom output directory of the file(s) with an: "[-o|--output]" option with a supplied
+# argument (if no argument--a.k.a. directory--is supplied after the [-o|--output] option, the
+# download directory will be set to the current directory ($PWD)).
+#	function ytdl(){
+#		while :; do
+#			case $1 in
+#				-op|-ou|--output)
+#					shift 1 # Shifts the options backwards by 1.
+#					[[ "$1" =~ ^\.*? ]] && DIRECTORY="$(cd "$1" ; pwd)" && break
+#					[[ -d "$1" ]] && DIRECTORY="$1" && break
+#					[[ -z "$1" ]] && invalidDir="[NULL]" || invalidDir="$1" &&
+#					echo -e "\nInvalid directory at: '$invalidDir'..." \
+#					"\nUsing the '\$PWD' (\"$PWD\") instead.\n" && DIRECTORY="`pwd`" && break
+#					#echo -e "Invalid directory at: \"$1\"...\n" \
+#						#"Using the '\$PWD' (\"$PWD\") instead.\n"
+#					;;
+#				'')
+#					DIRECTORY="$DEFAULT"
+#					#echo "$DIRECTORY"
+#					break
+#					;;
+#				*)
+#					echo -e "\nInvalid option given...\n"
+#					usage
+#					exit 0
+#					;;
+#			esac
+#			shift
+#		done
+#	}
+
+# being passed, then the directory
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.
 #	ytdl(){
 #		# Checks for arguments passed to function. Exit if none.

@@ -23,6 +23,21 @@ ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
 [ ! -d "$ShellShortcutDir" ] && \
 	export ZSH_AFRC="$HOME/.config/zsh/"
 
+# This automatically allows ZSH to determine if a link has been pasted into the terminal/shell and
+# automatically handles the special characters appropriately by escaping them.
+# [Link]: https://forum.endeavouros.com/t/tip-better-url-pasting-in-zsh/6962
+autoload -U url-quote-magic bracketed-paste-magic
+zle -N self-insert url-quote-magic
+zle -N bracketed-paste bracketed-paste-magic
+
+# Using this stackexchange.com post since bracketed-paste-magic was causing pasting into WSL shell
+# to insert "[[~201" characters.
+# 	https://apple.stackexchange.com/a/315515
+#	https://stackoverflow.com/a/40799717
+DISABLE_MAGIC_FUNCTIONS=true
+source $ZDOTDIR/.oh-my-zsh/oh-my-zsh.sh
+
+
 # If this directory containing helper shell scripts and user-defined shell shortcuts (primarily for
 # functions and programs that were too large to keep in the functionrc file, and instead deserved
 # their own file--also better preserves true POSIX philosophy).
@@ -244,8 +259,6 @@ PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 # Adding this in for fuck command (extremely useful correcting previously entered incorrect command.)
 eval $(thefuck --alias f)
 
-# Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
 
 ####################################################################################################
@@ -285,3 +298,66 @@ export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 # 	https://github.com/sidneys/ffmpeg-progressbar-cli
 #BAR_FILENAME_LENGTH=7
 #BAR_BAR_SIZE_RATIO=0.5
+
+####################################################################################################
+## Installing and sourcing various ZSH Plugins (downloading and installing if not already present ##
+####################################################################################################
+# Set a global environment variable for the default ZSH Plugin directory. Create directory if not
+# already present.
+export ZSH_PLUGINS="$ZDOTDIR/Plugins"
+[[ ! -d "$ZSH_PLUGINS" ]] && mkdir -p "$ZSH_PLUGINS"
+
+# Sourcing various ZSH plugins.
+# "Znap" - ZSH plugin manager
+#source "$ZSH_PLUGINS/zsh-snap/install.zsh"
+
+# ZSH-Syntax-Highlighting for a Fish shell-like syntax highlighting.
+source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+
+# ZSH-Navigation-Tools.
+source "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh"
+
+# ZSH-Auto-Suggestions for automatically showing suggestions in the terminal.
+source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+# zsh-autosuggestions configuration.
+#bindkey '\t' end-of-line
+bindkey '^ G' autosuggest-accept
+#zstyle ':completion:*' special-dirs true
+zstyle ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
+
+
+
+# Source the plugins.
+plugins=(
+	zsh-autosuggestions
+	zsh-navigation-tools
+)
+
+# Function to more easily manage plugins by containing all of them inside this function.
+#function GETPLUGINS(){
+#	# Verify that git is installed, if it isn't then just exit the function without error, and
+#	# logging into $ZDOTDIR/Plugin-Error.log with a brief error message.
+#	[[ ! $(command -v git) ]] && echo -e "[`date`]:\nGit program is missing, please install it." \
+#		&& exit 0
+
+	# Create a git command that takes n number of arguments passed to this function that are
+	# interpreted as options to "git clone" command, with the last argument being/assumed-to-be the
+	# remote git repository URL.
+	# Create local function variables that contain the various elements to each git clone command
+	# with variable length amount of options for the command, and using the repository name as the
+	# name for the output/download directory in the $ZSH_PLUGINS directory. Checks if plugins are
+	# already present; if they are, skip them; if not then download and install them.
+	#	local GIT_URL="${@: -1}"
+	#	local GIT_OPTIONS="${@:1:$#-1}"
+	#	local GIT_REPO_NAME="$(basename -s .git "${GIT_URL}")"
+
+	# Check if the ZSH plugin manager "zsh-snap" is installed; install if not.
+	#	[[ ! -d "$ZSH_PLUGINS/zsh-snap" ]] && \
+	#		git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git \
+	#		"$ZSH_PLUGINS/zsh-snap"
+	
+	# Load zsh-syntax-highlighting; should be last.
+	#source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+	#	[[ ! git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+	#	source ~/.config/zsh/.oh-my-zsh/
+#}

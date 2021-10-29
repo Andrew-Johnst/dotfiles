@@ -76,7 +76,8 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 		mn='cd /mnt'                                                        \
 		mnt='cd /mnt'                                                       \
 		tmp='cd /tmp'                                                       \
-		tmpvcd='cd /tmp/tempfiles'                                          \
+		temp='cd /tmp/tempfiles'                                            \
+		tmpvcd=temp                                                         \
 		d='cd ~/Documents'                                                  \
 		D='cd ~/Downloads'                                                  \
 		acc='cd ~/Documents/Education/School/ACC/'                          \
@@ -103,6 +104,8 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 		certs='cd ~/Documents/Education/Certs'
 
 # General quality of life improvements and aliasing lengthy commands.
+# [youtube-dl is defined in functionrc due to the custom "-o" output
+# option to specify the output directory instead of the default one.]
 	alias                                                                   \
 		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                     \
 		ig='grep -i'                                                        \
@@ -147,7 +150,7 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 		ctlstat='sudo systemctl status '                                    \
 		ctlrestart='sudo systemctl restart '                                \
 		today='date "+%m-%d-%Y %H:%M"'
-		#k9l='pig $1 | grep -v grep | awk "{print $2}" | sudo xargs kill -9'	\
+		#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
 
 # Less command aliases
 	alias                                                                   \
