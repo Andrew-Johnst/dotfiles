@@ -168,7 +168,7 @@ then
 	# Cisco router and switch).
     [[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.0\.[0-9]\{1,3\} ]] && \
         DISPLAY="192.168.1.30:0.0"
-    export DISPLAY
+    export DISPLAY="192.168.1.30:0.0"
 
 	# (8-7-2021)
 	
@@ -319,9 +319,10 @@ source "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tool
 
 # ZSH-Auto-Suggestions for automatically showing suggestions in the terminal.
 source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+#
 # zsh-autosuggestions configuration.
 #bindkey '\t' end-of-line
-bindkey '^ G' autosuggest-accept
+bindkey '^[d' autosuggest-accept
 #zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
 
