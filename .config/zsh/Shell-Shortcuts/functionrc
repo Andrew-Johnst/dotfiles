@@ -95,11 +95,15 @@ sf(){
 		git clone "$1"
 		cd "$(basename "$1" .git)"
 	}
-# Function to easily kill screen PIDs without having to manually type them out.
-	sk(){
-		local SCREENPIDS="$(screen -ls | sed -e 1d -e '$d' | cut -d '.' -f 1 | tr -d '\t')"
+# Function to easily list screen PIDs numbers.
+	screenpids(){
+		local SCREENPIDS="$(screen -ls | sed -e '1d;$d' -e 's/^[ \t]*//' -e 's/\..*$//')"
 		echo $SCREENPIDS
-	}
+		# This is the old version which uses multiple commands through pipes via STDIN/STDOUT.
+		#local SCREENPIDS="$(screen -ls | sed '1d;$d' | cut -d '.' -f 1 | tr -d '\t')"
+		#	Below is broken/not working [11-12-2021 1:34PM].
+		#	screen -ls | sed -e '1d;$d' -e 's/^[ \t]*//' -e 's/(.*)\.(\w.*)/\1\ \2/g'
+	}; alias sp='screenpids'
 # Changed the lx aliases into functions (certain itterations/variations on it are still just
 # aliases--located in aliasrc file--but with options, so it has more flexibility and funcitonality
 # like giving an option to the less command.

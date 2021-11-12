@@ -55,8 +55,6 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 		la='ls -lah'                                                        \
 		lt='ls -lth'                                                        \
 		lat='ls -lath'                                                      \
-		lth='ls -lth'                                                       \
-		lath='ls -lath'                                                     \
 		mv='mv -v'                                                          \
 		cp='cp -v'                                                          \
 		rm='rm -r'
@@ -91,8 +89,6 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 		py2='cd ~/Documents/programming/python/2'                           \
 		py3='cd ~/Documents/programming/python/3'                           \
 		m='cd ~/Music'                                                      \
-		cryptd='cd /mnt/crypt'                                              \
-		luksd='cd /mnt/crypt/luks'                                          \
 		aptc='cd /etc/apt/'                                                 \
 		work='cd ~/Documents/Work/'                                         \
 		r2s='cd ~/Documents/Work/Ready2Show'                                \
@@ -101,7 +97,11 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 		hm='cd ~/Mountpoints'                                               \
 		hmnt='cd ~/Mountpoints'                                             \
 		E='cd ~/Documents/Education'                                        \
-		certs='cd ~/Documents/Education/Certs'
+		certs='cd ~/Documents/Education/Certs'                              \
+		cryptd='cd /mnt/crypt'                                              \
+		luksd='cd /mnt/crypt/luks'                                          \
+		genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'         \
+		gp=genpass
 
 # General quality of life improvements and aliasing lengthy commands.
 # [youtube-dl is defined in functionrc due to the custom "-o" output

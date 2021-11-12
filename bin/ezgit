@@ -99,6 +99,7 @@ EXCLUSIONS=(	"*.swp"												\
 				".config/nvim/plugged/vim-orgmode"					\
 				".config/nvim/plugins/pathogen/MyFunctions/spell/"	\
 				".config/projectM"									\
+				"config/protonmail"                                 \
 				".config/QtProject.conf"							\
 				".config/ranger/bookmarks"							\
 				".config/ranger/history"							\

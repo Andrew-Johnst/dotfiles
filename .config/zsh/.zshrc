@@ -281,7 +281,6 @@ export QT_QPA_PLATFORMTHEME=gtk2
 # Adding directories to the PATH variable.
 # (This needs to be cleaned up since there are several PATH declarations already listed above for
 # various other programs that need it).
-
 # This PATH addition is for pywal (used for GTK theming).
 export PATH="${PATH}:${HOME}/.local/bin/"
 
@@ -298,6 +297,12 @@ export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 # 	https://github.com/sidneys/ffmpeg-progressbar-cli
 #BAR_FILENAME_LENGTH=7
 #BAR_BAR_SIZE_RATIO=0.5
+
+# Adding this option on [11-2-2021 9:30AM] because for some reason (presumably something to do with
+# either FZF change or ZSH autocompletion or another ZSH plugin interfering), something is
+# preventing neovim from being able to <C-r> (aka, "Redo" after an <u> "Undo") and this solution was
+# found on the fzf github issues.
+[ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
 
 ####################################################################################################
 ## Installing and sourcing various ZSH Plugins (downloading and installing if not already present ##
@@ -318,11 +323,11 @@ source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 source "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh"
 
 # ZSH-Auto-Suggestions for automatically showing suggestions in the terminal.
-source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+#source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 #
 # zsh-autosuggestions configuration.
 #bindkey '\t' end-of-line
-bindkey '^[d' autosuggest-accept
+#bindkey '^[d' autosuggest-accept
 #zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
 
@@ -330,7 +335,7 @@ zstyle ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)
 
 # Source the plugins.
 plugins=(
-	zsh-autosuggestions
+	#zsh-autosuggestions
 	zsh-navigation-tools
 )
 

@@ -1,15 +1,26 @@
-#	set mbox_type = Maildir
-#	set imap_user = projohnston@gmail.com
-#	source "gpg -d ~/.config/neomutt/passwords.gpg |"
-#	set editor = nvim
-#	set header_cache = "~/.cache/neomutt/headers"
-#	set message_cachedir = "~/.cache/neomutt/bodies"
-#	set certificate_file = "~/.config/neomutt/certificates"
-#	set smtp_url = 'smtps://projohnston@gmail.com@smtp.gmail.com:465/"
-#	set move = no
-#	set imap_keepalive = 900
-#	set mail_check=90
+# This as of [11-2-2021 9:13AM] is a test to see if NeoMutt will source different neomuttrc config
+# files (for use with multiple email accounts that are segregated each into their own config file).
 
+# Sourcing general NeoMutt config files.
+#source ~/.config/neomutt/settings
+#source ~/.config/neomutt/colors
+#source ~/.config/neomutt/mappings
+
+
+# Email accounts:
+
+# Gmail
+#source ~/.config/neomutt/accounts/gmail
+#folder-hook $folder 'source ~/.config/neomutt/accounts/gmail'
+
+# ProtonMail
+#source ~/.config/neomutt/accounts/protonmail
+#folder-hook $folder 'source ~/.config/neomutt/accounts/protonmail'
+
+
+source ~/.config/neomutt/gpg.rc
+
+# Re-adding this [11-2-2021 10:20AM] since NeoMutt isn't able to login or credentials are incorrect.
 # General settings.
 set header_cache = "~/.neomutt/cache/headers"
 set message_cachedir = "~/.neomutt/cache/bodies"
