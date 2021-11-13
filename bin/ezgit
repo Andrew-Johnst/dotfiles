@@ -57,19 +57,22 @@ REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
 ### EXCLUSIONS list variable, then in another for loop unstages the tracking of said files as an ###
 ###                                   extra safety precaution)                                   ###
 ####################################################################################################
+
 # List variable containing all of the package dependencies for both the script as well as the
 # dotfile/config files for my setup.
-DEPENDS=(	"bzip2"		\
-			"fzf"		\
-			"git"		\
-			"neomutt"	\
-			"neovim"	\
-			"pv"		\
-			"rsync"		\
-			"ssh"		\
-			"tar"		\
-			"tmux"		\
-			"zsh"		\
+DEPENDS=(	"bzip2"       \
+			"curl"        \
+			"fzf"         \
+			"git"         \
+			"neomutt"     \
+			"neovim"      \
+			"pv"          \
+			"python3-pip" \
+			"rsync"       \
+			"ssh"         \
+			"tar"         \
+			"tmux"        \
+			"zsh"         \
 		)
 
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
@@ -94,12 +97,14 @@ EXCLUSIONS=(	"*.swp"												\
 				".config/mpd/pid"									\
 				".config/mpd/playlists/"							\
 				".config/mpd/state"									\
+				".config/neomutt/accounts/*"                        \
 				".config/nicotine/"									\
 				".config/nvim/view"                                 \
 				".config/nvim/plugged/vim-orgmode"					\
 				".config/nvim/plugins/pathogen/MyFunctions/spell/"	\
+				".config/otpclient.cfg"                             \
 				".config/projectM"									\
-				"config/protonmail"                                 \
+				"config/protonmail/*"                               \
 				".config/QtProject.conf"							\
 				".config/ranger/bookmarks"							\
 				".config/ranger/history"							\
