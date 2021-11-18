@@ -60,19 +60,20 @@ REMOTEBACKUPS="/tmp/BACKUPS/Remote/$DATE"
 
 # List variable containing all of the package dependencies for both the script as well as the
 # dotfile/config files for my setup.
-DEPENDS=(	"bzip2"       \
-			"curl"        \
-			"fzf"         \
-			"git"         \
-			"neomutt"     \
-			"neovim"      \
-			"pv"          \
-			"python3-pip" \
-			"rsync"       \
-			"ssh"         \
-			"tar"         \
-			"tmux"        \
-			"zsh"         \
+DEPENDS=(	"bzip2"             \
+			"curl"              \
+			"fzf"               \
+			"git"               \
+			"neomutt"           \
+			"neovim"            \
+			"pv"                \
+			#"python3-pip"      \
+			"python3-pygments"  \
+			"rsync"             \
+			"ssh"               \
+			"tar"               \
+			"tmux"              \
+			"zsh"               \
 		)
 
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
@@ -104,7 +105,7 @@ EXCLUSIONS=(	"*.swp"												\
 				".config/nvim/plugins/pathogen/MyFunctions/spell/"	\
 				".config/otpclient.cfg"                             \
 				".config/projectM"									\
-				"config/protonmail/*"                               \
+				".config/protonmail/*"                              \
 				".config/QtProject.conf"							\
 				".config/ranger/bookmarks"							\
 				".config/ranger/history"							\
