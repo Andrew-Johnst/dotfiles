@@ -67,10 +67,10 @@ DEPENDS=(	"bzip2"             \
 			"neomutt"           \
 			"neovim"            \
 			"pv"                \
-			#"python3-pip"      \
-			"python3-pygments"  \
+			"python-pip"        \
+			"python-pygments"   \
 			"rsync"             \
-			"ssh"               \
+			"openssh"           \
 			"tar"               \
 			"tmux"              \
 			"zsh"               \

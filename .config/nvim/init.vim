@@ -271,10 +271,10 @@
 		map 			<C-j> 						<C-w>j
 		map 			<C-k> 						<C-w>k
 		map 			<C-l> 						<C-w>l
-		map 			<M-y> 						<C-w>l
-		map 			<M-i> 						<C-w>l
-		map 			<M-o> 						<C-w>l
-		map 			<M-p> 						<C-w>l
+		map 			<M-y> 						<C-w>>
+		map 			<M-i> 						<C-w>-
+		map 			<M-o> 						<C-w>+
+		map 			<M-p> 						<C-w><
 
 	"--------------------[4.2.0] Mappings for Tabs.
 		map 			<C-q>							<Nop>
@@ -381,14 +381,18 @@
 			map					<M-n>		    			<Esc>/<++><CR>ca<
 			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
 		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
-			nnoremap <Leader>r								:silent source $MYVIMRC<CR>
+			nnoremap		<Leader>r					:silent source $MYVIMRC<CR>
 		" map					<Leader>p					nciw
 
 	"--------------------[4.5.0] Plugin keybinds.
 		"-------------------[4.5.1] Surround-plugin leader keybinds.
 			map					<Leader>e					vg_
+			map					<Leader>4					vg_
+			map					<M-e>							ve
+			map					<M-E>							vE
 		"	map					<Leader>s					vg_S
 		" map 				<Leader>f					V}zf<Esc>
+		silent!	call	repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 		"-------------------[4.5.1] VimWiki Plugin Keybinds.
 		" Fixing default keybinds for vimwiki.
