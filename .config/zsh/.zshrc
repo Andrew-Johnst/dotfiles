@@ -1,27 +1,49 @@
 # Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
-export ZDOTDIR="$HOME/.config/zsh"
+#export ZDOTDIR="$HOME/.config/zsh"
 # Exports the oh-my-zsh directory.
 #export ZSH="$HOME/.config/zsh/.oh-my-zsh"
  # [Using the oh-my-zsh plugin (make sure to push current changes before doing so, just in case
  # something breaks.]
-export ZSH="$HOME/.config/zsh/.oh-my-zsh"
+#export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-# Checks for the presence of the "Shell-Shortcuts" directory in the zsh config directory, source all
+####################################################################################################
+######################################### Source oh-my-zsh #########################################
+####################################################################################################
+# Using this stackexchange.com post since bracketed-paste-magic was causing pasting into WSL shell
+# to insert "[[~201" characters.
+# 	https://apple.stackexchange.com/a/315515
+#	https://stackoverflow.com/a/40799717
+DISABLE_MAGIC_FUNCTIONS=true
+#source $ZDOTDIR/.oh-my-zsh/oh-my-zsh.sh
+
+####################################################################################################
+##################### Source Custom ZSH/Shell Helper Scripts and Config Files. #####################
+####################################################################################################
+# Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
+export ZDOTDIR="$HOME/.config/zsh"
+export ZSH="$ZDOTDIR/.zshrc"
+
+# Checks for the presence of the "Shell-Helpers" directory in the zsh config directory, source all
 # the files in there if the directory exists. This contains the "aliasrc" and "functionrc" files
 # that are each a large laundry-list of custom shell aliases and functions.
 # Export global ZSH environment variable to dictate where the ZSH configuration files are located.
-ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
+ShellShortcutDir="$HOME/.config/zsh/Shell-Helpers/"
 [ -d "$ShellShortcutDir" ] && \
 	for f in ${ShellShortcutDir}*; do source "$f"; done && \
-	export ZSH_AFRC="$HOME/.config/zsh/Shell-Shortcuts/"
+	export ZSH_AFRC="$HOME/.config/zsh/Shell-Helpers/"
 
-# If the Shell-Shortcut directory is not present, then export ZSH environment variable to the
+# If the Shell-Helpers directory is not present, then export ZSH environment variable to the
 # previous location for the ZSH shell helper scripts--like aliasrc and functionrc.
 [ ! -d "$ShellShortcutDir" ] && \
 	export ZSH_AFRC="$HOME/.config/zsh/"
+
+# Check if there is a directory named "Filters" in the main "$ZDOTDIR" directory path, export an
+# environment variable "ZSH_PROGRAM_FILTERS" if so.
+[ -d "$ZDOTDIR/Filters/" ] && \
+	export ZSH_PROGRAM_FILTERS="$ZDOTDIR/Filters/"
 
 # This automatically allows ZSH to determine if a link has been pasted into the terminal/shell and
 # automatically handles the special characters appropriately by escaping them.
@@ -29,18 +51,6 @@ ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
 autoload -U url-quote-magic bracketed-paste-magic
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
-
-# Using this stackexchange.com post since bracketed-paste-magic was causing pasting into WSL shell
-# to insert "[[~201" characters.
-# 	https://apple.stackexchange.com/a/315515
-#	https://stackoverflow.com/a/40799717
-DISABLE_MAGIC_FUNCTIONS=true
-source $ZDOTDIR/.oh-my-zsh/oh-my-zsh.sh
-
-
-# If this directory containing helper shell scripts and user-defined shell shortcuts (primarily for
-# functions and programs that were too large to keep in the functionrc file, and instead deserved
-# their own file--also better preserves true POSIX philosophy).
 
 autoload -U compinit
 zstyle ':completion:*' menu select
@@ -113,7 +123,9 @@ lfcd () {
     fi
 }
 
-# Keybinds.
+####################################################################################################
+############################################# Keybinds #############################################
+####################################################################################################
 # bindkey -s '^o' 'lfcd\n'		# ZSH (lfcd is a function provided for common shells used to change
 # the pwd on quit).
 bindkey '^[f' vi-cmd-mode					# Binds <M-F> to return to vi normal mode (<Esc>) 
@@ -127,6 +139,10 @@ bindkey -M vicmd '^[v' edit-command-line	# Binds <M-v> to edit the command-line 
 # Not sure if this will have much effect since tmux prolly captures special keycombos like this and
 # would take precedence since they already do with <C-L> and clear command.
 bindkey 	'^['	delete-char
+
+# This fixes the issue of pressing the numberpad/tenkey "Enter" key while "Number Lock" is not
+# enabled (which inserts an "OM" instead of a Carriage Return).
+bindkey	'^[OM'	accept-line
 
 
 
@@ -144,7 +160,8 @@ export TERM=xterm-256color
 # address of the SSH client if so, and if the current session doesn't appear to originate from an
 # SSH session, it will default to setting the DISPLAY variable to the standard (on-board/localhost)
 # display address.
-if [ -e "$SSH_CLIENT" ] || [ -e "$SSH_TTY" ] || [ -e "$SSH_CONNECTION" ]
+#if [ -e "$SSH_CLIENT" ] || [ -e "$SSH_TTY" ] || [ -e "$SSH_CONNECTION" ]
+if [[ -n "$SSH_CONNECTION" ]]
 then
     DISPLAY="$(echo $SSH_CLIENT | awk '{print $1}'):0.0"
     SSH_CLIENT_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
@@ -167,8 +184,9 @@ then
 	# subnet ("Temporary" subnet/network for KVM virtual-network until I setup subnetting/VLANs with
 	# Cisco router and switch).
     [[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.0\.[0-9]\{1,3\} ]] && \
-        DISPLAY="192.168.1.30:0.0"
-    export DISPLAY="192.168.1.30:0.0"
+        export DISPLAY="$SSH_CLIENT_IP:0.0"
+        #export DISPLAY="192.168.1.30:0.0"
+    #export DISPLAY="192.168.1.30:0.0"
 
 	# (8-7-2021)
 	
@@ -235,6 +253,9 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# Specify a manual file for less command that uses some customized keybinds.
+export LESSKEY="$ZSH_PROGRAM_FILTERS/Less/lesskey"
 
 # Setting grep to always use color
 #export GREP_OPTIONS="--color=always"

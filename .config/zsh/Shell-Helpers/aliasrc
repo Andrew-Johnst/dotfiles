@@ -1,0 +1,230 @@
+#!/bin/sh
+#~/.config/zsh/aliasrc
+#
+# Aliasrc is a file created to house all of the shell alias definitions, written in this file for portability. (Used in conjunction with functionrc, then called in the zshrc file).
+
+### Old methods of clearing aliases:
+	# unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
+	# unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ')
+	# unalias $(alias | sed -e 's/=.*$//' | sed ':a;N;$!ba;s/\n/ /g')
+# This removes all user-defined aliases just to avoid any potential issues when changing names of
+# aliases.
+unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ') 2>/dev/null
+
+# Creates the directory "/tmp/tempfiles/" if it doesn't exist already. Used in both aliasrc and
+# functionrc files.
+[[ ! -d "/tmp/tempfiles" ]] && mkdir "/tmp/tempfiles"
+
+# Check if a local (host specific) aliasrc file exists; if it does then source it, otherwise ignore
+# it.
+[[ -f "$HOME/.local/zsh/local-aliases" ]] && source "$HOME/.local/zsh/local-aliases"
+
+# Sudo aliases.
+alias sudo='sudo '	 		# Stupid fix for being able to use aliases with sudo.					
+alias sE='sudo -E '			# Alias to run sudo command but keep current environment variables.	
+alias se='sudo -E $EDITOR '	# Alias to preserve current user's environment vars, and open $EDITOR.
+alias sv='sudo -E nvim '	# Alias to open a file in nvim as sudo.
+alias s='sudo'				# Adding this alias back since it made more logical sense to have an
+							# alias for "sudo" instead of a function 's' do both as an alias for 
+							# sudo and (if no arguments given) repeat the previous command with a 
+							# prepended sudo added.  
+
+# Shortened browser/editor aliases.
+	alias                                                                   \
+		r='ranger'                                                          \
+		h='hunter '                                                         \
+		v='nvim '                                                           \
+		vp='v -p "$@"'                                                      \
+		vt='v -p "$@"'                                                      \
+		M='neomutt'                                                         \
+		n='ncmpcpp'                                                         \
+		qc='q cantata'                                                      \
+		t='tmux'
+
+# Edit config file shortcuts.
+	alias                                                                   \
+		zr='. "$ZDOTDIR/.zshrc"'                                            \
+		zrc='v "$ZDOTDIR/.zshrc"'                                           \
+		nrc='v ~/.config/nvim/init.vim'                                     \
+		tmc='v ~/.tmux.conf'                                                \
+		arc='v "$ZSH_AFRC/aliasrc"'                                         \
+		frc='v "$ZSH_AFRC/functionrc"'                                      \
+		tmpv='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'                 \
+		vtmp='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
+
+# Automatically specifying options always used to a shortened alias for core file programs/utils.
+	alias                                                                   \
+		ls='ls --color=always'                                              \
+		l='ls -lh'                                                          \
+		la='ls -lah'                                                        \
+		lt='ls -lth'                                                        \
+		lat='ls -lath'                                                      \
+		mv='mv -v'                                                          \
+		cp='cp -v'                                                          \
+		rm='rm -r'
+
+# Directory shortcuts.
+	alias                                                                   \
+		b='cd ..'                                                           \
+		..='cd ..'                                                          \
+		.1='cd ..'                                                          \
+		.2='cd ../..'													    \
+		.3='cd ../../..'                                                    \
+		conf='cd ~/.config'                                                 \
+		nconf='cd ~/.config/nvim'                                           \
+		nconfp='cd ~/.config/nvim/plugins'                                  \
+		nconff='cd ~/.config/nvim/plugins/pathogen/MyFunctions/plugin/'     \
+		zconf='cd ~/.config/zsh'                                            \
+		mn='cd /mnt'                                                        \
+		mnt='cd /mnt'                                                       \
+		tmp='cd /tmp'                                                       \
+		temp='cd /tmp/tempfiles'                                            \
+		tmpvcd=temp                                                         \
+		d='cd ~/Documents'                                                  \
+		D='cd ~/Downloads'                                                  \
+		acc='cd ~/Documents/Education/School/ACC/'                          \
+		p='cd ~/Documents/programming'                                      \
+		pub='cd /mnt/Data/Public'                                           \
+		priv='cd /mnt/Data/Drew'                                            \
+		dot='cd ~/Documents/git/dotfiles'                                   \
+		ba='cd ~/Documents/programming/bash'                                \
+		lu='cd ~/Documents/programming/bash/linuxutils'                     \
+		py='cd ~/Documents/programming/python'                              \
+		py2='cd ~/Documents/programming/python/2'                           \
+		py3='cd ~/Documents/programming/python/3'                           \
+		m='cd ~/Music'                                                      \
+		aptc='cd /etc/apt/'                                                 \
+		work='cd ~/Documents/Work/'                                         \
+		r2s='cd ~/Documents/Work/Ready2Show'                                \
+		r2sd='cd ~/Documents/Work/Ready2Show/Development/'                  \
+		P='cd ~/Pictures'                                                   \
+		hm='cd ~/Mountpoints'                                               \
+		hmnt='cd ~/Mountpoints'                                             \
+		mnth='cd ~/Mountpoints'                                             \
+		mnh='cd ~/Mountpoints'                                              \
+		E='cd ~/Documents/Education'                                        \
+		certs='cd ~/Documents/Education/Certs'                              \
+		genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'         \
+		gp='genpass'
+
+# General quality of life improvements and aliasing lengthy commands.
+# [youtube-dl is defined in functionrc due to the custom "-o" output
+# option to specify the output directory instead of the default one.]
+	alias                                                                   \
+		ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                     \
+		ig='grep -i'                                                        \
+		cgrep='grep --color=always'                                         \
+		igrep='grep --color=always'                                         \
+		cg='grep --color=auto'                                              \
+		icg='grep -i --color=auto'                                          \
+		cgi='grep -i --color=auto'                                          \
+		ige='grep -i'                                                       \
+		gi='grep -i'                                                        \
+		cgrep='grep --color=always'                                         \
+		igrep='grep --color=always'                                         \
+		cg='grep --color=auto'                                              \
+		cgi='grep -i --color=auto'                                          \
+		g='cd $HOME/Documents/git'                                          \
+		gd=g                                                                \
+		gc='git clone '                                                     \
+		c='/usr/local/bin/colorchart'                                       \
+		less='less -R'                                                      \
+		diff='diff --color=auto'                                            \
+		ip='ip --color=always'                                              \
+		fm='q pcmanfm-qt '                                                  \
+		bt='bashtop'                                                        \
+		mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
+		myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
+		mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '   \
+		ytd='youtube-dl '                                                   \
+		ytdl='youtube-dl '                                                  \
+		nics='sudo ifconfig | plx'                                          \
+		paux='ps aux'                                                       \
+		pauxicg='paux | icg '                                               \
+		picg='paux | icg '                                                  \
+		pcg='paux | icg '                                                   \
+		pig='paux | icg '                                                   \
+		cchart='/usr/local/bin/colorchart'                                  \
+		k9='kill -9'                                                        \
+		vp='nvim -p '                                                       \
+		sep='sudo -E nvim -p '                                              \
+		svt='sudo -E nvim -p '                                              \
+		vep='sudo -E nvim -p '                                              \
+		svet='sudo -E nvim -p '                                             \
+		ctlstat='sudo systemctl status '                                    \
+		ctlrestart='sudo systemctl restart '                                \
+		today='date "+%m-%d-%Y %H:%M"'
+		#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
+
+# Less command aliases
+	alias                                                                   \
+		le='less'                                                           \
+		lx='less -X'                                                        \
+ 		ple='pcat | less -X'                                                \
+		cle='pcat "$@" | less -X'                                           \
+		clx='pcat | less -X'                                                \
+		plx='pcat | less -X'                                                \
+		lxcl='less -X;clear'                                                \
+		clea='less -X;clear'                                                \
+		cls='less -X;clear'		
+
+####################################################################################################
+##################################### Package manager aliases. #####################################
+####################################################################################################
+
+# Aliases for various apt commands and python's pip package installer.
+	alias                                                                   \
+		ins='sudo apt-get install '                                         \
+		insf='sudo apt-get install '                                        \
+		ac='sudo apt-cache '                                                \
+		aci='sudo apt-cache --installed '                                   \
+		acs='sudo apt-cache search '                                        \
+		aptsearch='sudo apt-cache search '                                  \
+		ag='sudo apt-get '                                                  \
+		adeps='sudo apt-rdepends '                                          \
+		aure='sudo apt-get autoremove '                                     \
+		aurep='sudo apt-get autoremove --purge '                            \
+		pipins='pip install '                                               \
+		pyins='pip install '
+
+# File ownership/permission aliases.
+	alias                                                                   \
+		cx='chmod +x '                                                      \
+		chx='chmod +x '                                                     \
+		chmx='chmod +x '                                                    \
+		mine='chown $USER:$GROUP '
+
+# Network aliases.
+
+# Sortcuts for connecting to sessions.
+# Supposedly SSH might break if the remote machine does not have the same $TERM variable.
+# [Unsure of this since the environment variables are applied in each host's session.]
+	#alias ssh='TERM=xterm-direct ssh'			# Commenting this out for now.
+	#alias seedbox='ssh -l pi -p 9999 192.168.1.28'
+	#alias seedbox='ssh -l drew -p 9999 192.168.1.28'
+	alias pi2='ssh -l pi -p 9999 192.168.1.28'
+	alias nas='ssh -l drew -p 9999 -Y 192.168.1.31'
+	alias cs='ssh -l cisco 192.168.1.2'
+	alias cr='ssh -l cisco 192.168.1.3'
+	alias tmr='tmux attach-session'
+	
+	# Alias to connect to NordVPN's auto-selected fastest server over UDP.
+	#alias vpn='sudo \
+	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us4396.nordvpn.com.udp.ovpn'
+	#alias vpn='sudo \
+	#	openvpn /etc/openvpn/NordVPN/ovpn_udp/us6449.nordvpn.com.udp.ovpn'
+	# Alias below should be a function that automatically determines the fastest server (optionally
+	# specifying the region), but for now Denver OpenVPN server will be hard-coded to the alias.
+	alias fastopenvpn='sudo openvpn \
+		/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn'
+	#alias evpn='expressvpn connect'
+	#alias torrentvpn='expressvpn connect "Switzerland"'
+	#alias torrentvpn2='expressvpn connect "Switzerland 2"'
+	#alias safevpn='expressvpn connect "Switzerland 2"'
+	#alias safevpn2='expressvpn connect "Switzerland 2"'
+
+	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
+	alias myip='curl icanhazip.com'
+
+# Pandoc aliases.
+	alias md2pdf='pdocconv md2pdf $@'
