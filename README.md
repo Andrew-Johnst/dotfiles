@@ -31,10 +31,14 @@ approximates to 256 colors).
 * ```[ -h | --help]```
   * Prints the help/usage message and exits.
 
-### The ```ezgit``` script can only either install or upload at a single time/execution.
-- ```[ -f | --fast ]``` option can be used with both the:
+## The ```ezgit``` script can only either install or upload at a single time/execution.
+- The "fast" option ```[ -f | --fast ]``` may be combined/used with either of the two other functions of the script here:
   - ```[ -i | --install ]```
-  - ```[ -u | --upload ]``` options.
+    - This just bypasses the function in the bootstrap script that would create a compressed tarball of the files already present on the machine.
+    - Applying the ```-f``` "fast" option to this script action is risky since any files in this repository that are also present on the machine executing this script, will have them overwritten without creating a backup first.
+
+  - ```[ -u | --upload ]```
+    - Applying the ```-f``` to the ```[ -u | --upload ]``` carries far less risks than when installing, since any undesireable commits can be ameliorated via a git reset or git revert.
 
 ## Example of the ```ezgit``` script:
   - The following command will copy all the files and directories listed in the ```FILELIST``` variable in the ```ezgit``` script to the local git directory, then stage them to be committed.
