@@ -31,5 +31,7 @@ approximates to 256 colors).
 ### Example of the ```ezgit``` script:
   - The following command will copy all the files and directories listed in the ```FILELIST``` variable in the ```ezgit``` script to the local git directory, then stage them to be committed.
   ```bash
-  ./ezgit -u -f
+  ./ezgit -i -f
   ```
+- The above command will run the install function via the ```-i``` option, and will bypass/ignore creating any local backups of the files to be replaced with the installation via the ```-f``` or "fast" option.
+  - The inverse of this command (upload) via the: ```-u``` option can also be passed the ```-f``` option to negate local backups.
