@@ -17,18 +17,26 @@ approximates to 256 colors).
   ```bash
   ./ezgit {[-i | --install] || [-u | --upload]} | {[-f | --fast ]} | {[-h | --help]}
   ```
-  * ```[ -i | --install ]```:
-    * Pulls remote files from git repository into current git directory, then copies files to local machine in the operrating user's home directory.
-  * ```[ -u | --upload ]```:
-    * Copies the files and directories listed in the ```FILELIST``` list variable containing files and directories to copy from the local machine to the current git directory, then push those files to the remote reopsitory.
-  * ```[ -f | --fast ]```:
-    * Skips creating a backup of either the files currently locally installed or the remote git repository.
-      * Backups of local files are located in: ```/tmp/BACKUPS/Local/$DATE```
-      * Backups of theh remote (git repository) are located in: ```/tmp/BACKUPS/Remote/$DATE```
-  * ```[ -h | --help]```:
-    * Prints the help/usage message and exits.
-  - The ```ezgit``` script can only either install or upload at one time, and the ```[ -f | --fast ]``` option can be used for both ```[ -i | --install ]``` and ```[ -u | --upload ]``` options.
-### Example of the ```ezgit``` script:
+* ```[ -i | --install ]```
+  * Pulls remote files from git repository into current git directory, then copies files to local machine in the operrating user's home directory.
+
+* ```[ -u | --upload ]```
+  * Copies the files and directories listed in the ```FILELIST``` list variable containing files and directories to copy from the local machine to the current git directory, then push those files to the remote reopsitory.
+
+* ```[ -f | --fast ]```
+  * Skips creating a backup of either the files currently locally installed or the remote git repository.
+    * Backups of local files are located in: ```/tmp/BACKUPS/Local/$DATE```
+    * Backups of theh remote (git repository) are located in: ```/tmp/BACKUPS/Remote/$DATE```
+
+* ```[ -h | --help]```
+  * Prints the help/usage message and exits.
+
+### The ```ezgit``` script can only either install or upload at a single time/execution.
+- ```[ -f | --fast ]``` option can be used with both the:
+  - ```[ -i | --install ]```
+  - ```[ -u | --upload ]``` options.
+
+## Example of the ```ezgit``` script:
   - The following command will copy all the files and directories listed in the ```FILELIST``` variable in the ```ezgit``` script to the local git directory, then stage them to be committed.
   ```bash
   ./ezgit -i -f
