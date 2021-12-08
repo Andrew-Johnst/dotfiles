@@ -34,4 +34,4 @@ approximates to 256 colors).
   ./ezgit -i -f
   ```
 - The above command will run the install function via the ```-i``` option, and will bypass/ignore creating any local backups of the files to be replaced with the installation via the ```-f``` or "fast" option.
-  - The inverse of this command (upload) via the: ```-u``` option can also be passed the ```-f``` option to negate local backups.
+- The inverse of this command (upload) via the: ```-u``` option can also be passed the ```-f``` option to negate local backups.
