@@ -113,6 +113,8 @@ EXCLUSIONS=( "*.swp"                                            \
 			 ".config/spotify"                                  \
 			 ".config/transmission"                             \
 			 ".config/VPNetworkLLC/"                            \
+			 ".config/zsh/.zcompdump*"                          \
+			 ".config/zsh/.zsh_history"                         \
 			)
 
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
@@ -385,7 +387,7 @@ case "$1" in
 
 			# Clone the remote git repository into the Remote backups directory, then create a bzip2
 			# archive of it and delete the cloned folder.
-			git clone https://github.com/Projohnston/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
+			git clone https://github.com/Andrew-Johnst/dotfiles.git "$REMOTEBACKUPS/dotfiles-$TIME"
  			tar -cjf "$REMOTEBACKUPS/Remote-Repo-${TIME}.tar.bz2" "$REMOTEBACKUPS/dotfiles-$TIME" \
 				&>/dev/null
 			yes | rm -r "$REMOTEBACKUPS/dotfiles-$TIME"
@@ -485,8 +487,8 @@ case "$1" in
 		# 	!!! Example: if you have a file named "~/.ssh/id_rsa" it will be tried BEFORE the    !!!
 		# 	!!! IdentityFile specified for the Host "gitserv" host ("~/.ssh/id_github") if the   !!!
 		#   !!! "IdentitiesOnly yes" option is not specified.                                    !!!
-		#git remote set-url origin git@github.com:Zoidburgl3r/dotfiles.git
-		git remote add origin git@gitserv:Zoidburgl3r/dotfiles.git
+		#git remote set-url origin git@github.com:Andrew-Johnst/dotfiles.git
+		git remote add origin git@gitserv:Andrew-Johnst/dotfiles.git
 		git commit -m "$commitdesc"
 		git push origin master
 		echo

@@ -160,8 +160,8 @@ export TERM=xterm-256color
 # address of the SSH client if so, and if the current session doesn't appear to originate from an
 # SSH session, it will default to setting the DISPLAY variable to the standard (on-board/localhost)
 # display address.
-#if [ -e "$SSH_CLIENT" ] || [ -e "$SSH_TTY" ] || [ -e "$SSH_CONNECTION" ]
-if [[ -n "$SSH_CONNECTION" ]]
+#if [[ -n "$SSH_CONNECTION" ]]
+if [ -e "$SSH_CLIENT" ] || [ -e "$SSH_TTY" ] || [ -e "$SSH_CONNECTION" ]
 then
     DISPLAY="$(echo $SSH_CLIENT | awk '{print $1}'):0.0"
     SSH_CLIENT_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
