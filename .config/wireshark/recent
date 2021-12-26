@@ -1,4 +1,4 @@
-# Recent settings file for Wireshark 3.4.2.
+# Recent settings file for Wireshark 3.6.0.
 #
 # This file is regenerated each time Wireshark is quit
 # and when changing configuration profile.
@@ -68,6 +68,10 @@ gui.bytes_encoding: FROM_PACKET
 # Packet diagram field values show (hide).
 # TRUE or FALSE (case-insensitive).
 gui.packet_diagram_field_values: FALSE
+
+# Allow hover selection in byte view.
+# TRUE or FALSE (case-insensitive).
+gui.allow_hover_selection: TRUE
 
 # Main window upper (or leftmost) pane size.
 # Decimal number.

@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+#/home/drew/.config/zsh/Shell-Helpers/reload-rc_files
+#
+# Just a simple little script that can be called to reload/source the zshrc files from outside of
+# the zsh shell (like bash scripts).
+
+# Just check for valid input 
+#[[ "$1" ]] && source "$ZSH"
+#source "$ZSH"

@@ -305,12 +305,12 @@
         cnoreabbrev	nrc :NRC
 
     " Command to open aliasrc file in new vim tab.
-        command!		ARC :call OpenFileInNextAvailableBuffer("$ZSH_AFRC/aliasrc")
+        command!		ARC :call OpenFileInNextAvailableBuffer("$ZSH_SHORTCUTS/aliasrc")
         cnoreabbrev	arc :ARC
 
     " Command to open functionrc file in new vim tab.
 				"command!    FRC	:call OpenFileInNextAvailableBuffer("~/.config/zsh/functionrc")
-        command!    FRC	:call OpenFileInNextAvailableBuffer("$ZSH_AFRC/functionrc")
+        command!    FRC	:call OpenFileInNextAvailableBuffer("$ZSH_SHORTCUTS/functionrc")
         cnoreabbrev frc	:FRC
 
 		" Command to open the main file containing my custom neovim functions.

@@ -80,10 +80,10 @@ sf(){
 
 # Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is
 # just pygmentized cat standard output in the terminal).
-	pcat(){
-		[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && exit 0
-		pygmentize -f terminal256 -O style=monokai
-	}
+pcat(){
+	[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && exit 0
+	pygmentize -f terminal256 -O style=monokai
+}
 # Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
 #	function sudoedit {
 #		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
@@ -113,168 +113,184 @@ sf(){
 # Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
 # connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
 # option.
-	ips(){
-		#[[ "$1" =~ '[-file]' ]]
-		#[[ "$1" =~ '?[--]
-		#local CURRENTIP=`curl -s icanhazip.com`
-		#local CURRENTIP="$(curl -s icanhazip.com)"
-		curl -s icanhazip.com
-#		local PRIMARYLANIP="$(ip -o -4 route get 1.1.1.1 | sed -nre \
-#			"s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
-#		local PRIMARYNIC="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
-#
-#		#ALLLANIPS+=("$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' \
-#		#	| grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')")
-#
-#		echo "List of all LAN IP addresses, including the primary WAN public IP address:"
-#		echo "        Public ${CR}WAN${CRE} IP: [${CR}$(curl -s icanhazip.com)${CRE}]"
-#		echo "Primary/Active ${CB}LAN${CRE} IP: [${CB}$PRIMARYLANIP${CRE}]" \
-#			 "on ${CG}NIC${CRE}: $PRIMARYNIC ${CRE}"
-		#echo "Active IP addresses on localhost are:"
-		#for i in "${#ALLLANIPS[@]}"
-		#do
-		#	#echo "                                     [${CR}${ALLLANIPS[$i]}${CRE}]"
-		#	#echo "${ALLLANIPS[$i]}"
-		#	echo a
-		#done
+ips(){
+	#[[ "$1" =~ '[-file]' ]]
+	#[[ "$1" =~ '?[--]
+	#local CURRENTIP=`curl -s icanhazip.com`
+	#local CURRENTIP="$(curl -s icanhazip.com)"
+	curl -s icanhazip.com
+	#local PRIMARYLANIP="$(ip -o -4 route get 1.1.1.1 | sed -nre \
+	#	"s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
+	#local PRIMARYNIC="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
+
+	##ALLLANIPS+=("$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' \
+	##	| grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')")
+
+	#echo "List of all LAN IP addresses, including the primary WAN public IP address:"
+	#echo "        Public ${CR}WAN${CRE} IP: [${CR}$(curl -s icanhazip.com)${CRE}]"
+	#echo "Primary/Active ${CB}LAN${CRE} IP: [${CB}$PRIMARYLANIP${CRE}]" \
+	#	 "on ${CG}NIC${CRE}: $PRIMARYNIC ${CRE}"
+	#echo "Active IP addresses on localhost are:"
+	#for i in "${#ALLLANIPS[@]}"
+	#do
+	#	#echo "                                     [${CR}${ALLLANIPS[$i]}${CRE}]"
+	#	#echo "${ALLLANIPS[$i]}"
+	#	echo a
+	#done
+	#sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v "$(ip -o -4 route get 1.1.1.1 | sed -nre  "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
+
+	# Adding these below commands here since eventually the usage of gathering IPs *SHOULD* be
+	# achieved via a function for more robust capabilities and all in a single function (with
+	# parameters to determine what values to return) rather than multiple aliases each
+	# containing the same--or slight variation of one--command.
+
+	# This below command displays all "ACTIVE" LAN IP addresses, omitting IP gateways, loopback,
+	# netmask, etc. and only displaying active LAN IPs assigned to any/all of the localhost's
+	# NICs.
+	#	ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' \
+	#	| grep -v '127.0.0.1' 
+
+	# Below command gets the currently active/main NIC's LAN IP address. The second--or in the
+	# ordering of how this command had to be written to ommit an additional sed-pipe
+	# command--sed script strips any ANSI escape codes (in the aliasrc file, the ip command has
+	# the "color" option set to always and that proves undesirable for
+	# scripting/output-redirection purposes) and outputs only the active NICs LAN IP address
+	# without disabling the aliasrc's ip command color option.
+	#	ip -o -4 route get 1.1.1.1 | sed -nre  "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" \
+	#	-e 's/.*src ([^\ ]+).*/\1/p'
+
+	# Below is the conjoined command between the previous two commands, that displays ONLY the
+	# non-main NIC LAN IP address(es), while stripping away any ANSI escape codes and outputing
+	# rawtext values to STDOUT.
+	#	ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' \
+	#	| grep -v '127.0.0.1' | grep -v "$(ip -o -4 route get 1.1.1.1 | sed -nre \
+	#	"s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
 
 
-		#sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v "$(ip -o -4 route get 1.1.1.1 | sed -nre  "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
-
-		# Adding these below commands here since eventually the usage of gathering IPs *SHOULD* be
-		# achieved via a function for more robust capabilities and all in a single function (with
-		# parameters to determine what values to return) rather than multiple aliases each
-		# containing the same--or slight variation of one--command.
-
-		# This below command displays all "ACTIVE" LAN IP addresses, omitting IP gateways, loopback,
-		# netmask, etc. and only displaying active LAN IPs assigned to any/all of the localhost's
-		# NICs.
-		#	ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' \
-		#	| grep -v '127.0.0.1' 
-
-		# Below command gets the currently active/main NIC's LAN IP address. The second--or in the
-		# ordering of how this command had to be written to ommit an additional sed-pipe
-		# command--sed script strips any ANSI escape codes (in the aliasrc file, the ip command has
-		# the "color" option set to always and that proves undesirable for
-		# scripting/output-redirection purposes) and outputs only the active NICs LAN IP address
-		# without disabling the aliasrc's ip command color option.
-		#	ip -o -4 route get 1.1.1.1 | sed -nre  "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" \
-		#	-e 's/.*src ([^\ ]+).*/\1/p'
-
-		# Below is the conjoined command between the previous two commands, that displays ONLY the
-		# non-main NIC LAN IP address(es), while stripping away any ANSI escape codes and outputing
-		# rawtext values to STDOUT.
-		#	ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' \
-		#	| grep -v '127.0.0.1' | grep -v "$(ip -o -4 route get 1.1.1.1 | sed -nre \
-		#	"s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" -e 's/.*src ([^\ ]+).*/\1/p')"
-
-
-	}
+}
 
 # Function to display the active network interface.
-	nic(){
-		# Old method, only prints active NIC interface.
-		#echo $(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
+nic(){
+	# Old method, only prints active NIC interface.
+	#echo $(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
 
-        ############################################################################################
-		########## New method, stores variables then prints them instead of a one-liner. ###########
-		############### One-liner method is prefered, but using this method for now. ###############
-		##### (Once a new one-liner is made, whichever method is most efficient will be used). #####
-        ############################################################################################
+    ############################################################################################
+	########## New method, stores variables then prints them instead of a one-liner. ###########
+	############### One-liner method is prefered, but using this method for now. ###############
+	##### (Once a new one-liner is made, whichever method is most efficient will be used). #####
+    ############################################################################################
 
-		# Get currently-active/in-use NIC device name.
-		local DEVICE="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
-		# Get the LAN IP address of the currently-active/in-use NIC device.
-		local DEVIP="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*src ([^\ ]+).*/\1/p')"
-		local WANIP=$(ips)
-		echo -e "${CR}The Currently Active Network Interface is:\t${CR}[$DEVICE${CR}]"
-		echo -en "${CRE}"
-		echo -e "${CC}The ${CPI}LAN${CRE}${CC} IPv4 Address on that NIC is:\t\t${CR}[$DEVIP${CR}]"
-		echo -e "${CC}The ${CGI}WAN${CRE}${CC} IPv4 Address on that NIC is currently:" \
-			"\t${CR}[${CG}${WANIP}${CR}]"
+	# Get currently-active/in-use NIC device name.
+	local DEVICE="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')"
+	# Get the LAN IP address of the currently-active/in-use NIC device.
+	local DEVIP="$(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*src ([^\ ]+).*/\1/p')"
+	local WANIP=$(ips)
+	echo -e "${CR}The Currently Active Network Interface is:\t${CR}[$DEVICE${CR}]"
+	echo -en "${CRE}"
+	echo -e "${CC}The ${CPI}LAN${CRE}${CC} IPv4 Address on that NIC is:\t\t${CR}[$DEVIP${CR}]"
+	echo -e "${CC}The ${CGI}WAN${CRE}${CC} IPv4 Address on that NIC is currently:" \
+		"\t${CR}[${CG}${WANIP}${CR}]"
 
-		#echo -e "${CGREEN}Active Network Interface is:     ${CRED}[$DEVICE${CRED}]"
-		#echo -e "${CCYAN}The IP Address on ${CRED}[$DEVICE${CRED}]${CCYAN} is: ${CRED}[$DEVIP${CRED}]"
-	}
+	#echo -e "${CGREEN}Active Network Interface is:     ${CRED}[$DEVICE${CRED}]"
+	#echo -e "${CCYAN}The IP Address on ${CRED}[$DEVICE${CRED}]${CCYAN} is: ${CRED}[$DEVIP${CRED}]"
+}
 
 # Function (only one command but too large/cumbersome to have in a single alias) to verify that the
 # tor system service is running.
-	function checktor(){
-		curl --socks5 localhost:9050 --socks5-hostname localhost:9050 -s \
-			https://check.torproject.org/ | cat | grep -m 1 Congratulations | xargs
-	}
+function checktor(){
+	curl --socks5 localhost:9050 --socks5-hostname localhost:9050 -s \
+		https://check.torproject.org/ | cat | grep -m 1 Congratulations | xargs
+}
 
 # Colorization aliases.
-	function pycolor(){
-		[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
-		[[ ! -f "$#" ]] && pygmentize -f terminal256 -O style=monokai -g -
-	}
+function pycolor(){
+	[[ -f "$1" ]] && pygmentize -f terminal256 -O style=monokai -g "$1" && exit 0
+	[[ ! -f "$#" ]] && pygmentize -f terminal256 -O style=monokai -g -
+}
 
 # Colorized Listing of the physical hard drive device, physical volume, volume group, and logical
 # volume groups.
-disks(){
+function disks(){
 	# TO-DO: add--or rather inject the data--from the "hddtemp" program into the pre-exisiting
 	# STDOUT data received from the "fdisk" command.
 
 	#sudo fdisk -l | sed -n -e '/\/dev\/sd[a-z]:/,/^$/p'
 	#echo -e "\n\033[1;38;5;25m\t""Physical Volumes:"
-	#	sudo pvs | sed -re 's/^[\t ]+PV[\ \t]+(.*)/Physical Volumes:\t\   \1/' -e 's/^[\t ]+(.*)/\t\t\1/'
+	#sudo pvs | sed -re 's/^[\t ]+PV[\ \t]+(.*)/Physical Volumes:\t\   \1/' -e 's/^[\t ]+(.*)/\t\t\1/'
+
 	echo "#####################################################################################"
-	echo "#### Physical Partitions and Storage/Block Devices (Only real/non-logical here). ####"
+	echo "#####################################################################################"
+	echo "### [Physical Partitions and Storage/Block Devices (Only real/non-logical here).] ###"
+	echo "#####################################################################################"
 	echo "#####################################################################################"
 	echo
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	# Check if there are any NVMe drives (following the naming convention of:
 	# "/dev/nvme[0-9]n[0-9]p[0-9]" for example: "/dev/nvme0n1p1") and display any/all drives
 	# present/detected; hide results if not.
-	[[ "$(ls /dev/nvme[0-9]n[0-9] 2>/dev/null)" ]] && \
-		echo && \
-		echo "#####################################################################################" && \
-		echo "################################ NVMe M.2 SSD Drives ################################" && \
-		echo "#####################################################################################" && \
-		sudo fdisk -l /dev/nvme[0-9]n[0-9] 2>/dev/null | cat -s && \
-		echo && \
+	#	[[ "$(ls /dev/nvme[0-9]n[0-9] 2>/dev/null)" ]] && \	# (Old "one-line" conditional solution).
+	if [ "$(ls /dev/nvme[0-9]n[0-9] 2>/dev/null)" ]
+	then
+		echo
+		echo "#####################################################################################"
+		echo "################################ NVMe M.2 SSD Drives ################################"
+		echo "#####################################################################################"
+		sudo fdisk -l /dev/nvme[0-9]n[0-9] 2>/dev/null | cat -s
+		echo 
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	fi
+
 	# Check if there are any "traditional" drives (following the naming convention of:
 	# "/dev/[s|h]d[a-z][0-9]" for example: "/dev/sda1") and display any/all drives
 	# present/detected; hide results if not.
-	[[ "$(ls /dev/?d[a-z] 2>/dev/null)" ]] && \
-		echo && \
-		echo "#####################################################################################" && \
-		echo "####################### Regular/Traditional Hard Disk Drives. #######################" && \
-		echo "#####################################################################################" && \
+	#	[[ "$(ls /dev/?d[a-z] 2>/dev/null)" ]] && \		#(Old "one-line" conditional solution).
+	if [ "$(ls /dev/?d[a-z] 2>/dev/null)" ]
+	then
+		echo
+		echo "#####################################################################################"
+		echo "####################### Regular/Traditional Hard Disk Drives. #######################"
+		echo "#####################################################################################"
+		echo 
 		sudo fdisk -l /dev/?d[a-z] 2>/dev/null | cat -s
-		echo && \
+		echo
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	fi
+
 	# Check if any mdadm RAID disks are present, display them if so and ommit the entire section
 	# if not.
-	[[ "$(ls /dev/md[0-9] 2>/dev/null)" ]] && \
-		echo && \
-		echo "#####################################################################################" && \
-		echo "################################# RAID Arrays/Disks #################################" && \
-		echo "#####################################################################################" && \
-		sudo fdisk -l /dev/md[0-9] 2>/dev/null | cat -s
-		echo && \
+	#	[[ "$(ls /dev/md[0-9]* 2>/dev/null)" ]] && \		#(Old "one-line" conditional solution).
+	if [ "$(ls /dev/md[0-9]* 2>/dev/null)" ]
+	then
+		echo
+		echo "#####################################################################################"
+		echo "################################# RAID Arrays/Disks #################################"
+		echo "#####################################################################################"
+		sudo fdisk -l /dev/md[0-9]* 2>/dev/null | cat -s && \
+		echo 
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	fi
+
+	# Show any LVM type devices.
 	echo
 	echo "#####################################################################################"
 	echo "######## Physical Volumes (PVs), Volume Groups (VGs), Logical Volumes (LVMs). #######"
 	echo "#####################################################################################"
 	# Display the current Physical Volumes (PV's).
 	echo "Physical Volumes:"
+	echo
 	sudo pvs
 	echo
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	echo
 	# Display the current Volume Groups (VG's).
 	echo "Volume Groups:"
+	echo
 	#echo -e "\n\033[1;38;5;205m\t""Volume Groups:"
 	sudo vgs
 	echo
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	echo
 	# Display the current Logical Volumes (LVM's).
 	echo "Logical Volumes:"
+	echo
 	#	echo -e "\n\033[1;38;5;177m\t""Logical Volume Partitions:"
 	sudo lvs
 	echo
@@ -294,88 +310,89 @@ alias disks='disks | plx'
 
 # Function to display only the hidden files/folders. $1 argument can dictate whether or not to only
 # show <-f|--files> or <-F|--folders>
-	lh(){
-		[[ -z "$@" ]] && ls -a | grep '^\.'
-		if [[ "$#" -gt 1 ]]
-		then
-			[[ -d "$@" ]] && ls -a "$@" | grep '^\.'
-		fi
-	}
+function lh(){
+	[[ -z "$@" ]] && ls -a | grep '^\.'
+	if [[ "$#" -gt 1 ]]
+	then
+		[[ -d "$@" ]] && ls -a "$@" | grep '^\.'
+	fi
+}
 
 # Function to more easily add gpg keys (this is mainly so I don't have to remember the entire
 # command and can just feed keys into this function.
-	getaptkeyf(){
-		# Checks if at least one argument is given, exits if not.
-		[[ -z "$@" ]] && echo "Must specify keys to be added." && exit 1
+function getaptkeyf(){
+	# Checks if at least one argument is given, exits if not.
+	[[ -z "$@" ]] && echo "Must specify keys to be added." && exit 1
 
-		# Checks if the script version of this function is present. If found, forward the arguments
-		# given to this function to the script; if not then continue running this function and
-		# assume all argument parameters are all PUBKEY's requiring validation and importing.
-		[[ -f "/usr/local/bin/getaptkey" ]] && \
-			echo "The script file for this function has been found. Forwarding the arguments" \
-			"from this function to the script." && echo && sudo /usr/local/bin/getaptkey "$@" \
-			&& exit 0
-		sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@" \
-			|| sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "$@"
-	}
+	# Checks if the script version of this function is present. If found, forward the arguments
+	# given to this function to the script; if not then continue running this function and
+	# assume all argument parameters are all PUBKEY's requiring validation and importing.
+	[[ -f "/usr/local/bin/getaptkey" ]] && \
+		echo "The script file for this function has been found. Forwarding the arguments" \
+		"from this function to the script." && echo && sudo /usr/local/bin/getaptkey "$@" \
+		&& exit 0
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "$@" \
+		|| sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@"
+}
+
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
 # history file so it can function independently of the shell limitations/syntaxing).
-	SS(){
-		# This works independently of the shell being used; appears to not work if testing in shell
-		# scripts since shell scripts are run in their own sub-shells and therefore have their own
-		# history lists.
-		[[ "$@" ]] && sudo "$@" && exit 0
-		
-		# Backticks must be used rather than a shell substitution with "$(<COMMAND>)" in conjunctio
-		# with an eval command on the variable.
-		lastcmd="`history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d'`"
-		# A "-s" option must be specified to sudo to keep the current shell variables/environment.
-		sudo -s eval "$lastcmd"
-	}
+function SS(){
+	# This works independently of the shell being used; appears to not work if testing in shell
+	# scripts since shell scripts are run in their own sub-shells and therefore have their own
+	# history lists.
+	[[ "$@" ]] && sudo "$@" && exit 0
+	
+	# Backticks must be used rather than a shell substitution with "$(<COMMAND>)" in conjunctio
+	# with an eval command on the variable.
+	lastcmd="`history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d'`"
+	# A "-s" option must be specified to sudo to keep the current shell variables/environment.
+	sudo -s eval "$lastcmd"
+}
 
 # Function to make running programs that would normally take over a shell session go to background
 # and disown them so the shell the program was opened with can close without closing the program.
-	q(){
-		# Verify there are arguments (a command) to be run and disowned. Exit if not.
-		[[ -z "$@" ]] && echo -e "No command specified to be hidden and disowned.\nExiting..." \
-			&& return 1
+function q(){
+	# Verify there are arguments (a command) to be run and disowned. Exit if not.
+	[[ -z "$@" ]] && echo -e "No command specified to be hidden and disowned.\nExiting..." \
+		&& return 1
 
-		# Assign the raw output (omitting STDERR if file-not-found to avoid logic-error) to a
-		# variable that contains the absolute path of the command/program/script tryign to be
-		# executed.
-		PROGRAMPATH=`which $1` 1>/dev/null
+	# Assign the raw output (omitting STDERR if file-not-found to avoid logic-error) to a
+	# variable that contains the absolute path of the command/program/script tryign to be
+	# executed.
+	PROGRAMPATH=`which $1` 1>/dev/null
 
-		# Checks if the first argument passed to this function is a script/program/executable-file
-		# before continuing and exits if not; if so, then every variable/string/word proceeding the
-		# first argument is treated as options for that specific program.
-		# ("-f" is shorthand for check-if-file-exists, "-x" checks if file exists and is executable).
-		[[ ! -f "$PROGRAMPATH" ]] && echo -e \
-			"Program/script \"$1\" has no path, therefore cannot be located.\nExiting..." && exit 1
+	# Checks if the first argument passed to this function is a script/program/executable-file
+	# before continuing and exits if not; if so, then every variable/string/word proceeding the
+	# first argument is treated as options for that specific program.
+	# ("-f" is shorthand for check-if-file-exists, "-x" checks if file exists and is executable).
+	[[ ! -f "$PROGRAMPATH" ]] && echo -e \
+		"Program/script \"$1\" has no path, therefore cannot be located.\nExiting..." && exit 1
 
-		# This line below with the written sequence of routing to /dev/null and "& disown" is the
-		# proper order and program syntax to send all STDOUT (like shell output log from a QT
-		# application like nicotine++) to /dev/null and frees up the shell.
-		# (A method that allows for tab_auto-completion with this function is greatly desired but
-		# for the time being [10-5-2020 5AM]).
-		[[ "$PROGRAMPATH" ]] && shift 1 && "$PROGRAMPATH" "$@" &>/dev/null & disown
+	# This line below with the written sequence of routing to /dev/null and "& disown" is the
+	# proper order and program syntax to send all STDOUT (like shell output log from a QT
+	# application like nicotine++) to /dev/null and frees up the shell.
+	# (A method that allows for tab_auto-completion with this function is greatly desired but
+	# for the time being [10-5-2020 5AM]).
+	[[ "$PROGRAMPATH" ]] && shift 1 && "$PROGRAMPATH" "$@" &>/dev/null & disown
 
-		# Commenting these lines below out for testing (10-5-2020 5AM).
-		#	[[ "$@" ]] && eval "$@" &>/dev/null & disown
-		#	[[ "$@" ]] && eval "$@" &>/dev/null
-		#	[[ "$@" ]] && eval "$@" & disown #&>/dev/null
-	}
+	# Commenting these lines below out for testing (10-5-2020 5AM).
+	#	[[ "$@" ]] && eval "$@" &>/dev/null & disown
+	#	[[ "$@" ]] && eval "$@" &>/dev/null
+	#	[[ "$@" ]] && eval "$@" & disown #&>/dev/null
+}
 
 
 # Functions for pandoc conversions used in conjunction with aliases from aliasrc file.
-	pdocconv(){
-		# Checks if function is called to convert Markdown to PDF.
-		[[ "$1" == "md2pdf" ]] && CONVTYPE="md2pdf"
-		[[ ! -f "$2" ]] && echo -e "${CR}$2${CRE} not a file." && exit 1
-		FILENAME="$3"
-		[[ -z "$3" ]] && FILENAME="$(echo "$2" | cut -f 1 -d '.').pdf"
-		pandoc "$2" --pdf-engine=pdfroff -o "$FILENAME"
+function pdocconv(){
+	# Checks if function is called to convert Markdown to PDF.
+	[[ "$1" == "md2pdf" ]] && CONVTYPE="md2pdf"
+	[[ ! -f "$2" ]] && echo -e "${CR}$2${CRE} not a file." && exit 1
+	FILENAME="$3"
+	[[ -z "$3" ]] && FILENAME="$(echo "$2" | cut -f 1 -d '.').pdf"
+	pandoc "$2" --pdf-engine=pdfroff -o "$FILENAME"
 
-	}
+}
 
 # Function to open a vim file titled as the date+time in the directory /tmp/tempfiles. Just for
 # easier access to these files (despite the whole point of this function being to quickly create a
@@ -392,101 +409,101 @@ alias disks='disks | plx'
 # parses arguments passed to it as options to choose the compression method or (TODO) use a
 # curses/ncurses progress window.
 # USAGE: "tarp {TAR-FILENAME} {FILE(S) or DIRECTORY}"
-	tarp(){
-		# Checks that valid (this check specifically checks for ANY) input was received.
-		[[ "$#" ]] && echo -e "${CR}Either invalid or no arguments passed." \
-			"\n${CG}Read the description of this function in the functionrc file." \
-			"\n${CR}Doing nothing and Exiting..." && exit 1
+function tarp(){
+	# Checks that valid (this check specifically checks for ANY) input was received.
+	[[ "$#" ]] && echo -e "${CR}Either invalid or no arguments passed." \
+		"\n${CG}Read the description of this function in the functionrc file." \
+		"\n${CR}Doing nothing and Exiting..." && exit 1
 
-		# Checks that both variables are valid files/directories.
-		for i in "$@"
-		do
-			[[ ! -f "$i" && ! -d "$i" ]] && echo -e "${CR}Invalid file/directory variable:\"$i\"" \
-				"given." && return 1
-		done
+	# Checks that both variables are valid files/directories.
+	for i in "$@"
+	do
+		[[ ! -f "$i" && ! -d "$i" ]] && echo -e "${CR}Invalid file/directory variable:\"$i\"" \
+			"given." && return 1
+	done
 
-		# Checks if pbzip2 is installed, prefer that over bzip2 if installed. 
-		local COMPMETHOD="pbzip2 -9"
-		[[ ! "$(command -v "pbzip2")" ]] && local COMPMETHOD="bzip2 -9"
-		# Checks that pv is installed, exit if it isn't installed.
-		[[ ! "$(command -v "pv")" ]] && \
-			echo -e "${CR}WARNING!!!\n${CRE}Command \"${CG}pv${CRE}\" not found, therefore," \
-			"\n${CR}Exiting..." && return 1
+	# Checks if pbzip2 is installed, prefer that over bzip2 if installed. 
+	local COMPMETHOD="pbzip2 -9"
+	[[ ! "$(command -v "pbzip2")" ]] && local COMPMETHOD="bzip2 -9"
+	# Checks that pv is installed, exit if it isn't installed.
+	[[ ! "$(command -v "pv")" ]] && \
+		echo -e "${CR}WARNING!!!\n${CRE}Command \"${CG}pv${CRE}\" not found, therefore," \
+		"\n${CR}Exiting..." && return 1
 
-		# Executing the compression and using the program pv and du to show a progress line.
-		tar cf - "$2" -P | pv -s $(du -sb "$2" | awk '{print $1}') | eval $COMPMETHOD > "$1"
-	}
+	# Executing the compression and using the program pv and du to show a progress line.
+	tar cf - "$2" -P | pv -s $(du -sb "$2" | awk '{print $1}') | eval $COMPMETHOD > "$1"
+}
 
 # Function to show progress deletion of files using rsync (or perl since it's benchmarks are faster;
 # only used if perl is installed/useable). This function is useful for when deleting large
 # directories and/or directories with a very large amount of files of small/average size but the
 # sheer amount of files causes a slow execution).
-	rmf(){
-		# Check for which program to use. Use rm command if neither perl nor rsync are accessible.
-		[[ ! "$(command -v "perl")" ]] && local USERSYNC=1
-		[[ ! "$(command -v "rsync")" ]] && unset USERSYNC && local USERM=1
-		# Temporarily adding this line below to manually set function to use rm.
-		local USERM=1
+function rmf(){
+	# Check for which program to use. Use rm command if neither perl nor rsync are accessible.
+	[[ ! "$(command -v "perl")" ]] && local USERSYNC=1
+	[[ ! "$(command -v "rsync")" ]] && unset USERSYNC && local USERM=1
+	# Temporarily adding this line below to manually set function to use rm.
+	local USERM=1
 
-		# Checks that the arguments passed to this function are valid files/directories.
-		for i in "$@"
-		do
-			[[ ! -f "$i" && ! -d "$i" ]] && echo "Invalid file/directory: \"$i\"\nExiting..." \
-				&& exit 1
-		done
+	# Checks that the arguments passed to this function are valid files/directories.
+	for i in "$@"
+	do
+		[[ ! -f "$i" && ! -d "$i" ]] && echo "Invalid file/directory: \"$i\"\nExiting..." \
+			&& exit 1
+	done
 
-		# Perform the command based on whichever method is available.
-		if [[ $USERM ]]
-		then
-			rm -rvf "$1" | pv -s $(du -sb "$1" | awk '${print $1}')
-		elif [[ $USERSYNC ]]
-		then
-			mkdir empty_dir
-			rsync -av --stats --human-readable --delete empty_dir/ "$1" \
-				| pv -s $(du -sb "$1" | awk '${print $1}')
-			rm -r empty_dir
-		#elif [[ -z $USERSYNC && -z $USERM ]]
-		fi
+	# Perform the command based on whichever method is available.
+	if [[ $USERM ]]
+	then
+		rm -rvf "$1" | pv -s $(du -sb "$1" | awk '${print $1}')
+	elif [[ $USERSYNC ]]
+	then
+		mkdir empty_dir
+		rsync -av --stats --human-readable --delete empty_dir/ "$1" \
+			| pv -s $(du -sb "$1" | awk '${print $1}')
+		rm -r empty_dir
+	#elif [[ -z $USERSYNC && -z $USERM ]]
+	fi
 
-	}
+}
 
 # Simple function to remove ANSI Escape code colors.
 # Useful for when piping output of a command into another command like sed or grep and both of those
 # commands take the literal text output (including ANSI escape codes that display in the terminal as
 # colored or stylized text, but in the program examples listed above, the escape codes are
 # interpreted literally).
-	nocolor(){
-		# Uses /dev/stdin to read from standard input.
-		if (( $# == 0 ))
-		then
-			'sed "s/\x1b\[[0-9;]*m//g"' < /dev/stdin
-		else
-			'sed "s/\x1b\[[0-9;]*m//g"' <<< "$1"
-		fi
-	}
+function nocolor(){
+	# Uses /dev/stdin to read from standard input.
+	if (( $# == 0 ))
+	then
+		'sed "s/\x1b\[[0-9;]*m//g"' < /dev/stdin
+	else
+		'sed "s/\x1b\[[0-9;]*m//g"' <<< "$1"
+	fi
+}
 
 # Simple function to determine if it is being called either being used as a pipe or running as a
 # function with arguments (programs/processes) to kill every instance of from the output of ps aux.
-	function k9a(){
-		# Pure POSIX shell method to check if this function is being piped STDOUT from another
-		# program or not.
-		[[ -p /dev/stdin ]] && PIPEDINPUT=1
-		[[ "$PIPEDINPUT" ]] && INPUT=$(</dev/stdin) && echo "$INPUT" | awk 'NR>1{print $2}' | \
-			sudo xargs kill -9 && exit 0
-		sudo ps aux | grep -v grep | grep -i "$1" | awk '{print $2}' | xargs sudo kill -9
-	}
+function k9a(){
+	# Pure POSIX shell method to check if this function is being piped STDOUT from another
+	# program or not.
+	[[ -p /dev/stdin ]] && PIPEDINPUT=1
+	[[ "$PIPEDINPUT" ]] && INPUT=$(</dev/stdin) && echo "$INPUT" | awk 'NR>1{print $2}' | \
+		sudo xargs kill -9 && exit 0
+	sudo ps aux | grep -v grep | grep -i "$1" | awk '{print $2}' | xargs sudo kill -9
+}
 
 # Simple function to update python modules installed via the python-pip python package installer, as
 # well as upgrade the pip command itself. The only reason this is a function rather than an alias is
 # to be able to both upgrade the pip package installer itself as well as upgrade all pip packages,
 # and an alias would be too verbose.
-	pipup(){
-		# Upgrades the pip program.
-		/usr/bin/env python3 -m pip install --upgrade pip
-		# Checks for outdated pip/python packages
-		/usr/bin/env python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | \
-			cut -d = -f 1 | xargs -n1 pip3 install -U
-	}
+function pipup(){
+	# Upgrades the pip program.
+	/usr/bin/env python3 -m pip install --upgrade pip
+	# Checks for outdated pip/python packages
+	/usr/bin/env python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | \
+		cut -d = -f 1 | xargs -n1 pip3 install -U
+}
 
 # Function used when there exists a protected network namespace created via the "namespaced-openvpn"
 # script to create a tun0 tunnel network interface and a network namespace connected to it; and this

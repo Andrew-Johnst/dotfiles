@@ -30,10 +30,21 @@ export ZSH="$ZDOTDIR/.zshrc"
 # the files in there if the directory exists. This contains the "aliasrc" and "functionrc" files
 # that are each a large laundry-list of custom shell aliases and functions.
 # Export global ZSH environment variable to dictate where the ZSH configuration files are located.
-ShellShortcutDir="$HOME/.config/zsh/Shell-Helpers/"
+ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
 [ -d "$ShellShortcutDir" ] && \
 	for f in ${ShellShortcutDir}*; do source "$f"; done && \
-	export ZSH_AFRC="$HOME/.config/zsh/Shell-Helpers/"
+	export ZSH_SHORTCUTS="$HOME/.config/zsh/Shell-Shortcuts/"
+
+# Check if a directory named "Shell-Helpers is located in the $ZDOTDIR directory, if it is then
+# export an environment variable pointing to that directory.
+#ShellHelperDir="$Home/.config/zsh/Shell-Helpers/"
+#[ -d "$ShellHelperDir" ] && export ZSH_HELPERSCRIPTS="$ShellHelperDir"
+
+# Check if a local (host specific) aliasrc file exists; if it does then source it, otherwise ignore
+# it.
+[[ -f "$HOME/.local/zsh/local-aliases" ]] && export ZSH_LOCAL="$HOME/.local/zsh" && \
+	source "$HOME/.local/zsh/local-aliases"
+
 
 # If the Shell-Helpers directory is not present, then export ZSH environment variable to the
 # previous location for the ZSH shell helper scripts--like aliasrc and functionrc.
@@ -197,7 +208,7 @@ else
 	export DISPLAY=:0
 fi
 # Change later (1-8-21 8:41PM).
-#DISPLAY="192.168.1.30:0.0"
+export DISPLAY="192.168.1.30:0.0"
 # 	### Addendum ###
 # 		The above line manually overrides the check to determine and set the DISPLAY variable based
 # 		on SSH connection; while testing things with remote access over WAN and X11 Forwarding, it
@@ -291,7 +302,10 @@ eval $(thefuck --alias f)
 # Changing the QT_QPA_PLATFORMTHEME variable to gtk2 as per the arch wiki.
 # (Apparently this did the trick, along with installing LXAppearance, and the required
 # dependencies.)
-export QT_QPA_PLATFORMTHEME=gtk2
+
+#export QT_QPA_PLATFORMTHEME=gtk2
+export QT_STYLE_OVERRIDE=kvantum
+
 # The below QT env variable causes issues with the qt5ct program so it is commented out; unless this
 # profile is loaded on the Debian-Bitcoin virtual machine since bitcoin-qt requires this environment
 # variable to use the QT style correctly.
