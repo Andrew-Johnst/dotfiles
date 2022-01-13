@@ -52,7 +52,7 @@ local CPI=$(echo -e ${CP}${CBL})
 
 # Function that declares all the functions in this file to the environment variable table and
 # available to use with sudo.
-sf(){
+function sf(){
 	################################################################################################
 	###   NOT CURRENTLY WORKING; FIX LATER. SOMETHING WRONG WITH NOT BEING ABLE TO DECLARE THE   ###
 	###                                  FUNCTIONS TO SUDO.                                      ###
@@ -74,13 +74,13 @@ sf(){
 }
 
 # Function to mkdir $1 and cd into it.
-	mkcd(){
-	    mkdir -p "$1" && cd "$1"
-	}
+function mkcd(){
+    mkdir -p "$1" && cd "$1"
+}
 
 # Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is
 # just pygmentized cat standard output in the terminal).
-pcat(){
+function pcat(){
 	[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && exit 0
 	pygmentize -f terminal256 -O style=monokai
 }
@@ -91,19 +91,21 @@ pcat(){
 # Function for using `sudo -e` just linking to sudoedit
 
 # Function to git clone a directory, then cd into it.
-	gcd(){
-		git clone "$1"
-		cd "$(basename "$1" .git)"
-	}
+function gcd(){
+	git clone "$1"
+	cd "$(basename "$1" .git)"
+}
+
 # Function to easily list screen PIDs numbers.
-	screenpids(){
-		local SCREENPIDS="$(screen -ls | sed -e '1d;$d' -e 's/^[ \t]*//' -e 's/\..*$//')"
-		echo $SCREENPIDS
-		# This is the old version which uses multiple commands through pipes via STDIN/STDOUT.
-		#local SCREENPIDS="$(screen -ls | sed '1d;$d' | cut -d '.' -f 1 | tr -d '\t')"
-		#	Below is broken/not working [11-12-2021 1:34PM].
-		#	screen -ls | sed -e '1d;$d' -e 's/^[ \t]*//' -e 's/(.*)\.(\w.*)/\1\ \2/g'
-	}; alias sp='screenpids'
+function screenpids(){
+	local SCREENPIDS="$(screen -ls | sed -e '1d;$d' -e 's/^[ \t]*//' -e 's/\..*$//')"
+	echo $SCREENPIDS
+	# This is the old version which uses multiple commands through pipes via STDIN/STDOUT.
+	#local SCREENPIDS="$(screen -ls | sed '1d;$d' | cut -d '.' -f 1 | tr -d '\t')"
+	#	Below is broken/not working [11-12-2021 1:34PM].
+	#	screen -ls | sed -e '1d;$d' -e 's/^[ \t]*//' -e 's/(.*)\.(\w.*)/\1\ \2/g'
+}; alias sp='screenpids'
+
 # Changed the lx aliases into functions (certain itterations/variations on it are still just
 # aliases--located in aliasrc file--but with options, so it has more flexibility and funcitonality
 # like giving an option to the less command.
@@ -113,7 +115,7 @@ pcat(){
 # Function to print the Public IP address either currently being reported (aka, when a VPN/proxy
 # connection is active and in-use), or the public/permenant IP address via a "-p" or "--permenant"
 # option.
-ips(){
+function ips(){
 	#[[ "$1" =~ '[-file]' ]]
 	#[[ "$1" =~ '?[--]
 	#local CURRENTIP=`curl -s icanhazip.com`
@@ -170,7 +172,7 @@ ips(){
 }
 
 # Function to display the active network interface.
-nic(){
+function nic(){
 	# Old method, only prints active NIC interface.
 	#echo $(ip -o -4 route get 1.1.1.1 | sed -nr 's/.*dev ([^\ ]+).*/\1/p')
 
@@ -514,6 +516,38 @@ function pipup(){
 # namespace.
 function netns-exec(){
 	sudo ip netns exec protected sudo -u "$USER" "$@"
+}
+
+# [First and foremost, this function "combines" the usage of this function declaration and/or a
+# script located in the current $USER "~/.local/bin/" directory--assuming that directory is already
+# included in the $PATH env variable path for the $USER--and if the file is not present, then
+# execute the "backup" or "fallback" version in this script (which is more limited and does not have
+# the same options/functionality as the script does; this is done to conserve on efficiency and load
+# time when opening a new shell session.)]
+#
+# Changing this previous alias of a piped alias command into a function to allow for optional input
+# to change the returning value (generated random passphrase) to have a variable length, and/or
+# symbols (instead of strictly alphanumerics)--with the additional option to allow for "special"
+# special characters, aka, unicode characters.
+function genpass(){
+	# Firstly check if there is an actual shell script (located in:
+	# [$HOME/.local/bin/ManualScripts/generatepass] directory); and if there is, then just forward the
+	# arguments this function received to that shell script.
+	[[ -f "$HOME/.local/bin/ManualScripts/generatepass" ]] && \
+		$HOME/.local/bin/ManualScripts/generatepass "$@" && return 0
+
+	#for i in `seq 5`
+	#do
+	#	local x
+	#	x=$((i+1))
+	#	echo "$i"
+	#	sleep 1
+	#done
+	#[[ $x -gt 10 ]] && return 0
+
+	# General case statement to get various options to change what type of data/passphrase will be
+	# generated.
+
 }
 
 # Function for youtube-dl to download YouTube Videos/Music (as well as SoundCloud and other online

@@ -319,6 +319,10 @@ export QT_STYLE_OVERRIDE=kvantum
 # This PATH addition is for pywal (used for GTK theming).
 export PATH="${PATH}:${HOME}/.local/bin/"
 
+# Set the path for manual scripts that are more suited to a specific user's bin directory rather
+# than a system-wide "/usr/local/bin/" directory.
+export PATH="${PATH}:${HOME}/.local/bin/ManualScripts/"
+
 # Sets the XDG environment variables
 # (The XDG_CONFIG_HOME variable is already defined in debian's /etc/profile, however it wasn't
 # exporting a variable on users since I didn't have an environment variable for XDG_CONFIG_HOME).
@@ -364,13 +368,18 @@ source "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tool
 #bindkey '\t' end-of-line
 #bindkey '^[d' autosuggest-accept
 #zstyle ':completion:*' special-dirs true
-zstyle ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
+#zstyle ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
+
+# [This is the reply from this thread on how to tab-complete case-insensitive matches]:
+# 	https://stackoverflow.com/a/24237590
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 
 
 # Source the plugins.
 plugins=(
 	#zsh-autosuggestions
+	zsh-syntax-highlighting
 	zsh-navigation-tools
 )
 

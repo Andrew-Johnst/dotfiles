@@ -146,8 +146,9 @@ alias                                                                   \
 	ctlstat='sudo systemctl status '                                    \
 	ctlrestart='sudo systemctl restart '                                \
 	today='date "+%m-%d-%Y_%I-%M%p"'                                    \
-	genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'         \
-	gp='genpass'                                                        \
+	gp='genpass '                                                       \
+	p3='python3 '                                                       \
+	#genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'         \
 	#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
 
 # Less command aliases

@@ -31,10 +31,10 @@
 
 " [1.2] Check if Vim-plug and pathogen are installed for current user and install if not.
 	if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
-	  echo "Downloading Vim-Plug plugin manager for nvim..."
-	  silent !mkdir -p ~/.config/nvim/autoload/
-	  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
-					\ > ~/.config/nvim/autoload/plug.vim
+	echo "Downloading Vim-Plug plugin manager for nvim..."
+	silent !mkdir -p ~/.config/nvim/autoload/
+	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
+		  \ > ~/.config/nvim/autoload/plug.vim
 	  autocmd VimEnter * PlugInstall
 	endif
 " Activates Vim-Pathogen plugin, installs it if not found.
@@ -254,7 +254,7 @@
 					cnoreabbrev	head	:Header
 		" Adding this here for now since not sure where any other definition/function is written if I even made
 		" one.
-					command! -nargs=0 -complete=command FilePathHeader call InsertFilePath()
+					command -nargs=* -complete=command FilePathHeader call InsertFilePath()
 					cnoreabbrev	ifp		:FilePathHeader
 
 "-----------------------------------[4.0] - Quality-of-life improvements
@@ -323,12 +323,13 @@
 		" Command to write the currently opened file as sudo.
 				command!			SudoWrite	:w !sudo tee %
 
-	"--------------------[4.4.0] Leader-key keybinds/settings.
+	"--------------------[4.4.0] General keybinds/settings.
 		"-------------------[4.4.1] Unmap default spacebar keybind, then map it to leader key.
 			nnoremap <Space> <nop>
 			let mapleader=" "
 
-		"-------------------[4.4.1] Unbind default Visual Block keys, bind to Leader+v, rebind C-v to Escape.
+		"-------------------[4.4.1] Unbind default Visual Block keys, bind to Leader+v, rebind C-v to
+		" Escape.
 		" The last mapping in insert mode for <C-v> is critical since default map
 		" doesn't apply to insert mode, and both <C-v> and <M-f> are bount to <Esc>.
 			map 				<C-v> 			<Nop>
@@ -368,21 +369,29 @@
 			command!		FixTypo				:normal ]s1z=
 			cnoreabbrev	typo									:FixTypo
 
-		"-------------------[4.4.6] General keybinds and shortcuts.
+		"-------------------[4.4.6] General [Leader] keybinds and shortcuts.
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
 			map					<Leader>c					zc
 			map					<Leader>-					<C-w>_
 			map					<Leader>=					<C-w>=
-			noremap			<M-Space>					/<CR>ca<
 			nnoremap		<Leader>f					:call Flash()<CR>
+		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
+			nnoremap		<Leader>r					:silent source $MYVIMRC<CR>
+		" Execute/run the file open in the current vim buffer (via calling the filepath in a shell).
+			nnoremap		<Leader>R					:!%:p
+		" map					<Leader>p					nciw
+
+		"-------------------[4.4.7] General [Meta/Alt] keybinds and shortcuts.
+			noremap			<M-Space>					/<CR>ca<
 			noremap			<M-w>							{
 			noremap			<M-s>							}
 			map					<M-n>		    			<Esc>/<++><CR>ca<
 			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
-		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
-			nnoremap		<Leader>r					:silent source $MYVIMRC<CR>
-		" map					<Leader>p					nciw
+		" Increment integers by 1 (manually mapping since VIM's default keybind conflicts with my TMUX
+		" control/super button) via mappings to <Meta> (Alt).
+			map					<M-a>							<C-a>
+			map					<M-x>							<C-x>
 
 	"--------------------[4.5.0] Plugin keybinds.
 		"-------------------[4.5.1] Surround-plugin leader keybinds.

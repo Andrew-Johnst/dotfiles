@@ -182,17 +182,17 @@
 	endfunction
 
 " Function to run pandoc command to compile the file open in current buffer in either HTML5 or PDF.
-		function! Pan(type)
-			if !exists(l:type)
-				if(l:type == "html")
-					silent execute "!pandoc " . @% . " -t html5 -o " . expand('%:r') . ".html"
-				elseif(l:type == "pdf")
-					silent execute "!pandoc " . @% . " -t beamer -o " . expand('%:r') . ".pdf"
-				endif
-			else
-				echom "An argument to specify the output type is required (html/pdf)."
+	function! Pan(type)
+		if !exists(l:type)
+			if(l:type == "html")
+				silent execute "!pandoc " . @% . " -t html5 -o " . expand('%:r') . ".html"
+			elseif(l:type == "pdf")
+				silent execute "!pandoc " . @% . " -t beamer -o " . expand('%:r') . ".pdf"
 			endif
-		endfunction
+		else
+			echom "An argument to specify the output type is required (html/pdf)."
+		endif
+	endfunction
 " Aliasing commands to this function to either HTML/PDF formats, then binding them to Leader keybinds.
 	cnoreabbrev	convpdf 			call Pan("pdf") <CR>
 	cnoreabbrev	convhtml 			call Pan("html")<CR>
@@ -200,11 +200,11 @@
 	nnoremap	<Leader>h				call Pan("html")<CR>
 
 " Alias to add executable permissions to file open in current vim buffer.
-	command! -nargs=0 -complete=command CX silent! execute "!chmod +x ".expand('%:p')
+	command! -nargs=* -complete=command CX silent! execute "!chmod +x ".expand('%:p')
 	cnoreabbrev cx :CX
 
 " Command to disable numberlines by calling the :nonum command
-	command -nargs=0 -complete=command NL silent! execute "setlocal number!|setlocal relativenumber!"
+	command! -nargs=* -complete=command NL silent! execute "setlocal number!|setlocal relativenumber!"
 	cnoreabbrev nl :NL
 	map <Leader>nl :nl<CR>
 
