@@ -90,6 +90,7 @@ EXCLUSIONS=( "*.swp"                                            \
 			 "*.log"                                            \
 			 "*.tdb"                                            \
 			 "*.netrwhist"                                      \
+			 ".fzf*"                                            \
 			 ".config/autostart"                                \
 			 ".config/Atom"                                     \
 			 ".config/Bitcoin"                                  \

@@ -81,6 +81,8 @@ alias                                                                   \
 	temp='cd /tmp/tempfiles'                                            \
 	tmpf='temp'                                                         \
 	d='cd ~/Documents'                                                  \
+	ma='cd ~/Documents/Maintenance'                                     \
+	mai='ma'                                                            \
 	D='cd ~/Downloads'                                                  \
 	p='cd ~/Documents/programming'                                      \
 	pub='cd /mnt/Data/Public'                                           \
