@@ -86,44 +86,46 @@ DEPENDS=(	"bzip2"             \
 
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
 # of the pwd to git staged changes.
-EXCLUSIONS=( "*.swp"                                            \
-			 "*.log"                                            \
-			 "*.tdb"                                            \
-			 "*.netrwhist"                                      \
-			 ".fzf*"                                            \
-			 ".config/autostart"                                \
-			 ".config/Atom"                                     \
-			 ".config/Bitcoin"                                  \
-			 ".config/BraveSoftware"                            \
-			 ".config/chromium"                                 \
-			 ".config/dconf/user"                               \
-			 ".config/duc"                                      \
-			 ".config/expressvpn"                               \
-			 ".config/filelightrc"                              \
-			 ".config/google-chrome"                            \
-			 ".config/ghb"                                      \
-			 ".config/libvirt"                                  \
-			 ".config/mpd/database"                             \
-			 ".config/mpd/pid"                                  \
-			 ".config/mpd/playlists/"                           \
-			 ".config/mpd/state"                                \
-			 ".config/neomutt/accounts/*"                       \
-			 ".config/nicotine/"                                \
-			 ".config/nvim/view"                                \
-			 ".config/nvim/plugged/vim-orgmode"					\
-			 ".config/nvim/plugins/pathogen/MyFunctions/spell/"	\
-			 ".config/otpclient.cfg"                            \
-			 ".config/oomox/*"                                  \
-			 ".config/projectM"									\
-			 ".config/protonmail/*"                             \
-			 ".config/QtProject.conf"							\
-			 ".config/ranger/bookmarks"							\
-			 ".config/ranger/history"							\
-			 ".config/spotify"                                  \
-			 ".config/transmission"                             \
-			 ".config/VPNetworkLLC/"                            \
-			 ".config/zsh/.zcompdump*"                          \
-			 ".config/zsh/.zsh_history"                         \
+EXCLUSIONS=(                                                   \
+			".fzf"                                             \
+			".fzf.*"                                           \
+			"*.log"                                            \
+			"*.netrwhist"                                      \
+			"*.swp"                                            \
+			"*.tdb"                                            \
+			".config/autostart"                                \
+			".config/Atom"                                     \
+			".config/Bitcoin"                                  \
+			".config/BraveSoftware"                            \
+			".config/chromium"                                 \
+			".config/dconf/user"                               \
+			".config/duc"                                      \
+			".config/expressvpn"                               \
+			".config/filelightrc"                              \
+			".config/google-chrome"                            \
+			".config/ghb"                                      \
+			".config/libvirt"                                  \
+			".config/mpd/database"                             \
+			".config/mpd/pid"                                  \
+			".config/mpd/playlists/"                           \
+			".config/mpd/state"                                \
+			".config/neomutt/accounts/*"                       \
+			".config/nicotine/"                                \
+			".config/nvim/view"                                \
+			".config/nvim/plugged/vim-orgmode"                 \
+			".config/nvim/plugins/pathogen/MyFunctions/spell/" \
+			".config/otpclient.cfg"                            \
+			".config/oomox/*"                                  \
+			".config/projectM"                                 \
+			".config/protonmail/*"                             \
+			".config/QtProject.conf"                           \
+			".config/ranger/bookmarks"                         \
+			".config/ranger/history"                           \
+			".config/spotify"                                  \
+			".config/transmission"                             \
+			".config/VPNetworkLLC/"                            \
+			".config/zsh/.zcompdump*"                          \
+			".config/zsh/.zsh_history"                         \
 			)
 
 # Just a list of all the dotfiles, might integrate into some sort of parsing for auto git syncing.
@@ -322,10 +324,62 @@ function INSTALL(){
 	exit 0
 }
 
+# Function for creating backups of the files modified by this script, whether they be from the
+# remote (github) repository, or from the locally installed files (or at least the ones that are
+# listed in the "FILELIST" list variable at the top of this script.
+function createBackup(){
+	### UNFINISHED ###
+	# Options for backing up the LOCAL files.
+	if [[ "$1" =~ ^-{1,2}[l]{1}[o]{0,1}[c]{0,1}[a]{0,1} ]]
+	then
+		echo "Creating bzip2 tarbal archive of local git repo directory (pwd) in: "
+		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+
+		# Updated this to include a slider progress bar via pv command and awk.
+		tar -cf - --exclude='BACKUPS' --exclude='*.swp' . | pv -s $(du -sb . | \
+			awk '{print $1}') | bzip2 > "$LOCALBACKUPS/local_git_dotfiles-$TIME.tar.bz2"
+		echo
+		echo "Now creating a bzip2 tarball of the config files locally installed in directory: "
+		SLEEPFORX $SLEEPTIME "${CBLUE}$LOCALBACKUPS/`hostname`-$TIME.tar.bz2"
+		tar -cjf "$LOCALBACKUPS/`hostname`-$TIME.tar.bz2" "${FILELIST[@]}"
+
+		echo "Tarballs of both the local repo before updating, as well as the config files that"
+		echo -e "were currently in-use on this system created and located in: \
+			${CRED}$REMOTEBACKUPS${CRESET} directory."
+		echo
+		sleep 5
+	fi
+}
+
+# Writing a simple little function for easier/more efficient usage when using the [-f|--fast]
+# option, so that it can just be called once and prompt the user for confirmation instead of writing
+# this twice.
+# This function should be called with the first/only argument being what purpose the main script is
+# being used for (like [ [-i|--install] || [-u|--upload] ]) since it is negating the backup process
+# and therefore the additional confirmation, this function does everything the: 
+# [ [-f|--fast] || [-n|--no-backup] ] options do, but with additional confirmation, and thereby
+# reducing instructions later on when calling these options.
+function fastOption(){
+	# Checks for at least one or two mandatory "-" followed by "n" or "f" for the [-f|--fast] or
+	# [-n|--no-backup] options; if not present then do nothing (skip the "skipping" of creating
+	# backups; or in other words, actually DO make backups).
+	if [[ ! "$1" =~ ^-{1,2}[nf]{1} ]]
+	then
+		### UNFINISHED ###
+		echo
+	fi
+
+}
+
+# Main case switch statement.
 case "$1" in
 	-i|--install)
 		# Change current git dir
 		echo -ne $CRED && git init && echo -en $CRESET
+
+		# Check if the [-f|--fast] or [-n|--no-backup] options were given; if so then call the
+		# fastOption function. If the regex does not match for those options, then proceed normally.
+		[[ "$2" =~ ^-{1,2}[nf]{1} ]] && fastOption "$2"
 
 		# Check if second script argument calls for either [-n|--no-backup] or [-f|--fast] options;
 		# skip the backup if so.

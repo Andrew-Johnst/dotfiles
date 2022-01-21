@@ -536,6 +536,34 @@ function genpass(){
 	[[ -f "$HOME/.local/bin/ManualScripts/generatepass" ]] && \
 		$HOME/.local/bin/ManualScripts/generatepass "$@" && return 0
 
+	local CHARLENGTH="$1"
+	local CRED='\033[1;38;5;9m'
+	local CRE='\033[0m'
+	# Verify via regex that the input is only digits (CHANGE THIS LATER WHEN ALLOWING OPTIONS!!!).
+	# Verify via regex that the input is only digits (CHANGE THIS LATER WHEN ALLOWING OPTIONS!!!).
+	[[ "$1" ]] && [[ ! "$1" =~ ^[0-9]+$ ]] && \
+		echo -e "Non digits found in input ${CRED}$*${CRE}" && \
+		echo -e "Using default ${CRED}10${CRE} character length.\n" && local CHARLENGTH=10
+	[[ ! "$1" ]] && echo -e "No input given." && \
+		echo -e "Using default ${CRED}10${CRE} char limit.\n"
+		local CHARLENGTH=10
+		#echo -e "Using default ${CRED}10${CRE} character length.\n") || \
+		#([[ ! "$1" ]] && echo -ne "No input given, using default ${CRED}10${CRE} char limit.\n") && \
+	openssl rand -base64 ${CHARLENGTH}
+
+
+
+	### [OLD METHOD (ALSO PROBABLY MORE READABLE--BUT NEW METHOD IS "SINGLE LINE" CONDITIONAL)] ###
+	#local CHARLENGTH="$1"
+	#local CRED='\033[1;38;5;9m'
+	#local CRE='\033[0m'
+	## Verify via regex that the input is only digits (CHANGE THIS LATER WHEN ALLOWING OPTIONS!!!).
+	#[[ "$1" ]] || [[ ! "$1" =~ ^[0-9]+$ ]] && \
+	#	echo -e "Non digits found in input ${CRED}$*${CRE}\nUsing default ${CRED}10${CRE}" \
+	#	"character length.\n" \
+	#	&& local CHARLENGTH=10
+	#openssl rand -base64 ${CHARLENGTH}
+
 	#for i in `seq 5`
 	#do
 	#	local x

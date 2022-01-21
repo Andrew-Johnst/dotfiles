@@ -356,11 +356,11 @@ export ZSH_PLUGINS="$ZDOTDIR/Plugins"
 #source "$ZSH_PLUGINS/zsh-snap/install.zsh"
 
 # ZSH-Syntax-Highlighting for a Fish shell-like syntax highlighting.
-[[ "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ]] && \
+[[ -f "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ]] && \
 	source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 
 # ZSH-Navigation-Tools.
-[[ "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh" ]] && \
+[[ -f "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh" ]] && \
 	source "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh"
 
 # ZSH-Auto-Suggestions for automatically showing suggestions in the terminal.
