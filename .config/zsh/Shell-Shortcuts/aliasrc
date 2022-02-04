@@ -85,6 +85,7 @@ alias                                                                   \
 	mai='ma'                                                            \
 	D='cd ~/Downloads'                                                  \
 	p='cd ~/Documents/programming'                                      \
+	data='cd /mnt/Data/'                                                \
 	pub='cd /mnt/Data/Public'                                           \
 	priv='cd /mnt/Data/Drew'                                            \
 	dot='cd ~/Documents/git/dotfiles'                                   \
