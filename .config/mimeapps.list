@@ -38,3 +38,4 @@ video/mp2t=vlc.desktop;
 text/vnd.qt.linguist=vlc.desktop;
 application/x-mswinurl=brave-browser-nightly.desktop;
 video/x-matroska=vlc.desktop;
+image/png=org.gnome.eog.desktop;

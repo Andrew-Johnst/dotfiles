@@ -90,6 +90,8 @@
 			" Install the vimwiki plugin. (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax
 			" on').
 					Plug 'vimwiki/vimwiki'
+			" Install vim-table-mode plugin that helps create and manage tables in vim.
+					Plug 'dhruvasagar/vim-table-mode'
 			call plug#end()
 
 "-----------------------------------[1.4] - Plugin Configuration.

@@ -124,6 +124,7 @@ EXCLUSIONS=(                                                   \
 			".config/spotify"                                  \
 			".config/transmission"                             \
 			".config/VPNetworkLLC/"                            \
+			".config/vlc/vlc-qt-interface.conf"                \
 			".config/zsh/.zcompdump*"                          \
 			".config/zsh/.zsh_history"                         \
 			)

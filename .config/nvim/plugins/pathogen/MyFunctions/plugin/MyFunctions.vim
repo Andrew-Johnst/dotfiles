@@ -241,28 +241,30 @@
 fu! NewTempFile(...)
 	" Assign the current date and time to a variable to be used for default filename, and assigns the
 	" directory path name to a variable.
-	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")
-	let l:filename = "tempfile_" . l:datetime
-	let l:directory = "/tmp/vim-tmpfiles/"
+	"let l:datetime = system("date '+%m-%d-%Y_%I-%M%p'")		"Contains date with seconds but not AM/PM.
+	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")	"Contains date with seconds with AM/PM.
+	let l:directory = "/tmp/tempfiles/vim-tempfiles/"
+	let l:filename = l:datetime
+	"let l:filename = "tempfile_" . l:datetime
 
-	" Checks if '/tmp/vim-tmpfiles/' directory exists, create it if not.
-"	if !exists(glob('/tmp/vim-tmpfiles/'))
-"		let l:choice = Confirm("The directory '/tmp/vim-tmpfiles/' does not exist.\nWould you like to create it now [Y/N]: ")
-"		if l:choice == 1
-"			echo "Creating directory: " . l:directory . "..."
-"			exe "!mkdir " . l:directory
-"		else
-"			echo "Not creating directory: " . l:directory . "...\nExiting..."
-"			sleep 5
-"			echoerr "The " . l:directory . " does not exist and was not created so this function is aborting early."
-"		endif
-"	endif
+	"" Checks if '/tmp/tempfiles/vim-tmpfiles/' directory exists, create it if not.
+	"if !exists(glob('/tmp/tempfiles/vim-tmpfiles/'))
+	"	let l:choice = Confirm("The directory '/tmp/vim-tmpfiles/' does not exist.\nWould you like to create it now [Y/N]: ")
+	"	if l:choice == 1
+	"		echo "Creating directory: " . l:directory . "..."
+	"		exe "!mkdir " . l:directory
+	"	else
+	"		echo "Not creating directory: " . l:directory . "...\nExiting..."
+	"		sleep 5
+	"		echoerr "The " . l:directory . " does not exist and was not created so this function is aborting early."
+	"	endif
+	"endif
 	silent exe "!mkdir " . l:directory
 	"echo l:directory . l:filename | return 0
 	"echo get(a:, 0)
-	echo get(a:, 0)
-	echo get(a:, 1)
-	echo get(a:, 2)
+	"echo get(a:, 0)
+	"echo get(a:, 1)
+	"echo get(a:, 2)
 	return 0
 
 	" Checks if argument(s) are given. Multiple arguments are concatenated into one variable (in case
@@ -276,7 +278,7 @@ fu! NewTempFile(...)
 	else
 		echom "Default filename will be used in the format of: <MM-DD-YYYY___HH-MM-SS> in the" \
 					\ "'/tmp/vim-tmpfiles/' directory."
-		let l:filename = "/tmp/nvim-tempfiles/" . l:filename
+		let l:filename = "/tmp/tempfiles/nvim-tempfiles/" . l:filename
 		echom l:filename
 		echom "BBBB"
 		"exe "norm :e " . l:directory . l:filename
@@ -285,6 +287,11 @@ fu! NewTempFile(...)
 endfu!
 command -nargs=? NTF call NewTempFile(<f-args>)
 cnoreabbrev ntf NTF
+
+" Function--and command--to create a new "temporary" file in the [/tmp/tempfiles/] directory, which
+" is the same directory as the zsh aliasrc alias for creating new tempfiles.
+"fu! tempfile(...)
+"	let l:
 
 "" Function to capitalice the first letter of each word highlighted (GRAMATICALLY-CORRECT).
 

@@ -1,5 +1,8 @@
 ! Xresources file, work in progress.
 
+! (Added [2-22-2022 7:05AM] to include the files included in the ~/.Xresources.d/* directory)
+#include ".Xresources.d/"
+
 !#include ".Xresources.d/st"
 !#include ".Xresources.d/rxvt-unicode"
 !#include ".Xresources.d/xterm"

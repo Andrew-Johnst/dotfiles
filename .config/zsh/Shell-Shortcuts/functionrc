@@ -33,7 +33,8 @@ local CB='\033[1;38;5;117m'
 local CG='\033[1;38;5;10m'
 local CBL='\033[3m'
 local CC='\033[1;38;5;14m'			# Bold, Cyan.
-local CP='\033[1;38;5;139m'			# Bold, Purple (#8700ff; rgb(135,0,255) hsl(71,100%,50%)).
+local CPU='\033[1;38;5;139m'		# Bold, Purple (#8700ff; rgb(135,0,255) hsl(71,100%,50%)).
+local CP='\033[1;38;5;225m'			# Bold, Pink
 local CT='\033[1;38;5;45m'			# Bold, Turquiose.
 local CRE='\033[0m'					# Resets all ANSI color codes.
 
@@ -43,7 +44,7 @@ local CRE='\033[0m'					# Resets all ANSI color codes.
 local CBBL=$(echo -e ${CB}${CBL})
 local CRI=$(echo -e ${CR}${CBL})
 local CGI=$(echo -e ${CG}${CBL})
-local CPI=$(echo -e ${CP}${CBL})
+local CPI=$(echo -e ${CPU}${CBL})
 
 
 
@@ -200,8 +201,13 @@ function nic(){
 # Function (only one command but too large/cumbersome to have in a single alias) to verify that the
 # tor system service is running.
 function checktor(){
+	#VALIDCONN="$(curl --socks5 localhost:9050 --socks5-hostname localhost:9050 -s \
+	#	https://check.torproject.org/ | cat | grep -m 1 Congratulations | xargs)"
+	#echo -e "${CB}Current ${CPU}[${CG}Tor${CPU}] ${CPU}[${CR}IPv4${CPU}]${CB} Address: ${CC}
 	curl --socks5 localhost:9050 --socks5-hostname localhost:9050 -s \
 		https://check.torproject.org/ | cat | grep -m 1 Congratulations | xargs
+	#[[ -z "$VALIDCONN" ]] && echo -e "Connection to the Tor Network is:" \
+	#	"${CPU}[${CR}Disconnected${CPU}]"
 }
 
 # Colorization aliases.
@@ -525,6 +531,7 @@ function netns-exec(){
 	#	sudo ip netns del $(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))
 	sudo ip netns exec protected sudo -u "$USER" "$@"
 	#sudo ip netns exec protected sudo -u "$USER" -E "$@"
+	#sudo /usr/local/sbin/namespaced-openvpn --config /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn --writepid /var/run/openvpn-protected-foo-"$USER".pid --log /var/log/openvpn-protected-foo-"$USER".log --daemon
 }
 
 # [First and foremost, this function "combines" the usage of this function declaration and/or a

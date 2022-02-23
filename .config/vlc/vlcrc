@@ -3643,7 +3643,7 @@ qt-privacy-ask=0
 #alsa-audio-channels=6
 
 # Software gain (float)
-#alsa-gain=1.000000
+alsa-gain=0.857375
 
 [afile] # File audio output
 
@@ -3763,13 +3763,13 @@ qt-privacy-ask=0
 #dither-depth=0
 
 # Desaturation strength (float)
-#desat-strength=0.750000
+#desat-strength=0.000000
 
 # Desaturation exponent (float)
-#desat-exponent=1.500000
+#desat-exponent=0.000000
 
 # Desaturation base (float)
-#desat-base=0.180000
+#desat-base=0.000000
 
 # Maximum brightness boost (float)
 #max-boost=0.000000
@@ -3820,13 +3820,13 @@ qt-privacy-ask=0
 #dither-depth=0
 
 # Desaturation strength (float)
-#desat-strength=0.750000
+#desat-strength=0.000000
 
 # Desaturation exponent (float)
-#desat-exponent=1.500000
+#desat-exponent=0.000000
 
 # Desaturation base (float)
-#desat-base=0.180000
+#desat-base=0.000000
 
 # Maximum brightness boost (float)
 #max-boost=0.000000
