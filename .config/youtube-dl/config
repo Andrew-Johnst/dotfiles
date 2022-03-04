@@ -31,6 +31,7 @@
 --all-subs
 #--output '~/Downloads/Videos/youtube-dl/%(title)s/%(title)s.%(ext)s'
 --output '~/Mountpoints/Private/Videos/YouTube/%(title)s/%(title)s.%(ext)s'
+--download-archive '~/Mountpoints/Private/Videos/YouTube/youtube-dl_Downloaded.log'
 #--output "~/Downloads/Music/youtube-dl/%(uploader)s (%(uploader_id)s)/%(id)s/%(title)s - %(upload_date)s.%(ext)s"
 --format bestvideo[ext=mp4]+bestaudio[ext=m4a]
 #--format bestvideo[ext=mp4]+bestaudio[ext=m4a] -- $1 		$1 Used for script modes.

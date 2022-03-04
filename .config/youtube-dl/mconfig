@@ -9,7 +9,7 @@
 --add-metadata
 --embed-subs
 --output '~/Downloads/Music/youtube-dl/Downloads/%(title)s/%(title)s.%(ext)s'
---download-archive '~/Downloads/Music/youtube-dl/Downloaded.log'
+--download-archive '~/Downloads/Music/youtube-dl/youtube-dl_Downloaded.log'
 #--add-metadata
 #--write-thumbnail
 #--embed-thumbnail

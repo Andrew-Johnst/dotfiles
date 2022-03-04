@@ -134,7 +134,7 @@ alias                                                                   \
 	diff='diff --color=auto'                                            \
 	ip='ip --color=always'                                              \
 	fm='q pcmanfm-qt '                                                  \
-	bt='bashtop'                                                        \
+	bt='btop'                                                           \
 	mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
 	myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
 	mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '   \

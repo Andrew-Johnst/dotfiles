@@ -75,8 +75,8 @@ DEPENDS=(	"bzip2"             \
 			"neomutt"           \
 			"neovim"            \
 			"pv"                \
-			"python-pip"        \
-			"python-pygments"   \
+			"python3-pip"       \
+			"python3-pygments"  \
 			"rsync"             \
 			"openssh"           \
 			"tar"               \
@@ -105,6 +105,7 @@ EXCLUSIONS=(                                                   \
 			".config/google-chrome"                            \
 			".config/ghb"                                      \
 			".config/libvirt"                                  \
+			".config/lximage-qt/settings.conf"                 \
 			".config/mpd/database"                             \
 			".config/mpd/pid"                                  \
 			".config/mpd/playlists/"                           \
