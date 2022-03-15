@@ -194,7 +194,7 @@ then
 	# Below conditional checks to see if current network interface LAN IP is on 192.168.200.0/24
 	# subnet ("Temporary" subnet/network for KVM virtual-network until I setup subnetting/VLANs with
 	# Cisco router and switch).
-    [[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.0\.[0-9]\{1,3\} ]] && \
+    [[ "$SSH_CLIENT_IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]] && \
         export DISPLAY="$SSH_CLIENT_IP:0.0"
         #export DISPLAY="192.168.1.30:0.0"
     #export DISPLAY="192.168.1.30:0.0"
@@ -208,7 +208,7 @@ else
 	export DISPLAY=:0
 fi
 # Change later (1-8-21 8:41PM).
-export DISPLAY="192.168.1.30:0.0"
+#export DISPLAY="192.168.1.30:0.0"
 # 	### Addendum ###
 # 		The above line manually overrides the check to determine and set the DISPLAY variable based
 # 		on SSH connection; while testing things with remote access over WAN and X11 Forwarding, it

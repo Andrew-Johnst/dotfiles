@@ -138,6 +138,7 @@ alias                                                                   \
 	mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
 	myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
 	mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '   \
+	mytdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '  \
 	ytd='youtube-dl '                                                   \
 	ytdl='youtube-dl '                                                  \
 	nics='sudo ifconfig | plx'                                          \
