@@ -172,10 +172,10 @@ export TERM=xterm-256color
 # SSH session, it will default to setting the DISPLAY variable to the standard (on-board/localhost)
 # display address.
 #if [[ -n "$SSH_CONNECTION" ]]
-if [ -e "$SSH_CLIENT" ] || [ -e "$SSH_TTY" ] || [ -e "$SSH_CONNECTION" ]
+if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ])
 then
-    DISPLAY="$(echo $SSH_CLIENT | awk '{print $1}'):0.0"
-    SSH_CLIENT_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
+    export DISPLAY="$(echo $SSH_CLIENT | awk '{print $1}'):0.0"
+    export SSH_CLIENT_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
     # Old variable export that defaulted to my desktop IP.
     #DISPLAY=192.168.1.30:0.0
 	
@@ -229,11 +229,6 @@ fi
 # Sets OpenGL rendering to indirect, meant for rendering over network.
 # https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
 # export LIBGL_ALWAYS_INDIRECT=1
-
-# Prolly a better way to do this but doing this as a temporary fix for WSL starting directory when a
-# new session is started. Doing a check for if root or not since that might not be preferable to cd
-# into the root dir when switching to root user.
-[[ "$HOST" == "Drew-PC" && "$EUID" -ne 0 ]] && cd
 
 # Adding this in 5-6-2021 as per the link below that needs to be added into the shell rc file in
 # order to get PulseAudio to work.
