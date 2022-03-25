@@ -68,30 +68,34 @@
 						" Plug 'jceb/vim-orgmode'
 			" FZF installation seems very bizare, it was already installed, but apt installed it again.
 			" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
-					Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+				Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 			" Install oceanic-next theme:
-					Plug 'mhartington/oceanic-next'
+				Plug 'mhartington/oceanic-next'
 			" Install vim-airline:
-			 		Plug 'vim-airline/vim-airline'
+			 	Plug 'vim-airline/vim-airline'
 		  " Install themes for vim-airline:
-			 		Plug 'vim-airline/vim-airline-themes'
+			 	Plug 'vim-airline/vim-airline-themes'
 			" Install Gotham theme.
-					Plug 'whatyouhide/vim-gotham'
+				Plug 'whatyouhide/vim-gotham'
 			" Install vim-surround.
-					Plug 'tpope/vim-surround'
+				Plug 'tpope/vim-surround'
 			" Install vim-repeat.
-					Plug 'tpope/vim-repeat'
+				Plug 'tpope/vim-repeat'
 			" Install vim-commentary.
-					Plug 'tpope/vim-commentary'
+				Plug 'tpope/vim-commentary'
 			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
-					Plug 'edkolev/tmuxline.vim'
+				Plug 'edkolev/tmuxline.vim'
 			" Install Conquer of Completion.
-			"		Plug 'neoclide/coc.nvim', {'branch': 'release'}
-			" Install the vimwiki plugin. (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax
-			" on').
-					Plug 'vimwiki/vimwiki'
+			"	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+			" Install the vimwiki plugin.
+			" (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax on').
+				Plug 'vimwiki/vimwiki'
 			" Install vim-table-mode plugin that helps create and manage tables in vim.
-					Plug 'dhruvasagar/vim-table-mode'
+				Plug 'dhruvasagar/vim-table-mode'
+			" Install 'lh-vim-lib' plugin, used for various options and helper functions.
+			" [Check out the github link for more info]: https://github.com/LucHermitte/lh-vim-lib
+				Plug 'LucHermitte/lh-vim-lib'
+
 			call plug#end()
 
 "-----------------------------------[1.4] - Plugin Configuration.
@@ -190,6 +194,7 @@
 	" 															overwritten with the global settings specified here).
 	" (Potential fix by delaying the setting of the syntax until the filetype is finished in ftplugin.)
 		filetype plugin on
+		set filetype=on
 		set tabstop=4
 		set shiftwidth=4
 		set textwidth=100
@@ -199,6 +204,8 @@
 		set nocompatible
 		set autowriteall
 		set nobackup
+		"set wrap
+		"set linebreak
 		"set nowritebackup
 
 		" Adding this manually since the reloading of vimrc in the buffer overrides format options
@@ -394,6 +401,8 @@
 		" control/super button) via mappings to <Meta> (Alt).
 			map					<M-a>							<C-a>
 			map					<M-x>							<C-x>
+			nnoremap		<M-o>							o<Esc>0"_D
+			nnoremap		<M-O>							O<Esc>0"_D
 
 	"--------------------[4.5.0] Plugin keybinds.
 		"-------------------[4.5.1] Surround-plugin leader keybinds.

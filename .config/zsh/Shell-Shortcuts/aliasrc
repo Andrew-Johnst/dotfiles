@@ -82,9 +82,13 @@ alias                                                                   \
 	temp='cd /tmp/tempfiles'                                            \
 	tmpf='temp'                                                         \
 	tempz='cd /tmp/tempfiles/zsh'                                       \
+	vtmpf='cd /tmp/tempfiles/vim-tempfiles'                             \
 	tmpfz='tempz'                                                       \
 	tmpz='tempz'                                                        \
 	ztmp='tempz'                                                        \
+	tmpvf='vtmpf'                                                       \
+	tmpvd='vtmpf'                                                       \
+	vimtmpd='vtmpf'                                                     \
 	d='cd ~/Documents'                                                  \
 	ma='cd ~/Documents/Maintenance'                                     \
 	mai='ma'                                                            \

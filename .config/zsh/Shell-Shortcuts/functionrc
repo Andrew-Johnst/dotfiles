@@ -523,7 +523,7 @@ function pipup(){
 function netns-exec(){
 	# This just is a placeholder for the OpenVPN config file (using Torguard [All Servers]
 	# currently).
-	local OVPNFILE="/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn"
+	#	local OVPNFILE="/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn"
 
 	# This will remove the default "protected" sudo network namespace.
 	#[[ "$(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))" ]] 

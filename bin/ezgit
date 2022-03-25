@@ -93,10 +93,11 @@ EXCLUSIONS=(                                                   \
 			"*.netrwhist"                                      \
 			"*.swp"                                            \
 			"*.tdb"                                            \
-			".config/autostart"                                \
 			".config/Atom"                                     \
+			".config/autostart"                                \
 			".config/Bitcoin"                                  \
 			".config/BraveSoftware"                            \
+			".config/cantata"                                  \
 			".config/chromium"                                 \
 			".config/dconf/user"                               \
 			".config/duc"                                      \

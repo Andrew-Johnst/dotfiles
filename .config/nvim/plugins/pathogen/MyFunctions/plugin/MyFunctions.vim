@@ -35,41 +35,102 @@
 	endfunction
 
 " Function to return true if checking for the directory passed as the argument exists.
-	function! FileOrFolderExists(...)
-	if a:0 >= 1
-		try
-				if a:1 =~! '^[-]\{1,2\}[file|directory|help]\{1,\}'
-					let l:Errors = "Invalid argument: \"" . get(a:, 1) . "\""
-					throw l:Error = 1
-				elseif a:1 =~ '^[-]\{1,2\}[file]\{1,\}' && !empty(glob(get(a:, 2)))
-					let l:Filename = get(a:, 2)
-					return !empty(glob(l:Filename))
-				elseif a:1 =~ '^[-]\{1,2\}[directory]\{1,\}' && !empty(glob(get(a:, 2)))
-					let l:DirectoryName = get(a:, 2)
-					return !empty(glob(l:DirectoryName))
-				elseif a:1 =~ '^[-]\{1,2\}[help]\{1,\}'
-					throw l:Showusage = 1
-
-				"elseif a:1 =~ '^[-]\{1,2\}[file|directory|help]\{1,\}'
-
-					"echom get(a:, 1)
-					"throw l:error = 0
-					"if a:1 =~ '^[-]\{1,2\}[f|d|h|file|directory|help]\{1,\}'
-				endif
-			endtry
-		endif
-	endfu!
-
-" Function to determine whether or not there are any open files in current vim buffer (@%), if so then open file in
-" current tab, if not then open in a new tab.
-
-		function! OpenFileInNextAvailableBuffer(filename)
-			if @% == ""
-				execute "e " . a:filename
-			else
-				execute "tabnew " . a:filename
+function! FileOrFolderExists(...)
+if a:0 >= 1
+	try
+			if a:1 =~! '^[-]\{1,2\}[file|directory|help]\{1,\}'
+				let l:Errors = "Invalid argument: \"" . get(a:, 1) . "\""
+				throw l:Error = 1
+			elseif a:1 =~ '^[-]\{1,2\}[file]\{1,\}' && !empty(glob(get(a:, 2)))
+				let l:Filename = get(a:, 2)
+				return !empty(glob(l:Filename))
+			elseif a:1 =~ '^[-]\{1,2\}[directory]\{1,\}' && !empty(glob(get(a:, 2)))
+				let l:DirectoryName = get(a:, 2)
+				return !empty(glob(l:DirectoryName))
+			elseif a:1 =~ '^[-]\{1,2\}[help]\{1,\}'
+				throw l:Showusage = 1
+			"elseif a:1 =~ '^[-]\{1,2\}[file|directory|help]\{1,\}'
+				"echom get(a:, 1)
+				"throw l:error = 0
+				"if a:1 =~ '^[-]\{1,2\}[f|d|h|file|directory|help]\{1,\}'
 			endif
-		endfunction
+		endtry
+	endif
+endfu!
+
+" Function to act as a 'helper' function for other vimscript functions. This function will allow for
+" text wrapping with whatever text is passed to the function will be the text to be wrapped
+" [Taken from this stackexchange post]:
+" 	https://vi.stackexchange.com/questions/4612/is-there-a-vimscript-function-to-wrap-text
+"function! WrapText(...)
+"			" Check if there were any arguments even given in the first place; if not then do nothing since
+"			" there is no text to even wrap. If so, then proceed to check for the second (and third)
+"			" argument(s).
+"			if (len(a:000) == 0)
+"				let l:TextWidth=&l:textwidth
+"				echom l:TextWidth
+"		
+"			endif
+"			"echom len(a:000)
+"			"echo "\n"
+"			"echo a:000
+"			"echom &l:textwidth
+"			"echom l:textwidth
+"			"echo a:0
+"			"echo "A"
+"			" Check if the second argument is an integer or not (if so, just for edge-cases where the second
+"			" word of a string may be a number, assume it to be an integer but proceed to check the third
+"			" argument for an integer value--if that is true, then perform more checks)
+"
+"		
+"	function! WrapText(text, width, indent)
+"			let l:line = ''
+"			let l:ret = ''
+"		
+"			"for word in split(a:text)
+
+"	  let l:line = ''
+"	  let l:ret  = ''
+"	
+"	  for word in split(a:text)
+"	
+"	    if len(l:line) + len(word) + 1 > a:width
+"	
+"	       if len(l:ret)
+"	          let l:ret .= "\n"
+"	       endif
+"	       let l:ret .=  repeat(' ', a:indent) . l:line
+"	
+"	       let l:line = ''
+"	
+"	    endif
+"	
+"	    if len (l:line)
+"	       let l:line .= ' '
+"	    endif
+"	
+"	    let l:line .= word
+"	
+"	  endfor
+"	
+"	  let l:ret .= "\n" . repeat(' ', a:indent) . l:line
+"	
+"	  return l:ret
+
+"endfunction!
+"command -nargs=? WrapText call WrapText(<f-args>)
+"command -nargs=? WrapText :silent call WrapText(<f-args>)
+"cnoreabbrev wt WrapText
+
+" Function to determine whether or not there are any open files in current vim buffer (@%), if so
+" then open file in current tab, if not then open in a new tab.
+function! OpenFileInNextAvailableBuffer(filename)
+	if @% == ""
+		execute "e " . a:filename
+	else
+		execute "tabnew " . a:filename
+	endif
+endfunction!
 
 " Enables spellcheck if disabled, moves cursor to next typo, asks if it should be changed to the first
 " spellcheck recommendation, then moves to the next one until an <Esc> key is pressed.
@@ -245,6 +306,7 @@ fu! NewTempFile(...)
 	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")	"Contains date with seconds with AM/PM.
 	let l:directory = "/tmp/tempfiles/vim-tempfiles/"
 	let l:filename = l:datetime
+
 	"let l:filename = "tempfile_" . l:datetime
 
 	"" Checks if '/tmp/tempfiles/vim-tmpfiles/' directory exists, create it if not.
@@ -265,8 +327,7 @@ fu! NewTempFile(...)
 	"echo get(a:, 0)
 	"echo get(a:, 1)
 	"echo get(a:, 2)
-	return 0
-
+	"return 0
 	" Checks if argument(s) are given. Multiple arguments are concatenated into one variable (in case
 	" the filename desired has spaces in it) and uses that variable as the filename. If no
 	" arguments--or arguments containing POSIX-illegal characters--the filename will be set to the
@@ -276,8 +337,10 @@ fu! NewTempFile(...)
 		"exe "e " . l:directory . l:filename
 		echom "AAAA"
 	else
-		echom "Default filename will be used in the format of: <MM-DD-YYYY___HH-MM-SS> in the" \
-					\ "'/tmp/vim-tmpfiles/' directory."
+		echo "\n"
+		echom 'Default filename will be used in the format of: <MM-DD-YYYY___HH-MM-SS> in the
+					\ /tmp/vim-tmpfiles/ directory.'
+		echo "\n"
 		let l:filename = "/tmp/tempfiles/nvim-tempfiles/" . l:filename
 		echom l:filename
 		echom "BBBB"
@@ -287,6 +350,20 @@ fu! NewTempFile(...)
 endfu!
 command -nargs=? NTF call NewTempFile(<f-args>)
 cnoreabbrev ntf NTF
+
+
+
+"##################################################################################################"
+"###################### Testing and Commented-Out (or Non-Working) Functions ######################"
+"##################################################################################################"
+
+function! TESTING(...)
+	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")	"Contains date with seconds with AM/PM.
+	let l:filename = "tempfile_" . l:datetime
+	echo l:filename
+endfunction!
+command -nargs=? TESTING call TESTING(<f-args>)
+cnoreabbrev test TEST
 
 " Function--and command--to create a new "temporary" file in the [/tmp/tempfiles/] directory, which
 " is the same directory as the zsh aliasrc alias for creating new tempfiles.
