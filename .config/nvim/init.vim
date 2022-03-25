@@ -47,8 +47,10 @@
 	"---------------------[1.3] Load Plugins.
 		"-------------------[1.3.1] Load Custom Files and Manually Installed Plugins via Bundle.vim
 			" This installs plugins installed manually in the directory specified below.
-			execute pathogen#infect('~/.config/nvim/plugins/pathogen/{}', '~/.config/nvim/plugins/config/{}')
+			execute pathogen#infect('~/.config/nvim/plugins/pathogen/{}',
+						\ '~/.config/nvim/plugins/config/{}')
 			execute pathogen#infect('~/.config/nvim/plugins/config/{}*')
+
 		"------------------[1.3.2] Loads Plugged Vim Plugin Manager and Specify Plugins to be Installed.
 			call plug#begin('~/.config/nvim/plugins/plugged')
 		  " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align:
@@ -95,6 +97,10 @@
 			" Install 'lh-vim-lib' plugin, used for various options and helper functions.
 			" [Check out the github link for more info]: https://github.com/LucHermitte/lh-vim-lib
 				Plug 'LucHermitte/lh-vim-lib'
+			" Install vim-colors-paramount colorscheme/theme.
+				Plug 'owickstrom/vim-colors-paramount'
+			" Install vim-colors-plain colorscheme/theme.
+				Plug 'andreypopp/vim-colors-plain'
 
 			call plug#end()
 

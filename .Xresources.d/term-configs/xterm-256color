@@ -89,3 +89,5 @@ XTerm*pointerColor: white
 XTerm*pointerColorBackground: black
 XTerm*cursorColor: yellow
 XTerm*cursorBlink: true
+
+! /* vim: set filetype=xdefaults: */

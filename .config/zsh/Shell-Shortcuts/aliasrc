@@ -152,6 +152,7 @@ alias                                                                   \
 	pcg='paux | icg '                                                   \
 	pig='paux | icg '                                                   \
 	cchart='/usr/local/bin/colorchart'                                  \
+	cnum='/usr/local/bin/colornum'                                      \
 	k9='kill -9'                                                        \
 	vp='nvim -p '                                                       \
 	sep='sudo -E nvim -p '                                              \

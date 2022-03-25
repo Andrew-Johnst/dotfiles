@@ -1,7 +1,11 @@
 ! Xresources file, work in progress.
 
-! (Added [2-22-2022 7:05AM] to include the files included in the ~/.Xresources.d/* directory)
-#include ".Xresources.d/"
+! (Added [2-22-2022 7:05AM] to include the files included in the "~/.Xresources.d/*" directory)
+
+!#include ".Xresources.d/term-configs/rxvt-unicode"
+!#include ".Xresources.d/term-configs/st"
+!#include ".Xresources.d/term-configs/xterm"
+!#include ".Xresources.d/term-configs/xterm-256color"
 
 !#include ".Xresources.d/st"
 !#include ".Xresources.d/rxvt-unicode"
@@ -12,10 +16,10 @@
 !#include ".Xresources.d/Solarized-dark"
 
 ! Manually adding this single xterm settings to the main Xresources file to test sixel-xterm ffmpeg.
-#XTerm*decTerminalID: vt340
-#XTerm*sixelScrolling: true
-#XTerm*regisScreenSize: 1920x1080
-#XTerm*numColorRegisters: 256
+!#XTerm*decTerminalID: vt340
+!#XTerm*sixelScrolling: true
+!#XTerm*regisScreenSize: 1920x1080
+!#XTerm*numColorRegisters: 256
 
 ! Adding this in 5-5-20 based off of that one Arch forum post for ncmpcpp.
 ! https://bbs.archlinux.org/viewtopic.php?pid=1663852#p1663852
@@ -66,3 +70,6 @@ URxvt.clipboard.autocopy:       true
 *color14:     cyn
 *color7:      wht
 *color15:     wht
+
+
+! /* vim: set filetype=xdefaults: */

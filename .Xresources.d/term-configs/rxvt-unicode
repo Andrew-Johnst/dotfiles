@@ -314,3 +314,4 @@ URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 
 URxvt*iso14755: False
 
+! /* vim: set filetype=xdefaults: */
