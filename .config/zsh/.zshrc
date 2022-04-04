@@ -75,7 +75,10 @@ zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
 
 autoload -U compinit
-zstyle ':completion:*' menu select
+# [This was taken from VirtualBox Debian 11 64-Bit which was written at latest of [3-16-2020]]:
+#zstyle ':completion:*' menu select
+zstyle ':completion:*:*:-command-:*:*' tag-order 'functions:-non-comp *' functions
+zstyle ':completion:*:functions-non-comp' ignored-patterns '_*'
 zmodload zsh/complist
 compinit
 
