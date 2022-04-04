@@ -35,10 +35,11 @@ ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
 	for f in ${ShellShortcutDir}*; do source "$f"; done && \
 	export ZSH_SHORTCUTS="$HOME/.config/zsh/Shell-Shortcuts/"
 
-# Check if a directory named "Shell-Helpers is located in the $ZDOTDIR directory, if it is then
-# export an environment variable pointing to that directory.
-#ShellHelperDir="$Home/.config/zsh/Shell-Helpers/"
-#[ -d "$ShellHelperDir" ] && export ZSH_HELPERSCRIPTS="$ShellHelperDir"
+# Check if a directory named "Scripts" is available in the current $ZDOTDIR directory, if it is then
+# export a variable for $ZSHSCRIPTS pointing to that directory, so that some scripts may be
+# called more conveniently.
+[ -d "$ZDOTDIR/Scripts" ] && \
+	export ZSHSCRIPTS="$ZDOTDIR/Scripts"
 
 # Check if a local (host specific) aliasrc file exists; if it does then source it, otherwise ignore
 # it.
@@ -55,6 +56,16 @@ ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
 # environment variable "ZSH_PROGRAM_FILTERS" if so.
 [ -d "$ZDOTDIR/Filters/" ] && \
 	export ZSH_PROGRAM_FILTERS="$ZDOTDIR/Filters/"
+
+# Check if a directory named "Shell-Helpers is located in the $ZDOTDIR directory, if it is then
+# export an environment variable pointing to that directory.
+#ShellHelperDir="$Home/.config/zsh/Shell-Helpers/"
+#[ -d "$ShellHelperDir" ] && export ZSH_HELPERSCRIPTS="$ShellHelperDir"
+
+####################################################################################################
+################# Scripts, Functions, Etc. To Run During Each Shell Instance Spawn #################
+####################################################################################################
+
 
 # This automatically allows ZSH to determine if a link has been pasted into the terminal/shell and
 # automatically handles the special characters appropriately by escaping them.
@@ -337,6 +348,15 @@ export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 # preventing neovim from being able to <C-r> (aka, "Redo" after an <u> "Undo") and this solution was
 # found on the fzf github issues.
 [ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
+
+# Adding this to ZSHRC file to make sure that Ruby has the proper GEM_HOME and PATH since during
+# original installation (installing dependencies, namely: "ruby-jquery-ui-rails=6.0.1+dfsg-6" to be
+# able to install OBS which is a prerequisite/build-dependency for glava).
+# [When looking into these directories there was no bin directory, so I changed the group of the
+# /var/lib/gems directories to one I was a part of and gave the group write permissions so I have
+# less likelyhood of messing something up with only a group change].
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+export PATH="$PATH:$GEM_HOME/bin"
 
 ####################################################################################################
 ## Installing and sourcing various ZSH Plugins (downloading and installing if not already present ##

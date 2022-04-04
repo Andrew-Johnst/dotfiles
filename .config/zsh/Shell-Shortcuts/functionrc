@@ -332,6 +332,11 @@ function getaptkeyf(){
 	# Checks if at least one argument is given, exits if not.
 	[[ -z "$@" ]] && echo "Must specify keys to be added." && exit 1
 
+	# Check for a [-k|--key|--key-only] option which will only lookup the gpg key on the keyserver
+	# and then exit without adding it.
+	([[ "$1" == "-k" ]] || [[ "$1" == "--key" ]] || [[ "$1" == "--key-only" ]]) && \
+		gpg --keyserver hkp://keyserver.ubuntu.com:80 --search "${@:2}" && exit 0
+
 	# Checks if the script version of this function is present. If found, forward the arguments
 	# given to this function to the script; if not then continue running this function and
 	# assume all argument parameters are all PUBKEY's requiring validation and importing.
@@ -341,6 +346,24 @@ function getaptkeyf(){
 		&& exit 0
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "$@" \
 		|| sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@"
+}
+
+### (NEED TO UPGRADE THIS FUNCTION LATER SINCE THE ABOVE "getaptkeyf" IS NOW DEPRECATED AND NOW GPG
+### --DEARMOR AND [/etc/apt/trusted.d/*] IS WHERE ALL THE GPG KEYS ARE STORED).
+# Function to sorta streamline the new way of importing gpg keys for apt.
+function aptgpgkey(){
+	# Currently just disabling this function for now, as it needs some testing.
+	return 0
+	set -e
+	[[ "$#" -eq 0 ]] && echo "Please either provide a *.gpg or *.key file, or pipe it with STDIN." \
+		&& exit 1
+	[[ -f "$1" ]] && ([[ "$1" == "*.key" ]] || [[ "$1" == "*.gpg" ]]) && \
+		NAME="$(basename -s .key -s .gpg "$1")" && FILENAME="$1"
+	
+	sudo "$(cat "$FILENAME" | gpg --dearmor > "/usr/share/keyrings/$NAME-archive.gpg")"
+	sudo install -o root -g root -m 644 \
+		"/usr/share/keyrings/$NAME-archive.gpg" /etc/apt/trusted.gpg.d/
+
 }
 
 # Function to redo previous command, but as sudo. ("Brute-force" method of doing this utilizing the
@@ -407,9 +430,12 @@ function pdocconv(){
 # file typically to test something out) an environment variable will be set to the last opened file
 # opened with this function. Also an option to display a list of files in this directory and their
 # last modification date and time.
-#	vtmp(){
-#		export LASTVTMPFILE="/tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`"
-#	}
+function vtmp(){
+	local DATETIME="`date '+%m-%d-%Y_%H-%M-%S%p'`"
+	[[ -e "$1" ]] && local TMPFILENAME="$1"
+	#export LASTVTMPFILE="`date '+%m-%d-%Y_%H-%M-%S%p'`"
+	"$EDITOR" "/tmp/tempfiles/zsh/`date '+%m-%d-%Y_%H-%M-%S%p'`"
+}
 
 # Function to create a bzip2 tar file while utilizing pbzip2 (a bzip2 program that utilizes
 # multithreading/parallel-processing for faster times; if pbzip2 isn't installed, use bzip2; if
@@ -509,8 +535,8 @@ function pipup(){
 	# Upgrades the pip program.
 	/usr/bin/env python3 -m pip install --upgrade pip
 	# Checks for outdated pip/python packages
-	/usr/bin/env python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | \
-		cut -d = -f 1 | xargs -n1 pip3 install -U
+	/usr/bin/env python3 -m pip list --outdated --format=freeze | \
+		grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
 }
 
 # Function used when there exists a protected network namespace created via the "namespaced-openvpn"
@@ -565,7 +591,7 @@ function genpass(){
 		local CHARLENGTH=10
 		#echo -e "Using default ${CRED}10${CRE} character length.\n") || \
 		#([[ ! "$1" ]] && echo -ne "No input given, using default ${CRED}10${CRE} char limit.\n") && \
-	openssl rand -base64 ${CHARLENGTH}
+	openssl rand -base64 ${CHARLENGTH} | cut -c -${CHARLENGTH}
 
 
 
@@ -591,8 +617,16 @@ function genpass(){
 
 	# General case statement to get various options to change what type of data/passphrase will be
 	# generated.
-
 }
+
+# Instead of aliasing ranger in the aliasrc file, I am doing it here so that I can run a small check
+# to ensure that ranger is not opening in a nested session, since the code was not running (probably
+# not having taken precedence over the other locations in the $PATH to ranger, or from it being
+# aliased).
+function ranger(){
+	[[ -z "$RANGER_LEVEL" ]] && /usr/bin/ranger "$@" || exit
+}
+alias r='ranger "$@"'
 
 # Function for youtube-dl to download YouTube Videos/Music (as well as SoundCloud and other online
 # streaming service content). This function's primary reason for existence is to allow for an option

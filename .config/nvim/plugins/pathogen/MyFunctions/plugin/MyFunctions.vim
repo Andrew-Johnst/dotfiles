@@ -131,6 +131,11 @@ function! OpenFileInNextAvailableBuffer(filename)
 		execute "tabnew " . a:filename
 	endif
 endfunction!
+" Creating a command to allow parameters to be passed to the function, then abbreviating the above
+" function.
+	"command! -nargs=*	-complete=command OFINAB call OpenFileInNextAvailableBuffer(<args>)
+	command! -nargs=1 -complete=file OFINAB call OpenFileInNextAvailableBuffer(<q-args>)
+	cnoreabbrev ofinab OFINAB
 
 " Enables spellcheck if disabled, moves cursor to next typo, asks if it should be changed to the first
 " spellcheck recommendation, then moves to the next one until an <Esc> key is pressed.
@@ -194,32 +199,30 @@ endfunction!
 
 " Command + abbreviation to delete the file open in current tab, as well as a 'purge all' option.
 "	(Too braindead to figure out right now, come back to this later).
-	function DeleteCurrentOpenFile()
-		" Commenting this below section out that uses the built-in confirm() function and uses the
-		" Confirm() function defined at the top of this file.
-		let l:confirm = Confirm("Confirm to delete and close file currently open [Y/N]:")
-		if l:confirm == 1
-			echom "Deleting and closing the current file..."
-			sleep 1
-			silent! exe "call delete(expand('%:p'))"
-			silent! exe "bdelete!"
-		"elseif l:confirm == 0
-		else
-			echom "Not deleting current file..."
-		endif
-		"		let l:confirmchoice = confirm("Confirm to delete this current file:", "&Yes\n&No", 2)
-		"		if l:confirmchoice == 1
-		"			silent! exe "call delete(expand('%:p')) | bdelete!"
-		"			"cnoreabbrev deletecurrentfile silent! exe "call delete(expand('%:p'))"
-		"		elseif l:confirmchoice == 2
-		"			echom "Not deleting current file."
-		"		else
-		"			echoerr "Invalid key pressed.\nNot deleting any file."
-		"		endif
-	endfunction
-	cnoreabbrev kms call DeleteCurrentOpenFile()
-
-
+function DeleteCurrentOpenFile()
+	" Commenting this below section out that uses the built-in confirm() function and uses the
+	" Confirm() function defined at the top of this file.
+	let l:confirm = Confirm("Confirm to delete and close file currently open [Y/N]:")
+	if l:confirm == 1
+		echom "Deleting and closing the current file..."
+		sleep 1
+		silent! exe "call delete(expand('%:p'))"
+		silent! exe "bdelete!"
+	"elseif l:confirm == 0
+	else
+		echom "Not deleting current file..."
+	endif
+	"		let l:confirmchoice = confirm("Confirm to delete this current file:", "&Yes\n&No", 2)
+	"		if l:confirmchoice == 1
+	"			silent! exe "call delete(expand('%:p')) | bdelete!"
+	"			"cnoreabbrev deletecurrentfile silent! exe "call delete(expand('%:p'))"
+	"		elseif l:confirmchoice == 2
+	"			echom "Not deleting current file."
+	"		else
+	"			echoerr "Invalid key pressed.\nNot deleting any file."
+	"		endif
+endfunction
+cnoreabbrev kms call DeleteCurrentOpenFile()
 
 " Function to surround word in cursor with either single or double quotes.
 

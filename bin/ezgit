@@ -105,6 +105,7 @@ EXCLUSIONS=(                                                   \
 			".config/filelightrc"                              \
 			".config/google-chrome"                            \
 			".config/ghb"                                      \
+			".config/glava"                                    \
 			".config/libvirt"                                  \
 			".config/lximage-qt/settings.conf"                 \
 			".config/mpd/database"                             \

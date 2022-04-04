@@ -27,7 +27,7 @@ alias s='sudo'				# Adding this alias back since it made more logical sense to h
 
 # Shortened browser/editor aliases.
 alias                                                                   \
-	r='ranger'                                                          \
+	sr='sudo -E ranger '                                                \
 	h='hunter '                                                         \
 	v='nvim '                                                           \
 	vp='v -p "$@"'                                                      \
@@ -45,8 +45,8 @@ alias                                                                   \
 	tmc='v ~/.tmux.conf'                                                \
 	arc='v "$ZSH_SHORTCUTS/aliasrc"'                                    \
 	frc='v "$ZSH_SHORTCUTS/functionrc"'                                 \
-	vtmp='v /tmp/tempfiles/zsh/`date "+%m-%d-%Y_%H-%M-%S%p"`'           \
-	tmpv='tmpv'	
+	tmpv='vtmp '	
+	#vtmp='v /tmp/tempfiles/zsh/`date "+%m-%d-%Y_%H-%M-%S%p"`'          \
 	#vtmp='v /tmp/tempfiles/`date "+%m-%d-%Y_%H-%M-%S"`'	
 
 # Automatically specifying options always used to a shortened alias
@@ -112,6 +112,10 @@ alias                                                                   \
 	mnh='cd ~/Mountpoints'                                              \
 	backups='cd ~/Mountpoints/Private/Backups'                          \
 	bups='backups'                                                      \
+	virt='cd /mnt/Virtualization'                                       \
+	#ddir='cd /mnt/Virtualization/docker'                                \
+	dockd='ddir'                                                        \
+	dockerdir='ddir'                                                    \
 
 # General quality of life improvements and aliasing lengthy commands.
 # [youtube-dl is defined in functionrc due to the custom "-o" output
@@ -139,12 +143,12 @@ alias                                                                   \
 	ip='ip --color=always'                                              \
 	fm='q pcmanfm-qt '                                                  \
 	bt='btop'                                                           \
-	mdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
-	myt='youtube-dl --config-location ~/.config/youtube-dl/mconfig '    \
-	mytd='youtube-dl --config-location ~/.config/youtube-dl/mconfig '   \
+	ytdl='youtube-dl --config-local ~/.config/youtube-dl/config '       \
+	scdl='youtube-dl --config-location ~/.config/youtube-dl/scconfig '  \
 	mytdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '  \
-	ytd='youtube-dl '                                                   \
-	ytdl='youtube-dl '                                                  \
+	mdl='mytdl '                                                        \
+	myt='mytdl '                                                        \
+	mytd='mytdl '                                                       \
 	nics='sudo ifconfig | plx'                                          \
 	paux='ps aux'                                                       \
 	pauxicg='paux | icg '                                               \

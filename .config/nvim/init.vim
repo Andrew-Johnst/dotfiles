@@ -75,6 +75,7 @@
 				Plug 'mhartington/oceanic-next'
 			" Install vim-airline:
 			 	Plug 'vim-airline/vim-airline'
+				"Plug 'https://github.com/vim-airline/vim-airline.git'
 		  " Install themes for vim-airline:
 			 	Plug 'vim-airline/vim-airline-themes'
 			" Install Gotham theme.
@@ -101,6 +102,11 @@
 				Plug 'owickstrom/vim-colors-paramount'
 			" Install vim-colors-plain colorscheme/theme.
 				Plug 'andreypopp/vim-colors-plain'
+			" Install ranger plugin for vim/neovim. (Taken from vimawesome page).
+			" (Commenting this out since I currently have no idea as to why I would need this plugin
+			" instead of the previously installed version on the system; or I just haven't found out what
+			" this plugin does).
+			" Plug 'hut/ranger'
 
 			call plug#end()
 
@@ -250,7 +256,7 @@
 		" using this solution found on stackoverflow below.
 			augroup remember_folds
 				autocmd!
-				autocmd BufWinLeave * mkview
+				autocmd BufWinLeave * silent! mkview
 				autocmd BufWinEnter * silent! loadview
 			augroup END
 
@@ -329,11 +335,18 @@
         cnoreabbrev frc	:FRC
 
 		" Command to open the main file containing my custom neovim functions.
-				command!		NCFU :call OpenFileInNextAvailableBuffer("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
+				"command!		NCFU :call OpenFileInNextAvailableBuffer("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
+				"command!		NCFU :call 
+				"			\ OFINAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
+				command!		NCFU :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
 				cnoreabbrev ncfu :NCFU
 				cnoreabbrev vcfu :NCFU
 				cnoreabbrev nfu :NCFU
 				cnoreabbrev vfu :NCFU
+
+		" Make it so that the "help" console command opens the help in a new tab in the vim buffer
+		" instead of a horizontal window split.
+				cabbrev			help tab help
 
 		" Command to write the currently opened file as sudo.
 				command!			SudoWrite	:w !sudo tee %

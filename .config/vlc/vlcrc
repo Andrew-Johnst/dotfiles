@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.16
+###  vlc 3.0.17.3
 ###
 
 ###
@@ -47,7 +47,7 @@
 #qt-fs-opacity=0.800000
 
 # Resize interface to the native video size (boolean)
-#qt-video-autoresize=1
+qt-video-autoresize=0
 
 # Show playing item name in window title (boolean)
 #qt-name-in-title=1
@@ -695,6 +695,29 @@ qt-privacy-ask=0
 # Group packets (integer)
 #sout-udp-group=1
 
+[access_output_srt] # SRT stream output
+
+# Return poll wait after timeout milliseconds (-1 = infinite) (integer)
+#poll-timeout=-1
+
+# SRT latency (ms) (integer)
+#latency=120
+
+# Password for stream encryption (string)
+#passphrase=
+
+# SRT maximum payload size (bytes) (integer)
+#payload-size=1316
+
+# SRT maximum bandwidth ceiling (bytes) (integer)
+#bandwidth-overhead-limit=25
+
+# Crypto key length in bytes (integer)
+#key-length=16
+
+#  SRT Stream ID (string)
+#streamid=
+
 [avio] # libavformat AVIO access
 
 # Advanced options (string)
@@ -815,6 +838,23 @@ qt-privacy-ask=0
 # Sample rate (integer)
 #alsa-samplerate=48000
 
+[access_srt] # SRT input
+
+# Return poll wait after timeout milliseconds (-1 = infinite) (integer)
+#poll-timeout=-1
+
+# SRT latency (ms) (integer)
+#latency=120
+
+# Password for stream encryption (string)
+#passphrase=
+
+# Crypto key length in bytes (integer)
+#key-length=16
+
+#  SRT Stream ID (string)
+#streamid=
+
 [smb] # SMB input
 
 # Username (string)
@@ -825,6 +865,14 @@ qt-privacy-ask=0
 
 # SMB domain (string)
 #smb-domain=
+
+[access_jack] # JACK audio input
+
+# Pace (boolean)
+#jack-input-use-vlc-pace=0
+
+# Auto connection (boolean)
+#jack-input-auto-connect=0
 
 [http] # HTTP input
 
@@ -868,6 +916,9 @@ qt-privacy-ask=0
 
 # Audio CD device (string)
 #cd-audio=/dev/sr0
+
+# Musicbrainz Server (string)
+#musicbrainz-server=musicbrainz.org
 
 # CDDB Server (string)
 #cddb-server=freedb.videolan.org
@@ -2043,7 +2094,7 @@ qt-privacy-ask=0
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.16 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.17.3 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -2119,6 +2170,11 @@ qt-privacy-ask=0
 
 # Text direction (integer)
 #freetype-text-direction=0
+
+[svg] # svg
+
+# SVG template file (string)
+#svg-template-file=
 
 [swscale] # Video scaling filter
 
@@ -3159,6 +3215,26 @@ qt-privacy-ask=0
 # DTS dynamic range compression (boolean)
 #dts-dynrng=1
 
+[fluidsynth] # FluidSynth MIDI synthesizer
+
+# SoundFont file (string)
+#soundfont=
+
+# Chorus (boolean)
+#synth-chorus=1
+
+# Synthesis gain (float)
+#synth-gain=0.500000
+
+# Polyphony (integer)
+#synth-polyphony=256
+
+# Reverb (boolean)
+#synth-reverb=1
+
+# Sample rate (integer)
+#synth-sample-rate=44100
+
 [libass] # Subtitle renderers using libass
 
 # Additional fonts directory (string)
@@ -3644,6 +3720,20 @@ qt-privacy-ask=0
 
 # Software gain (float)
 alsa-gain=0.857375
+
+[jack] # JACK audio output
+
+# Automatically connect to writable clients (boolean)
+#jack-auto-connect=1
+
+# Connect to clients matching (string)
+#jack-connect-regex=system
+
+# JACK client name (string)
+#jack-name=
+
+# Software gain (float)
+#jack-gain=1.000000
 
 [afile] # File audio output
 
@@ -4318,7 +4408,7 @@ alsa-gain=0.857375
 #loop=0
 
 # Repeat current item (boolean)
-#repeat=0
+repeat=1
 
 # Play and exit (boolean)
 #play-and-exit=0

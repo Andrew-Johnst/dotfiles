@@ -75,8 +75,55 @@ class newcmd(Command):
         # Run a shell command.
         self.fm.run(['touch', 'newfile'])
 
+# Command to open selected files in neovim each in their own neovim tab (command: `nvim -p "%@"`).
+class vimtab(Command):
+    """:vimtab
+    Opens highlighted files in a neovim buffer with each selected file opened in its own tab.
+    """
 
+    allow_abbrev = False
+    escape_macros_for_shell = True
 
+    def execute(self):
+        import shlex
+        from functools import partial
+
+        def is_directory_or_file(path):
+            return os.path.isdir(path) and not os.path.islink(path) and len(os.listdir(path)) > 0
+
+        if self.rest(1):
+            file_names = shlex.split(self.rest(1))
+            files = self.fm.get_filesystem_objects(file_names)
+            if files is None:
+                return
+            many_files = (len(files) > 1 or is_directory_or_files(files[0].path))
+        else:
+            cwd = self.fm.thisdir
+            tfile = self.fm.thisfile
+            if not cwd or not tfile:
+                self.fm.notify("Error: no files selected for editing...", bad=True)
+                return
+
+            files = self.fm.thistab.get_selection()
+            # relative_path used for a user-friendly output in the confirmation.
+            file_names = [f.relative_path for f in files]
+            many_files = (cwd.marked_items or is_directory_or_file(tfile.path))     ### Change this.
+
+    def tab(self, tabnum):
+        return self._tab_directory_content()
+
+    def _open_files_catch_arg_list_error(self, files):
+        """
+        Executes the fm.execute_file method but catches OSError ("Argument list too long")
+        that occurs when moving too many files to trash (and would otherwise crash ranger)
+        """
+        try:
+            self.fm.execute_file(files, label='trash')
+        except OSError as err:
+            if err.errno == 7:
+                self.fm.notify("Error: Command too long (try passing less files at once)", bad=True)
+            else:
+                raise
 
 ####################################################################################################
 ############################################# Testing. #############################################
