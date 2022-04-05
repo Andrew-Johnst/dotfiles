@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#/home/drew/.config/ranger/scope.sh
+#
+# Bash/Shell script for ranger; creating my own scope.sh with only manual entries, however the
+# old/default file--with some modifications made--is at "scope.sh_bak" in the same directory.
+
+# This is to show Markdown files in a compiled format in the ranger text preview pane, using the npm
+# package "ansimd" and the site used to set this up is here:
+#	https://www.bfoliver.com/2015/05/18/markdowninranger/
+# [Markdown files]:
+	#markdown

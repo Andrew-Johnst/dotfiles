@@ -215,9 +215,15 @@ then
 
 	# (8-7-2021)
 	
+	# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	# !!! [4-4-2022 11:13PM] I changed this below setting (LIBGL_ALWAYS_INDIRECT=1 to 0) and before,
+	# !!! glxgears would NEVER spin, but after changing the value to a 0, the gears spun. This could
+	# !!! very well be because I purged all nvidia drivers (after switching from a GTX 750Ti to a
+	# !!! Radeon 400 series and installed OpenGL version 4+).
+	# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	# Sets OpenGL rendering to indirect, meant for rendering over network.
 	# https://unix.stackexchange.com/questions/1437/what-does-libgl-always-indirect-1-actually-do
-	export LIBGL_ALWAYS_INDIRECT=1
+	export LIBGL_ALWAYS_INDIRECT=0
 else
 	export DISPLAY=:0
 fi

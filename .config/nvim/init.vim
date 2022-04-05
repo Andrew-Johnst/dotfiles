@@ -151,19 +151,27 @@
 
 			colorscheme palenight
 			let g:airline_theme = "palenight"
-			"let g:palenight_terminal_italics=1
+			let g:palenight_terminal_italics=1
 			" Commenting all this out for now while testing out custom colorschemes/themes.
 			" colorscheme palenight
-			" set background=dark
+			set background=dark
 
 			" Specific settings for dracula (must be specified in this order or
 			" results in visual glitches (or at least in PuTTY-xterm sessions.)
 
-		 	" let g:dracula_colorterm = 0
-			" colorscheme dracula
-			" let g:dracula_italic = 0
+		 	 "let g:dracula_colorterm = 0
+			 "colorscheme dracula
+			 "let g:dracula_italic = 0
 			" colorscheme hybrid_material
-			" hi CursorLineNr gui=bold guifg=DarkRed guibg=#c0d0e0
+			 "hi CursorLineNr gui=bold guifg=DarkRed guibg=#c0d0e0
+
+			" Colorscheme 'Arcadia' taken from this github repository (found from looking for Xresources
+			" for xterm).
+			"		https://github.com/AlessandroYorba/Arcadia
+			"let g:arcadia_Midnight = 1
+			"let g:arcadia_Pitch = 1
+			"colorscheme arcadia
+			"let g:airline_theme = "arcadia"
 
 	"---------------------[2.2] Set Terminal colors to xterm-256color for PuTTY SSH connections.
 	" Potential fix, attempt 1 of 2.

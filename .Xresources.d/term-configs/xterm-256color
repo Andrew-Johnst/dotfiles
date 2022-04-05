@@ -2,10 +2,14 @@
 ! making edits: {2-22-2022 7AM}, and attempting changes to use the "xterm_BAK" file.]
 
 !XTerm*decTerminalID: vt340
-!XTerm*sixelScrolling: true
-!XTerm*regisScreenSize: 1920x1080
-!XTerm*numColorRegisters: 256
+xTerm*sixelScrolling: true
+xTerm*regisScreenSize: 1920x1080
+xTerm*numColorRegisters: 256
 
+!!![Fonts]!!!
+xTerm*.font Liberation Mono:pixelsize=14:antilaias=true:autohint=true;
+xTerm*.alpha: 0.9
+xTerm*.color0: #111
 
 
 !!! [This is taken from the "xterm_BAK" file (2-22-2022 7AM)]:

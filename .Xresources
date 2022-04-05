@@ -5,7 +5,7 @@
 #include ".Xresources.d/term-configs/rxvt-unicode"
 !#include ".Xresources.d/term-configs/st"
 !#include ".Xresources.d/term-configs/xterm"
-!#include ".Xresources.d/term-configs/xterm-256color"
+#include ".Xresources.d/term-configs/xterm-256color"
 
 !#include ".Xresources.d/st"
 !#include ".Xresources.d/rxvt-unicode"
@@ -16,10 +16,10 @@
 !#include ".Xresources.d/Solarized-dark"
 
 ! Manually adding this single xterm settings to the main Xresources file to test sixel-xterm ffmpeg.
-!#XTerm*decTerminalID: vt340
-!#XTerm*sixelScrolling: true
-!#XTerm*regisScreenSize: 1920x1080
-!#XTerm*numColorRegisters: 256
+!XTerm*decTerminalID: vt340
+!XTerm*sixelScrolling: true
+!XTerm*regisScreenSize: 1920x1080
+!XTerm*numColorRegisters: 256
 
 ! Adding this in 5-5-20 based off of that one Arch forum post for ncmpcpp.
 ! https://bbs.archlinux.org/viewtopic.php?pid=1663852#p1663852
@@ -29,7 +29,12 @@
 ! | 2016                  |
 ! \-----------------------/
 
-#include </home/drew/.Xresources.d/themes/synthwave>
+!#include </home/drew/.Xresources.d/themes/synthwave>
+!#include </home/drew/.Xresources.d/themes/Arcadia/arcadia.Xresources>
+!#include </home/drew/.Xresources.d/themes/Arcadia/arcadia_Twilight.Xresources>
+!#include </home/drew/.Xresources.d/themes/Arcadia/arcadia_Midnight.Xresources>
+!#include </home/drew/.Xresources.d/themes/Arcadia/arcadia_Pitch.Xresources>
+!#include </home/drew/.Xresources.d/themes/Arcadia/arcadia_Sunset.Xresources>
 
 
 !!! (Commenting this out [4-4-2022 11:20AM] just to test something out since there is already a file

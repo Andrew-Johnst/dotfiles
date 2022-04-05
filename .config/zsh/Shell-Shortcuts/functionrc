@@ -82,7 +82,7 @@ function mkcd(){
 # Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is
 # just pygmentized cat standard output in the terminal).
 function pcat(){
-	[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && exit 0
+	[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && return 0
 	pygmentize -f terminal256 -O style=monokai
 }
 # Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
@@ -549,7 +549,7 @@ function pipup(){
 function netns-exec(){
 	# This just is a placeholder for the OpenVPN config file (using Torguard [All Servers]
 	# currently).
-	#	local OVPNFILE="/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn"
+	#	local OVPNFILE="/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-USA.ovpn"
 
 	# This will remove the default "protected" sudo network namespace.
 	#[[ "$(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))" ]] 
