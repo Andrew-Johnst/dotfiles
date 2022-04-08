@@ -130,6 +130,8 @@
 
 "-----------------------------------[2.0] - Theming and appearance settings.
 	"---------------------[2.1] Colorscheme options.
+	" ### The default/current WSLTTY/MinTTY Theme in Windows 10 Desktop WSL2 TTY/Terminal is:      ###
+	" ### [base16-material-palenight-256.minttyrc]																						     ###
 		" Calling the custom theme in colors/lena.vim
 			"colorscheme lena
 
@@ -151,10 +153,16 @@
 
 			colorscheme palenight
 			let g:airline_theme = "palenight"
-			let g:palenight_terminal_italics=1
+
+			"let g:palenight_terminal_italics=1
 			" Commenting all this out for now while testing out custom colorschemes/themes.
 			" colorscheme palenight
-			set background=dark
+			"set background=dark
+
+			" Trying to set theme and vim-airline theme to Tomorrow-Night-Eighties.
+			"colorscheme Tomorrow-Night-Eighties
+			"let g:airline_theme='base16_tomorrow_night_eighties'
+			"let g:
 
 			" Specific settings for dracula (must be specified in this order or
 			" results in visual glitches (or at least in PuTTY-xterm sessions.)
@@ -173,20 +181,36 @@
 			"colorscheme arcadia
 			"let g:airline_theme = "arcadia"
 
-	"---------------------[2.2] Set Terminal colors to xterm-256color for PuTTY SSH connections.
-	" Potential fix, attempt 1 of 2.
-	"		if exists('+termguicolors')
-	"			let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-	"			let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-	"			set termguicolors
-	"		endif
-		"	if (has("termguicolors"))
-		"		set termguicolors
-		"	endif
-			"set termguicolors
-			"let g:oceanic_next_terminal_bold = 1
-			"let g:oceanic_next_terminal_italic = 1
-			"colorscheme OceanicNext
+	"---------------------[2.2] Settings for fixing improper default terminal color settings.
+		"		" Potential fix, attempt 1 of 2.
+		"				if exists('+termguicolors')
+		"					let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+		"					let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+		"					set termguicolors
+		"				endif
+		"				if (has("termguicolors"))
+		"					set termguicolors
+		"				endif
+		"				"set termguicolors
+		"				"let g:oceanic_next_terminal_bold = 1
+		"				"let g:oceanic_next_terminal_italic = 1
+		"				"colorscheme OceanicNext
+		"
+		" Settings from Archwiki for fixing colors in vim/neovim while using SucklessTerminal.
+		" (The background colour of text in vim will not fill in anything that is not a character):
+		"	[https://wiki.archlinux.org/title/st#Vim]
+			if &term =~ '256color'
+				" Disable Background Color Erase (BCE) so that color schemes render properly when inside
+				" 256-color tmux and GNU screen.
+				" (See Also):	https://sunaku.github.io/vim-256color-bce.html
+				set t_ut=
+			endif
+		" 256color and truecolor support not working in tmux or otherwise:
+		"set t_8f=^[[38;2;%lu;%lu;%lum				" Set foreground color.
+		"set t_8b=^[[48;2;%lu;%lu;%lum				" Set background color.
+		"colorscheme Tomorrow-Night-Eighties
+		set t_Co=256													" Enable 256 colors.
+		"set termguicolors										" Enable GUI colors for the terminal to get truecolor.
 
 	"---------------------[2.3] Vim-Airline config settings.
 		"let g:airline_theme='oceanicnext'
@@ -344,7 +368,7 @@
 
 		" Command to open the main file containing my custom neovim functions.
 				"command!		NCFU :call OpenFileInNextAvailableBuffer("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
-				"command!		NCFU :call 
+				"command!		NCFU :call
 				"			\ OFINAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
 				command!		NCFU :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
 				cnoreabbrev ncfu :NCFU
@@ -354,7 +378,12 @@
 
 		" Make it so that the "help" console command opens the help in a new tab in the vim buffer
 		" instead of a horizontal window split.
-				cabbrev			help tab help
+			" (The below/first cabbrev command has a bug where the '/' search function also replaces
+			" 'help' with 'tab help').
+			" https://vi.stackexchange.com/a/33221
+				"cabbrev			help tab help
+				cabbrev <expr> helptab (getcmdtype() == ':') ? "tab help" : "helptab"
+				cabbrev ht :helptab
 
 		" Command to write the currently opened file as sudo.
 				command!			SudoWrite	:w !sudo tee %
