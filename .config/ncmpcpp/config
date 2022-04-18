@@ -1,69 +1,140 @@
+# [Settings taken from this video/repo]:
+# 	https://www.youtube.com/watch?v=KZM9efTQxTc
+# 	https://github.com/BrodieRobertson/dotfiles/blob/master/config/ncmpcpp/config
+
+# Sets the MPD music directory to the "Music" directory in the users $HOME directory.
 mpd_music_dir = "$HOME/Music"
 
-# playlist
-playlist_disable_highlight_delay = "0"
-playlist_display_mode = "columns"
-now_playing_prefix = "$9$3●$9$2●$9$3●"
-now_playing_suffix = "$/b"
-song_columns_list_format = "(25)[cyan]{t} (18)[red]{a} $R (38)[magenta]{b} (15)[yellow]{g}"
-#song_list_format = "$5[$9$3%l$5]$9 $8|$9 $2%a$9 $8|$9 $5%t$9 $R $6%b$9 $8%g$9"
-song_list_format = "$8|$9 $2%a$9 $8|$9 $5%t$9 $R $6%b$9 $8%g$9"
 autocenter_mode = "yes"
-centered_cursor = "yes"
+follow_now_playing_lyrics = "yes"
+ignore_leading_the = "yes"
+ignore_diacritics = "yes"
+default_place_to_search_in = "database"
 
-# Added from this post:
-# https://www.reddit.com/r/unixporn/comments/5420y5/help_with_mpd_and_ncmpcpp/
-lines_scrolled="1"
-#ask_before_clearing_main_playlist = "yes"
-enable_window_title = "yes"
+## Display Modes ##
+playlist_editor_display_mode = "columns"
+search_engine_display_mode = "columns"
+browser_display_mode = "columns"
+playlist_display_mode = "columns"
 
+## General Colors ##
+colors_enabled = "yes"
+main_window_color = "cyan"
+header_window_color = "white"
+volume_color = "red"
+statusbar_color = "magenta"
+progressbar_color = "magenta"
+progressbar_elapsed_color = "white"
+
+## Song List ##
+#	song_columns_list_format = "(25)[cyan]{t} (18)[red]{a} $R (38)[magenta]{b} (15)[yellow]{g}"
+song_columns_list_format = "(10)[cyan]{l} (30)[magenta]{t} (30)[red]{a} (30)[blue]{b}"
+#song_list_format = "$5[$9$3%l$5]$9 $8|$9 $2%a$9 $8|$9 $5%t$9 $R $6%b$9 $8%g$9"
+#	song_list_format = "$8|$9 $2%a$9 $8|$9 $5%t$9 $R $6%b$9 $8%g$9"
+song_list_format = "{$7%a - $9}{$5%t$9}|{$5%f$9}$R{$6%b $9}{$3%l$9}"
+
+## Current Item ##
+# Below will be depreciated.
+#main_window_highlight_color = "red"
+current_item_prefix = "$(blue)$r"
+current_item_suffix = "$/r$(end)"
+current_item_inactive_column_prefix = "$(cyan)$r"
+#current_item_inactive_column_suffix = "$/r$(end)"
+
+## Alternative Interface ##
+user_interface = "alternative" #(classic|alternative)
+#user_interface = "alternative" (classic|alternative)
+#alternative_header_first_line_format ="$8┤$9 {$5%t$9} $8├$9"
+#alternative_header_second_line_format ="{$2%a$9} $8-$9 {$6%b$9} {$8(%y)$9}"
+alternative_header_first_line_format = "$0$aqqu$/a {$6%a$9 - }{$3%t$9}|{$3%f$9} $0$atqq$/a$9"
+alternative_header_second_line_format = "{{$4%b$9}{ [$8%y$9]}}|{$4%D$9}"
+
+## Classic Interface ##
+#song_status_format = "{{%a{ "%b"{ (%y)}} - }{$b%t$/b}}|{$b%f$/b}}"
+#	song_status_format = "{$2%a$9 $1>$9} {$5%t$9} $1|$9 {$6%b$9} $1|$9 {$8%y$9} $1|$9"
+song_status_format = " $6%a $7⟫⟫ $3%t $7⟫⟫ $4%b "
+
+## Visualizer ##
+visualizer_fifo_path = "/tmp/mpd-ncmpcpp.fifo"
+visualizer_output_name = "fifo_ncmpcpp"
+visualizer_sync_interval = "10"
+#visualizer_type = "wave" (spectrum/wave)
+visualizer_type = "spectrum" #(spectrum/wave)
+visualizer_in_stereo = "yes"
+#visualizer_color = "blue, cyan, green, magenta, red"
+#visualizer_color = "cyan"
+#visualizer_look = "●●"
+#visualizer_look = "●▋"
+#visualizer_look = "∙▋"
+#visualizer_look = ●▮
+#visualizer_look = "¤¤"
+visualizer_look = "◆▋"
+#visualizer_type = "spectrum" (spectrum/wave)
+
+## Navigation ##
+cyclic_scrolling = "yes"
+header_text_scrolling = "yes"
+jump_to_now_playing_song_at_start = "yes"
+lines_scrolled="2"
+
+## Other ##
+system_encoding = "utf-8"
+regular_expressions = "extended"
+
+## Selected Tracks ##
+selected_item_prefix = "* "
+discard_colors_if_item_is_selected = "yes"
+
+## Seeking ##
+incremental_seeking = "yes"
+seek_time = "1"
+
+## Visibility ##
+header_visibility = "yes"
+statusbar_visibility = "yes"
+titles_visibility = "yes"
+
+## Progress Bar ##
 # bars
 #progressbar_look = "░█ "
 #progressbar_look = "[̲̅_̲̅"
-progressbar_look = "██░"
-header_visibility = "no"
-titles_visibility = "no"
-statusbar_visibility = "yes"
-user_interface = "alternative" (classic|alternative)
-alternative_header_first_line_format ="$8┤$9 {$5%t$9} $8├$9"
-alternative_header_second_line_format ="{$2%a$9} $8-$9 {$6%b$9} {$8(%y)$9}"
-alternative_ui_separator_color ="white"
+#progressbar_look = "██░"
+progressbar_look =  "=>-"
+#alternative_ui_separator_color ="white"
 
-browser_display_mode = "columns"
-incremental_seeking = "yes"
-follow_now_playing_lyrics = "yes"
-ignore_leading_the = "yes"
+## Now Playing ##
+#	now_playing_prefix = "$9$3●$9$2●$9$3●"
+now_playing_prefix = "> "
+#now_playing_suffix = "$/b"
+centered_cursor = "yes"
+
+## Miscellaneous ##
+display_bitrate = "yes"
+# Added from this post:
+# https://www.reddit.com/r/unixporn/comments/5420y5/help_with_mpd_and_ncmpcpp/
+#ask_before_clearing_main_playlist = "yes"
+enable_window_title = "yes"
+#	empty_tag_color = "cyan"
+empty_tag_marker = ""
+
+## Playlist ##
+playlist_disable_highlight_delay = "0"
+
+
+
 lyrics_directory = "~/Music/Lyrics"
 display_volume_level = "yes"
 #execute_on_song_change = "mpdnotify"
 
 #media_library_left_column = "A"
-display_bitrate = "yes"
 song_window_title_format = "MPD: {%a - }{%t}"
 
-# Below will be depreciated.
-#main_window_highlight_color = "red"
-current_item_prefix = "$(red)$r"
-current_item_suffix = "$/r$(end)"
-current_item_inactive_column_prefix = "$(white)$r"
-current_item_inactive_column_suffix = "$/r$(end)"
-
 #song_list_format = "{%a - }{%t}|{$8%f$9}$R{$8(%l)$9}"
-#song_status_format = "{{%a{ "%b"{ (%y)}} - }{$b%t$/b}}|{$b%f$/b}}"
-song_status_format = "{$2%a$9 $1>$9} {$5%t$9} $1|$9 {$6%b$9} $1|$9 {$8%y$9} $1|$9"
 
-# colors
-colors_enabled = "yes"
-discard_colors_if_item_is_selected = "yes"
-header_window_color = "white"
-volume_color = "blue"
-progressbar_color = "magenta"
-progressbar_elapsed_color = "cyan"
-statusbar_color = "magenta"
-main_window_color = "cyan"
-color1 = "cyan"
-color2 = "white"
-empty_tag_color = "cyan"
+## Colors ##
+#progressbar_elapsed_color = "cyan"
+#color1 = "cyan"
+#color2 = "white"
 
 # Set transparency and 256 colors.
 
@@ -72,17 +143,4 @@ empty_tag_color = "cyan"
 #active_column_color = "black"
 #active_window_border = "white"
 
-visualizer_fifo_path = "/tmp/mpd-ncmpcpp.fifo"
-visualizer_output_name = "fifo_ncmpcpp"
-visualizer_sync_interval = "10"
-visualizer_in_stereo = "yes"
-visualizer_color = "blue, cyan, green, magenta, red"
-#visualizer_color = "cyan"
-#visualizer_look = "●●"
-#visualizer_look = "●▋"
-#visualizer_look = "∙▋"
-#visualizer_look = ●▮
-visualizer_look = "¤¤"
-visualizer_type = "wave" (spectrum/wave)
-#visualizer_type = "spectrum" (spectrum/wave)
 

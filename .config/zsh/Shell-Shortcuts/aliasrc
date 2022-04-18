@@ -113,7 +113,7 @@ alias                                                                   \
 	backups='cd ~/Mountpoints/Private/Backups'                          \
 	bups='backups'                                                      \
 	virt='cd /mnt/Virtualization'                                       \
-	#ddir='cd /mnt/Virtualization/docker'                                \
+	ddir='cd /mnt/Virtualization/docker'                                \
 	dockd='ddir'                                                        \
 	dockerdir='ddir'                                                    \
 

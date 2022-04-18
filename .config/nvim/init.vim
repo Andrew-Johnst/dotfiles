@@ -383,7 +383,7 @@
 			" https://vi.stackexchange.com/a/33221
 				"cabbrev			help tab help
 				cabbrev <expr> helptab (getcmdtype() == ':') ? "tab help" : "helptab"
-				cabbrev ht :helptab
+				cabbrev <expr> ht (getcmdtype() == ':') ? "tab help" : "ht"
 
 		" Command to write the currently opened file as sudo.
 				command!			SudoWrite	:w !sudo tee %

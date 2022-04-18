@@ -6,3 +6,11 @@ def_key "k"
   scroll_up
 def_key "j"
   scroll_down
+#def_key "7"
+#  show_lyrics
+def_key "alt-L"
+  show_lyrics
+#toggle_lyrics_fetcher
+
+
+#/* vim: set filetype=conf: set tabstop=2: set shiftwidth=2: */
