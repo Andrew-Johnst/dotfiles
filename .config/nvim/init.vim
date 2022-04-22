@@ -446,6 +446,10 @@
 		" Execute/run the file open in the current vim buffer (via calling the filepath in a shell).
 			nnoremap		<Leader>R					:!%:p
 		" map					<Leader>p					nciw
+		" Increment integers by 1 (manually mapping since VIM's default keybind conflicts with my TMUX
+		" control/super button) via mappings to <Leader> (Space).
+			map					<Leader>a					<C-a>
+			map					<Leader>x					<C-x>
 
 		"-------------------[4.4.7] General [Meta/Alt] keybinds and shortcuts.
 			noremap			<M-Space>					/<CR>ca<
@@ -453,10 +457,6 @@
 			noremap			<M-s>							}
 			map					<M-n>		    			<Esc>/<++><CR>ca<
 			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
-		" Increment integers by 1 (manually mapping since VIM's default keybind conflicts with my TMUX
-		" control/super button) via mappings to <Meta> (Alt).
-			map					<M-a>							<C-a>
-			map					<M-x>							<C-x>
 			nnoremap		<M-o>							o<Esc>0"_D
 			nnoremap		<M-O>							O<Esc>0"_D
 
