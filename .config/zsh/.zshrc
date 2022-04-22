@@ -364,8 +364,9 @@ export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 # [When looking into these directories there was no bin directory, so I changed the group of the
 # /var/lib/gems directories to one I was a part of and gave the group write permissions so I have
 # less likelyhood of messing something up with only a group change].
-export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
-export PATH="$PATH:$GEM_HOME/bin"
+[[ "$(command -v ruby)" ]] && \
+	export GEM_HOME="$(ruby -e 'puts Gem.user_dir')" && \
+	export PATH="$PATH:$GEM_HOME/bin"
 
 ####################################################################################################
 ## Installing and sourcing various ZSH Plugins (downloading and installing if not already present ##
