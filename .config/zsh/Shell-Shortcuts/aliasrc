@@ -59,7 +59,9 @@ alias                                                                   \
 	lat='ls -lath'                                                      \
 	mv='mv -v'                                                          \
 	cp='cp -v'                                                          \
-	rm='rm -r'
+	rm='rm -r'                                                          \
+	shredu='shred -u '                                                  \
+	shru='shred -u '
 
 # Directory shortcuts.
 alias                                                                   \
@@ -158,6 +160,7 @@ alias                                                                   \
 	cchart='/usr/local/bin/colorchart'                                  \
 	cnum='/usr/local/bin/colornum'                                      \
 	k9='kill -9'                                                        \
+	sk9='sudo kill -9'                                                  \
 	vp='nvim -p '                                                       \
 	sep='sudo -E nvim -p '                                              \
 	svt='sudo -E nvim -p '                                              \

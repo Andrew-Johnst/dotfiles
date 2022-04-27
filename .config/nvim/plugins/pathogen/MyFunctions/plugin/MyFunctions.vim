@@ -237,12 +237,59 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 " Function to display the current foldername fullpath (basically just 100<C-g> and strips everything
 " after the last forward-slash).
 
-" Function to flash a pair of cross-hairs on the cursor for 100ms.
-	function Flash()
-		set cursorline cursorcolumn
-		redraw
-		sleep 100m
-		set nocursorline nocursorcolumn
+" Function to flash a pair of cross-hairs on the cursor.
+" ### [Not currently implementing arguments since kinda superfluous] ###
+" Optional arguments are: First argument taking integer for number of flashes (default is 1 flash).
+" The second optional argument is the time (in milliseconds) to show the cursorlines on the screen
+" for (defualt is 150).
+	function Flash(flashcount, ...)
+		" Check if any arguments were even passed to the function, then verify if it is a valid integer.
+		"if (len(a:000) > 0 && a:1 > 0 && a:1 =~# '^\d\?\d$')
+
+		" The below regex is the proper way to do things with *JUST* Regex, but the range isn't correct.
+		"		if (len(a:000) > 0 && a:1 =~# '^\(0*[1-9][0-9]*\(\.[0-9]\+\)\?\|0\+\.[0-9]*[1-9][0-9]*\)')
+		"if (a:1 =~# '^\d\+$')
+
+		"if (exists(a:1) > 0 && a:1 > 0 && a:1 =~# '^\d\?\d$')
+		"	let l:flashcount = a:1
+		"else
+		"	let l:flashcount = 3
+		"endif
+
+		if(!exists(a:flashcount))
+			let l:flashcount=a:flashcount
+		endif
+		echom l:flashcount
+
+
+		" '(no)cul' is shorthand/abbreviation of (no)cursorline. 
+		" '(no)cuc' is shorthand/abbreviation of (no)cursorcolumn.
+		" Using '&<VIM SETTING>' will return that settings value (boolean settings will return 0 or 1).
+		let l:cul=&l:cul
+		let l:cuc=&l:cuc
+
+		" Make sure both options are set to 0 (off) in case either previously were enabled.
+		set nocul nocuc
+		sleep 50m
+
+		" For loop to flash the cursor position equal to 'l:flashcount' which is set by accepting an
+		" integer for the first function argument.
+		" (The default value is defined at the beginning of this function's definition of 3, meaning
+		" default of 3 cursor flashes).
+		"		for flash in range(l:flashcount)
+		"			set cursorline cursorcolumn
+		"			redraw | sleep 50m
+		"			set nocursorline nocursorcolumn
+		"		endfor
+
+		set cul cuc
+		redraw | sleep 100m
+
+		" Set either of the two cursor settings back to their value prior to this function call.
+		let &l:cul=l:cul
+		let &l:cuc=l:cuc
+
+		"echom "Somethign " . l:cul . l:cuc
 	endfunction
 
 " Function to run pandoc command to compile the file open in current buffer in either HTML5 or PDF.
@@ -354,7 +401,12 @@ endfu!
 command -nargs=? NTF call NewTempFile(<f-args>)
 cnoreabbrev ntf NTF
 
-
+" Function that inserts a specified character for selected text that can do one of these options:
+" [Underline, Insert a line of the specified character above the selected text, or fully encapsulate
+" the selected text (above and below)].
+function! CHARACTERENCAPSULATE(...)
+	silent echom 
+endfunction!
 
 "##################################################################################################"
 "###################### Testing and Commented-Out (or Non-Working) Functions ######################"

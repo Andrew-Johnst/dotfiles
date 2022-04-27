@@ -111,13 +111,15 @@
 			call plug#end()
 
 "-----------------------------------[1.4] - Plugin Configuration.
-	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-	""""""Configurations to plugins are stored under the custom Bundle plugin manager directory.""""""
-	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-	" This sets pathogen to search for files in the config directory.
+	"################################################################################################"
+	"#### Configurations to plugins are stored under the custom Bundle plugin manager directory. ####"
+	"################################################################################################"
 	"---------------------[1.4.1] VimWiki Configuration.
+	" Keybinds for this plugin ("VimWiki") is in section: [4.5.1] of this init.vim config file.
+	
 		"let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/'}]
-		"let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+		"let g:vimwiki_list = \
+		"	[{'path': '~/.config/nvim/plugins/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 		let g:vimwiki_list = [{'path': '~/Documents/Linux/VimWiki', 'syntax': 'markdown', 'ext': '.md'}]
 		let g:vimwiki_global_ext = 0
 
@@ -382,11 +384,16 @@
 			" 'help' with 'tab help').
 			" https://vi.stackexchange.com/a/33221
 				"cabbrev			help tab help
-				cabbrev <expr> helptab (getcmdtype() == ':') ? "tab help" : "helptab"
-				cabbrev <expr> ht (getcmdtype() == ':') ? "tab help" : "ht"
+				cabbrev <expr> helptab		(getcmdtype() == ':') ? "tab help" : "helptab"
+				cabbrev <expr> ht 				(getcmdtype() == ':') ? "tab help" : "ht"
 
 		" Command to write the currently opened file as sudo.
-				command!			SudoWrite	:w !sudo tee %
+				command!			SudoWrite		:w !sudo tee %
+
+		" Command to toggle showing 'cross-hairs' (showing both the cursor column and line).
+		" (This effectively turns on the 'Flash' function but permanently--however when calling the
+		" 'Flash' function, 
+				command! 			CrossHairs :setlocal cursorline! cursorcolumn!
 
 	"--------------------[4.4.0] General keybinds/settings.
 		"-------------------[4.4.1] Unmap default spacebar keybind, then map it to leader key.
@@ -410,14 +417,14 @@
 		"-------------------[4.4.2] Quick saving/leaving files.
 		" Makes use of suda.vim plugin.
 		" Write the currently opened file as sudo.
-			nnoremap 		<Leader>ws		:w suda://%	<CR>
-			nnoremap 		<Leader>w			:w					<CR>
-			nnoremap 		<Leader>wr		:w					<CR>
-			nnoremap 		<Leader>ww		:w!					<CR>
-			nnoremap 		<Leader>wq 		:wq					<CR>
-			nnoremap 		<Leader>q 		:q					<CR>
-			nnoremap 		<Leader>qq 		:q!					<CR>
-			nnoremap 		<Leader>qa 		:qa!				<CR>
+			nnoremap    <Leader>ws    :w suda://% <CR>
+			nnoremap    <Leader>w     :w          <CR>
+			nnoremap    <Leader>ww    :w!         <CR>
+			nnoremap    <Leader>wq    :wq         <CR>
+			nnoremap    <Leader>q     :q          <CR>
+			nnoremap    <Leader>qq    :q!         <CR>
+			nnoremap    <Leader>qa    :qa         <CR>
+			nnoremap    <Leader>qaq   :qa!        <CR>
 
 		"-------------------[4.4.3] Create command to remove any lines containing nothing other than whitespace
 		" (Comments are omitted), and creates abbreviation for easier calling.
@@ -453,8 +460,6 @@
 
 		"-------------------[4.4.7] General [Meta/Alt] keybinds and shortcuts.
 			noremap			<M-Space>					/<CR>ca<
-			noremap			<M-w>							{
-			noremap			<M-s>							}
 			map					<M-n>		    			<Esc>/<++><CR>ca<
 			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
 			nnoremap		<M-o>							o<Esc>0"_D
