@@ -1,4 +1,4 @@
-"				 __  __          __         _           _   _         __
+"				 __  __          __         _           _   _         __{{{
 "				|  \/  |_   _   / /__ _   _| |__       | |_(_) ___ _ _\ \
 "				| |\/| | | | | | / __| | | | '_ \ _____| __| |/ _ \ '__| |
 "				| |  | | |_| | | \__ \ |_| | |_) |_____| |_| |  __/ |  | |
@@ -15,36 +15,41 @@
 "							|  \| |/ _ \/ _ \ \ / / | || |\/| |
 "							| |\  |  __/ (_) \ V /  | || |  | |
 "							|_| \_|\___|\___/ \_/  |___|_|  |_|
-"
+"}}}
 "
 " My (usually) most up-to-date config file for Vim/neovim, mostly experimental as a learning
 " experience for learning and becoming more comfortable using Vim/neovim, trying to put down the GNU
 " Nano 'crack-pipe' to learn a better and far-more functional editor.
+"
+" /* vim: filetype:vim */
+"
+" ##################################################################################################
+" ###### Please for the love of god redo the formatting of this dumpsterfire (at some point). ######
+" ##################################################################################################
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""" Please for the love of god redo the formatting of this dumpsterfire """"""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  "-----------------------[1.0] Plug-ins and Preliminary settings.
+  	"---------------------[1.1] Autocommand clearing/insurance.
+		" [Clearing autocmd/augroup in case they get double loaded]:
+			au!
 
-" [1.0] Plug-ins and Preliminary settings.
-" [1.1] Autocommand clearing/insurance. (Clearing autocmd/augroup in case they get double loaded).
-	au!
+		"---------------------[1.2] Verify Installation Status of Vim-Plug and Pathogen Plugin managers.
+		" Activates Vim-Pathogen plugin; if it is not found, then automatically install it.
+				if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
+				echo "Downloading Vim-Plug plugin manager for nvim..."
+				silent !mkdir -p ~/.config/nvim/autoload/
+				silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
+					  \ > ~/.config/nvim/autoload/plug.vim
+				  autocmd VimEnter * PlugInstall
+				endif
 
-" [1.2] Check if Vim-plug and pathogen are installed for current user and install if not.
-	if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
-	echo "Downloading Vim-Plug plugin manager for nvim..."
-	silent !mkdir -p ~/.config/nvim/autoload/
-	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
-		  \ > ~/.config/nvim/autoload/plug.vim
-	  autocmd VimEnter * PlugInstall
-	endif
-" Activates Vim-Pathogen plugin, installs it if not found.
-	if ! filereadable(expand('~/.config/nvim/autoload/pathogen.vim'))
-	  echo "Downloading Vim-Pathogen plugin manager for neovim..."
-	  silent !mkdir -p ~/.config/nvim/autoload/ ~/.config/nvim/bundle
-		silent !curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-	endif
+		" Activates Vim-Pathogen plugin; if it is not found, then automatically install it.
+				if ! filereadable(expand('~/.config/nvim/autoload/pathogen.vim'))
+				  echo "Downloading Vim-Pathogen plugin manager for neovim..."
+				  silent !mkdir -p ~/.config/nvim/autoload/ ~/.config/nvim/bundle
+					silent !curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+				endif
 
-	"---------------------[1.3] Load Plugins.
+	"---------------------[1.3.0] Load Plugins.
 		"-------------------[1.3.1] Load Custom Files and Manually Installed Plugins via Bundle.vim
 			" This installs plugins installed manually in the directory specified below.
 			execute pathogen#infect('~/.config/nvim/plugins/pathogen/{}',
@@ -108,14 +113,17 @@
 			" this plugin does).
 			" Plug 'hut/ranger'
 
+			" Install plugin to preview Markdown inside the vim buffer.
+				Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+
 			call plug#end()
 
 "-----------------------------------[1.4] - Plugin Configuration.
 	"################################################################################################"
 	"#### Configurations to plugins are stored under the custom Bundle plugin manager directory. ####"
 	"################################################################################################"
-	"---------------------[1.4.1] VimWiki Configuration.
-	" Keybinds for this plugin ("VimWiki") is in section: [4.5.1] of this init.vim config file.
+	"---------------------------------[1.4.1] VimWiki Configuration.
+		" Keybinds for this plugin ("VimWiki") is in section: [4.5.1] of this init.vim config file.
 	
 		"let g:vimwiki_list = [{'path': '~/.config/nvim/plugins/vimwiki/'}]
 		"let g:vimwiki_list = \
@@ -128,6 +136,10 @@
 		"	if isdirectory('~/.config/nvim')
 		"		let g:vimwiki_list = [{'path':'$HOME/.config/nvim/vimwiki'}]
 		"	endif
+	
+	"---------------------[1.4.1] VimWiki Configuration.
+		"
+		" Somtehing  
 
 
 "-----------------------------------[2.0] - Theming and appearance settings.
@@ -235,10 +247,13 @@
 "								  	let g:airline#extensions#whitespace#enabled = 0
 
 "	-----------------------------------[3.0] - Formatting settings.
-	"----------------------[3.1] Default and general format settings (Assign tabcount value, shiftwidth, encoding, etc.)
-	"		(Filetype format settings for ftplugin have to be in the $VIMRUNTIME/after/ftplugin directory, or they'll be
-	" 															overwritten with the global settings specified here).
-	" (Potential fix by delaying the setting of the syntax until the filetype is finished in ftplugin.)
+	"----------------------------------[3.1] - Default and general format settings.
+		" Assign tabcount value, shiftwidth, encoding, etc. (Filetype format settings for ftplugin have
+		" to be in the $VIMRUNTIME/after/ftplugin directory, or they'll be overwritten with the global
+		" settings specified here).
+		
+		" (Potential fix by delaying the setting of the syntax until the filetype is finished in
+		" ftplugin.)
 		filetype plugin on
 		set filetype=on
 		set tabstop=4
@@ -299,9 +314,9 @@
 
 	"----------------------[3.7] Filetype templates and headers.
 		"--------------------[3.7.1] Defining the functions, commands, and abreviations.
-		" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		"	!!! Argument/parameter passing from command to function is broken, use <q-args> or <f-args>. !!!
-		" !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		" ##############################################################################################
+		"	## Argument/parameter passing from command to function is broken, use <q-args> or <f-args>. ##
+		" ##############################################################################################
 					command! -nargs=*	-complete=command		Template	call TemplateFunction()
 					command! -nargs=*	-complete=command		Header		call TemplateFunction()
 			" Abbreviating user-defined commands such that they can be called in lower-case.
@@ -316,29 +331,28 @@
 " General-use functions are defined in "~/.config/nvim/bundle/MyFunctions/plugin/MyFunctions.vim" file.
 "(The vim command 'scriptnames', prints out the order in which vim files are loaded).
 	"--------------------[4.1.0] Shortcutting split navigation.
-
 	" Mapping window movement keys, setting default spawn location of new windows.
 	" (Movement between window panes is using vim keys with the <Leader>(Space) key, and is defined at
 	" the bottom with the rest of the leader definitions.
 		set splitbelow
 		set splitright
-		map 			<C-h> 						<C-w>h
-		map 			<C-j> 						<C-w>j
-		map 			<C-k> 						<C-w>k
-		map 			<C-l> 						<C-w>l
-		map 			<M-y> 						<C-w>>
-		map 			<M-i> 						<C-w>-
-		map 			<M-o> 						<C-w>+
-		map 			<M-p> 						<C-w><
+		map		<C-h> 							<C-w>h
+		map 	<C-j> 							<C-w>j
+		map 	<C-k> 							<C-w>k
+		map 	<C-l> 							<C-w>l
+		map 	<M-y> 							<C-w>>
+		map 	<M-i> 							<C-w>-
+		map 	<M-o> 							<C-w>+
+		map 	<M-p> 							<C-w><
 
-	"--------------------[4.2.0] Mappings for Tabs.
-		map 			<C-q>							<Nop>
-		map 			<C-q>		:tabclose <CR>
-		map 			<C-t>		:tabnew 	<CR>
-		map 			<M-l>		:tabnext 	<CR>
-		map 			<M-h>		:tabprev	<CR>
+	"--------------------[4.3.0] Mappings for Tabs.
+		map 	<C-q>								<Nop>
+		map 	<C-q>		:tabclose		<CR>
+		map 	<C-t>		:tabnew			<CR>
+		map 	<M-l>		:tabnext 		<CR>
+		map 	<M-h>		:tabprev		<CR>
 
-	"--------------------[4.2.1] Windows/Window-Splits mappings for movement and resizing.
+	"--------------------[4.3.1] Windows/Window-Splits mappings for movement and resizing.
 		" Movements
 		map	<Space>h					<C-w>h
 		map	<Space>j					<C-w>j
@@ -350,7 +364,7 @@
 		map	<Space>o					<C-w>+
 		map	<Space>p					<C-w>>
 
-	"--------------------[4.3.0] Various command declarations.
+	"--------------------[4.4.0] Various command declarations.
     " Command to open zshrc file in new vim tab.
         command!    ZRC :call OpenFileInNextAvailableBuffer("~/.config/zsh/.zshrc")
         cnoreabbrev	zrc :ZRC
@@ -369,7 +383,8 @@
         cnoreabbrev frc	:FRC
 
 		" Command to open the main file containing my custom neovim functions.
-				"command!		NCFU :call OpenFileInNextAvailableBuffer("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
+				"command!		NCFU :call OpenFileInNextAvailableBuffer( \
+				"	'~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim')
 				"command!		NCFU :call
 				"			\ OFINAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
 				command!		NCFU :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
@@ -395,12 +410,12 @@
 		" 'Flash' function, 
 				command! 			CrossHairs :setlocal cursorline! cursorcolumn!
 
-	"--------------------[4.4.0] General keybinds/settings.
-		"-------------------[4.4.1] Unmap default spacebar keybind, then map it to leader key.
+	"--------------------[4.5] General keybinds/settings.
+		"-------------------[4.5.1] Unmap default spacebar keybind, then map it to leader key.
 			nnoremap <Space> <nop>
 			let mapleader=" "
 
-		"-------------------[4.4.1] Unbind default Visual Block keys, bind to Leader+v, rebind C-v to
+		"-------------------[4.5.2] Unbind default Visual Block keys, bind to Leader+v, rebind C-v to
 		" Escape.
 		" The last mapping in insert mode for <C-v> is critical since default map
 		" doesn't apply to insert mode, and both <C-v> and <M-f> are bount to <Esc>.
@@ -414,7 +429,7 @@
 			map 				<M-f> 			<Esc>
 			imap				<M-f>				<Esc>
 
-		"-------------------[4.4.2] Quick saving/leaving files.
+		"-------------------[4.5.3] Quick saving/leaving files.
 		" Makes use of suda.vim plugin.
 		" Write the currently opened file as sudo.
 			nnoremap    <Leader>ws    :w suda://% <CR>
@@ -426,47 +441,48 @@
 			nnoremap    <Leader>qa    :qa         <CR>
 			nnoremap    <Leader>qaq   :qa!        <CR>
 
-		"-------------------[4.4.3] Create command to remove any lines containing nothing other than whitespace
+		"-------------------[4.5.4] Create command to remove any lines containing nothing other than whitespace
 		" (Comments are omitted), and creates abbreviation for easier calling.
 			command! 		Delwhitespace	%s/\s\+$//e | %s/\n{3,}/\r\r/e
 			cnoreabbrev	blm						:Delwhitespace <CR>
 
-		"-------------------[4.4.4] Bind escape to clear search highlighting.
+		"-------------------[4.5.5] Bind escape to clear search highlighting.
 			nnoremap		<Esc> 				:silent noh	<CR><Esc>
 
-		"-------------------[4.4.5] Vim-Spellcheck configuration.
+		"-------------------[4.5.6] Vim-Spellcheck configuration.
 		" Automatically correct spelling error to the first result in spellcheck.
 			nnoremap 		<Leader>sc 						:set spell! <CR>
 			noremap			<Leader>ss						]s1z=
 			command!		FixTypo				:normal ]s1z=
 			cnoreabbrev	typo									:FixTypo
 
-		"-------------------[4.4.6] General [Leader] keybinds and shortcuts.
+		"-------------------[4.5.7] General [Leader] keybinds and shortcuts.
 			map					<Leader>m					@m
 			map					<Leader>p					<Nop>
 			map					<Leader>c					zc
 			map					<Leader>-					<C-w>_
 			map					<Leader>=					<C-w>=
 			nnoremap		<Leader>f					:call Flash()<CR>
-		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
-			nnoremap		<Leader>r					:silent source $MYVIMRC<CR>
-		" Execute/run the file open in the current vim buffer (via calling the filepath in a shell).
-			nnoremap		<Leader>R					:!%:p
-		" map					<Leader>p					nciw
-		" Increment integers by 1 (manually mapping since VIM's default keybind conflicts with my TMUX
-		" control/super button) via mappings to <Leader> (Space).
+		" Change the keybind to increment/decrement number on cursor due to conflicting Tux keybinds.
 			map					<Leader>a					<C-a>
 			map					<Leader>x					<C-x>
+		" Reload the vimrc/init.vim file without having to reload/reopen buffers.
+		" Execute/run the file open in the current vim buffer (via calling the filepath in a shell).
+		" nnoremap		<Leader>R					:silent! :!%:p<CR>
+			nnoremap		<Leader>R					:exe ":!%:p"<CR>
+		" [Commenting the below keybind out for the time being since it needs to be a function so that
+		" it can handle opening blank/nameless files without throwing an error]:
+		"nnoremap		<Leader>r					:silent exe "source $MYVIMRC" <CR> | edit "%:p"
 
-		"-------------------[4.4.7] General [Meta/Alt] keybinds and shortcuts.
+		"-------------------[4.5.8] General [Meta/Alt] keybinds and shortcuts.
 			noremap			<M-Space>					/<CR>ca<
 			map					<M-n>		    			<Esc>/<++><CR>ca<
 			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
 			nnoremap		<M-o>							o<Esc>0"_D
 			nnoremap		<M-O>							O<Esc>0"_D
 
-	"--------------------[4.5.0] Plugin keybinds.
-		"-------------------[4.5.1] Surround-plugin leader keybinds.
+	"--------------------[4.6.0] Plugin keybinds.
+		"-------------------[4.6.1] Surround-plugin leader keybinds.
 			map					<Leader>e					vg_
 			map					<Leader>4					vg_
 			map					<M-e>							ve
@@ -475,7 +491,7 @@
 		" map 				<Leader>f					V}zf<Esc>
 		silent!	call	repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-		"-------------------[4.5.1] VimWiki Plugin Keybinds.
+		"-------------------[4.6.2] VimWiki Plugin Keybinds.
 		" Fixing default keybinds for vimwiki.
 		" Removes the annoying <Leader>ww keybind.
 		nnoremap	<Leader>wi 			<Plug>VimwikiIndex

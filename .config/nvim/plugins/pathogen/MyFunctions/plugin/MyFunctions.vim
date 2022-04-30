@@ -242,7 +242,7 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 " Optional arguments are: First argument taking integer for number of flashes (default is 1 flash).
 " The second optional argument is the time (in milliseconds) to show the cursorlines on the screen
 " for (defualt is 150).
-	function Flash(flashcount, ...)
+	function! Flash(...)
 		" Check if any arguments were even passed to the function, then verify if it is a valid integer.
 		"if (len(a:000) > 0 && a:1 > 0 && a:1 =~# '^\d\?\d$')
 
@@ -256,10 +256,10 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 		"	let l:flashcount = 3
 		"endif
 
-		if(!exists(a:flashcount))
-			let l:flashcount=a:flashcount
-		endif
-		echom l:flashcount
+		"if(!exists(a:flashcount))
+		"	let l:flashcount=a:flashcount
+		"endif
+		"echom l:flashcount
 
 
 		" '(no)cul' is shorthand/abbreviation of (no)cursorline. 
@@ -290,7 +290,7 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 		let &l:cuc=l:cuc
 
 		"echom "Somethign " . l:cul . l:cuc
-	endfunction
+	endfunction!
 
 " Function to run pandoc command to compile the file open in current buffer in either HTML5 or PDF.
 	function! Pan(type)
@@ -408,9 +408,15 @@ function! CHARACTERENCAPSULATE(...)
 	silent echom 
 endfunction!
 
+
+"##################################################################################################"
+"##################################################################################################"
 "##################################################################################################"
 "###################### Testing and Commented-Out (or Non-Working) Functions ######################"
 "##################################################################################################"
+"##################################################################################################"
+"##################################################################################################"
+
 
 function! TESTING(...)
 	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")	"Contains date with seconds with AM/PM.

@@ -33,7 +33,7 @@ alias                                                                   \
 	vp='v -p "$@"'                                                      \
 	vt='v -p "$@"'                                                      \
 	M='neomutt'                                                         \
-	n='ncmpcpp'                                                         \
+	n='ncmpcpp '                                                        \
 	qc='q cantata'                                                      \
 	t='tmux'
 

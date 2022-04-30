@@ -112,6 +112,7 @@ EXCLUSIONS=(                                                   \
 			".config/mpd/pid"                                  \
 			".config/mpd/playlists/"                           \
 			".config/mpd/state"                                \
+			".config/MusicBrainz"                              \
 			".config/neomutt/accounts/*"                       \
 			".config/nicotine/"                                \
 			".config/nvim/view"                                \
