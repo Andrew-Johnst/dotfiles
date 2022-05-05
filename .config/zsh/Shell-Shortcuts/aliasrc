@@ -102,6 +102,8 @@ alias                                                                   \
 	dot='cd ~/Documents/git/dotfiles'                                   \
 	ba='cd ~/Documents/programming/bash'                                \
 	lu='cd ~/Documents/programming/bash/linuxutils'                     \
+	glu='cd ~/Documents/git/Linux-Software'                             \
+	gitlinuxutils='glu'                                                 \
 	py='cd ~/Documents/programming/python'                              \
 	py2='cd ~/Documents/programming/python/2'                           \
 	py3='cd ~/Documents/programming/python/3'                           \
@@ -145,7 +147,7 @@ alias                                                                   \
 	ip='ip --color=always'                                              \
 	fm='q pcmanfm-qt '                                                  \
 	bt='btop'                                                           \
-	ytdl='youtube-dl --config-local ~/.config/youtube-dl/config '       \
+	ytdl='youtube-dl --config-location ~/.config/youtube-dl/config '    \
 	scdl='youtube-dl --config-location ~/.config/youtube-dl/scconfig '  \
 	mytdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '  \
 	mdl='mytdl '                                                        \
@@ -177,7 +179,7 @@ alias                                                                   \
 
 # Less command aliases
 alias                                                                   \
-	le='less'                                                           \
+	le='less -R'                                                           \
 	lx='less -X'                                                        \
 	ple='pcat | less -X'                                                \
 	cle='pcat "$@" | less -X'                                           \
@@ -213,9 +215,9 @@ alias                                                                   \
 	chmx='chmod +x '                                                    \
 	mine='chown $USER:$GROUP '
 
-########################
-### Network aliases. ###
-########################
+####################################################################################################
+######################################### Network aliases. #########################################
+####################################################################################################
 # Sortcuts for connecting to sessions.
 # Supposedly SSH might break if the remote machine does not have the same $TERM variable.
 # [Unsure of this since the environment variables are applied in each host's session.]
@@ -223,9 +225,8 @@ alias                                                                   \
 #alias ssh='TERM=xterm-direct ssh'			# Commenting this out for now.
 #alias seedbox='ssh -l pi -p 9999 192.168.1.28'
 #alias seedbox='ssh -l drew -p 9999 192.168.1.28'
-alias pi2='ssh -l pi -p 9999 192.168.1.28'
-alias nas='ssh -l drew -p 9999 -Y 192.168.1.31'
-alias cs='ssh -l cisco 192.168.1.2'
+alias nas='ssh nas'
+alias cs='ssh sg350'
 alias cr='ssh -l cisco 192.168.1.3'
 alias tmr='tmux attach-session'
 

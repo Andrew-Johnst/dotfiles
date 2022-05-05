@@ -38,6 +38,6 @@ video/mp2t=vlc.desktop;fr.handbrake.ghb.desktop;
 text/vnd.qt.linguist=vlc.desktop;
 application/x-mswinurl=brave-browser-nightly.desktop;
 video/x-matroska=vlc.desktop;
-image/png=lximage-qt.desktop;org.gnome.eog.desktop;
+image/png=display-im6.q16.desktop;lximage-qt.desktop;org.gnome.eog.desktop;
 image/jpeg=lximage-qt.desktop;
 video/mp4=vlc.desktop;lximage-qt.desktop;

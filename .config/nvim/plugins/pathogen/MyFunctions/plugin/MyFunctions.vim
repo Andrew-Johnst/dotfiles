@@ -270,7 +270,7 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 
 		" Make sure both options are set to 0 (off) in case either previously were enabled.
 		set nocul nocuc
-		sleep 50m
+		sleep 100m
 
 		" For loop to flash the cursor position equal to 'l:flashcount' which is set by accepting an
 		" integer for the first function argument.
@@ -283,7 +283,8 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 		"		endfor
 
 		set cul cuc
-		redraw | sleep 100m
+		redraw
+		sleep 200m
 
 		" Set either of the two cursor settings back to their value prior to this function call.
 		let &l:cul=l:cul

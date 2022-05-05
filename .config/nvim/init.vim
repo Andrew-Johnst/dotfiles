@@ -114,7 +114,7 @@
 			" Plug 'hut/ranger'
 
 			" Install plugin to preview Markdown inside the vim buffer.
-				Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+				"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 
 			call plug#end()
 
@@ -408,7 +408,8 @@
 		" Command to toggle showing 'cross-hairs' (showing both the cursor column and line).
 		" (This effectively turns on the 'Flash' function but permanently--however when calling the
 		" 'Flash' function, 
-				command! 			CrossHairs :setlocal cursorline! cursorcolumn!
+				command! 				CrossHairs :setlocal cursorline! cursorcolumn!
+				"cabbrev <expr>	ch
 
 	"--------------------[4.5] General keybinds/settings.
 		"-------------------[4.5.1] Unmap default spacebar keybind, then map it to leader key.
@@ -472,12 +473,12 @@
 			nnoremap		<Leader>R					:exe ":!%:p"<CR>
 		" [Commenting the below keybind out for the time being since it needs to be a function so that
 		" it can handle opening blank/nameless files without throwing an error]:
-		"nnoremap		<Leader>r					:silent exe "source $MYVIMRC" <CR> | edit "%:p"
+			nnoremap		<Leader>r					:silent! exe "source $MYVIMRC" <CR> | silent! edit "%:p"
 
 		"-------------------[4.5.8] General [Meta/Alt] keybinds and shortcuts.
 			noremap			<M-Space>					/<CR>ca<
 			map					<M-n>		    			<Esc>/<++><CR>ca<
-			"inoremap		<M-n>		    			<Esc>/<++><CR>ca<
+			inoremap		<M-n>		    			<Esc>/<++><CR>ca<
 			nnoremap		<M-o>							o<Esc>0"_D
 			nnoremap		<M-O>							O<Esc>0"_D
 

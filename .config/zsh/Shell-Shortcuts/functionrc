@@ -552,12 +552,16 @@ function netns-exec(){
 	#	local OVPNFILE="/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-USA.ovpn"
 
 	# This will remove the default "protected" sudo network namespace.
-	#[[ "$(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))" ]] 
-	#[[ "$(sudo ip netns list | grep -i '(id: 0):')" ]] && \
+	#	[[ "$(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))" ]] 
+	#	[[ "$(sudo ip netns list | grep -i '(id: 0):')" ]] && \
 	#	sudo ip netns del $(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))
 	sudo ip netns exec protected sudo -u "$USER" "$@"
-	#sudo ip netns exec protected sudo -u "$USER" -E "$@"
-	#sudo /usr/local/sbin/namespaced-openvpn --config /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn --writepid /var/run/openvpn-protected-foo-"$USER".pid --log /var/log/openvpn-protected-foo-"$USER".log --daemon
+	#	sudo ip netns exec protected sudo -u "$USER" -E "$@"
+	#
+	#	 sudo /usr/local/sbin/namespaced-openvpn --config \
+	#		/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn \
+	#	 	--writepid /var/run/openvpn-protected-foo-"$USER".pid \
+	#	 	--log /var/log/openvpn-protected-foo-"$USER".log --daemon
 }
 
 # [First and foremost, this function "combines" the usage of this function declaration and/or a
@@ -576,7 +580,7 @@ function genpass(){
 	# [$HOME/.local/bin/ManualScripts/generatepass] directory); and if there is, then just forward the
 	# arguments this function received to that shell script.
 	[[ -f "$HOME/.local/bin/ManualScripts/generatepass" ]] && \
-		$HOME/.local/bin/ManualScripts/generatepass "$@" && return 0
+		$HOME/.local/bin/ManualScripts/generatepass "$@" | tr -d "=" && return 0
 
 	local CHARLENGTH="$1"
 	local CRED='\033[1;38;5;9m'
@@ -591,9 +595,7 @@ function genpass(){
 		local CHARLENGTH=10
 		#echo -e "Using default ${CRED}10${CRE} character length.\n") || \
 		#([[ ! "$1" ]] && echo -ne "No input given, using default ${CRED}10${CRE} char limit.\n") && \
-	openssl rand -base64 ${CHARLENGTH} | cut -c -${CHARLENGTH}
-
-
+	openssl rand -base64 ${CHARLENGTH} | cut -c -${CHARLENGTH} | tr -d "="
 
 	### [OLD METHOD (ALSO PROBABLY MORE READABLE--BUT NEW METHOD IS "SINGLE LINE" CONDITIONAL)] ###
 	#local CHARLENGTH="$1"
@@ -625,8 +627,24 @@ function genpass(){
 # aliased).
 function ranger(){
 	[[ -z "$RANGER_LEVEL" ]] && /usr/bin/ranger "$@" || exit
+	#[[ -z "$RANGER_LEVEL" ]] && /usr/bin/ranger 
 }
 alias r='ranger "$@"'
+
+# Function to check if bashtop, btop, or either is installed--just to avoid any potential errors and
+# prompt the user that neither program is installed. If one--or both--are installed, then take
+# preference over "btop" rather than bashtop, however if it is not installed then use btop instead
+# (or use neither program and display a small info/error message instead).
+#function BashtopOrBtop(){
+#	[[ "$(command -v "btop") ]] 
+#}
+
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
 
 # Function for youtube-dl to download YouTube Videos/Music (as well as SoundCloud and other online
 # streaming service content). This function's primary reason for existence is to allow for an option
@@ -660,6 +678,8 @@ alias r='ranger "$@"'
 #			shift
 #		done
 #	}
+
+####################################################################################################
 
 # being passed, then the directory
 ## Function to download YouTube Music/Videos, Soundcloud, etc. via youtube-dl utility.
@@ -714,6 +734,8 @@ alias r='ranger "$@"'
 #		youtube-dl --config-location "$CFGDIR"
 #	}
 
+####################################################################################################
+
 # Function to open a new file in /tmp/ directory, uses the first argument as the filename under
 # /tmp/ directory, if the argument is a file that already exists, return a warning and append a
 # number to the end.
@@ -731,6 +753,8 @@ alias r='ranger "$@"'
 #
 #		#"$EDITOR" -c "bh"
 #	}
+
+####################################################################################################
 
 # Reconnects to running tmux session; if multiple sessions found, list them and prompt for input on
 # which to connect to.

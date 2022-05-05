@@ -175,6 +175,15 @@ bindkey	'^[OM'	accept-line
 export EDITOR=nvim
 export FILEMANAGER=pcmanfm-qt
 
+# This environment variable needs to be exported as well so that when using sudo,
+# (I specifically noticed during "systemctl edit" command--among a few other programs) the editor is
+# either plain Vim--without my, or ANY ".vimrc" or "init.vim" file loaded--despite root and my
+# account sharing the same Vim/NeoVim configuration file via a symlink.
+# [Found this fix from this stackexchange post]:
+# 	https://unix.stackexchange.com/a/408419
+export SYSTEMD_EDITOR="$EDITOR"
+
+
 # Apparently, despite countless warnings online against exporting TERM variable in shell profile,
 # this is what fixed it lol. (Have yet to start new SSH instance, or X11 session however).
 # Removing this for now.
@@ -388,9 +397,13 @@ export ZSH_PLUGINS="$ZDOTDIR/Plugins"
 [[ -f "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh" ]] && \
 	source "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh"
 
-# ZSH-Auto-Suggestions for automatically showing suggestions in the terminal.
-#source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+### [Commenting this one out because it was EXTREMELY irritating (and I'm too lazy to remove it at
+### this point since it doesn't even matter when porting this config file to other hosts anyways].
 #
+# ZSH-Auto-Suggestions for automatically showing suggestions in the terminal.
+#	[[ -f "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]] && \
+#		source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+
 # zsh-autosuggestions configuration.
 #bindkey '\t' end-of-line
 #bindkey '^[d' autosuggest-accept
@@ -405,7 +418,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 
 # Source the plugins.
 plugins=(
-	#zsh-autosuggestions
+	zsh-autosuggestions
 	zsh-syntax-highlighting
 	zsh-navigation-tools
 )
