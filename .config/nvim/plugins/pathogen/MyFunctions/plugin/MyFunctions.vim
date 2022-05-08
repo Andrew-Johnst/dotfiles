@@ -1,4 +1,7 @@
-" functions.vim file is used to define general-use functions rather than in the master vimrc file,
+" (For whatever reason, this file does not want to automatically set the Vim's: ":formatoptions"
+" settings
+
+" Functions.vim file is used to define general-use functions rather than in the master vimrc file,
 " in order to save on space, and compartmentalization.
 
 " General purpose function to prompt for a "Y" or "N" input and return either 1 for yes or 0 for no.
@@ -133,9 +136,9 @@ function! OpenFileInNextAvailableBuffer(filename)
 endfunction!
 " Creating a command to allow parameters to be passed to the function, then abbreviating the above
 " function.
-	"command! -nargs=*	-complete=command OFINAB call OpenFileInNextAvailableBuffer(<args>)
-	command! -nargs=1 -complete=file OFINAB call OpenFileInNextAvailableBuffer(<q-args>)
-	cnoreabbrev ofinab OFINAB
+	"command! -nargs=*	-complete=command OFINTAB call OpenFileInNextAvailableBuffer(<args>)
+	command! -nargs=1 -complete=file OFINTAB call OpenFileInNextAvailableBuffer(<f-args>)
+	cnoreabbrev OFINTAB OFINTAB
 
 " Enables spellcheck if disabled, moves cursor to next typo, asks if it should be changed to the first
 " spellcheck recommendation, then moves to the next one until an <Esc> key is pressed.
@@ -150,8 +153,8 @@ endfunction!
 		else
 			echo "Apparently x != \"nospell\", and has val of: " . x
 		endif
-	" (Temporary) Jumps to beginning of file, then jumps to next typo, opens list of suggestions and waits for
-	" yes or no,
+	" (Temporary) Jumps to beginning of file, then jumps to next typo, opens list of suggestions and
+	" waits for yes or no,
 	endfunction
 	cnoreabbrev	ssc	call SuperSpellCheck()
 
@@ -159,7 +162,7 @@ endfunction!
 	fu! CHMODX()
 		" Silently executes chmod command to add execute permissions to file in current vim-buffer.
 		silent! execute "!chmod +x ".expand('%:p')
-	endfu
+	endfu!
 
 " Command abbreviations for simplicity/brevity.
 	cnoreabbrev chx silent! call CHMODX()
@@ -170,32 +173,57 @@ endfunction!
 " Function for bash script file preamble info.
 	function! BashHeaders(...)
 		execute "norm I#!/usr/bin/env bash"
-		exe "normal o#".expand('%:p')
-		exe "normal o#"
-		exe "normal o# "
-	" Writes the file, then reloads the buffer applying filetype settings.
-		w | e
+		execute "normal o#".expand('%:p')."\r#\r# "
+		" Figured this out [5-5-2022 2:10PM] on how to insert a commented out line containing the opened
+		" file in the buffer.
+		" Writes the file, then reloads the buffer applying filetype settings.
+		w | e | redraw
 	" Adds executable permissions to the file.
 		silent! execute "!chmod +x ".expand('%:p')
 		startinsert!
-	endfunction
+	endfunction!
 	cnoreabbrev bashhead silent! call BashHeaders()
 	cnoreabbrev bh silent! call BashHeaders()
 
 " Function for python3 script file preamble info.
-	function! Python3Headers(...)
-		execute "norm I#!/usr/bin/env python3"
-		"exe "normal o#".expand('%:p')
-		exe "normal o# Written by: Andrew Johnston."
-		exe "normal o# "
-	" Writes the file, then reloads the buffer applying filetype settings.
-		w | e
-	" Adds executable permissions to the file.
-		silent! execute "!chmod +x ".expand('%:p')
-		startinsert!
-	endfunction
-	cnoreabbrev py3head silent! call Python3Headers()
-	cnoreabbrev p3h silent! call Python3Headers()
+	function! Python3Header(...)
+			execute "norm I#!/usr/bin/env python3"
+					"	exe "normal o# Written by: Andrew Johnston." exe "normal o# <c-o>"
+			execute "normal o#".expand('%:p')."\r#\r# "
+			startinsert! 
+		" Writes the file, then reloads the buffer applying filetype settings.
+			w | e | redraw
+		" Adds executable permissions to the file.
+			silent! execute "!chmod +x ".expand('%:p')
+			startinsert!
+		endfunction!
+
+		"command! P3H silent! call Python3Header(<f-args>)
+		"command :P3H silent! call Python3Heades(<f-args>)
+		"command! P3H silent call Python3Header()
+		"command! -nargs=* PY3H call Python3Header(<f-args>)
+		"cnoreabbrev py3 P3H(<f-args>)
+			"echo "e " . l:directory . l:filename
+
+"command -nargs=? NTF call NewTempFile(<f-args>)
+"cnoreabbrev ntf NTF(<f-args>)
+
+" Function that inserts a specified character for selected text that can do one of these options:
+" [Underline, Insert a line of the specified character above the selected text, or fully encapsulate
+" the selected text (above and below)].
+function! CHARACTERENCAPSULATE(...)
+	silent echom 
+endfunction!
+
+
+"##################################################################################################"
+"##################################################################################################"
+"##################################################################################################"
+"###################### Testing and Commented-Out (or Non-Working) Functions ######################"
+"##################################################################################################"
+"##################################################################################################"
+"##################################################################################################"
+
 
 " Command + abbreviation to delete the file open in current tab, as well as a 'purge all' option.
 "	(Too braindead to figure out right now, come back to this later).
@@ -234,192 +262,7 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 		exe "normal! I#".expand('%:p')
 	endfunction
 
-" Function to display the current foldername fullpath (basically just 100<C-g> and strips everything
-" after the last forward-slash).
-
-" Function to flash a pair of cross-hairs on the cursor.
-" ### [Not currently implementing arguments since kinda superfluous] ###
-" Optional arguments are: First argument taking integer for number of flashes (default is 1 flash).
-" The second optional argument is the time (in milliseconds) to show the cursorlines on the screen
-" for (defualt is 150).
-	function! Flash(...)
-		" Check if any arguments were even passed to the function, then verify if it is a valid integer.
-		"if (len(a:000) > 0 && a:1 > 0 && a:1 =~# '^\d\?\d$')
-
-		" The below regex is the proper way to do things with *JUST* Regex, but the range isn't correct.
-		"		if (len(a:000) > 0 && a:1 =~# '^\(0*[1-9][0-9]*\(\.[0-9]\+\)\?\|0\+\.[0-9]*[1-9][0-9]*\)')
-		"if (a:1 =~# '^\d\+$')
-
-		"if (exists(a:1) > 0 && a:1 > 0 && a:1 =~# '^\d\?\d$')
-		"	let l:flashcount = a:1
-		"else
-		"	let l:flashcount = 3
-		"endif
-
-		"if(!exists(a:flashcount))
-		"	let l:flashcount=a:flashcount
-		"endif
-		"echom l:flashcount
-
-
-		" '(no)cul' is shorthand/abbreviation of (no)cursorline. 
-		" '(no)cuc' is shorthand/abbreviation of (no)cursorcolumn.
-		" Using '&<VIM SETTING>' will return that settings value (boolean settings will return 0 or 1).
-		let l:cul=&l:cul
-		let l:cuc=&l:cuc
-
-		" Make sure both options are set to 0 (off) in case either previously were enabled.
-		set nocul nocuc
-		sleep 100m
-
-		" For loop to flash the cursor position equal to 'l:flashcount' which is set by accepting an
-		" integer for the first function argument.
-		" (The default value is defined at the beginning of this function's definition of 3, meaning
-		" default of 3 cursor flashes).
-		"		for flash in range(l:flashcount)
-		"			set cursorline cursorcolumn
-		"			redraw | sleep 50m
-		"			set nocursorline nocursorcolumn
-		"		endfor
-
-		set cul cuc
-		redraw
-		sleep 200m
-
-		" Set either of the two cursor settings back to their value prior to this function call.
-		let &l:cul=l:cul
-		let &l:cuc=l:cuc
-
-		"echom "Somethign " . l:cul . l:cuc
-	endfunction!
-
-" Function to run pandoc command to compile the file open in current buffer in either HTML5 or PDF.
-	function! Pan(type)
-		if !exists(l:type)
-			if(l:type == "html")
-				silent execute "!pandoc " . @% . " -t html5 -o " . expand('%:r') . ".html"
-			elseif(l:type == "pdf")
-				silent execute "!pandoc " . @% . " -t beamer -o " . expand('%:r') . ".pdf"
-			endif
-		else
-			echom "An argument to specify the output type is required (html/pdf)."
-		endif
-	endfunction
-" Aliasing commands to this function to either HTML/PDF formats, then binding them to Leader keybinds.
-	cnoreabbrev	convpdf 			call Pan("pdf") <CR>
-	cnoreabbrev	convhtml 			call Pan("html")<CR>
-	nnoremap	<Leader>p				call Pan("pdf") <CR>
-	nnoremap	<Leader>h				call Pan("html")<CR>
-
-" Alias to add executable permissions to file open in current vim buffer.
-	command! -nargs=* -complete=command CX silent! execute "!chmod +x ".expand('%:p')
-	cnoreabbrev cx :CX
-
-" Command to disable numberlines by calling the :nonum command
-	command! -nargs=* -complete=command NL silent! execute "setlocal number!|setlocal relativenumber!"
-	cnoreabbrev nl :NL
-	map <Leader>nl :nl<CR>
-
-" Command to open a new file in /tmp/nvim-temporary_files directory with the filename equal to the
-" first command argument. If no argument is given then the current date and time in the format of:
-" 'MM-DD-YYY_HH:MM[.fileextension (if applicable)]'
-"fu! NewTempFile(...)
-"	try
-"		if exists(a:, 1) & get(a:, 1) != 0
-"			let l:filename = get(a:, 1)
-"			let l:succeed = 1
-"		"if !exists(l:filename)
-"		elseif !exists(l:filename)
-"			redir => {l:filename}
-"			date "+%m-%d-%Y_%H-%M"
-"			redir end
-"			let l:succeed = 1
-""		else
-""			let l:succeed = 0
-"		endif
-"	finally
-"		let l:errormsg = "Improper syntax or invalid filename given, one or or too many arguments "	\
-"		. "passed. Only one or zero arguments should be passed to this function; if none are passed, "	\
-"		. "then the filename will default to the date in the format of: " \
-"		. "'MM-DD-YYY_HH:MM[.fileextension (if applicable)]'\n"
-"		if !exists("l:succeed")
-"			echo "Errors encountered!\n" . l:errormsg . "Exiting without making the tmp file..."
-"		elseif
-"			exe "e /tmp/nvim-temporary_files/".expand(l:filename)
-"		endif
-"	endtry
-"endfunction
-
-fu! NewTempFile(...)
-	" Assign the current date and time to a variable to be used for default filename, and assigns the
-	" directory path name to a variable.
-	"let l:datetime = system("date '+%m-%d-%Y_%I-%M%p'")		"Contains date with seconds but not AM/PM.
-	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")	"Contains date with seconds with AM/PM.
-	let l:directory = "/tmp/tempfiles/vim-tempfiles/"
-	let l:filename = l:datetime
-
-	"let l:filename = "tempfile_" . l:datetime
-
-	"" Checks if '/tmp/tempfiles/vim-tmpfiles/' directory exists, create it if not.
-	"if !exists(glob('/tmp/tempfiles/vim-tmpfiles/'))
-	"	let l:choice = Confirm("The directory '/tmp/vim-tmpfiles/' does not exist.\nWould you like to create it now [Y/N]: ")
-	"	if l:choice == 1
-	"		echo "Creating directory: " . l:directory . "..."
-	"		exe "!mkdir " . l:directory
-	"	else
-	"		echo "Not creating directory: " . l:directory . "...\nExiting..."
-	"		sleep 5
-	"		echoerr "The " . l:directory . " does not exist and was not created so this function is aborting early."
-	"	endif
-	"endif
-	silent exe "!mkdir " . l:directory
-	"echo l:directory . l:filename | return 0
-	"echo get(a:, 0)
-	"echo get(a:, 0)
-	"echo get(a:, 1)
-	"echo get(a:, 2)
-	"return 0
-	" Checks if argument(s) are given. Multiple arguments are concatenated into one variable (in case
-	" the filename desired has spaces in it) and uses that variable as the filename. If no
-	" arguments--or arguments containing POSIX-illegal characters--the filename will be set to the
-	" current date and time.
-	if get(a:, 0) > 0
-		let l:filename = get(a:, 1)
-		"exe "e " . l:directory . l:filename
-		echom "AAAA"
-	else
-		echo "\n"
-		echom 'Default filename will be used in the format of: <MM-DD-YYYY___HH-MM-SS> in the
-					\ /tmp/vim-tmpfiles/ directory.'
-		echo "\n"
-		let l:filename = "/tmp/tempfiles/nvim-tempfiles/" . l:filename
-		echom l:filename
-		echom "BBBB"
-		"exe "norm :e " . l:directory . l:filename
-		"echo "e " . l:directory . l:filename
-	endif
-endfu!
-command -nargs=? NTF call NewTempFile(<f-args>)
-cnoreabbrev ntf NTF
-
-" Function that inserts a specified character for selected text that can do one of these options:
-" [Underline, Insert a line of the specified character above the selected text, or fully encapsulate
-" the selected text (above and below)].
-function! CHARACTERENCAPSULATE(...)
-	silent echom 
-endfunction!
-
-
-"##################################################################################################"
-"##################################################################################################"
-"##################################################################################################"
-"###################### Testing and Commented-Out (or Non-Working) Functions ######################"
-"##################################################################################################"
-"##################################################################################################"
-"##################################################################################################"
-
-
-function! TESTING(...)
+function TESTING(...)
 	let l:datetime = system("date '+%m-%d-%Y_%l-%M-%S%p'")	"Contains date with seconds with AM/PM.
 	let l:filename = "tempfile_" . l:datetime
 	echo l:filename
@@ -427,6 +270,14 @@ endfunction!
 command -nargs=? TESTING call TESTING(<f-args>)
 cnoreabbrev test TEST
 
+" Function--and command--to create a new "temporary" file in the [/tmp/tempfiles/] directory, which
+" is the same directory as the zsh aliasrc alias for creating new tempfiles.
+"fu! tempfile(...)
+"	let l:
+
+"" Function to capitalice the first letter of each word highlighted (GRAMATICALLY-CORRECT).
+"
+"
 " Function--and command--to create a new "temporary" file in the [/tmp/tempfiles/] directory, which
 " is the same directory as the zsh aliasrc alias for creating new tempfiles.
 "fu! tempfile(...)

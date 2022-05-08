@@ -76,7 +76,12 @@ function sf(){
 
 # Function to mkdir $1 and cd into it.
 function mkcd(){
+	#[[ "$1" =~ ^
     mkdir -p "$1" && cd "$1"
+
+
+	#exe "normal o#".expand('%:p')."\r# " | startinsert!
+
 }
 
 # Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is

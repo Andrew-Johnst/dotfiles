@@ -239,7 +239,7 @@ alias tmr='tmux attach-session'
 # specifying the region), but for now Denver OpenVPN server will be hard-coded to the alias.
 alias fastopenvpn='echo -e \
 	"\033[1;38;5;9mThis is best used when running inside a screen session...\033[0m" && \
-	sleep 3 && sudo openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn'
+	sleep 3 && echo && sudo openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn'
 #alias evpn='expressvpn connect'
 #alias torrentvpn='expressvpn connect "Switzerland"'
 #alias torrentvpn2='expressvpn connect "Switzerland 2"'
