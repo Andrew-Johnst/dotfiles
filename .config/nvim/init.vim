@@ -107,14 +107,18 @@
 				Plug 'owickstrom/vim-colors-paramount'
 			" Install vim-colors-plain colorscheme/theme.
 				Plug 'andreypopp/vim-colors-plain'
-			" Install ranger plugin for vim/neovim. (Taken from vimawesome page).
-			" (Commenting this out since I currently have no idea as to why I would need this plugin
-			" instead of the previously installed version on the system; or I just haven't found out what
-			" this plugin does).
-			" Plug 'hut/ranger'
-
-			" Install plugin to preview Markdown inside the vim buffer.
+			" Install a (better) version of Markdown for Vim/NeoVim that includes: syntax highlighting,
+			" matching rules, and mappings for the original markdown and extensions.
+				Plug 'godlygeek/tabular'
+				Plug 'preservim/vim-markdown'
+			" Install Markdown Preview for NeoVim (utilizes nodejs and yarn--in this version of installing
+			" the plugin at least).
+				Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+			
+			" Install plugin to preview Markdown inside the vim buffer. (The below plugin wasn't the best
+			" nor my favorite markdown plugin for vim, so installing a different one).
 				"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+			Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 			call plug#end()
 

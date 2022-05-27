@@ -79,7 +79,6 @@ function mkcd(){
 	#[[ "$1" =~ ^
     mkdir -p "$1" && cd "$1"
 
-
 	#exe "normal o#".expand('%:p')."\r# " | startinsert!
 
 }
@@ -87,9 +86,14 @@ function mkcd(){
 # Alias for colored cat outputs (bat uses a man page type interface with scrolling, whereas pcat is
 # just pygmentized cat standard output in the terminal).
 function pcat(){
+	#[[ -f "$1" ]] && { cat "$1" | pygmentize -f terminal256 -O style=monokai } || \
+	#	pygmentize -f terminal256 -O style=monokai
+
 	[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && return 0
 	pygmentize -f terminal256 -O style=monokai
+
 }
+
 # Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
 #	function sudoedit {
 #		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"

@@ -101,6 +101,7 @@ alias                                                                   \
 	priv='cd /mnt/Data/Drew'                                            \
 	dot='cd ~/Documents/git/dotfiles'                                   \
 	ba='cd ~/Documents/programming/bash'                                \
+	LU='cd ~/Documents/git/Linux-Software'                              \
 	lu='cd ~/Documents/programming/bash/linuxutils'                     \
 	glu='cd ~/Documents/git/Linux-Software'                             \
 	gitlinuxutils='glu'                                                 \
@@ -168,23 +169,26 @@ alias                                                                   \
 	svt='sudo -E nvim -p '                                              \
 	vep='sudo -E nvim -p '                                              \
 	svet='sudo -E nvim -p '                                             \
+	ctl='sudo systemctl  '                                              \
+	sctl='sudo systemctl  '                                             \
+	sctlstat='sudo systemctl  '                                         \
 	ctlstat='sudo systemctl status '                                    \
 	ctlrestart='sudo systemctl restart '                                \
 	today='date "+%m-%d-%Y_%I-%M%p"'                                    \
 	gp='genpass '                                                       \
 	p3='python3 '                                                       \
 	dmesg='dmesg -L=always '
-	#genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'         \
+	#genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'        \
 	#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
 
 # Less command aliases
 alias                                                                   \
-	le='less -R'                                                           \
+	le='less -R'                                                        \
 	lx='less -X'                                                        \
 	ple='pcat | less -X'                                                \
 	cle='pcat "$@" | less -X'                                           \
 	clx='pcat | less -X'                                                \
-	plx='pcat | less -X'                                                \
+	plx='pcat | less -X '                                               \
 	lxcl='less -X;clear'                                                \
 	clea='less -X;clear'                                                \
 	cls='less -X;clear'		
@@ -238,8 +242,10 @@ alias tmr='tmux attach-session'
 # Alias below should be a function that automatically determines the fastest server (optionally
 # specifying the region), but for now Denver OpenVPN server will be hard-coded to the alias.
 alias fastopenvpn='echo -e \
-	"\033[1;38;5;9mThis is best used when running inside a screen session...\033[0m" && \
-	sleep 3 && echo && sudo openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS.ovpn'
+	"\033[1;38;5;9mThis is best used when running inside a screen session titled:\033[0m" && \
+	echo -e "[\033[1;38;5;225mopenvpn\033[0m]" && \
+	sleep 3 && echo && \
+	sudo screen -S openvpn -dmS openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn'
 #alias evpn='expressvpn connect'
 #alias torrentvpn='expressvpn connect "Switzerland"'
 #alias torrentvpn2='expressvpn connect "Switzerland 2"'
