@@ -113,12 +113,16 @@
 				Plug 'preservim/vim-markdown'
 			" Install Markdown Preview for NeoVim (utilizes nodejs and yarn--in this version of installing
 			" the plugin at least).
-				Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+			" If you don't have nodejs and yarn
+			" use pre build, add 'vim-plug' to the filetype list so vim-plug can update this plugin see:
+			" https://github.com/iamcco/markdown-preview.nvim/issues/50
+			Plug 'iamcco/markdown-preview.nvim', 
+						\ { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 			
 			" Install plugin to preview Markdown inside the vim buffer. (The below plugin wasn't the best
 			" nor my favorite markdown plugin for vim, so installing a different one).
 				"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
-			Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+			" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 			call plug#end()
 

@@ -412,7 +412,12 @@ export ZSH_PLUGINS="$ZDOTDIR/Plugins"
 
 # [This is the reply from this thread on how to tab-complete case-insensitive matches]:
 # 	https://stackoverflow.com/a/24237590
+#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# As of [5-28-2022 !2:20PM] (or at least the time I noticed, zsh tab autocompletion has stopped
+# working, and still using the same stackoverflow thread listed above, however using the answer
+# below it with the green check mark
 
 
 

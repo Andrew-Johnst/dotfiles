@@ -102,8 +102,16 @@ function pcat(){
 
 # Function to git clone a directory, then cd into it.
 function gcd(){
-	git clone "$1"
-	cd "$(basename "$1" .git)"
+	# If there is a second argument; verify that the parent directory exists regardless of if the
+	# path/argument supplied in the second argument is the full path or relative path. Then name the
+	# output git directory the second argument in either the current directory or wherever path
+	# specified.
+	# If no second argument is specified, just use the $PWD.
+	[[ -z "$2" ]] && local OUTPUTDIR="$PWD/`basename "$1" .git`"
+	[[ -d "$(realpath '`dirname "$2"`' 2>&1 >/dev/null )" ]] && local OUTPUTDIR="$2"
+	git clone "$1" "$OUTPUTDIR"
+	cd "$OUTPUTDIR"
+	#cd "$(basename "$1" .git)"
 }
 
 # Function to easily list screen PIDs numbers.
