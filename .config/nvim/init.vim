@@ -93,8 +93,6 @@
 				Plug 'tpope/vim-commentary'
 			" Install tmuxline for automatic color synchronization to tmux from vim-airline colors.
 				Plug 'edkolev/tmuxline.vim'
-			" Install Conquer of Completion.
-			"	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 			" Install the vimwiki plugin.
 			" (Prerequisites: 'set nocompatible' 'filetype plugin on' 'syntax on').
 				Plug 'vimwiki/vimwiki'
@@ -116,13 +114,37 @@
 			" If you don't have nodejs and yarn
 			" use pre build, add 'vim-plug' to the filetype list so vim-plug can update this plugin see:
 			" https://github.com/iamcco/markdown-preview.nvim/issues/50
-			Plug 'iamcco/markdown-preview.nvim', 
-						\ { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+			"Plug 'iamcco/markdown-preview.nvim', 
+			"			\ { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 			
 			" Install plugin to preview Markdown inside the vim buffer. (The below plugin wasn't the best
 			" nor my favorite markdown plugin for vim, so installing a different one).
 				"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 			" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+
+
+			"###########################################################################################"
+			"######################### Plugins installed on: [6-23-2022 3:30PM]L #######################"
+			"###########################################################################################"
+
+			" Install Conquer of Completion.
+				Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+					" (Opting to install Vim Plugin 'ALE' instead since there is much more support and larger
+					" userbase in implicitly more options.)
+					
+					" Plug 'vim-prettier' that 'prettifies' code in vim/nvim.
+					" Post install (yarn install | npm install) then load plugin only for editing supported
+					" files.
+					"	Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+
+			" Plug  
+
+
+				
+
+			
 
 			call plug#end()
 
@@ -353,6 +375,10 @@
 		map 	<M-o> 							<C-w>+
 		map 	<M-p> 							<C-w><
 
+
+	"--------------------[4.3.0] Mappings for Tabs.
+		"set foldlevel
+
 	"--------------------[4.3.0] Mappings for Tabs.
 		map 	<C-q>								<Nop>
 		map 	<C-q>		:tabclose		<CR>
@@ -397,9 +423,11 @@
 				"			\ OFINAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
 				command!		NCFU :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
 				cnoreabbrev ncfu :NCFU
+				cnoreabbrev nvfu :NCFU
 				cnoreabbrev vcfu :NCFU
 				cnoreabbrev nfu :NCFU
 				cnoreabbrev vfu :NCFU
+				cnoreabbrev nrcf :NCFU
 
 		" Make it so that the "help" console command opens the help in a new tab in the vim buffer
 		" instead of a horizontal window split.
@@ -416,8 +444,8 @@
 		" Command to toggle showing 'cross-hairs' (showing both the cursor column and line).
 		" (This effectively turns on the 'Flash' function but permanently--however when calling the
 		" 'Flash' function, 
-				command! 				CrossHairs :setlocal cursorline! cursorcolumn!
-				"cabbrev <expr>	ch
+				command! 				 CrossHairs :setlocal cursorline! cursorcolumn!
+				cnoreabbrev ch 	:CrossHairs
 
 	"--------------------[4.5] General keybinds/settings.
 		"-------------------[4.5.1] Unmap default spacebar keybind, then map it to leader key.

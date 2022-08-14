@@ -1,0 +1,99 @@
+[audioscrobbler]
+use_audioscrobbler = True
+password_md5 = 18dfcbdb9aca9085278b2cfa31c6ae8b
+username = zoidburgl3r
+
+[connection]
+auto = True
+profile_num = 0
+
+[currformat]
+current = %A - %T|%L
+currsong1 = %T
+currsong2 = by %A from %B
+library = %A - %T
+title = [Sonata] %A - %T
+
+[library]
+lib_view = 0
+lib_album = !NONE!
+lib_artist = !NONE!
+lib_genre = !NONE!
+lib_year = !NONE!
+lib_path = /
+
+[notebook]
+current_tab_pos = 0
+current_tab_visible = True
+info_tab_pos = 4
+info_tab_visible = True
+library_tab_pos = 1
+library_tab_visible = True
+playlists_tab_pos = 2
+playlists_tab_visible = True
+streams_tab_pos = 3
+streams_tab_visible = True
+
+[player]
+art_location = 2
+art_location_custom_filename = 
+columnwidths = 325,10
+covers_pref = 1
+covers_type = 1
+decorated = True
+existing_playlist = 0
+expanded = True
+h = 1017
+info_album_expanded = True
+info_art_enlarged = False
+info_lyrics_expanded = True
+info_song_expanded = True
+info_song_more = False
+infofile_path = /tmp/xmms-info
+initial_run = False
+search_num = 0
+lyrics_location = 1
+minimize = False
+ontop = False
+popup_time = 2
+screen = 0
+covers = True
+show_header = True
+lyrics = True
+notification = False
+playback = True
+progressbar = True
+statusbar = True
+trayicon = True
+sticky = False
+stop_on_exit = False
+tabs_expanded = False
+notif_location = 0
+update_on_start = False
+browser = 
+use_infofile = False
+w = 1920
+withdrawn = False
+x = 1920
+xfade = 1
+xfade_enabled = True
+y = 132
+
+[plugins]
+autostart_plugins = lyricwiki,covers_lastfm,localmpd
+known_plugins = lyricwiki,test,covers_lastfm,localmpd,gajim_tune
+
+[tags]
+use_mpdpaths = False
+
+[streams]
+num_streams = 0
+
+[profiles]
+names[0] = Drew MPD User Session
+musicdirs[0] = /home/drew/Music
+hosts[0] = localhost
+ports[0] = 6600
+passwords[0] = MPDDrew
+num_profiles = 1
+

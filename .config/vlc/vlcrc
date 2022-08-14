@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.17.3
+###  vlc 3.0.17.4
 ###
 
 ###
@@ -2094,7 +2094,7 @@ qt-privacy-ask=0
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.17.3 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.17.4 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -3206,9 +3206,6 @@ qt-privacy-ask=0
 
 # Frames Threads (integer)
 #dav1d-thread-frames=0
-
-# Tiles Threads (integer)
-#dav1d-thread-tiles=0
 
 [dca] # DTS Coherent Acoustics audio decoder
 
@@ -4408,7 +4405,7 @@ alsa-gain=1.157625
 #loop=0
 
 # Repeat current item (boolean)
-repeat=1
+#repeat=0
 
 # Play and exit (boolean)
 #play-and-exit=0

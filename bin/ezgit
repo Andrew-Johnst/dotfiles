@@ -126,6 +126,7 @@ EXCLUSIONS=(                                                   \
 			".config/QtProject.conf"                           \
 			".config/ranger/bookmarks"                         \
 			".config/ranger/history"                           \
+			".config/ranger/tagged"                            \
 			".config/spotify"                                  \
 			".config/transmission"                             \
 			".config/VPNetworkLLC/"                            \

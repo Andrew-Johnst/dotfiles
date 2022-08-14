@@ -114,7 +114,15 @@ function zle-keymap-select {
 }
 zle -N zle-keymap-select
 
+# This function fixes the issue with ranger and oh-my-zsh:
+# "maximum nested function level reached; increase FUNCNEST?"
+# [Solution taken from this post]:
+# 	https://stackoverflow.com/a/42822796
+#function gr
 
+# Taken from the official ranger github repo; keeps your shell in the same directory ranger was
+# in before quitting.
+#bind '"\C-o":"ranger_cd\C-m"'
 
 
 # Presumably, this is what was causing <C-v> binding to fail.
@@ -131,7 +139,13 @@ zle -N zle-keymap-select
 echo -ne '\e[5 q'
 
 # Use beam shape cursor for each new prompt.
-preexec() { echo -ne '\e[5 q' ;}
+function preexec() { echo -ne '\e[5 q' ;}
+
+### [BREAKS compinit APPARENTLY].
+#	# Add ZSH ${fpath} list variable item that includes the "lf" function that the "lfcd" function from
+#	# Luke Smith's (at the time) LARBS config had, and "lf" was not already installed or installed as a
+#	# dependency.
+#	fpath=("${ZDOTDIR}/Scripts/lf" "${fpath}")
 
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
@@ -151,8 +165,8 @@ lfcd () {
 ####################################################################################################
 ############################################# Keybinds #############################################
 ####################################################################################################
-# bindkey -s '^o' 'lfcd\n'		# ZSH (lfcd is a function provided for common shells used to change
-# the pwd on quit).
+# bindkey -s '^o' 'lfcd\n'					# ZSH (lfcd is a function provided for common shells 
+											# used to change the pwd on quit).
 bindkey '^[f' vi-cmd-mode					# Binds <M-F> to return to vi normal mode (<Esc>) 
 											# becuase I'm lazy.
 bindkey -s '^[l' '^L'						# Binds <M-L> to clear screen (added for easier screen
@@ -161,9 +175,11 @@ autoload -U edit-command-line				# Load the required zsh module to allow editing
 zle -N edit-command-line					# current command in a tmp file with $EDITOR.
 bindkey -M vicmd '^[v' edit-command-line	# Binds <M-v> to edit the command-line in a vim buffer.
 
-# Not sure if this will have much effect since tmux prolly captures special keycombos like this and
-# would take precedence since they already do with <C-L> and clear command.
-bindkey 	'^['	delete-char
+### COMMENTING OUT THIS <ESC> KEYBIND SINCE I HAVE NO USE FOR <ESC> BEING EXCLUSIVE TO VIM'S "x" ###
+### BUTTON.
+## Not sure if this will have much effect since tmux prolly captures special keycombos like this and
+## would take precedence since they already do with <C-L> and clear command.
+#bindkey 	'^['	delete-char
 
 # This fixes the issue of pressing the numberpad/tenkey "Enter" key while "Number Lock" is not
 # enabled (which inserts an "OM" instead of a Carriage Return).
@@ -290,7 +306,7 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 # Specify a manual file for less command that uses some customized keybinds.
-export LESSKEY="$ZSH_PROGRAM_FILTERS/Less/lesskey"
+export LESSKEY="${ZSH_PROGRAM_FILTERS}Less/lesskey"
 
 # Setting grep to always use color
 #export GREP_OPTIONS="--color=always"

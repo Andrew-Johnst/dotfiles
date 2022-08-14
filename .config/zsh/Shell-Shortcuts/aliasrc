@@ -61,7 +61,8 @@ alias                                                                   \
 	cp='cp -v'                                                          \
 	rm='rm -r'                                                          \
 	shredu='shred -u '                                                  \
-	shru='shred -u '
+	sheu='shred -u '                                                    \
+	shu='shred -u '
 
 # Directory shortcuts.
 alias                                                                   \
@@ -243,8 +244,10 @@ alias tmr='tmux attach-session'
 # specifying the region), but for now Denver OpenVPN server will be hard-coded to the alias.
 alias fastopenvpn='echo -e \
 	"\033[1;38;5;9mThis is best used when running inside a screen session titled:\033[0m" && \
-	echo -e "[\033[1;38;5;225mopenvpn\033[0m]" && \
-	sleep 3 && echo && \
+	echo -ne "[\033[1;38;5;225m" \
+	"openvpn" \
+	"\033[0m]\n" && \
+	sleep 3 && \
 	sudo screen -S openvpn -dmS openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn'
 #alias evpn='expressvpn connect'
 #alias torrentvpn='expressvpn connect "Switzerland"'

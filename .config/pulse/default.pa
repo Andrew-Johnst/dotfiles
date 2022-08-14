@@ -150,3 +150,5 @@ load-module module-filter-apply
 # https://unix.stackexchange.com/questions/470961/how-to-set-up-pulseaudio-remote-properly-and-securely
 load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1;192.168.0.0/24 auth-anonymous=1
 load-module module-zeroconf-publish
+
+### /* vim filetype=conf */

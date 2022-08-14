@@ -593,23 +593,32 @@ function netns-exec(){
 # symbols (instead of strictly alphanumerics)--with the additional option to allow for "special"
 # special characters, aka, unicode characters.
 function genpass(){
-	# Firstly check if there is an actual shell script (located in:
-	# [$HOME/.local/bin/ManualScripts/generatepass] directory); and if there is, then just forward the
-	# arguments this function received to that shell script.
-	[[ -f "$HOME/.local/bin/ManualScripts/generatepass" ]] && \
-		$HOME/.local/bin/ManualScripts/generatepass "$@" | tr -d "=" && return 0
 
+	# Define local variables 
 	local CHARLENGTH="$1"
 	local CRED='\033[1;38;5;9m'
 	local CRE='\033[0m'
+
+	### [Commenting the below check for if a local script exists and use thst since this function is
+	### far more fleshed out and exists on any host running my custom dotfiles]
+	###
+	### Firstly check if there is an actual shell script (located in:
+	### [$HOME/.local/bin/ManualScripts/generatepass] directory); and if there is,
+	### then just forward the ### arguments this function received to that shell script.
+	### 	[[ -f "$HOME/.local/bin/ManualScripts/generatepass" ]] && \
+	###		$HOME/.local/bin/ManualScripts/generatepass "$@" | tr -d "="|cut -c -${CHARLENGTH} && \
+	###		return 0
+
 	# Verify via regex that the input is only digits (CHANGE THIS LATER WHEN ALLOWING OPTIONS!!!).
-	# Verify via regex that the input is only digits (CHANGE THIS LATER WHEN ALLOWING OPTIONS!!!).
-	[[ "$1" ]] && [[ ! "$1" =~ ^[0-9]+$ ]] && \
+	[[ -z "$1" ]] && [[ ! "$1" =~ ^[0-9]+$ ]] && \
 		echo -e "Non digits found in input ${CRED}$*${CRE}" && \
-		echo -e "Using default ${CRED}10${CRE} character length.\n" && local CHARLENGTH=10
+		echo -e "Using default ${CRED}${CHARLENGTH}${CRE} character length.\n" && local CHARLENGTH=16
 	[[ ! "$1" ]] && echo -e "No input given." && \
-		echo -e "Using default ${CRED}10${CRE} char limit.\n"
-		local CHARLENGTH=10
+		echo -e "Using default ${CRED}${CHARLENGTH}${CRE} char limit.\n"
+		local CHARLENGTH=16
+	# This line below was needed to actually allow user integer input; otherwise the ${CHARLENTH}
+	# variable would permanently default to the pre-determined character limit of 10 in length
+	[[ "$1" =~ ^[0-9]+$ ]] && local CHARLENGTH=$1
 		#echo -e "Using default ${CRED}10${CRE} character length.\n") || \
 		#([[ ! "$1" ]] && echo -ne "No input given, using default ${CRED}10${CRE} char limit.\n") && \
 	openssl rand -base64 ${CHARLENGTH} | cut -c -${CHARLENGTH} | tr -d "="
@@ -636,15 +645,67 @@ function genpass(){
 
 	# General case statement to get various options to change what type of data/passphrase will be
 	# generated.
+
 }
 
 # Instead of aliasing ranger in the aliasrc file, I am doing it here so that I can run a small check
 # to ensure that ranger is not opening in a nested session, since the code was not running (probably
 # not having taken precedence over the other locations in the $PATH to ranger, or from it being
 # aliased).
+#
+# This also has the very beneficial and convenient functionality of preserving shell command history
+# from shells running inside nested ranger sesssions.
 function ranger(){
-	[[ -z "$RANGER_LEVEL" ]] && /usr/bin/ranger "$@" || exit
-	#[[ -z "$RANGER_LEVEL" ]] && /usr/bin/ranger 
+	# Taken from the official ranger github repo; keeps your shell in the same directory ranger was
+	# in before quitting.
+	# Compatible with ranger 1.4.2 through 1.9.*
+
+	# Automatically change the current working directory after closing ranger
+	#
+	# This is a shell function to automatically change the current working
+	# directory to the last visited one after ranger quits. Either put it into your
+	# .zshrc/.bashrc/etc or source this file from your shell configuration.
+	# To undo the effect of this function, you can type "cd -" to return to the
+	# original directory.
+    #temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
+    #ranger --choosedir="$temp_file" -- "${@:-$PWD}"
+    #if chosen_dir="$(cat -- "$temp_file")" && \
+	#	[ -n "$chosen_dir" ] && \
+	#	[ "$chosen_dir" != "$PWD" ]; then
+    #    cd -- "$chosen_dir"
+    #fi
+    #rm -f -- "$temp_file"
+	
+	#	[[ -z "$RANGER_LEVEL" ]] && \
+	#		( \
+	#			#[[ "$(/bin/env/bash -c 'command -v ranger')" ]] && \
+	#			[[ "$(command -v ranger)" ]] && \
+	#				### /* ("$(bash -c '/usr/local/bin/ranger')" "$@") || \ */
+	#				"$(/bin/env/bash -c 'command -v ranger')" "$@" \
+	#		) || ( [[ -e "$RANGER_LEVEL" ]] && local CURRENTDIR="$(pwd)" && \
+	#				exit && \
+	#				cd "${CURRENTDIR}" \
+	#			)
+	#		#exit
+
+    local IFS=$'\t\n'
+    local tempfile="$(mktemp -t tmp.XXXXXX)"
+    local ranger_cmd=(
+        command
+        ranger
+        --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
+    )
+    
+    ${ranger_cmd[@]} "$@"
+    if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
+        cd -- "$(cat "$tempfile")" || return
+    fi
+    command rm -f -- "$tempfile" 2>/dev/null
+
+	#[[ -z "$RANGER_LEVEL" ]] && ("$(command -v ranger)" "$@") || { CWD="$(pwd)"; exit && cd "$CWD" }
+	#exit
+
+	# [[ -z "$RANGER_LEVEL" ]] && "$(command -v ranger)" "$@" || exit
 }
 alias r='ranger "$@"'
 
