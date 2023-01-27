@@ -129,7 +129,7 @@
 			"###########################################################################################"
 
 			" Install Conquer of Completion.
-				Plug 'neoclide/coc.nvim', {'branch': 'release'}
+				"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 					" (Opting to install Vim Plugin 'ALE' instead since there is much more support and larger
 					" userbase in implicitly more options.)
@@ -160,6 +160,8 @@
 		"	[{'path': '~/.config/nvim/plugins/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 		let g:vimwiki_list = [{'path': '~/Documents/Linux/VimWiki', 'syntax': 'markdown', 'ext': '.md'}]
 		let g:vimwiki_global_ext = 0
+		" https://github.com/vimwiki/vimwiki/issues/312#issuecomment-284853877
+		let g:vimwiki_url_maxsave=0
 
 		" Sets the VimWiki directory to be located inside the vim runtimepath config directory.
 		" Checks for the right directory (if in ~/.config/nvim or ~/.vim).
@@ -358,7 +360,8 @@
 					cnoreabbrev	ifp		:FilePathHeader
 
 "-----------------------------------[4.0] - Quality-of-life improvements
-" General-use functions are defined in "~/.config/nvim/bundle/MyFunctions/plugin/MyFunctions.vim" file.
+" General-use functions are defined in "~/.config/nvim/bundle/MyFunctions/plugin/MyFunctions.vim"
+" file.
 "(The vim command 'scriptnames', prints out the order in which vim files are loaded).
 	"--------------------[4.1.0] Shortcutting split navigation.
 	" Mapping window movement keys, setting default spawn location of new windows.
@@ -366,20 +369,34 @@
 	" the bottom with the rest of the leader definitions.
 		set splitbelow
 		set splitright
-		map		<C-h> 							<C-w>h
-		map 	<C-j> 							<C-w>j
-		map 	<C-k> 							<C-w>k
-		map 	<C-l> 							<C-w>l
-		map 	<M-y> 							<C-w>>
-		map 	<M-i> 							<C-w>-
-		map 	<M-o> 							<C-w>+
-		map 	<M-p> 							<C-w><
+		"map	<C-h>		 						<C-w>h
+		"map 	<C-j> 							<C-w>j
+		"map 	<C-k> 							<C-w>k
+		"map 	<C-l> 							<C-w>l
+		"map 	<M-y> 							<C-w>>
+		"map 	<M-i> 							<C-w>-
+		"map 	<M-o> 							<C-w>+
+		"map 	<M-p> 							<C-w><
+
+		"-------------------[4.2] Unmap default spacebar keybind, then map it to leader key.
+			"nnoremap <Space> <NOP>
+			"let mapleader = ' '
+			"let mapleader=' '
+			"nnoremap \<Space> <nop>
+			"nmap <space> <leader>
+			map <space> <nop>
+			"nnoremap ' ' <nop>
+			
+			"let mapleader=<space>
+			let mapleader=' '
 
 
-	"--------------------[4.3.0] Mappings for Tabs.
-		"set foldlevel
+	"--------------------[4.3.0] Mappings for Making things more efficient using both built-in,
+	"--------------------[4.3.0] POSIX utilities, as well as some custom plugins.
+		" Trying this out.
+		set wildmenu
 
-	"--------------------[4.3.0] Mappings for Tabs.
+	"--------------------[4.2.0] Mappings for Tabs.
 		map 	<C-q>								<Nop>
 		map 	<C-q>		:tabclose		<CR>
 		map 	<C-t>		:tabnew			<CR>
@@ -388,15 +405,16 @@
 
 	"--------------------[4.3.1] Windows/Window-Splits mappings for movement and resizing.
 		" Movements
-		map	<Space>h					<C-w>h
-		map	<Space>j					<C-w>j
-		map	<Space>k					<C-w>k
-		map	<Space>l					<C-w>l
+		"map	<Space>h					<Nop>
+		"map	<Leader>h					<C-W>h
+		map	<Leader>j					<C-w>j
+		map	<Leader>k					<C-w>k
+		map	<Leader>l					<C-w>l
 		" Resizing
-		map	<Space>u					<C-w><
-		map	<Space>i					<C-w>-
-		map	<Space>o					<C-w>+
-		map	<Space>p					<C-w>>
+		map	<Leader>u					<C-w><
+		map	<Leader>i					<C-w>-
+		map	<Leader>o					<C-w>+
+		map	<Leader>p					<C-w>>
 
 	"--------------------[4.4.0] Various command declarations.
     " Command to open zshrc file in new vim tab.
@@ -448,10 +466,6 @@
 				cnoreabbrev ch 	:CrossHairs
 
 	"--------------------[4.5] General keybinds/settings.
-		"-------------------[4.5.1] Unmap default spacebar keybind, then map it to leader key.
-			nnoremap <Space> <nop>
-			let mapleader=" "
-
 		"-------------------[4.5.2] Unbind default Visual Block keys, bind to Leader+v, rebind C-v to
 		" Escape.
 		" The last mapping in insert mode for <C-v> is critical since default map
@@ -464,7 +478,7 @@
 			map 				<C-v> 			<Esc>Pa
 			imap				<C-v>				<Esc>Pa
 			map 				<M-f> 			<Esc>
-			imap				<M-f>				<Esc>
+			inoremap				<M-f>				<Esc>
 
 		"-------------------[4.5.3] Quick saving/leaving files.
 		" Makes use of suda.vim plugin.
@@ -510,6 +524,7 @@
 		" [Commenting the below keybind out for the time being since it needs to be a function so that
 		" it can handle opening blank/nameless files without throwing an error]:
 			nnoremap		<Leader>r					:silent! exe "source $MYVIMRC" <CR> | silent! edit "%:p"
+			nnoremap		<Leader>ht				
 
 		"-------------------[4.5.8] General [Meta/Alt] keybinds and shortcuts.
 			noremap			<M-Space>					/<CR>ca<
@@ -528,8 +543,5 @@
 		" map 				<Leader>f					V}zf<Esc>
 		silent!	call	repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-		"-------------------[4.6.2] VimWiki Plugin Keybinds.
-		" Fixing default keybinds for vimwiki.
-		" Removes the annoying <Leader>ww keybind.
-		nnoremap	<Leader>wi 			<Plug>VimwikiIndex
+		"-------------------[4.6.2] VimWiki Plugin Keybinds. " Fixing default keybinds for vimwiki. " Removes the annoying <Leader>ww keybind. nnoremap	<Leader>wi 			<Plug>VimwikiIndex
 		map 			<Leader>wi			<Plug>VimwikiIndex

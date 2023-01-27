@@ -15,15 +15,16 @@ unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ') 2>/dev/null
 # functionrc files.
 [[ ! -d "/tmp/tempfiles/zsh" ]] && mkdir -p "/tmp/tempfiles/zsh"
 
-# Sudo aliases.
-alias sudo='sudo '	 		# Stupid fix for being able to use aliases with sudo.					
-alias sE='sudo -E '			# Alias to run sudo command but keep current environment variables.	
-alias se='sudo -E $EDITOR '	# Alias to preserve current user's environment vars, and open $EDITOR.
-alias sv='sudo -E nvim '	# Alias to open a file in nvim as sudo.
-alias s='sudo'				# Adding this alias back since it made more logical sense to have an
-							# alias for "sudo" instead of a function 's' do both as an alias for 
-							# sudo and (if no arguments given) repeat the previous command with a 
-							# prepended sudo added.  
+### Sudo aliases. ###
+alias sudo='sudo '	 			# Stupid fix for being able to use aliases with sudo.
+
+alias sE='sudo -E '				# Alias to run sudo command but keep current environment variables.	
+alias se='sudo -E "$EDITOR" '	# Alias to preserve current users environment vars, and open $EDITOR
+alias sv='sudo -E nvim '		# Alias to open a file in nvim as sudo.
+alias s='sudo ' 				# Adding this alias back since it made more logical sense to have an
+								# Alias for "sudo" instead of a function 's' do both as an alias for 
+								# sudo and (if no arguments given) repeat the previous command with a 
+								# prepended sudo added.  
 
 # Shortened browser/editor aliases.
 alias                                                                   \
@@ -57,11 +58,12 @@ alias                                                                   \
 	la='ls -lah'                                                        \
 	lt='ls -lth'                                                        \
 	lat='ls -lath'                                                      \
+	less='less -R'                                                      \
 	mv='mv -v'                                                          \
 	cp='cp -v'                                                          \
 	rm='rm -r'                                                          \
 	shredu='shred -u '                                                  \
-	sheu='shred -u '                                                    \
+	shru='shred -u '                                                    \
 	shu='shred -u '
 
 # Directory shortcuts.
@@ -126,78 +128,81 @@ alias                                                                   \
 # General quality of life improvements and aliasing lengthy commands.
 # [youtube-dl is defined in functionrc due to the custom "-o" output
 # option to specify the output directory instead of the default one.]
-alias                                                                   \
-	ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                     \
-	ig='grep -i'                                                        \
-	cgrep='grep --color=always'                                         \
-	igrep='grep --color=always'                                         \
-	cg='grep --color=auto'                                              \
-	icg='grep -i --color=auto'                                          \
-	cgi='grep -i --color=auto'                                          \
-	ige='grep -i'                                                       \
-	gi='grep -i'                                                        \
-	cgrep='grep --color=always'                                         \
-	igrep='grep --color=always'                                         \
-	cg='grep --color=auto'                                              \
-	cgi='grep -i --color=auto'                                          \
-	g='cd $HOME/Documents/git'                                          \
-	gd=g                                                                \
-	gc='git clone '                                                     \
-	c='/usr/local/bin/colorchart'                                       \
-	less='less -R'                                                      \
-	diff='diff --color=auto'                                            \
-	ip='ip --color=always'                                              \
-	fm='q pcmanfm-qt '                                                  \
-	bt='btop'                                                           \
-	ytdl='youtube-dl --config-location ~/.config/youtube-dl/config '    \
-	scdl='youtube-dl --config-location ~/.config/youtube-dl/scconfig '  \
-	mytdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '  \
-	mdl='mytdl '                                                        \
-	myt='mytdl '                                                        \
-	mytd='mytdl '                                                       \
-	nics='sudo ifconfig | plx'                                          \
-	paux='ps aux'                                                       \
-	pauxicg='paux | icg '                                               \
-	picg='paux | icg '                                                  \
-	pcg='paux | icg '                                                   \
-	pig='paux | icg '                                                   \
-	cchart='/usr/local/bin/colorchart'                                  \
-	cnum='/usr/local/bin/colornum'                                      \
-	k9='kill -9'                                                        \
-	sk9='sudo kill -9'                                                  \
-	vp='nvim -p '                                                       \
-	sep='sudo -E nvim -p '                                              \
-	svt='sudo -E nvim -p '                                              \
-	vep='sudo -E nvim -p '                                              \
-	svet='sudo -E nvim -p '                                             \
-	ctl='sudo systemctl  '                                              \
-	sctl='sudo systemctl  '                                             \
-	sctlstat='sudo systemctl  '                                         \
-	ctlstat='sudo systemctl status '                                    \
-	ctlrestart='sudo systemctl restart '                                \
-	today='date "+%m-%d-%Y_%I-%M%p"'                                    \
-	gp='genpass '                                                       \
-	p3='python3 '                                                       \
-	dmesg='dmesg -L=always '
-	#genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'        \
-	#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
-
-# Less command aliases
-alias                                                                   \
-	le='less -R'                                                        \
-	lx='less -X'                                                        \
-	ple='pcat | less -X'                                                \
-	cle='pcat "$@" | less -X'                                           \
-	clx='pcat | less -X'                                                \
-	plx='pcat | less -X '                                               \
-	lxcl='less -X;clear'                                                \
-	clea='less -X;clear'                                                \
-	cls='less -X;clear'		
-
-####################################################################################################
-##################################### Package manager aliases. #####################################
-####################################################################################################
-
+alias                                                                                 \
+	ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                                   \
+	ig='grep -i'                                                                      \
+	cgrep='grep --color=always'                                                       \
+	igrep='grep --color=always'                                                       \
+	cg='grep --color=auto'                                                            \
+	icg='grep -i --color=auto'                                                        \
+	cgi='grep -i --color=auto'                                                        \
+	vig='grep -iv --color=auto'                                                       \
+	ige='grep -i'                                                                     \
+	gi='grep -i'                                                                      \
+	cgrep='grep --color=always'                                                       \
+	igrep='grep --color=always'                                                       \
+	cg='grep --color=auto'                                                            \
+	cgi='grep -i --color=auto'                                                        \
+	pugrep='pgrep -u "$USER" '                                                        \
+	g='cd $HOME/Documents/git'                                                        \
+	gd='g'                                                                            \
+	gc='git clone '                                                                   \
+	c='/usr/local/bin/colorchart'                                                     \
+	diff='diff --color=auto'                                                          \
+	ip='ip --color=always'                                                            \
+	fm='q pcmanfm-qt '                                                                \
+	bt='btop'                                                                         \
+	ytdl='youtube-dl --config-location ~/.config/youtube-dl/config '                  \
+	scdl='youtube-dl --config-location ~/.config/youtube-dl/scconfig '                \
+	mytdl='youtube-dl --config-location ~/.config/youtube-dl/mconfig '                \
+	mdl='mytdl '                                                                      \
+	myt='mytdl '                                                                      \
+	mytd='mytdl '                                                                     \
+	nics='sudo ifconfig | plx'                                                        \
+	paux='ps aux'                                                                     \
+	pauxicg='paux | icg '                                                             \
+	picg='paux | icg '                                                                \
+ 	pcg='paux | icg '                                                                 \
+  	pig='paux | icg '                                                                 \
+  	cchart='/usr/local/bin/colorchart'                                                \
+  	cnum='/usr/local/bin/colornum'                                                    \
+  	k9='kill -9'                                                                      \
+  	sk9='sudo kill -9'                                                                \
+  	pk9='pids+="$(pgrep -u ${USER} )" | xargs kill -9 "${pids:1}" && unset pids'      \
+  	spk9='pids+="$(pgrep -u ${USER} )" | xargs kill -9 "${pids:1}" && unset pids'     \
+  	vp='$EDITOR -p '                                                                  \
+  	sep='sudo -E nvim -p '                                                            \
+  	svt='sudo -E nvim -p '                                                            \
+  	vep='sudo -E nvim -p '                                                            \
+  	svet='sudo -E nvim -p '                                                           \
+  	ctl='sudo systemctl  '                                                            \
+  	sctl='sudo systemctl  '                                                           \
+  	sctlstat='sudo systemctl  '                                                       \
+  	ctlstat='sudo systemctl status '                                                  \
+  	ctlrestart='sudo systemctl restart '                                              \
+  	today='date "+%m-%d-%Y_%I-%M%p"'                                                  \
+  	gp='genpass '                                                                     \
+  	p3='python3 '                                                                     \
+  	dmesg='dmesg -L=always '
+  	#genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'        \
+  	#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
+  
+  # Less command aliases
+  alias                                                                   \
+  	le='less -R'                                                        \
+  	lx='less -X'                                                        \
+  	ple='pcat | less -X'                                                \
+  	cle='pcat "$@" | less -X'                                           \
+  	clx='pcat | less -X'                                                \
+  	plx='pcat | less -X '                                               \
+  	lxcl='less -X;clear'                                                \
+  	clea='less -X;clear'                                                \
+  	cls='less -X;clear'		
+  
+  ####################################################################################################
+  ##################################### Package manager aliases. #####################################
+  ####################################################################################################
+ 
 # Aliases for various apt commands and python's pip package installer.
 alias                                                                   \
 	ins='sudo apt-get install '                                         \
@@ -248,14 +253,16 @@ alias fastopenvpn='echo -e \
 	"openvpn" \
 	"\033[0m]\n" && \
 	sleep 3 && \
-	sudo screen -S openvpn -dmS openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn'
+	sudo screen -S openvpn -dmS openvpn \
+	/etc/openvpn/client/NordVPN/UDP/us9134.nordvpn.com.udp1194.ovpn'
 #alias evpn='expressvpn connect'
 #alias torrentvpn='expressvpn connect "Switzerland"'
 #alias torrentvpn2='expressvpn connect "Switzerland 2"'
 #alias safevpn='expressvpn connect "Switzerland 2"'
 #alias safevpn2='expressvpn connect "Switzerland 2"'
 
-	alias pubip='dig +short johnstonnetwork.asuscomm.com | tail -n1'
+	#alias pubip='dig +short `cat /etc/network/DomainNames/homenewtwork` | tail -n1'
+	alias pubip='dig +short `cat /etc/network/DomainNames/homenetwork` | tail -n1'
 	alias myip='curl icanhazip.com'
 
 ####################################################################################################

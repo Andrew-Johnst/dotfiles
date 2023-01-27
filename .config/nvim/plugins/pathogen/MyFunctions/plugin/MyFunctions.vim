@@ -11,7 +11,6 @@
 	function Confirm(msg)
 		echo a:msg . ' '
 		let l:answer = nr2char(getchar())
-
 		if l:answer ==? 'y'
 			redraw
 			echo a:msg . ' ' . l:answer
@@ -84,7 +83,7 @@ endfu!
 "			" Check if the second argument is an integer or not (if so, just for edge-cases where the second
 "			" word of a string may be a number, assume it to be an integer but proceed to check the third
 "			" argument for an integer value--if that is true, then perform more checks)
-"
+
 "		
 "	function! WrapText(text, width, indent)
 "			let l:line = ''
@@ -538,6 +537,7 @@ cnoreabbrev test TEST
 "command -nargs=* Test call Test(<q-args>)
 "cnoreabbrev test Test
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Copy paste of test function.
 "	fu! Test(...)
 "		"echo "a:0 is: " . a:0 . "\na:1 is: " . a:1 . "\na:2 is: " . a:2 . "\na:000 is: " . a:000
@@ -570,6 +570,7 @@ cnoreabbrev test TEST
 "	command -nargs=* Test call Test(<f-args>)
 "	cnoreabbrev test Test
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " The below function is commented out as it needs to be fleshed out and a more simple one is used. "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

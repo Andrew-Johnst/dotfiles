@@ -1,4 +1,4 @@
-# Common recent settings file for Wireshark 3.6.0.
+# Common recent settings file for Wireshark 3.6.7.
 #
 # This file is regenerated each time Wireshark is quit
 # and when changing configuration profile.
@@ -12,13 +12,20 @@
 
 ######## Recent display filters (latest last), cannot be altered through command line ########
 
+recent.display_filter: !(ip.addr == 192.168.1.31) and !(ip.addr == 192.168.1.30)
+recent.display_filter: !ip == 192.168.1.30/30
+recent.display_filter: ip != 192.168.1.30/30
+recent.display_filter: ip.src != 192.168.1.30/30
+recent.display_filter: ip.src != 192.168.1.31
+recent.display_filter: ip.src != 192.168.1.30
+recent.display_filter: ip.src == 192.168.1.30
 
 # Main window geometry.
 # Decimal numbers.
-gui.geometry_main_x: 311
-gui.geometry_main_y: 96
-gui.geometry_main_width: 956
-gui.geometry_main_height: 817
+gui.geometry_main_x: 2656
+gui.geometry_main_y: 140
+gui.geometry_main_width: 1430
+gui.geometry_main_height: 1008
 
 # Main window maximized.
 # TRUE or FALSE (case-insensitive).
@@ -66,6 +73,24 @@ gui.search_case_sensitive: FALSE
 # Find packet search type.
 # One of: DISPLAY_FILTER, HEX_VALUE, STRING, REGEX
 gui.search_type: DISPLAY_FILTER
+
+# Geometry and maximized state of FilterDialog window.
+# Decimal integers.
+gui.geom.FilterDialog.x: 2282
+gui.geom.FilterDialog.y: 256
+gui.geom.FilterDialog.width: 880
+gui.geom.FilterDialog.height: 672
+# TRUE or FALSE (case-insensitive).
+gui.geom.FilterDialog.maximized: FALSE
+
+# Geometry and maximized state of PacketDialog window.
+# Decimal integers.
+gui.geom.PacketDialog.x: 1963
+gui.geom.PacketDialog.y: 191
+gui.geom.PacketDialog.width: 766
+gui.geom.PacketDialog.height: 806
+# TRUE or FALSE (case-insensitive).
+gui.geom.PacketDialog.maximized: FALSE
 
 # Custom colors.
 # List of custom colors selected in Qt color picker.

@@ -94,6 +94,14 @@ function pcat(){
 
 }
 
+# Another (Manually written function to colorize STDOUT and STDERR), but setting `set o pipefail`
+# [Taken from this answer from stackoverflow]:
+#	https://stackoverflow.com/a/16178979
+#colorization()(set -o pipefail;"$@" 2>&1>&3|sed $'s,.*,\033[31m&\033[m,'>&2)3>&1
+#color()(set -o pipefail;"$@" 2>&1>&3|sed $'s,.*,\e[31m&\e[m,'>&2)3>&1
+
+####################################################################################################
+
 # Function to make `sudoedit` and `sudo -e` have propper syntaxing with filetype autodetect working.
 #	function sudoedit {
 #		SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
@@ -361,8 +369,8 @@ function getaptkeyf(){
 		echo "The script file for this function has been found. Forwarding the arguments" \
 		"from this function to the script." && echo && sudo /usr/local/bin/getaptkey "$@" \
 		&& exit 0
-	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "$@" \
-		|| sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@"
+	sudo apt-key adv --keyserver keys.gnupg.net --recv-keys "$@" \
+		|| sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys "$@"
 }
 
 ### (NEED TO UPGRADE THIS FUNCTION LATER SINCE THE ABOVE "getaptkeyf" IS NOW DEPRECATED AND NOW GPG
@@ -494,7 +502,7 @@ function rmf(){
 	[[ ! "$(command -v "perl")" ]] && local USERSYNC=1
 	[[ ! "$(command -v "rsync")" ]] && unset USERSYNC && local USERM=1
 	# Temporarily adding this line below to manually set function to use rm.
-	local USERM=1
+	#local USERM=1
 
 	# Checks that the arguments passed to this function are valid files/directories.
 	for i in "$@"
@@ -532,6 +540,10 @@ function nocolor(){
 		'sed "s/\x1b\[[0-9;]*m//g"' <<< "$1"
 	fi
 }
+
+# Upgrading the "k9" alias from the aliasrc file to be an actual function so that if non-strictly
+# numerical input(s) are provided, it will find the PID of the provided program and prompt for
+# user-input whether or not to kill the process.
 
 # Simple function to determine if it is being called either being used as a pipe or running as a
 # function with arguments (programs/processes) to kill every instance of from the output of ps aux.
@@ -708,6 +720,13 @@ function ranger(){
 	# [[ -z "$RANGER_LEVEL" ]] && "$(command -v ranger)" "$@" || exit
 }
 alias r='ranger "$@"'
+
+### [TODO] ###
+# Function that takes a file as input specified by the user as "$1" (first argument), strips the
+# remaining characters after the final/right-most 
+
+
+
 
 # Function to check if bashtop, btop, or either is installed--just to avoid any potential errors and
 # prompt the user that neither program is installed. If one--or both--are installed, then take

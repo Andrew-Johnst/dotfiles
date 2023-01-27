@@ -5,3 +5,4 @@ application/xml=nvim.desktop
 video/mp2t=vlc.desktop
 application/x-mswinurl=brave-browser-nightly.desktop
 image/png=lximage-qt.desktop
+audio/flac=vlc.desktop

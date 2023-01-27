@@ -74,10 +74,10 @@ browser =
 use_infofile = False
 w = 1920
 withdrawn = False
-x = 1920
+x = 1928
 xfade = 1
 xfade_enabled = True
-y = 132
+y = 140
 
 [plugins]
 autostart_plugins = lyricwiki,covers_lastfm,localmpd

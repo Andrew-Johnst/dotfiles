@@ -9,6 +9,11 @@
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
+# Another stupid fix for being able to use aliases with sudo.
+# [Link]:
+# 	https://unix.stackexchange.com/a/185005
+#type -a startapp | grep -o -P "(?<=\`).*(?=')" | xargs sudo
+
 ####################################################################################################
 ######################################### Source oh-my-zsh #########################################
 ####################################################################################################
@@ -236,7 +241,7 @@ then
     [[ "$SSH_CLIENT_IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]] && \
         export DISPLAY="$SSH_CLIENT_IP:0.0"
         #export DISPLAY="192.168.1.30:0.0"
-    #export DISPLAY="192.168.1.30:0.0"
+    export DISPLAY="192.168.1.30:0.0"
 
 	# (8-7-2021)
 	
