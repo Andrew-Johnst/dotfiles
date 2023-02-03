@@ -62,9 +62,9 @@ alias                                                                   \
 	mv='mv -v'                                                          \
 	cp='cp -v'                                                          \
 	rm='rm -r'                                                          \
-	shredu='shred -u '                                                  \
-	shru='shred -u '                                                    \
-	shu='shred -u '
+	shu='shred -u -z '                                                  \
+	shredu='shu'                                                        \
+	shru='shu'
 
 # Directory shortcuts.
 alias                                                                   \
@@ -130,9 +130,10 @@ alias                                                                   \
 # option to specify the output directory instead of the default one.]
 alias                                                                                 \
 	ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                                   \
-	ig='grep -i'                                                                      \
+	grep='grep --color=always'                                                        \
+	ig='grep -i $@ | grep -v grep'                                                    \
 	cgrep='grep --color=always'                                                       \
-	igrep='grep --color=always'                                                       \
+	igrep='grep -i --color=always'                                                    \
 	cg='grep --color=auto'                                                            \
 	icg='grep -i --color=auto'                                                        \
 	cgi='grep -i --color=auto'                                                        \
@@ -159,7 +160,7 @@ alias                                                                           
 	myt='mytdl '                                                                      \
 	mytd='mytdl '                                                                     \
 	nics='sudo ifconfig | plx'                                                        \
-	paux='ps aux'                                                                     \
+	paux='ps aux | sed "/grep/d"'                                                     \
 	pauxicg='paux | icg '                                                             \
 	picg='paux | icg '                                                                \
  	pcg='paux | icg '                                                                 \
@@ -188,7 +189,7 @@ alias                                                                           
   	#k9l='pig $1|grep -v grep|awk "{print $2}"|sudo xargs kill -9'      \
   
   # Less command aliases
-  alias                                                                   \
+  alias                                                                 \
   	le='less -R'                                                        \
   	lx='less -X'                                                        \
   	ple='pcat | less -X'                                                \

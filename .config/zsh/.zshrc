@@ -219,29 +219,41 @@ export TERM=xterm-256color
 if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ])
 then
     export DISPLAY="$(echo $SSH_CLIENT | awk '{print $1}'):0.0"
-    export SSH_CLIENT_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
+    #export SSH_CLIENT_IP="$(echo $SSH_CLIENT | awk '{print $1}')"
     # Old variable export that defaulted to my desktop IP.
     #DISPLAY=192.168.1.30:0.0
 	
 	# This defaults to the current $SSH_CONNECTION IP address; this is used while accessing from WAN
 	# and utilizing X11Forwarding through connection to the NAS's LAN via connecting to
 	# AsusWRT-Merlin (OpenVPN Server)'s LAN.
+	#
 	# (This below line for whatever reason only as of 8-7-2021 started setting the DISPLAY to the
 	# default gateway [192.168.1.1] so commenting this out since the first word in $SSH_CONNECTION
 	# is the default gateway).
+	#
     #	DISPLAY="$(echo $SSH_CONNECTION | awk '{print $1}'):0.0"
+	#
     # Below conditional checks to see if current SSH Client IP address has valid IPv4 address
     # (general IP check).
-    #[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\} ]] &&
+    #	[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\} ]] &&
+	#
     # Below conditional checks to see if network is on "192.168.1.0/24" network.
-    #[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.1\.[0-9]\{1,3\} ]]
+    #	[[ "$SSH_CLIENT_IP" =~ ^[0-9]\{1,3\}\.[0-9]\{1,3\}\.1\.[0-9]\{1,3\} ]]
+	#
 	# Below conditional checks to see if current network interface LAN IP is on 192.168.200.0/24
 	# subnet ("Temporary" subnet/network for KVM virtual-network until I setup subnetting/VLANs with
 	# Cisco router and switch).
-    [[ "$SSH_CLIENT_IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]] && \
-        export DISPLAY="$SSH_CLIENT_IP:0.0"
+    #[[ "$SSH_CLIENT_IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]] && \
+	#
+	# (2-2-2023) Below is the tested and proven method of getting the proper SSH Client address and
+	# assigning it to the $DISPLAY variable while being (mostly) POSIX compliant.
+	[[ "$(echo $SSH_CONNECTION | cut -d ' ' -f1)" =~		\
+		^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$	\
+		]] &&												\
+		export DISPLAY="$(echo $SSH_CONNECTION | cut -d " " -f1):0.0"
+        #export DISPLAY="$SSH_CLIENT_IP:0.0"
         #export DISPLAY="192.168.1.30:0.0"
-    export DISPLAY="192.168.1.30:0.0"
+    #export DISPLAY="192.168.1.30:0.0"
 
 	# (8-7-2021)
 	

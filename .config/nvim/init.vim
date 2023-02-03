@@ -1,4 +1,4 @@
-"				 __  __          __         _           _   _         __{{{
+"				 __  __          __         _           _   _         __
 "				|  \/  |_   _   / /__ _   _| |__       | |_(_) ___ _ _\ \
 "				| |\/| | | | | | / __| | | | '_ \ _____| __| |/ _ \ '__| |
 "				| |  | | |_| | | \__ \ |_| | |_) |_____| |_| |  __/ |  | |
@@ -10,14 +10,14 @@
 "				 \ V /| | | | | | | | | (__  |  _| | |  __/ |  _| (_) | |
 "				  \_/ |_|_| |_| |_|_|  \___| |_| |_|_|\___| |_|  \___/|_|
 "
-"							 _   _         __     _____ __  __
-"							| \ | | ___  __\ \   / /_ _|  \/  |
-"							|  \| |/ _ \/ _ \ \ / / | || |\/| |
-"							| |\  |  __/ (_) \ V /  | || |  | |
-"							|_| \_|\___|\___/ \_/  |___|_|  |_|
-"}}}
+"									 _   _         __     _____ __  __
+"									| \ | | ___  __\ \   / /_ _|  \/  |
+"									|  \| |/ _ \/ _ \ \ / / | || |\/| |
+"									| |\  |  __/ (_) \ V /  | || |  | |
+"									|_| \_|\___|\___/ \_/  |___|_|  |_|
 "
-" My (usually) most up-to-date config file for Vim/neovim, mostly experimental as a learning
+"
+" My (usually) most up-to-date config file for Vim/neovim; mostly experimental as a learning
 " experience for learning and becoming more comfortable using Vim/neovim, trying to put down the GNU
 " Nano 'crack-pipe' to learn a better and far-more functional editor.
 "
@@ -384,7 +384,7 @@
 			"let mapleader=' '
 			"nnoremap \<Space> <nop>
 			"nmap <space> <leader>
-			map <space> <nop>
+			map <Space> <Nop>
 			"nnoremap ' ' <nop>
 			
 			"let mapleader=<space>
