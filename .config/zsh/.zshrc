@@ -339,7 +339,7 @@ export LESSKEY="${ZSH_PROGRAM_FILTERS}Less/lesskey"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+[[ -z "$(echo "${PATH}" | grep -o "${HOME}/perl5/bin")" ]] && PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
@@ -374,11 +374,13 @@ export QT_STYLE_OVERRIDE=kvantum
 # (This needs to be cleaned up since there are several PATH declarations already listed above for
 # various other programs that need it).
 # This PATH addition is for pywal (used for GTK theming).
-export PATH="${PATH}:${HOME}/.local/bin/"
+[[ ! "$(echo "${PATH}" | grep -i "${HOME}/.local/bin/")" ]] && \
+	export PATH="${PATH}:${HOME}/.local/bin/"
 
 # Set the path for manual scripts that are more suited to a specific user's bin directory rather
 # than a system-wide "/usr/local/bin/" directory.
-export PATH="${PATH}:${HOME}/.local/bin/ManualScripts/"
+[[ ! "$(echo "${PATH}" | grep -i "${HOME}/.local/bin/ManualScripts/")" ]] && \
+	export PATH="${PATH}:${HOME}/.local/bin/ManualScripts/"
 
 # Sets the XDG environment variables
 # (The XDG_CONFIG_HOME variable is already defined in debian's /etc/profile, however it wasn't
@@ -408,7 +410,34 @@ export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 # less likelyhood of messing something up with only a group change].
 [[ "$(command -v ruby)" ]] && \
 	export GEM_HOME="$(ruby -e 'puts Gem.user_dir')" && \
-	export PATH="$PATH:$GEM_HOME/bin"
+	[[ ! "$(echo "${PATH}" | grep -i "${GEM_HOME}/bin")" ]] && \
+		export PATH="$PATH:$GEM_HOME/bin"
+
+# For whatever reason, when installing programs with the Rust package manager "cargo" as a non-root
+# user, running a "cargo install <PACKAGE_NAME>" command results in an error:
+# "error: failed to fetch `URL`" "Caused by: error reading from the zlib stream; class=Zlib (5)"
+# (However I am convinced this is just some permissions issue cargo is running into issues with; but
+# for the time being, I am adding the root user's ".cargo" directory ["/root/.cargo/"] to the $PATH
+# variable--only if not already present, which would be the case if already logged in as root user,
+# wherein sudo doesn't count as it doesn't modify env variables/values.
+#
+# Both this .zshrc file (as well as the other ZSH config files), and the one used by root user have
+# a line that adds "${HOME}/.cargo/bin" to the "$PATH" env variable; and since cargo sometimes
+# throws errors listed above and needs sudo/root user to install packages, this will check if
+# "~/.cargo/bin" is in the "$PATH" env variable for the current user and root user (if not logged in
+# as root).
+#
+# First checks if not logged into root account, then checks that the "~/.cargo/bin" (User) directory
+# exists, and if so proceed to check that the directory is not already present in the $PATH env
+# variable, lastly exporting the $PATH env variable with the "~/.cargo/bin" directory appended.
+[[ "$EUID" -ne 0 ]] && \
+	[[ -d "${HOME}/.cargo/bin" ]] && \
+	[[ ! "$(echo "${PATH}" | grep "${HOME}/.cargo/bin")" ]] && \
+		export PATH="${PATH}:${HOME}/.cargo/bin"
+# Checks if the root user's ".cargo/bin" is in the current env "$PATH" variable; if not, then append
+# it to current working "$PATH" env variable.
+[[ ! "$(echo "${PATH}" | grep "/root/.cargo/bin")" ]]  && \
+	export PATH="${PATH}:/root/.cargo/bin"
 
 ####################################################################################################
 ## Installing and sourcing various ZSH Plugins (downloading and installing if not already present ##

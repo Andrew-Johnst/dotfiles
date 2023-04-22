@@ -4,3 +4,7 @@
 " editing/cleaning up subtitle files like removing advertising data.
 	command!    DECREMENT %s/^\d\{1,4\}$/\=(submatch(0)-1)/g
 	cnoreabbrev	decrement :DECREMENT
+
+" Same as above, but INCREMENTS number on cursor.
+	command!    INCREMENT %s/^\d\{1,4\}$/\=(submatch(0)+1)/g
+	cnoreabbrev	incremenT :INCREMENT

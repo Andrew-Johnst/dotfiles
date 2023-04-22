@@ -73,6 +73,7 @@ alias                                                                   \
 	.1='cd ..'                                                          \
 	.2='cd ../..'													    \
 	.3='cd ../../..'                                                    \
+	pics='cd ~/Pictures'                                                \
 	cdl='cd ~/.local'                                                   \
 	zlocal='cd ~/.local/zsh'                                            \
 	zl='zlocal'                                                         \
@@ -80,7 +81,8 @@ alias                                                                   \
 	nconf='cd ~/.config/nvim'                                           \
 	nconfp='cd ~/.config/nvim/plugins'                                  \
 	nconff='cd ~/.config/nvim/plugins/pathogen/MyFunctions/plugin/'     \
-	zconf='cd ~/.config/zsh'                                            \
+	zconf='cd "$(echo $ZSH | sed 's/\.zshrc//')"'                       \
+	zcd='cd "$(echo $ZSH | sed 's/\.zshrc//')"'                         \
 	mn='cd /mnt'                                                        \
 	mnt='cd /mnt'                                                       \
 	tmp='cd /tmp'                                                       \
@@ -183,6 +185,7 @@ alias                                                                           
   	ctlrestart='sudo systemctl restart '                                              \
   	today='date "+%m-%d-%Y_%I-%M%p"'                                                  \
   	gp='genpass '                                                                     \
+  	p2='python2 '                                                                     \
   	p3='python3 '                                                                     \
   	dmesg='dmesg -L=always '
   	#genpass='date +%s | sha256sum | base64 | head -c 32 ; echo'        \
@@ -277,3 +280,5 @@ alias fastopenvpn='echo -e \
 # a standard library(?) so presumably, there shouldn't be any dependency issues (written: [2-22-2022
 # 10:35AM]).
 	alias prettyjson='python -m json.tool'
+	
+	
