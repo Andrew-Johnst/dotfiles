@@ -15,14 +15,12 @@
 "									|  \| |/ _ \/ _ \ \ / / | || |\/| |
 "									| |\  |  __/ (_) \ V /  | || |  | |
 "									|_| \_|\___|\___/ \_/  |___|_|  |_|
-"
-"
+
 " My (usually) most up-to-date config file for Vim/neovim; mostly experimental as a learning
 " experience for learning and becoming more comfortable using Vim/neovim, trying to put down the GNU
 " Nano 'crack-pipe' to learn a better and far-more functional editor.
-"
 " /* vim: filetype:vim */
-"
+
 " ##################################################################################################
 " ###### Please for the love of god redo the formatting of this dumpsterfire (at some point). ######
 " ##################################################################################################
@@ -69,10 +67,10 @@
 		  " Install Hybrid material theme:
 		  		Plug 'kristijanhusak/vim-hybrid-material'
 		  " Install palenight plugin:
-		  		Plug 'drewtempelmeyer/palenight.vim'
-					" Install vim-orgmode:	(Disabled because it constantly gives issues either with new
-					" installs or committing changes to github.)
-						" Plug 'jceb/vim-orgmode'
+				Plug 'drewtempelmeyer/palenight.vim'
+			"" Install vim-orgmode:	(Disabled because it constantly gives issues either with new
+			"" installs or committing changes to github.)
+			"  Plug 'jceb/vim-orgmode'
 			" FZF installation seems very bizare, it was already installed, but apt installed it again.
 			" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
 				Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -109,20 +107,46 @@
 			" matching rules, and mappings for the original markdown and extensions.
 				Plug 'godlygeek/tabular'
 				Plug 'preservim/vim-markdown'
-			" Install Markdown Preview for NeoVim (utilizes nodejs and yarn--in this version of installing
-			" the plugin at least).
-			" If you don't have nodejs and yarn
-			" use pre build, add 'vim-plug' to the filetype list so vim-plug can update this plugin see:
-			" https://github.com/iamcco/markdown-preview.nvim/issues/50
+
+			"" Install Markdown Preview for NeoVim (utilizes nodejs and yarn--in this version of installing
+			"" the plugin at least).
+			"" If you don't have nodejs and yarn
+			"" use pre build, add 'vim-plug' to the filetype list so vim-plug can update this plugin see:
+			"" https://github.com/iamcco/markdown-preview.nvim/issues/50
 			"Plug 'iamcco/markdown-preview.nvim', 
 			"			\ { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 			
-			" Install plugin to preview Markdown inside the vim buffer. (The below plugin wasn't the best
-			" nor my favorite markdown plugin for vim, so installing a different one).
-				"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
-			" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+			"" Install plugin to preview Markdown inside the vim buffer. (The below plugin wasn't the best
+			"" nor my favorite markdown plugin for vim, so installing a different one).
+			"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+			"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
+			" Install NERDTree (file system explorer for vim/neovim) via official github repo.
+				Plug 'preservim/nerdtree'
 
+		"------------------[1.3.2.1] NERDTree Extra Plugins and Extension Install/Calls.
+			" Vim-Plug plugin call block for a few NERDTree specific plugins that modify its behaviour.
+			" [Using the list of plugins detailed here as of (5-3-2022 4:10PM)]:
+			" 	https://github.com/preservim/nerdtree#nerdtree-plugins
+				" Plugin that shows git status flags for files and folders in NERDTree.
+					Plug 'Xuyuanp/nerdtree-git-plugin'
+
+				" Plugin that adds filetype-specific icons to NERDTree files and folders.
+					Plug 'ryanoasis/vim-devicons'
+
+				" Plugin that adds syntax highlighting to NERDTree based on filetype.
+					Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+				" Plugin that saves and restores the state of the NERDTree between sessions.
+					Plug 'scrooloose/nerdtree-project-plugin'
+
+				" Plugin that 1). Highlights open files in a different color, and 2). Closes a buffer
+				" directly from NERDTree.
+					Plug 'PhilRunninger/nerdtree-buffer-ops'
+
+				" Plugin that enables NERDTree to: open, delete, move, or copy multiple Visually-selected
+				" files at once.
+					Plug 'PhilRunninger/nerdtree-visual-selection'
 
 			"###########################################################################################"
 			"######################### Plugins installed on: [6-23-2022 3:30PM]L #######################"
@@ -139,19 +163,13 @@
 					" files.
 					"	Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 
-			" Plug  
-
-
-				
-
-			
-
 			call plug#end()
 
-"-----------------------------------[1.4] - Plugin Configuration.
+"-----------------------------------[1.4] - Plugin Configurations.
 	"################################################################################################"
 	"#### Configurations to plugins are stored under the custom Bundle plugin manager directory. ####"
 	"################################################################################################"
+
 	"---------------------------------[1.4.1] VimWiki Configuration.
 		" Keybinds for this plugin ("VimWiki") is in section: [4.5.1] of this init.vim config file.
 	
@@ -169,10 +187,35 @@
 		"		let g:vimwiki_list = [{'path':'$HOME/.config/nvim/vimwiki'}]
 		"	endif
 	
-	"---------------------[1.4.1] VimWiki Configuration.
-		"
-		" Somtehing  
+	"---------------------------------[1.4.2] NERDTree Configuration.
+		"---------------------------------[1.4.2.2] NERDTree custom keybinds and shortcuts.
+			" Keybinds for easier/more-convenient use of NERDTree commands via key mapping them.
+				nnoremap <Leader>n	:NERDTreeFocus<CR>
+				nnoremap <C-n>			:NERDTree<CR>
+				nnoremap <M-t>			:NERDTreeToggle<CR>
+				nnoremap <M-F>			:NERDTreeFind<CR>
 
+		"---------------------------------[1.4.2.3] NERDTree vim autocmd's for when vim is opened.
+			" Automatically closes current Vim buffer or tab after closing NERDTree if the buffer/tab is
+			" the last window.
+			" Exit Vim if NERDTree is the only window remaining in the only tab.
+				autocmd BufEnter * 
+							\ if tabpagenr('$') == 1
+							\ && winnr('$') == 1
+							\ && exists('b:NERDTree')
+							\ && b:NERDTree.isTabThree()
+							\ | quit
+							\ | endif
+
+			" Close the tab if NERDTree is the only window remaining in it.
+				"autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+				autocmd BufEnter *
+							\ if winnr('$') == 1
+							\ && exists('b:NERDTree')
+							\ && b:NERDTree.isTabTree()
+							\ | quit 
+							\ | endif
 
 "-----------------------------------[2.0] - Theming and appearance settings.
 	"---------------------[2.1] Colorscheme options.
@@ -197,8 +240,11 @@
 				  set termguicolors
 				endif
 
-			colorscheme palenight
-			let g:airline_theme = "palenight"
+
+
+
+				colorscheme palenight
+				let g:airline_theme = "palenight"
 
 			"let g:palenight_terminal_italics=1
 			" Commenting all this out for now while testing out custom colorschemes/themes.
@@ -381,14 +427,21 @@
 		"-------------------[4.2] Unmap default spacebar keybind, then map it to leader key.
 			"nnoremap <Space> <NOP>
 			"let mapleader = ' '
-			"let mapleader=' '
+			"let mapleader = ' '
 			"nnoremap \<Space> <nop>
 			"nmap <space> <leader>
+			"map <silent> <Space> <Nop>
+			"inoremap <silent> <Space> <Nop>
+			"nnoremap <silent> <Space> <Nop>
+			"nnoremap <Silent> <Space> <Nop>
+			"noremap <Silent> <Space> <Nop>
+			"map <Silent> <Space> <Nop>
+			"nnoremap <Silent> <Space> <Nop>
 			map <Space> <Nop>
-			"nnoremap ' ' <nop>
+			"inoremap <Space> <Nop>
 			
 			"let mapleader=<space>
-			let mapleader=' '
+			let mapleader = ' '
 
 
 	"--------------------[4.3.0] Mappings for Making things more efficient using both built-in,

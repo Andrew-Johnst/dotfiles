@@ -7,7 +7,7 @@
 #export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
 autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[gray]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[magenta]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # Another stupid fix for being able to use aliases with sudo.
 # [Link]:
@@ -255,6 +255,9 @@ then
         #export DISPLAY="192.168.1.30:0.0"
     #export DISPLAY="192.168.1.30:0.0"
 
+# Manually adding this here for this specific VM so that X11 is forwarded to the Windows 10
+# Host/Hypervisor machine.
+#export DISPLAY="192.168.1.30:0.0"
 	# (8-7-2021)
 	
 	# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
