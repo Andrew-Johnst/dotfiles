@@ -62,7 +62,7 @@ alias                                                                   \
 	mv='mv -v'                                                          \
 	cp='cp -v'                                                          \
 	rm='rm -r'                                                          \
-	shu='shred -u -z '                                                  \
+	shu='shred -v -u -z "$@"'                                           \
 	shredu='shu'                                                        \
 	shru='shu'
 
@@ -108,8 +108,9 @@ alias                                                                   \
 	ba='cd ~/Documents/programming/bash'                                \
 	LU='cd ~/Documents/git/Linux-Software'                              \
 	lu='cd ~/Documents/programming/bash/linuxutils'                     \
-	glu='cd ~/Documents/git/Linux-Software'                             \
-	gitlinuxutils='glu'                                                 \
+	gitlinuxutildir='cd ~/Documents/git/Linux-Software'                 \
+	glu='gitlinuxutildir'                                               \
+	gld='gitlinuxutildir'                                               \
 	py='cd ~/Documents/programming/python'                              \
 	py2='cd ~/Documents/programming/python/2'                           \
 	py3='cd ~/Documents/programming/python/3'                           \
@@ -133,7 +134,7 @@ alias                                                                   \
 alias                                                                                 \
 	ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                                   \
 	grep='grep --color=always'                                                        \
-	ig='grep -i $@ | grep -v grep'                                                    \
+	ig='grep -i "$@"'                                                                 \
 	cgrep='grep --color=always'                                                       \
 	igrep='grep -i --color=always'                                                    \
 	cg='grep --color=auto'                                                            \

@@ -38,8 +38,8 @@
 
 " Function to return true if checking for the directory passed as the argument exists.
 function! FileOrFolderExists(...)
-if a:0 >= 1
-	try
+	if a:0 >= 1
+		try
 			if a:1 =~! '^[-]\{1,2\}[file|directory|help]\{1,\}'
 				let l:Errors = "Invalid argument: \"" . get(a:, 1) . "\""
 				throw l:Error = 1
@@ -51,7 +51,7 @@ if a:0 >= 1
 				return !empty(glob(l:DirectoryName))
 			elseif a:1 =~ '^[-]\{1,2\}[help]\{1,\}'
 				throw l:Showusage = 1
-			"elseif a:1 =~ '^[-]\{1,2\}[file|directory|help]\{1,\}'
+				"elseif a:1 =~ '^[-]\{1,2\}[file|directory|help]\{1,\}'
 				"echom get(a:, 1)
 				"throw l:error = 0
 				"if a:1 =~ '^[-]\{1,2\}[f|d|h|file|directory|help]\{1,\}'

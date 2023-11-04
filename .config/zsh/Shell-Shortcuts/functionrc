@@ -301,6 +301,10 @@ function disks(){
 		sudo fdisk -l /dev/md[0-9]* 2>/dev/null | cat -s && \
 		echo 
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+		echo 
+		sudo df -aTh | sed '/\/sys*\|\/run*\|\/proc*/d'
+		echo 
+		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	fi
 
 	# Show any LVM type devices.

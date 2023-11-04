@@ -86,8 +86,7 @@ DEPENDS=(	"bzip2"             \
 
 # Defines a list of files/folders to be deleted from the local directory before adding the contents
 # of the pwd to git staged changes.
-EXCLUSIONS=(                                                   \
-			".fzf"                                             \
+EXCLUSIONS=(".fzf"                                             \
 			".fzf.*"                                           \
 			"*.log"                                            \
 			"*.netrwhist"                                      \
@@ -135,6 +134,8 @@ EXCLUSIONS=(                                                   \
 			".config/torbrowser/"                              \
 			".config/transmission"                             \
 			".config/VPNetworkLLC/"                            \
+			".config/vlc/vlc-qt-interface.conf"                \
+			".config/wireshark"                                \
 			".config/vlc/vlc-qt-interface.conf"                \
 			".config/zsh/.zcompdump*"                          \
 			".config/zsh/.zsh_history"                         \
@@ -234,7 +235,7 @@ function CHECKDEPS(){
 		# a "compatibility" mode.
 		while [[ "$yn" != "y" && "$yn" != "n" ]]
 		do
-			read -n 1 -p "$(echo -e Would you like to install the dependencies? \
+			read -e -n 1 -p "$(echo -e Would you like to install the dependencies? \
 				["$CRED"Y"$CRESET"/"$CRED"n"$CRESET"]: ) " yn;
 
 			# Sanitizing the read command input.
@@ -547,7 +548,7 @@ case "$1" in
 		# Using a while loop again to force y/n.
 		while [[ "$yn" != "y" && "$yn" != "n" ]]
 		do
-			read -n 1 -p "$(echo -e Are the git status changes ok? \
+			read -e -n 1 -p "$(echo -e Are the git status changes ok? \
 				["$CRED"y"$CRESET"/"$CRED"n"$CRESET"]: ) " yn;
 
 			# Sanitizing the read command input.
@@ -559,7 +560,7 @@ case "$1" in
 				"${CRED}Changes staged for commit have been made, but not committing.\nExiting..." \
 				&& exit 1
 		done
-		read -p 'Name the commit: ' commitdesc
+		read -e -p 'Name the commit: ' commitdesc
 		# Change as of July 28, 2021 made to Github.com removed the ability to commit/make-changes to
 		# repositories without some form of 2FA, so this command is changed to connect over SSH
 		# using an SSH id keyfile locatd at: "~/.ssh/id_github" (as of 8-23-2021 only main drew@NAS

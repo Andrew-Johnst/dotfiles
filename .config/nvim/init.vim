@@ -63,11 +63,16 @@
 		  " Install Dracula theme:
 		  		Plug 'dracula/vim',{'name': 'dracula' }
 		  " Install Nord theme:
-		  		Plug 'arcticicestudio/nord-vim'
+		  		"Plug 'arcticicestudio/nord-vim'
 		  " Install Hybrid material theme:
-		  		Plug 'kristijanhusak/vim-hybrid-material'
+		  		"Plug 'kristijanhusak/vim-hybrid-material'
 		  " Install palenight plugin:
 				Plug 'drewtempelmeyer/palenight.vim'
+				" In order to get the palenight theme to load without throwing 2+ pages of errors due to
+				" errors in how characters were added to groups, I manually had to type a `silent!` command
+				" before the `execute` command to silence those error messages.
+				" The file in question is:
+				" 	"~/.config/nvim/plugins/plugged/palenight.vim/colors/palenight.vim"
 			"" Install vim-orgmode:	(Disabled because it constantly gives issues either with new
 			"" installs or committing changes to github.)
 			"  Plug 'jceb/vim-orgmode'
@@ -107,6 +112,12 @@
 			" matching rules, and mappings for the original markdown and extensions.
 				Plug 'godlygeek/tabular'
 				Plug 'preservim/vim-markdown'
+			" Install the Neovim/Vim ranger plugin.
+			" [URL to github repo for this plugin]:
+			" 	https://github.com/francoiscabrol/ranger.vim
+		    Plug 'francoiscabrol/ranger.vim'
+			" Install the dependency plugin required for 'ranger.vim' plugin specific to NeoVim.
+		    Plug 'rbgrouleff/bclose.vim'
 
 			"" Install Markdown Preview for NeoVim (utilizes nodejs and yarn--in this version of installing
 			"" the plugin at least).
@@ -129,7 +140,7 @@
 			" [Using the list of plugins detailed here as of (5-3-2022 4:10PM)]:
 			" 	https://github.com/preservim/nerdtree#nerdtree-plugins
 				" Plugin that shows git status flags for files and folders in NERDTree.
-					Plug 'Xuyuanp/nerdtree-git-plugin'
+				Plug 'Xuyuanp/nerdtree-git-plugin'
 
 				" Plugin that adds filetype-specific icons to NERDTree files and folders.
 					Plug 'ryanoasis/vim-devicons'
@@ -243,6 +254,13 @@
 
 
 
+				"colorscheme dracula
+				"let g:airline_theme = "dracula"
+				" In order to get the palenight theme to load without throwing 2+ pages of errors due to
+				" errors in how characters were added to groups, I manually had to type a `silent!` command
+				" before the `execute` command to silence those error messages.
+				" The file in question is:
+				" 	"~/.config/nvim/plugins/plugged/palenight.vim/colors/palenight.vim"
 				colorscheme palenight
 				let g:airline_theme = "palenight"
 
@@ -301,7 +319,7 @@
 		"set t_8f=^[[38;2;%lu;%lu;%lum				" Set foreground color.
 		"set t_8b=^[[48;2;%lu;%lu;%lum				" Set background color.
 		"colorscheme Tomorrow-Night-Eighties
-		set t_Co=256													" Enable 256 colors.
+		"if !exists(t_Co) && set t_Co=256													" Enable 256 colors.
 		"set termguicolors										" Enable GUI colors for the terminal to get truecolor.
 
 	"---------------------[2.3] Vim-Airline config settings.
@@ -437,7 +455,7 @@
 			"noremap <Silent> <Space> <Nop>
 			"map <Silent> <Space> <Nop>
 			"nnoremap <Silent> <Space> <Nop>
-			map <Space> <Nop>
+			silent! map <Space> <Nop>
 			"inoremap <Space> <Nop>
 			
 			"let mapleader=<space>
@@ -531,7 +549,7 @@
 			map 				<C-v> 			<Esc>Pa
 			imap				<C-v>				<Esc>Pa
 			map 				<M-f> 			<Esc>
-			inoremap				<M-f>				<Esc>
+			inoremap		<M-f>				<Esc>
 
 		"-------------------[4.5.3] Quick saving/leaving files.
 		" Makes use of suda.vim plugin.
@@ -594,7 +612,7 @@
 			map					<M-E>							vE
 		"	map					<Leader>s					vg_S
 		" map 				<Leader>f					V}zf<Esc>
-		silent!	call	repeat#set("\<Plug>MyWonderfulMap", v:count)
+		"silent!	call	repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 		"-------------------[4.6.2] VimWiki Plugin Keybinds. " Fixing default keybinds for vimwiki. " Removes the annoying <Leader>ww keybind. nnoremap	<Leader>wi 			<Plug>VimwikiIndex
 		map 			<Leader>wi			<Plug>VimwikiIndex
