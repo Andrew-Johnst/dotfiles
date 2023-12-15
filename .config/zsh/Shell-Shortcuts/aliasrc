@@ -134,7 +134,7 @@ alias                                                                   \
 alias                                                                                 \
 	ncmpcpp='ncmpcpp -b ~/.config/ncmpcpp/bindings'                                   \
 	grep='grep --color=always'                                                        \
-	ig='grep -i "$@"'                                                                 \
+	ig='grep -i "${@}"'                                                                 \
 	cgrep='grep --color=always'                                                       \
 	igrep='grep -i --color=always'                                                    \
 	cg='grep --color=auto'                                                            \
@@ -206,7 +206,7 @@ alias                                                                           
   	plx='pcat | less -X '                                               \
   	lxcl='less -X;clear'                                                \
   	clea='less -X;clear'                                                \
-  	cls='less -X;clear'		
+  	cls='less -X;clear'
   
   ####################################################################################################
   ##################################### Package manager aliases. #####################################

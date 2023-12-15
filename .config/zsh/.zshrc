@@ -210,6 +210,8 @@ export SYSTEMD_EDITOR="$EDITOR"
 # Removing this for now.
 export TERM=xterm-256color
 #export TERM=mintty
+#export TERM=tmux-256color
+#export TERM=tmux
 
 # Checks whether or not the current session is from SSH, exports the DISPLAY variable to the IP
 # address of the SSH client if so, and if the current session doesn't appear to originate from an
@@ -337,6 +339,16 @@ export LESSKEY="${ZSH_PROGRAM_FILTERS}Less/lesskey"
 
 # Adding this to test PulseAudio forwarding over X11.
 #export PULSE_SERVER="tcp:localhost:24713"
+
+####################################################################################################
+### ADDING THIS FROM A STACKEXCHANGE POST THAT CONTAINS THE SAME LESS COMMAND COLORS AND CONFIGS ###
+###                      https://unix.stackexchange.com/a/147/401241                             ###
+####################################################################################################
+# Get color support for 'less'
+export LESS="--RAW-CONTROL-CHARS"
+
+# Use colors for less, man, etc.
+[[ -f "~/.config/zsh/lessfilter" ]] && . "~/.config/zsh/lessfilter"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

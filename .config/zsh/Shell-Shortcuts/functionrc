@@ -46,7 +46,7 @@ local CRI=$(echo -e ${CR}${CBL})
 local CGI=$(echo -e ${CG}${CBL})
 local CPI=$(echo -e ${CPU}${CBL})
 
-
+####################################################################################################
 
 # Unsets all functions in this file before redefining them.
 # [WIP]
@@ -344,6 +344,7 @@ function disks(){
 
 # Alias to pipe the entire contents of disks() function through pcat alias.
 alias disks='disks | plx'
+[[ ! $(command -v pcat) ]] && alias disks='disks | less -X'
 
 # Function to display only the hidden files/folders. $1 argument can dictate whether or not to only
 # show <-f|--files> or <-F|--folders>
@@ -461,10 +462,19 @@ function pdocconv(){
 # last modification date and time.
 function vtmp(){
 	local DATETIME="`date '+%m-%d-%Y_%H-%M-%S%p'`"
-	[[ -e "$1" ]] && local TMPFILENAME="$1"
+	local TEMPFILEDIR="/tmp/tempfiles/zsh/"
+	[[ -z "${1}" ]] && local TMPFILENAME="${DATETIME}"
+	[[ -e "${1}" ]] && local TMPFILENAME="${1}"
 	#export LASTVTMPFILE="`date '+%m-%d-%Y_%H-%M-%S%p'`"
-	"$EDITOR" "/tmp/tempfiles/zsh/`date '+%m-%d-%Y_%H-%M-%S%p'`"
+	"${EDITOR}" "${TMPFILENAME}"
+	echo -e "${CR}The tempfile is: ${CC}${TMPFILENAME}${CRE}"
 }
+
+# Function taken from a stackexchange post for a "hack" to be able to open "links" or "hypertext" in
+# man pages in the pager (currently set to the `less` commands with some additional settings).
+#	https://unix.stackexchange.com/a/381182/401241
+
+
 
 # Function to create a bzip2 tar file while utilizing pbzip2 (a bzip2 program that utilizes
 # multithreading/parallel-processing for faster times; if pbzip2 isn't installed, use bzip2; if

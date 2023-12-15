@@ -84,7 +84,6 @@ endfu!
 "			" word of a string may be a number, assume it to be an integer but proceed to check the third
 "			" argument for an integer value--if that is true, then perform more checks)
 
-"		
 "	function! WrapText(text, width, indent)
 "			let l:line = ''
 "			let l:ret = ''

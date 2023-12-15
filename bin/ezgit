@@ -106,6 +106,7 @@ EXCLUSIONS=(".fzf"                                             \
 			".config/google-chrome"                            \
 			".config/ghb"                                      \
 			".config/glava"                                    \
+			".config/keepassxc/*"                              \
 			".config/libvirt"                                  \
 			".config/lximage-qt/settings.conf"                 \
 			".config/mpd/database"                             \
@@ -122,6 +123,7 @@ EXCLUSIONS=(".fzf"                                             \
 			".config/nvim/plugins/pathogen/MyFunctions/spell/" \
 			".config/otpclient.cfg"                            \
 			".config/oomox/*"                                  \
+			".config/pcmanfm-qt/default/recent-files.conf"     \
 			".config/projectM"                                 \
 			".config/protonmail/*"                             \
 			".config/QtProject.conf"                           \
@@ -137,6 +139,7 @@ EXCLUSIONS=(".fzf"                                             \
 			".config/vlc/vlc-qt-interface.conf"                \
 			".config/wireshark"                                \
 			".config/vlc/vlc-qt-interface.conf"                \
+			".config/weechat/*"                                \
 			".config/zsh/.zcompdump*"                          \
 			".config/zsh/.zsh_history"                         \
 			)
