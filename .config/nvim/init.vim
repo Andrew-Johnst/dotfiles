@@ -603,6 +603,9 @@
 			inoremap		<M-n>		    			<Esc>/<++><CR>ca<
 			nnoremap		<M-o>							o<Esc>0"_D
 			nnoremap		<M-O>							O<Esc>0"_D
+			map					<M-i>							i<++><ESC>
+			nnoremap		<M-i>							i<++><ESC>
+			inoremap		<M-i>							<++><ESC>
 
 	"--------------------[4.6.0] Plugin keybinds.
 		"-------------------[4.6.1] Surround-plugin leader keybinds.

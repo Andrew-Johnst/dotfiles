@@ -62,6 +62,10 @@ ShellShortcutDir="$HOME/.config/zsh/Shell-Shortcuts/"
 [ -d "$ZDOTDIR/Filters/" ] && \
 	export ZSH_PROGRAM_FILTERS="$ZDOTDIR/Filters/"
 
+# Check if certain scripts located in the user's ".local" directory in their home directory; source
+# it if so. (Currently only checking for one script in this directory).
+[ -f "$HOME/.local/bin/ManualScripts/bfg" ] && source "$HOME/.local/bin/ManualScripts/bfg"
+
 # Check if a directory named "Shell-Helpers is located in the $ZDOTDIR directory, if it is then
 # export an environment variable pointing to that directory.
 #ShellHelperDir="$Home/.config/zsh/Shell-Helpers/"

@@ -8,7 +8,7 @@
 " (There is a builtin function called "confirm()" that can potentially be used instead of this.)
 " (Added an option for "Q" to quit the function early, although I don't know how useful this will be
 " since this Confirm function was written to be called by other custom functions anyways).
-	function Confirm(msg)
+	function! Confirm(msg)
 		echo a:msg . ' '
 		let l:answer = nr2char(getchar())
 		if l:answer ==? 'y'
@@ -475,9 +475,9 @@ endfunction!
 " Function that inserts a specified character for selected text that can do one of these options:
 " [Underline, Insert a line of the specified character above the selected text, or fully encapsulate
 " the selected text (above and below)].
-function! CHARACTERENCAPSULATE(...)
-	silent echom 
-endfunction
+"		function! CHARACTERENCAPSULATE(...)
+"			silent echom 
+"		endfunction
 
 
 "##################################################################################################"
