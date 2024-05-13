@@ -1,4 +1,0 @@
-sudo screen -S openvpn -dmS openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn
-sudo screen -S openvpn -dmS openvpn /etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-UDP.ovpn
-nic
-ranger --version

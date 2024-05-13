@@ -106,8 +106,8 @@ alias                                                                   \
 	priv='cd /mnt/Data/Drew'                                            \
 	dot='cd ~/Documents/git/dotfiles'                                   \
 	ba='cd ~/Documents/programming/bash'                                \
-	LU='cd ~/Documents/git/Linux-Software'                              \
 	lu='cd ~/Documents/programming/bash/linuxutils'                     \
+	LU='cd ~/Documents/git/Linux-Software'                              \
 	gitlinuxutildir='cd ~/Documents/git/Linux-Software'                 \
 	glu='gitlinuxutildir'                                               \
 	gld='gitlinuxutildir'                                               \

@@ -212,7 +212,10 @@ export SYSTEMD_EDITOR="$EDITOR"
 # Apparently, despite countless warnings online against exporting TERM variable in shell profile,
 # this is what fixed it lol. (Have yet to start new SSH instance, or X11 session however).
 # Removing this for now.
-export TERM=xterm-256color
+	# Temporarily commenting this out/changing the "$TERM" env back to "tmux-256color" as per
+	# instructions of running a ":checkhealth" in neovim.
+	#export TERM=xterm-256color
+export TERM=tmux-256color
 #export TERM=mintty
 #export TERM=tmux-256color
 #export TERM=tmux
@@ -387,6 +390,10 @@ export QT_STYLE_OVERRIDE=kvantum
 # variable to use the QT style correctly.
 [[ "$HOST" == "Debian-Bitcoin" || "$HOST_IP" == "192.168.0.1" ]] && \
 	export QT_STYLE_OVERRIDE=kvantum
+
+# Adding this global user ENV variable for the documentation program "tldr" (if installed) to set
+# color mode to on.
+#[[ $(command -v tldr) ]] && 
 
 
 # Adding directories to the PATH variable.

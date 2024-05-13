@@ -3540,7 +3540,7 @@ qt-privacy-ask=0
 #alsa-audio-channels=6
 
 # Software gain (float)
-alsa-gain=1.030301
+#alsa-gain=1.000000
 
 [jack] # JACK audio output
 

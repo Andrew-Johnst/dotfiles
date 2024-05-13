@@ -279,6 +279,12 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 " after the last forward-slash).
 
 " Function to flash a pair of cross-hairs on the cursor.
+" ### Whlie the 'ranger.vim' plugin is installed, the default (which overrides the below mapping),
+" ### ranger keybind to bring up the ranger file browser is the same keybind as the one for calling
+" ### the below function: 'Flash(...)'
+" ### Therefore, due to the order in which neovim loads plugins and the order this plugin file falls
+" ### into, it will be unbound here.
+"
 " ### [Not currently implementing arguments since kinda superfluous] ###
 " Optional arguments are: First argument taking integer for number of flashes (default is 1 flash).
 " The second optional argument is the time (in milliseconds) to show the cursorlines on the screen

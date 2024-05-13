@@ -574,7 +574,7 @@ function k9a(){
 # well as upgrade the pip command itself. The only reason this is a function rather than an alias is
 # to be able to both upgrade the pip package installer itself as well as upgrade all pip packages,
 # and an alias would be too verbose.
-function pipup(){
+pipup(){
 	# Upgrades the pip program.
 	/usr/bin/env python3 -m pip install --upgrade pip
 	# Checks for outdated pip/python packages

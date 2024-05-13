@@ -21,6 +21,11 @@
 " Nano 'crack-pipe' to learn a better and far-more functional editor.
 " /* vim: filetype:vim */
 
+" TO-DO:
+" Compartmentalize, segregate, and overall organize the settings in this main init.vim config file,
+" and creating vimscript files containing all the settings pertaining to each individual group and
+" then just call/reference/source that file in this file.
+
 " ##################################################################################################
 " ###### Please for the love of god redo the formatting of this dumpsterfire (at some point). ######
 " ##################################################################################################
@@ -66,13 +71,14 @@
 		  		"Plug 'arcticicestudio/nord-vim'
 		  " Install Hybrid material theme:
 		  		"Plug 'kristijanhusak/vim-hybrid-material'
+			""" The below palenight.vim theme plugin was causing all the <SNR>15_h W18 errors.
 		  " Install palenight plugin:
-				Plug 'drewtempelmeyer/palenight.vim'
+					Plug 'drewtempelmeyer/palenight.vim'
 				" In order to get the palenight theme to load without throwing 2+ pages of errors due to
 				" errors in how characters were added to groups, I manually had to type a `silent!` command
 				" before the `execute` command to silence those error messages.
 				" The file in question is:
-				" 	"~/.config/nvim/plugins/plugged/palenight.vim/colors/palenight.vim"
+				" 	'~/.config/nvim/plugins/plugged/palenight.vim/colors/palenight.vim'
 			"" Install vim-orgmode:	(Disabled because it constantly gives issues either with new
 			"" installs or committing changes to github.)
 			"  Plug 'jceb/vim-orgmode'
@@ -133,14 +139,14 @@
 			"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 			" Install NERDTree (file system explorer for vim/neovim) via official github repo.
-				Plug 'preservim/nerdtree'
+				 Plug 'preservim/nerdtree'
 
 		"------------------[1.3.2.1] NERDTree Extra Plugins and Extension Install/Calls.
 			" Vim-Plug plugin call block for a few NERDTree specific plugins that modify its behaviour.
 			" [Using the list of plugins detailed here as of (5-3-2022 4:10PM)]:
 			" 	https://github.com/preservim/nerdtree#nerdtree-plugins
 				" Plugin that shows git status flags for files and folders in NERDTree.
-				Plug 'Xuyuanp/nerdtree-git-plugin'
+				  Plug 'Xuyuanp/nerdtree-git-plugin'
 
 				" Plugin that adds filetype-specific icons to NERDTree files and folders.
 					Plug 'ryanoasis/vim-devicons'
@@ -207,26 +213,20 @@
 				nnoremap <M-F>			:NERDTreeFind<CR>
 
 		"---------------------------------[1.4.2.3] NERDTree vim autocmd's for when vim is opened.
+			" Close the tab if NERDTree is the only window remaining in it.
+				"autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() \
+				" | quit | endif
 			" Automatically closes current Vim buffer or tab after closing NERDTree if the buffer/tab is
 			" the last window.
 			" Exit Vim if NERDTree is the only window remaining in the only tab.
-				autocmd BufEnter * 
-							\ if tabpagenr('$') == 1
-							\ && winnr('$') == 1
-							\ && exists('b:NERDTree')
-							\ && b:NERDTree.isTabThree()
-							\ | quit
-							\ | endif
+					"	autocmd BufEnter * 
+					"				\ if tabpagenr('$') == 1
+					"				\ && winnr('$') == 1
+					"				\ && exists('b:NERDTree')
+					"				\ && b:NERDTree.isTabThree()
+					"				\ | quit
+					"				\ | endif
 
-			" Close the tab if NERDTree is the only window remaining in it.
-				"autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-
-				autocmd BufEnter *
-							\ if winnr('$') == 1
-							\ && exists('b:NERDTree')
-							\ && b:NERDTree.isTabTree()
-							\ | quit 
-							\ | endif
 
 "-----------------------------------[2.0] - Theming and appearance settings.
 	"---------------------[2.1] Colorscheme options.
@@ -261,12 +261,15 @@
 				" before the `execute` command to silence those error messages.
 				" The file in question is:
 				" 	"~/.config/nvim/plugins/plugged/palenight.vim/colors/palenight.vim"
-				colorscheme palenight
-				let g:airline_theme = "palenight"
+				"colorscheme dracula
+				"let g:airline_theme = "dracula"
 
+			" Palenight colorscheme/theme configurations.
 			"let g:palenight_terminal_italics=1
-			" Commenting all this out for now while testing out custom colorschemes/themes.
-			" colorscheme palenight
+			silent! colorscheme palenight
+			" The below configuration for setting the active theme for vim-airline is located below in
+			" section 2.3 where the rest of vim-airline configurations are. 
+			"let g:airline_theme = palenight
 			"set background=dark
 
 			" Trying to set theme and vim-airline theme to Tomorrow-Night-Eighties.
@@ -320,27 +323,25 @@
 		"set t_8b=^[[48;2;%lu;%lu;%lum				" Set background color.
 		"colorscheme Tomorrow-Night-Eighties
 		"if !exists(t_Co) && set t_Co=256													" Enable 256 colors.
-		"set termguicolors										" Enable GUI colors for the terminal to get truecolor.
+		set termguicolors										" Enable GUI colors for the terminal to get truecolor.
 
 	"---------------------[2.3] Vim-Airline config settings.
 		"let g:airline_theme='oceanicnext'
 		"let g:airline_theme='dracula'
-		" Allows vim-airline to use fonts (without this, rectangles appear instead of the expected arrow shapes).
-		let g:airline_powerline_fonts = 1
+		" Allows vim-airline to use fonts (without this, rectangles appear instead of the expected arrow
+		" shapes).
+			let g:airline_powerline_fonts = 1
 		" Auto command for entering any vim buffer to disable vim-airline whitespace info.
-		autocmd VimEnter * silent! AirlineToggleWhitespace
+			autocmd VimEnter * silent! AirlineToggleWhitespace
 		" Sets the path formatter for tabs so the filepath appears on tabs and current buffer indicator.
-		"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-		let g:airline#extensions#tabline#formatter = 'unique_tail'
-		let g:airline#extensions#tabline#left_sep = ' '
-		let g:airline#extensions#tabline#left_alt_sep = '|'
-
-"							Commenting out vim-airline settings, testing lightline.
-"								"---------------------[2.3] Vim-airline configurations:
-"									" Palenight theme for vim-airline.
-"								  	let g:airline_theme = "palenight"
-"								  " Disable trailing whitespace info.
-"								  	let g:airline#extensions#whitespace#enabled = 0
+		" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+			let g:airline#extensions#tabline#formatter = 'unique_tail'
+			let g:airline#extensions#tabline#left_sep = ' '
+			let g:airline#extensions#tabline#left_alt_sep = '|'
+		" Palenight theme for vim-airline.
+			silent! let g:airline_theme = palenight
+		" Disable trailing whitespace info.
+			let g:airline#extensions#whitespace#enabled = 0
 
 "	-----------------------------------[3.0] - Formatting settings.
 	"----------------------------------[3.1] - Default and general format settings.
@@ -365,6 +366,10 @@
 		"set linebreak
 		"set nowritebackup
 
+		" Adding this [2-20-2024 11:11PM] below line of vimscript to hopefully stop those totally super
+		" useful and extremely informative error messages when starting any new vim or neovim buffer.
+			"autocmd BufEnter * lua vim.lsp.diagnostic.disable()
+
 		" Adding this manually since the reloading of vimrc in the buffer overrides format options
 		" to the global init.vim settings.
 		" autocmd FileType .vim set tabstop=2
@@ -374,11 +379,15 @@
 		" set mouse=a
 		" set clipboard=unnamedplus
 
+		" ### Had to comment out the below as the '$NVIM_TUI_ENABLE_CURSOR_SHAPE' variable will be
+		" depreciated, and 'guicursor' should be used instead. ###
+		"
     " This changes the cursor shape and shape behaviour since on AWS it was set to use line
     " shape in all modes. The variable is what changed the behaviour of the cursor while
     " guicursor setting defined what specs to give the cursor.
-    set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
+		"
+    " 		set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+    " 		let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
 	"----------------------[3.2] Syntax/search highlighting.
 		syntax on
@@ -455,7 +464,8 @@
 			"noremap <Silent> <Space> <Nop>
 			"map <Silent> <Space> <Nop>
 			"nnoremap <Silent> <Space> <Nop>
-			silent! map <Space> <Nop>
+			"silent map <Space> <Nop>
+			map <Space> <Nop>
 			"inoremap <Space> <Nop>
 			
 			"let mapleader=<space>
@@ -487,7 +497,8 @@
 		map	<Leader>o					<C-w>+
 		map	<Leader>p					<C-w>>
 
-	"--------------------[4.4.0] Various command declarations.
+	"--------------------[4.4.0] Various and Miscellaneous Command declarations Calling Functions.
+	"--------------------[4.4.1] Defining Commands 
     " Command to open zshrc file in new vim tab.
         command!    ZRC :call OpenFileInNextAvailableBuffer("~/.config/zsh/.zshrc")
         cnoreabbrev	zrc :ZRC
@@ -505,18 +516,20 @@
         command!    FRC	:call OpenFileInNextAvailableBuffer("$ZSH_SHORTCUTS/functionrc")
         cnoreabbrev frc	:FRC
 
+	"--------------------[4.4.2] Various command declarations and abbreviations.
 		" Command to open the main file containing my custom neovim functions.
 				"command!		NCFU :call OpenFileInNextAvailableBuffer( \
 				"	'~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim')
 				"command!		NCFU :call
 				"			\ OFINAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
-				command!		NCFU :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
-				cnoreabbrev ncfu :NCFU
-				cnoreabbrev nvfu :NCFU
-				cnoreabbrev vcfu :NCFU
-				cnoreabbrev nfu :NCFU
-				cnoreabbrev vfu :NCFU
-				cnoreabbrev nrcf :NCFU
+				command!		NVF :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
+				"cnoreabbrev ncfu :NVF
+				cnoreabbrev ncfu :call(ncfu(...))
+				cnoreabbrev nvfu :NVF
+				cnoreabbrev vcfu :NVF
+				cnoreabbrev nfu :NVF
+				cnoreabbrev vfu :NVF
+				cnoreabbrev nrcf :NVF
 
 		" Make it so that the "help" console command opens the help in a new tab in the vim buffer
 		" instead of a horizontal window split.
@@ -575,7 +588,7 @@
 		" Automatically correct spelling error to the first result in spellcheck.
 			nnoremap 		<Leader>sc 						:set spell! <CR>
 			noremap			<Leader>ss						]s1z=
-			command!		FixTypo				:normal ]s1z=
+			command!		FixTypo								:normal ]s1z=
 			cnoreabbrev	typo									:FixTypo
 
 		"-------------------[4.5.7] General [Leader] keybinds and shortcuts.
@@ -584,6 +597,8 @@
 			map					<Leader>c					zc
 			map					<Leader>-					<C-w>_
 			map					<Leader>=					<C-w>=
+			map					<Leader>f					<Nop>
+			nnoremap		<Leader>f					<Nop>
 			nnoremap		<Leader>f					:call Flash()<CR>
 		" Change the keybind to increment/decrement number on cursor due to conflicting Tux keybinds.
 			map					<Leader>a					<C-a>
@@ -595,7 +610,7 @@
 		" [Commenting the below keybind out for the time being since it needs to be a function so that
 		" it can handle opening blank/nameless files without throwing an error]:
 			nnoremap		<Leader>r					:silent! exe "source $MYVIMRC" <CR> | silent! edit "%:p"
-			nnoremap		<Leader>ht				
+			"nnoremap		<Leader>ht				
 
 		"-------------------[4.5.8] General [Meta/Alt] keybinds and shortcuts.
 			noremap			<M-Space>					/<CR>ca<
@@ -619,3 +634,7 @@
 
 		"-------------------[4.6.2] VimWiki Plugin Keybinds. " Fixing default keybinds for vimwiki. " Removes the annoying <Leader>ww keybind. nnoremap	<Leader>wi 			<Plug>VimwikiIndex
 		map 			<Leader>wi			<Plug>VimwikiIndex
+
+"-----------------------------------[5.0] - General Variable Declaration (Need to organize init.vim)
+	"--------------------[5.1] Set global variables.
+    let g:python3_host_prog = '/usr/bin/env python3'

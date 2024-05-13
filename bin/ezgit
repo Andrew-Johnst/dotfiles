@@ -140,6 +140,7 @@ EXCLUSIONS=(".fzf"                                             \
 			".config/wireshark"                                \
 			".config/vlc/vlc-qt-interface.conf"                \
 			".config/weechat/*"                                \
+			".config/znt"                                      \
 			".config/zsh/.zcompdump*"                          \
 			".config/zsh/.zsh_history"                         \
 			)
