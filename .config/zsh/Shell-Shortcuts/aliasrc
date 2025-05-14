@@ -4,9 +4,9 @@
 # Aliasrc is a file created to house all of the shell alias definitions, written in this file for portability. (Used in conjunction with functionrc, then called in the zshrc file).
 
 ### Old methods of clearing aliases:
-	# unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
-	# unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ')
-	# unalias $(alias | sed -e 's/=.*$//' | sed ':a;N;$!ba;s/\n/ /g')
+#	# unalias $(alias | cut -f 1 -d '=' | tr '\n' ' ')
+#	# unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ')
+#	# unalias $(alias | sed -e 's/=.*$//' | sed ':a;N;$!ba;s/\n/ /g')
 # This removes all user-defined aliases just to avoid any potential issues when changing names of
 # aliases.
 unalias $(alias | cut -f 1 -d '=' | paste -s -d ' ') 2>/dev/null
@@ -285,5 +285,3 @@ alias fastopenvpn='echo -e \
 # a standard library(?) so presumably, there shouldn't be any dependency issues (written: [2-22-2022
 # 10:35AM]).
 	alias prettyjson='python -m json.tool'
-	
-	

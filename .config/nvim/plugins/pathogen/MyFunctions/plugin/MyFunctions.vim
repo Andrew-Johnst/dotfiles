@@ -136,8 +136,12 @@ endfunction
 " function.
 	"command! -nargs=*	-complete=command OFINTAB call OpenFileInNextAvailableBuffer(<args>)
 	command! -nargs=1 -complete=file OFINTAB call OpenFileInNextAvailableBuffer(<f-args>)
-	cnoreabbrev OFINTAB OFINTAB
+	cnoreabbrev ofintab OFINTAB
 
+" ##################################################################################################
+" ### WIP/INCOMPLETE (AS OF [6-10-2024])
+" ### (DOES NOTHING OTHER THAN PRINT MESSAGE TO BUFFER TERMINAL)
+" ##################################################################################################
 " Enables spellcheck if disabled, moves cursor to next typo, asks if it should be changed to the first
 " spellcheck recommendation, then moves to the next one until an <Esc> key is pressed.
 	function SuperSpellCheck()
@@ -151,8 +155,8 @@ endfunction
 		else
 			echo "Apparently x != \"nospell\", and has val of: " . x
 		endif
-	" (Temporary) Jumps to beginning of file, then jumps to next typo, opens list of suggestions and waits for
-	" yes or no,
+	" (Temporary) Jumps to beginning of file, then jumps to next typo, opens list of suggestions and
+	" waits for yes or no,
 	endfunction
 	cnoreabbrev	ssc	call SuperSpellCheck()
 
@@ -369,6 +373,19 @@ cnoreabbrev kms call DeleteCurrentOpenFile()
 	cnoreabbrev nl :NL
 	map <Leader>nl :nl<CR>
 
+	" Copy pasting the function listed on the vimwiki (link below) page for switching between upper
+	" and lower case letters via the '~' key to cycle through all: [lowercase, UPPERCASE, Title Case]
+		function! TwiddleCase(str)
+		if a:str ==# toupper(a:str)
+			let result = tolower(a:str)
+		elseif a:str ==# tolower(a:str)
+			let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+		else
+			let result = toupper(a:str)
+		endif
+		return result
+	endfunction
+	vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
 
 "##################################################################################################"

@@ -1,3 +1,14 @@
+####################################################################################################
+####################################################################################################
+####################################################################################################
+#### [WARNING THAT APPLIES TO ANY ENVIRONMENT VARIABLES PERTAINING TO SSH IP ADDRESSES]:
+#### SET THEM MANUALLY OR HAVE A CHECK BECAUSE OTHERWISE IF BEING SSH'D INTO VIA ANOTHER SSH
+#### CONNECTION, IT WILL USE THE INFO OF THE NEAREST HOP/LINK UPWARDS IN THE SSH CHAIN SETTING
+#### FALSE INFORMATION FOR ENVIRONMENT VARIABLES. (NAMELY THE DISPLAY AND PULSE_SERVER VARIABLES).
+####################################################################################################
+####################################################################################################
+####################################################################################################
+
 # Exports the ZDOTDIR into ~/.config/zsh rather than cluttering up the home directory wtih dotfiles.
 #export ZDOTDIR="$HOME/.config/zsh"
 # Exports the oh-my-zsh directory.
@@ -480,6 +491,8 @@ export ZSH_PLUGINS="$ZDOTDIR/Plugins"
 # ZSH-Syntax-Highlighting for a Fish shell-like syntax highlighting.
 [[ -f "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ]] && \
 	source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+[[ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
+	source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # ZSH-Navigation-Tools.
 [[ -f "$ZSH_PLUGINS/.oh-my-zsh/plugins/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh" ]] && \
@@ -544,3 +557,11 @@ plugins=(
 	#	[[ ! git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 	#	source ~/.config/zsh/.oh-my-zsh/
 #}
+
+# Temporarily adding this below line to maybe fix an issue of the $DISPLAY variable being set to
+# weird things; perhaps it happens whilst opening an X11 (forwarded from server to sink on Windows
+# 19) via a daemon that allows X11 programs to be executed remotely but viewed and interacted with
+# locally in conflicting machines.
+export DISPLAY=192.168.1.30:0.0
+
+. "$HOME/.local/bin/env"

@@ -67,6 +67,8 @@
 		  		Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 		  " Install Dracula theme:
 		  		Plug 'dracula/vim',{'name': 'dracula' }
+			" Install Hydrangea theme.
+					Plug 'yuttie/hydrangea-vim'
 		  " Install Nord theme:
 		  		"Plug 'arcticicestudio/nord-vim'
 		  " Install Hybrid material theme:
@@ -84,7 +86,8 @@
 			"  Plug 'jceb/vim-orgmode'
 			" FZF installation seems very bizare, it was already installed, but apt installed it again.
 			" Install fzf fuzzy-finder, clone git repo into ~/.fzf directory:
-				Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+				"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+				Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 			" Install oceanic-next theme:
 				Plug 'mhartington/oceanic-next'
 			" Install vim-airline:
@@ -124,6 +127,11 @@
 		    Plug 'francoiscabrol/ranger.vim'
 			" Install the dependency plugin required for 'ranger.vim' plugin specific to NeoVim.
 		    Plug 'rbgrouleff/bclose.vim'
+			" Install Vim Golf (TRYING to install via plugin using the repo [04-22-2025 4-51AM])
+			" (((Commented out to use the github repo from reddit post for neovim listed below)))
+				"Plug 'igrigorik/vimgolf'
+			" Install Vim Golf (from a fork git repo for neovim/vim plugins)
+				Plug 'vuciv/golf'
 
 			"" Install Markdown Preview for NeoVim (utilizes nodejs and yarn--in this version of installing
 			"" the plugin at least).
@@ -139,7 +147,14 @@
 			"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 			" Install NERDTree (file system explorer for vim/neovim) via official github repo.
-				 Plug 'preservim/nerdtree'
+				Plug 'preservim/nerdtree'
+
+			" [[[FIX LATER]]] "
+			" Plugin for NeoVIM/VIM tree-sitter for syntax highlighting.
+ 				" (We recommend updating the parsers on update)
+				"Plug 'nvim-treesitter/nvim-treesitter'
+				", {'do': ':TSUpdate'}
+				" (There is a line of Lua config for this plugin at the bottom (Section [5.2]))
 
 		"------------------[1.3.2.1] NERDTree Extra Plugins and Extension Install/Calls.
 			" Vim-Plug plugin call block for a few NERDTree specific plugins that modify its behaviour.
@@ -432,7 +447,7 @@
 					command -nargs=* -complete=command FilePathHeader call InsertFilePath()
 					cnoreabbrev	ifp		:FilePathHeader
 
-"-----------------------------------[4.0] - Quality-of-life improvements
+"-----------------------------------[4.0] - Quality of life improvements.
 " General-use functions are defined in "~/.config/nvim/bundle/MyFunctions/plugin/MyFunctions.vim"
 " file.
 "(The vim command 'scriptnames', prints out the order in which vim files are loaded).
@@ -472,10 +487,11 @@
 			let mapleader = ' '
 
 
-	"--------------------[4.3.0] Mappings for Making things more efficient using both built-in,
+	"--------------------[4.3.0] Mappings for Making things more efficient for built-in and plugins.
 	"--------------------[4.3.0] POSIX utilities, as well as some custom plugins.
 		" Trying this out.
 		set wildmenu
+
 
 	"--------------------[4.2.0] Mappings for Tabs.
 		map 	<C-q>								<Nop>
@@ -483,6 +499,10 @@
 		map 	<C-t>		:tabnew			<CR>
 		map 	<M-l>		:tabnext 		<CR>
 		map 	<M-h>		:tabprev		<CR>
+		" Massive quality of life mapping when navigating the help pages.
+		" Like the <C-]> keybind which opens links, however this keybind will open links in a new tab.
+		"map <C-}>			:tabnew
+		
 
 	"--------------------[4.3.1] Windows/Window-Splits mappings for movement and resizing.
 		" Movements
@@ -521,8 +541,8 @@
 				"command!		NCFU :call OpenFileInNextAvailableBuffer( \
 				"	'~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim')
 				"command!		NCFU :call
-				"			\ OFINAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
-				command!		NVF :ofinab "~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim"
+				"			\ OFINTAB("~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim")
+				"command!	NVF :ofintab '~/.config/nvim/plugins/pathogen/MyFunctions/plugin/MyFunctions.vim'
 				"cnoreabbrev ncfu :NVF
 				cnoreabbrev ncfu :call(ncfu(...))
 				cnoreabbrev nvfu :NVF
@@ -536,12 +556,16 @@
 			" (The below/first cabbrev command has a bug where the '/' search function also replaces
 			" 'help' with 'tab help').
 			" https://vi.stackexchange.com/a/33221
-				"cabbrev			help tab help
-				cabbrev <expr> helptab		(getcmdtype() == ':') ? "tab help" : "helptab"
-				cabbrev <expr> ht 				(getcmdtype() == ':') ? "tab help" : "ht"
+				cabbrev			help tab help
+				cabbrev 		<expr> helptab		(getcmdtype() == ':') ? "tab help" : "helptab"
+				cabbrev 		<expr> ht 				(getcmdtype() == ':') ? "tab help" : "ht"
 
 		" Command to write the currently opened file as sudo.
-				command!			SudoWrite		:w !sudo tee %
+		" [Stackoverflow link explaining why this works]:
+		" 	https://stackoverflow.com/a/7078429
+				command!		SudoWrite		:w !sudo tee %
+				cmap w!!		w !sudo tee > /dev/null %
+
 
 		" Command to toggle showing 'cross-hairs' (showing both the cursor column and line).
 		" (This effectively turns on the 'Flash' function but permanently--however when calling the
@@ -576,7 +600,7 @@
 			nnoremap    <Leader>qa    :qa         <CR>
 			nnoremap    <Leader>qaq   :qa!        <CR>
 
-		"-------------------[4.5.4] Create command to remove any lines containing nothing other than whitespace
+		"-------------------[4.5.4] Create command to remove all lines containing only whitespace.
 		" (Comments are omitted), and creates abbreviation for easier calling.
 			command! 		Delwhitespace	%s/\s\+$//e | %s/\n{3,}/\r\r/e
 			cnoreabbrev	blm						:Delwhitespace <CR>
@@ -635,6 +659,9 @@
 		"-------------------[4.6.2] VimWiki Plugin Keybinds. " Fixing default keybinds for vimwiki. " Removes the annoying <Leader>ww keybind. nnoremap	<Leader>wi 			<Plug>VimwikiIndex
 		map 			<Leader>wi			<Plug>VimwikiIndex
 
-"-----------------------------------[5.0] - General Variable Declaration (Need to organize init.vim)
+"-----------------------------------[5.0] - General Variable Declarations and Configs.(Need to organize init.vim)
 	"--------------------[5.1] Set global variables.
     let g:python3_host_prog = '/usr/bin/env python3'
+	"--------------------[5.2] Lua Configurations/Settings (Primarily from plugins in section [1.3.2])
+	" At the bottom of your init.vim, keep all configs on one line.
+	"lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}

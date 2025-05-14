@@ -145,3 +145,5 @@ alias la='ls -lah'
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/drew/.sdkman"
 [[ -s "/home/drew/.sdkman/bin/sdkman-init.sh" ]] && source "/home/drew/.sdkman/bin/sdkman-init.sh"
+
+. "$HOME/.local/bin/env"

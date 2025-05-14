@@ -8,6 +8,17 @@
 #	find $ZDOTDIR -type f | grep -E "^*.zshrc$"
 # egrep "frc|function|functionrc" "$(find $ZDOTDIR -type f | grep -E "^*.zshrc$")" | sed -e '/^#.*$/d'
 
+### [TO-DO (At some point)]:
+#	- Just for the sake of some of these functions having some software dependencies, there should
+#	be a section listed before any functions are declared/defined containing all software
+#	dependencies.
+#		- Create an array (named "DEPENDENCIES") containing ANY and ALL non-standard, pre-installed, or otherwise
+#		programs/tools that is not included by default on POSIX systems.
+#		- With said array (which should be appended each time a new function is declared that uses
+#		software not included in the core-utils), run a function to check if each package is
+#		installed or not.
+
+
 # Command listed below shows all the currently assigned functions. (First one displays current
 # functions with parenthesis, second command/line displays just the function names).
 # The third one is POSIX compliant since it doesn't utilize extended REGEX in grep; however all work
@@ -61,7 +72,7 @@ function sf(){
 	# Since sudo cannot utilize these user defined functions, this block of code below first unsets
 	# any previous declerations (to avoid logical errors via redundant or dead declarations); then
 	# declares every function in this file that is not commented out.
-	
+
 	# For loop that for each function in this file, it is appended as a string into the
 	# $ACTIVEFUNCTIONS list variable.
 	for i in `sed -e 's/^[ \t]*//' -e '/^[#]/d' "$THISFILE" | grep "(){$" | tr -d '[:punct:]'`
@@ -176,7 +187,7 @@ function ips(){
 	# netmask, etc. and only displaying active LAN IPs assigned to any/all of the localhost's
 	# NICs.
 	#	ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' \
-	#	| grep -v '127.0.0.1' 
+	#	| grep -v '127.0.0.1'
 
 	# Below command gets the currently active/main NIC's LAN IP address. The second--or in the
 	# ordering of how this command had to be written to ommit an additional sed-pipe
@@ -269,7 +280,7 @@ function disks(){
 		echo "################################ NVMe M.2 SSD Drives ################################"
 		echo "#####################################################################################"
 		sudo fdisk -l /dev/nvme[0-9]n[0-9] 2>/dev/null | cat -s
-		echo 
+		echo
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	fi
 
@@ -283,7 +294,7 @@ function disks(){
 		echo "#####################################################################################"
 		echo "####################### Regular/Traditional Hard Disk Drives. #######################"
 		echo "#####################################################################################"
-		echo 
+		echo
 		sudo fdisk -l /dev/?d[a-z] 2>/dev/null | cat -s
 		echo
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -299,11 +310,11 @@ function disks(){
 		echo "################################# RAID Arrays/Disks #################################"
 		echo "#####################################################################################"
 		sudo fdisk -l /dev/md[0-9]* 2>/dev/null | cat -s && \
-		echo 
+		echo
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-		echo 
+		echo
 		sudo df -aTh | sed '/\/sys*\|\/run*\|\/proc*/d'
-		echo 
+		echo
 		echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	fi
 
@@ -389,7 +400,7 @@ function aptgpgkey(){
 		&& exit 1
 	[[ -f "$1" ]] && ([[ "$1" == "*.key" ]] || [[ "$1" == "*.gpg" ]]) && \
 		NAME="$(basename -s .key -s .gpg "$1")" && FILENAME="$1"
-	
+
 	sudo "$(cat "$FILENAME" | gpg --dearmor > "/usr/share/keyrings/$NAME-archive.gpg")"
 	sudo install -o root -g root -m 644 \
 		"/usr/share/keyrings/$NAME-archive.gpg" /etc/apt/trusted.gpg.d/
@@ -403,7 +414,7 @@ function SS(){
 	# scripts since shell scripts are run in their own sub-shells and therefore have their own
 	# history lists.
 	[[ "$@" ]] && sudo "$@" && exit 0
-	
+
 	# Backticks must be used rather than a shell substitution with "$(<COMMAND>)" in conjunctio
 	# with an eval command on the variable.
 	lastcmd="`history | sed -e 's/^[0-9 ]*[ ]//' -e '$!d'`"
@@ -495,7 +506,7 @@ function tarp(){
 			"given." && return 1
 	done
 
-	# Checks if pbzip2 is installed, prefer that over bzip2 if installed. 
+	# Checks if pbzip2 is installed, prefer that over bzip2 if installed.
 	local COMPMETHOD="pbzip2 -9"
 	[[ ! "$(command -v "pbzip2")" ]] && local COMPMETHOD="bzip2 -9"
 	# Checks that pv is installed, exit if it isn't installed.
@@ -595,7 +606,7 @@ function netns-exec(){
 	#	local OVPNFILE="/etc/openvpn/client/Torguard/Torguard-ALL_SERVERS-USA.ovpn"
 
 	# This will remove the default "protected" sudo network namespace.
-	#	[[ "$(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))" ]] 
+	#	[[ "$(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))" ]]
 	#	[[ "$(sudo ip netns list | grep -i '(id: 0):')" ]] && \
 	#	sudo ip netns del $(sudo ip netns del $(sudo ip netns list | grep -i "(id: 0)"))
 	sudo ip netns exec protected sudo -u "$USER" "$@"
@@ -620,7 +631,7 @@ function netns-exec(){
 # special characters, aka, unicode characters.
 function genpass(){
 
-	# Define local variables 
+	# Define local variables
 	local CHARLENGTH="$1"
 	local CRED='\033[1;38;5;9m'
 	local CRE='\033[0m'
@@ -701,7 +712,7 @@ function ranger(){
     #    cd -- "$chosen_dir"
     #fi
     #rm -f -- "$temp_file"
-	
+
 	#	[[ -z "$RANGER_LEVEL" ]] && \
 	#		( \
 	#			#[[ "$(/bin/env/bash -c 'command -v ranger')" ]] && \
@@ -717,11 +728,9 @@ function ranger(){
     local IFS=$'\t\n'
     local tempfile="$(mktemp -t tmp.XXXXXX)"
     local ranger_cmd=(
-        command
-        ranger
-        --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
+        command ranger --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
     )
-    
+
     ${ranger_cmd[@]} "$@"
     if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
         cd -- "$(cat "$tempfile")" || return
@@ -737,7 +746,7 @@ alias r='ranger "$@"'
 
 ### [TODO] ###
 # Function that takes a file as input specified by the user as "$1" (first argument), strips the
-# remaining characters after the final/right-most 
+# remaining characters after the final/right-most
 
 
 
@@ -747,7 +756,7 @@ alias r='ranger "$@"'
 # preference over "btop" rather than bashtop, however if it is not installed then use btop instead
 # (or use neither program and display a small info/error message instead).
 #function BashtopOrBtop(){
-#	[[ "$(command -v "btop") ]] 
+#	[[ "$(command -v "btop") ]]
 #}
 
 
@@ -805,7 +814,7 @@ alias r='ranger "$@"'
 #			local CFGDIR="~/.config/youtube-dl/mconfig"
 #		elif [[ "$1" =~ [-v|--video] ]]
 #			local CFGDIR="~/.config/youtube-dl/config"
-#		elif [[ -z "$1" ]] 
+#		elif [[ -z "$1" ]]
 #			echo "Defaulting to Video-download mode..."
 #			sleep 2
 #			local CFGDIR="~/.config/youtube-dl/config"
@@ -841,7 +850,7 @@ alias r='ranger "$@"'
 #
 #
 #
-#		# Loop that downloads every link provided in arguments after 
+#		# Loop that downloads every link provided in arguments after
 #		youtube-dl --config-location "$CFGDIR"
 #	}
 
@@ -858,7 +867,7 @@ alias r='ranger "$@"'
 #			&& return 1
 #		#if [ -f "$1" ]
 #		#then
-#		#	echo "File exists. Would you like to overwrite it or 
+#		#	echo "File exists. Would you like to overwrite it or
 #		#	while ;:
 #		#	do
 #
