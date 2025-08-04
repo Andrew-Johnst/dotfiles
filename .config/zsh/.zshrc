@@ -564,4 +564,9 @@ plugins=(
 # locally in conflicting machines.
 export DISPLAY=192.168.1.30:0.0
 
-. "$HOME/.local/bin/env"
+
+# Adding this for pipx packages as per the instructions from pipx; bashcompinit needs to be enabled
+# to work.
+autoload -U bashcompinit
+bashcompinit
+eval "$(register-python-argcomplete pipx)"

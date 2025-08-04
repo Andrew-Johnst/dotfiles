@@ -4,6 +4,14 @@
 " Functions.vim file is used to define general-use functions rather than in the master vimrc file,
 " in order to save on space, and compartmentalization.
 
+" TODO:
+" 	- Write a function/mapping that opens a help page (in a new tab) for the word currently on the
+" 		cursor.
+" 	- Write a function that encapsulates highlighted text inside a 'comment block' (block of '#'
+" 		characters with text in the center) using the currently opened file/buffer's textwidth set
+" 		value; prepending the beginning of each line with the filetype's appropriate comment
+" 		character.
+
 " General purpose function to prompt for a "Y" or "N" input and return either 1 for yes or 0 for no.
 " (There is a builtin function called "confirm()" that can potentially be used instead of this.)
 " (Added an option for "Q" to quit the function early, although I don't know how useful this will be
@@ -36,7 +44,7 @@
 		endif
 	endfunction
 
-" Function to return true if checking for the directory passed as the argument exists.
+" Function (helper) to return true if checking for the directory passed as the argument exists.
 function! FileOrFolderExists(...)
 	if a:0 >= 1
 		try
@@ -89,7 +97,7 @@ endfu!
 "			let l:ret = ''
 "		
 "			"for word in split(a:text)
-
+"
 "	  let l:line = ''
 "	  let l:ret  = ''
 "	
@@ -117,7 +125,7 @@ endfu!
 "	  let l:ret .= "\n" . repeat(' ', a:indent) . l:line
 "	
 "	  return l:ret
-
+"
 "endfunction!
 "command -nargs=? WrapText call WrapText(<f-args>)
 "command -nargs=? WrapText :silent call WrapText(<f-args>)
@@ -134,9 +142,9 @@ function! OpenFileInNextAvailableBuffer(filename)
 endfunction
 " Creating a command to allow parameters to be passed to the function, then abbreviating the above
 " function.
-	"command! -nargs=*	-complete=command OFINTAB call OpenFileInNextAvailableBuffer(<args>)
-	command! -nargs=1 -complete=file OFINTAB call OpenFileInNextAvailableBuffer(<f-args>)
-	cnoreabbrev ofintab OFINTAB
+"command! -nargs=*	-complete=command OFINTAB call OpenFileInNextAvailableBuffer(<args>)
+command! -nargs=1 -complete=file OFINTAB call OpenFileInNextAvailableBuffer(<f-args>)
+cnoreabbrev ofintab OFINTAB
 
 " ##################################################################################################
 " ### WIP/INCOMPLETE (AS OF [6-10-2024])
@@ -144,21 +152,21 @@ endfunction
 " ##################################################################################################
 " Enables spellcheck if disabled, moves cursor to next typo, asks if it should be changed to the first
 " spellcheck recommendation, then moves to the next one until an <Esc> key is pressed.
-	function SuperSpellCheck()
+function SuperSpellCheck()
 	" Redirects output into x variable (only way to do this afaik).
-		redir => x
-		silent execute "setlocal spell?"
-		redir END
+	redir => x
+	silent execute "setlocal spell?"
+	redir END
 	" Evaluates spell option value, enables if disabled.
-		if x == "nospell"
-			" silent setlocal spell
-		else
-			echo "Apparently x != \"nospell\", and has val of: " . x
-		endif
+	if x == "nospell"
+		" silent setlocal spell
+	else
+		echo "Apparently x != \"nospell\", and has val of: " . x
+	endif
 	" (Temporary) Jumps to beginning of file, then jumps to next typo, opens list of suggestions and
 	" waits for yes or no,
-	endfunction
-	cnoreabbrev	ssc	call SuperSpellCheck()
+endfunction
+cnoreabbrev	ssc	call SuperSpellCheck()
 
 " Function to add executable permissions to the file that is opened in the current vim-buffer.
 	fu! CHMODX()

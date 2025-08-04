@@ -58,6 +58,9 @@ local CGI=$(echo -e ${CG}${CBL})
 local CPI=$(echo -e ${CPU}${CBL})
 
 ####################################################################################################
+######################################### Helper Functions #########################################
+####################################################################################################
+#local function 
 
 # Unsets all functions in this file before redefining them.
 # [WIP]
@@ -88,7 +91,7 @@ function sf(){
 # Function to mkdir $1 and cd into it.
 function mkcd(){
 	#[[ "$1" =~ ^
-    mkdir -p "$1" && cd "$1"
+    mkdir -p "${1}" && cd "${1}"
 
 	#exe "normal o#".expand('%:p')."\r# " | startinsert!
 
@@ -102,6 +105,11 @@ function pcat(){
 
 	[[ -f "$1" ]] && cat "$1" | pygmentize -f terminal256 -O style=monokai && return 0
 	pygmentize -f terminal256 -O style=monokai
+
+	# Taking/using the solution given from the stackexchange answer linked below.
+	#	https://unix.stackexchange.com/a/301432
+
+	if [ $# == 0 ]
 
 }
 
@@ -121,13 +129,16 @@ function pcat(){
 
 # Function to git clone a directory, then cd into it.
 function gcd(){
+	### BUG: Need to fix argument ordering since gcd currently [5-22-2025_17-19] does not allow for
+	###	any git clone options and assumes any of those options are the repo.
+
 	# If there is a second argument; verify that the parent directory exists regardless of if the
 	# path/argument supplied in the second argument is the full path or relative path. Then name the
 	# output git directory the second argument in either the current directory or wherever path
 	# specified.
 	# If no second argument is specified, just use the $PWD.
-	[[ -z "$2" ]] && local OUTPUTDIR="$PWD/`basename "$1" .git`"
-	[[ -d "$(realpath '`dirname "$2"`' 2>&1 >/dev/null )" ]] && local OUTPUTDIR="$2"
+	[[ $# -lt 2 ]] && local OUTPUTDIR="$PWD/`basename "$1" .git`"
+	[[ -d "$(realpath "`dirname "$2"`" 2>&1 >/dev/null )" ]] && local OUTPUTDIR="$2"
 	git clone "$1" "$OUTPUTDIR"
 	cd "$OUTPUTDIR"
 	#cd "$(basename "$1" .git)"
@@ -472,7 +483,8 @@ function pdocconv(){
 # opened with this function. Also an option to display a list of files in this directory and their
 # last modification date and time.
 function vtmp(){
-	local DATETIME="`date '+%m-%d-%Y_%H-%M-%S%p'`"
+	local DATETIME="`date '+%m-%d-%Y_%H-%M'`"
+	local SECONDS="`date '+-%S%p'`"
 	local TEMPFILEDIR="/tmp/tempfiles/zsh/"
 	[[ -z "${1}" ]] && local TMPFILENAME="${DATETIME}"
 	[[ -e "${1}" ]] && local TMPFILENAME="${1}"
@@ -489,9 +501,9 @@ function vtmp(){
 
 # Function to create a bzip2 tar file while utilizing pbzip2 (a bzip2 program that utilizes
 # multithreading/parallel-processing for faster times; if pbzip2 isn't installed, use bzip2; if
-# bzip2 is missing, use XZ since LZMA is rather standard for Linux archives). This function also
-# parses arguments passed to it as options to choose the compression method or (TODO) use a
-# curses/ncurses progress window.
+# bzip2 is missing, use XZ since LZMA is rather standard for Linux archives).
+# This function also parses arguments passed to it as options to choose the compression method or
+# [TODO]: use a curses/ncurses progress window.
 # USAGE: "tarp {TAR-FILENAME} {FILE(S) or DIRECTORY}"
 function tarp(){
 	# Checks that valid (this check specifically checks for ANY) input was received.

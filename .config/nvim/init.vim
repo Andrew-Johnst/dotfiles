@@ -121,12 +121,16 @@
 			" matching rules, and mappings for the original markdown and extensions.
 				Plug 'godlygeek/tabular'
 				Plug 'preservim/vim-markdown'
+				
+			" ### [8-1-2025 2:40PM] I commented this out since sometimes ranger would open when trying to
+			" use the keybind to reload the $VIMRC file. Will uncomment and fix this later.
 			" Install the Neovim/Vim ranger plugin.
 			" [URL to github repo for this plugin]:
 			" 	https://github.com/francoiscabrol/ranger.vim
-		    Plug 'francoiscabrol/ranger.vim'
+		    "Plug 'francoiscabrol/ranger.vim'
 			" Install the dependency plugin required for 'ranger.vim' plugin specific to NeoVim.
-		    Plug 'rbgrouleff/bclose.vim'
+		    "Plug 'rbgrouleff/bclose.vim'
+
 			" Install Vim Golf (TRYING to install via plugin using the repo [04-22-2025 4-51AM])
 			" (((Commented out to use the github repo from reddit post for neovim listed below)))
 				"Plug 'igrigorik/vimgolf'
@@ -502,6 +506,7 @@
 		" Massive quality of life mapping when navigating the help pages.
 		" Like the <C-]> keybind which opens links, however this keybind will open links in a new tab.
 		"map <C-}>			:tabnew
+		nnoremap <buffer> <CR> :execute 'tabnew '.getline('.')<CR>
 		
 
 	"--------------------[4.3.1] Windows/Window-Splits mappings for movement and resizing.
@@ -535,6 +540,13 @@
 				"command!    FRC	:call OpenFileInNextAvailableBuffer("~/.config/zsh/functionrc")
         command!    FRC	:call OpenFileInNextAvailableBuffer("$ZSH_SHORTCUTS/functionrc")
         cnoreabbrev frc	:FRC
+
+		" Command runs the file that is open in the currently open buffer, inside a terminal (whatever
+		" that may be based on the filetype--or assumed filetype if lack of file extension or vim-config
+		" comments).
+		" This comment will have an abbreviation to make it easier as well.
+		" It will be bound to the button "<F9>"
+				command!	RUNTHISFILE	:call 
 
 	"--------------------[4.4.2] Various command declarations and abbreviations.
 		" Command to open the main file containing my custom neovim functions.
@@ -645,6 +657,9 @@
 			map					<M-i>							i<++><ESC>
 			nnoremap		<M-i>							i<++><ESC>
 			inoremap		<M-i>							<++><ESC>
+			map					<M-I>							i[<++>]:<ESC>
+			nnoremap		<M-I>							i[<++>]:<ESC>
+			inoremap		<M-I>							[<++>]:<ESC>
 
 	"--------------------[4.6.0] Plugin keybinds.
 		"-------------------[4.6.1] Surround-plugin leader keybinds.
@@ -657,7 +672,13 @@
 		"silent!	call	repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 		"-------------------[4.6.2] VimWiki Plugin Keybinds. " Fixing default keybinds for vimwiki. " Removes the annoying <Leader>ww keybind. nnoremap	<Leader>wi 			<Plug>VimwikiIndex
-		map 			<Leader>wi			<Plug>VimwikiIndex
+		"map 			<Leader>wi			<Plug>VimwikiIndex
+		"nnoremap <Leader>wi :ofintab call(VimwikiIndex)### [8-1-2025_3-37AM Noticed this was broken at this time :)]
+		map			<Leader>wi				:VimwikiTabIndex<CR>
+		augroup vimwiki_mapping
+  		autocmd!
+			autocmd FileType vimwiki nnoremap zM zM \| :set foldlevel=1<CR>
+		augroup END
 
 "-----------------------------------[5.0] - General Variable Declarations and Configs.(Need to organize init.vim)
 	"--------------------[5.1] Set global variables.
@@ -665,3 +686,23 @@
 	"--------------------[5.2] Lua Configurations/Settings (Primarily from plugins in section [1.3.2])
 	" At the bottom of your init.vim, keep all configs on one line.
 	"lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
+	"
+
+"-----------------------------------[6.0] - General Lua Settings and Declarations.
+lua <<EOF
+	--------------------[5.1] General Quality of Life Improvements.
+		--Taken from google's AI on how to do this; 
+		--		vim.keymap.set("n", "<Leader>o", function()
+    --		local url = vim.fn.expand("<cfile>")
+    --		if vim.fn.has("mac") == 1 then
+    --		    vim.fn.system({"open", url})
+    --		elseif vim.fn.has("unix") == 1 then
+    --		    vim.fn.system({"xdg-open", url})
+    --		elseif vim.fn.has("win32") == 1 then
+    --		    vim.fn.system({"start", url})  -- or "explorer", "msedge" etc.
+    --		else
+    --		    print("Unsupported OS for opening URLs.")
+    --		end
+		--		end, { desc = "Open URL under cursor" })
+
+EOF
